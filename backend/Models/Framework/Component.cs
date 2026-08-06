@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace backend.Models.Framework
 {
     public class Component
     {
         [Key]
-        public required int componentId { get; set; }
+        public int componentId { get; set; }
         [MaxLength(100)]
         public required string componentName { get; set; }
         [MaxLength(500)]
-        public string? componentSummary { get; set; }
-
+        public required string componentSummary { get; set; }
+        [JsonIgnore]
         public ICollection<Standard>? standards { get; set; }
     }
 }

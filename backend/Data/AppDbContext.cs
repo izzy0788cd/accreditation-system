@@ -33,31 +33,32 @@ namespace backend.Data
 
             modelBuilder.Entity<Standard>().HasKey(s => s.standardId);
             modelBuilder.Entity<Standard>()
-                .HasOne(c => c.component)
-                .WithMany(s => s.standards)
-                .HasForeignKey(c => c.componentId);
+                .HasOne(s => s.component)
+                .WithMany(c => c.standards)
+                .HasForeignKey(s => s.componentId);
+
             modelBuilder.Entity<Standard>()
-                .HasOne(f => f.function)
-                .WithMany(s => s.standards)
-                .HasForeignKey(f => f.functionId);
+                .HasOne(s => s.function)
+                .WithMany(f => f.standards)
+                .HasForeignKey(s => s.functionId);
 
             modelBuilder.Entity<Criterion>().HasKey(cr => cr.criterionId);
             modelBuilder.Entity<Criterion>()
-                .HasOne(s => s.standard)
-                .WithMany(cr => cr.criteria)
-                .HasForeignKey(s => s.standardId);
+                .HasOne(cr => cr.standard)
+                .WithMany(s => s.criteria)
+                .HasForeignKey(cr => cr.standardId);
 
             modelBuilder.Entity<Compliance>().HasKey(co => co.complianceId);
             modelBuilder.Entity<Compliance>()
-                .HasOne(cr => cr.criterion)
-                .WithMany(co => co.compliances)
-                .HasForeignKey(cr => cr.criterionId);
+                .HasOne(co => co.criterion)
+                .WithMany(cr => cr.compliances)
+                .HasForeignKey(co => co.criterionId);
 
             modelBuilder.Entity<Evidence>().HasKey(e => e.evidenceId);
             modelBuilder.Entity<Evidence>()
-                .HasOne(co => co.compliance)
-                .WithMany(e => e.evidence)
-                .HasForeignKey(co => co.complianceId);
+                .HasOne(e => e.compliance)
+                .WithMany(co => co.evidence)
+                .HasForeignKey(e => e.complianceId);
         }
     }
 }
