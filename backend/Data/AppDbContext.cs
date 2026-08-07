@@ -44,17 +44,29 @@ namespace backend.Data
 
             modelBuilder.Entity<Criterion>().HasKey(cr => cr.criterionId);
             modelBuilder.Entity<Criterion>()
+                .Property(cr => cr.isApplicable)
+                .HasDefaultValue(true);
+            
+            modelBuilder.Entity<Criterion>()
                 .HasOne(cr => cr.standard)
                 .WithMany(s => s.criteria)
                 .HasForeignKey(cr => cr.standardId);
 
             modelBuilder.Entity<Compliance>().HasKey(co => co.complianceId);
             modelBuilder.Entity<Compliance>()
+                .Property(co => co.isApplicable)
+                .HasDefaultValue(true);
+            
+            modelBuilder.Entity<Compliance>()
                 .HasOne(co => co.criterion)
                 .WithMany(cr => cr.compliances)
                 .HasForeignKey(co => co.criterionId);
 
             modelBuilder.Entity<Evidence>().HasKey(e => e.evidenceId);
+            modelBuilder.Entity<Evidence>()
+                .Property(e => e.isApplicable)
+                .HasDefaultValue(true);
+
             modelBuilder.Entity<Evidence>()
                 .HasOne(e => e.compliance)
                 .WithMany(co => co.evidence)

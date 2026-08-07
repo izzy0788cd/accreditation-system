@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models.Framework;
 using backend.DTOs.Framework;
+using System.Data;
 
 namespace backend.Controllers_Framework
 {
@@ -72,7 +73,21 @@ namespace backend.Controllers_Framework
             function.functiontTitle = dto.functionTitle;
             function.functionSummary = dto.functionSummary;
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DBConcurrencyException)
+            {
+                if (!FunctionExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return NoContent();
         }

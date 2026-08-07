@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models.Framework;
 using backend.DTOs.Framework;
+using System.Data;
 
 namespace backend.Controllers.Framework
 {
@@ -80,7 +81,21 @@ namespace backend.Controllers.Framework
             standard.functionId = dto.functionId;
             standard.standardSummary = dto.standardSummary;
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DBConcurrencyException)
+            {
+                if (!StandardExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return NoContent();
         }

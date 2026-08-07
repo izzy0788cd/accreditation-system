@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models.Framework;
 using backend.DTOs.Framework;
+using System.Data;
 
 namespace backend.Controllers_Framework
 {
@@ -71,8 +72,22 @@ namespace backend.Controllers_Framework
 
             component.componentName = dto.componentName;
             component.componentSummary = dto.componentSummary;
-
-            await _context.SaveChangesAsync();
+            
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DBConcurrencyException)
+            {
+                if (!ComponentExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return NoContent();
         }
