@@ -11,7 +11,8 @@ namespace backend.Models.Framework
     {
         [Key]
         public int componentId { get; set; }
-        [MaxLength(100)]
+        [MaxLength(20)]
+        public required string componentNumber { get; set; }
         public required string componentName { get; set; }
         [MaxLength(500)]
         public required string componentSummary { get; set; }

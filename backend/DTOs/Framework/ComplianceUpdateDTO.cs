@@ -7,6 +7,7 @@ namespace backend.DTOs.Framework
 {
     public class ComplianceUpdateDTO
     {
+        public required string complianceNumber { get; set; }
         public required string complianceSummary { get; set; }
         public required int criterionId { get; set; }
         public required bool isApplicable { get; set; }

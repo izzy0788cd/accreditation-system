@@ -8,6 +8,7 @@ namespace backend.DTOs.Framework
 {
     public class ComponentCreateDTO
     {
+        public required string componentNumber { get; set; }
         [MaxLength(100)]
         public required string componentName { get; set; }
         [MaxLength(500)]

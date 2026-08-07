@@ -30,6 +30,7 @@ namespace backend.Controllers_Framework
             var evidences = await _context.evidence.Select(e => new EvidenceDTO
             {
                 evidenceId = e.evidenceId,
+                evidenceNumber = e.evidenceNumber,
                 evidenceSummary = e.evidenceSumaary,
                 complianceId = e.complianceId,
                 isApplicable = e.isApplicable
@@ -48,6 +49,7 @@ namespace backend.Controllers_Framework
                 .Select(e => new EvidenceDTO
                 {
                     evidenceId = e.evidenceId,
+                    evidenceNumber = e.evidenceNumber,
                     evidenceSummary = e.evidenceSumaary,
                     complianceId = e.complianceId,
                     isApplicable = e.isApplicable
@@ -74,6 +76,7 @@ namespace backend.Controllers_Framework
                 return NotFound();
             }
 
+            evidence.evidenceNumber = dto.evidenceNumber;
             evidence.evidenceSumaary = dto.evidenceSummary;
             evidence.complianceId = dto.complianceId;
             evidence.isApplicable = dto.isApplicable;
@@ -104,6 +107,7 @@ namespace backend.Controllers_Framework
         {
             var evidenceModel = new Evidence
             {
+                evidenceNumber = dto.evidenceNumber,
                 evidenceSumaary = dto.evidenceSummary,
                 complianceId = dto.complianceId,
                 isApplicable = true
@@ -124,6 +128,7 @@ namespace backend.Controllers_Framework
             var evidenceDto = new EvidenceDTO
             {
                 evidenceId = evidenceModel.evidenceId,
+                evidenceNumber = evidenceModel.evidenceNumber,
                 evidenceSummary =  evidenceModel.evidenceSumaary,
                 complianceId = evidenceModel.complianceId,
                 isApplicable = evidenceModel.isApplicable

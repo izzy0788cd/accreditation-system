@@ -13,6 +13,8 @@ namespace backend.Models.Framework
     {
         [Key]
         public int standardId { get; set; }
+        [MaxLength(20)]
+        public required string standardNumber { get; set; }
         [MaxLength(200)]
         public required string standardTitle { get; set; }
         public required int functionId { get; set; }

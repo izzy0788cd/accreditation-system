@@ -11,6 +11,8 @@ namespace backend.Models.Framework
     {
         [Key]
         public int functionId { get; set; }
+        [MaxLength(20)]
+        public required string functionNumber { get; set; }
         [MaxLength(200)]
         public required string functiontTitle { get; set; }
         [MaxLength(500)]

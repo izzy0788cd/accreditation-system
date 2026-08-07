@@ -30,6 +30,7 @@ namespace backend.Controllers_Framework
             return await _context.components.Select(c => new ComponentDTO
             {
                 componentId = c.componentId,
+                componentNumber = c.componentNumber,
                 componentName = c.componentName,
                 componentSummary = c.componentSummary
             })
@@ -45,6 +46,7 @@ namespace backend.Controllers_Framework
                 .Select(c => new ComponentDTO
                 {
                     componentId = c.componentId,
+                    componentNumber= c.componentNumber,
                     componentName = c.componentName,
                     componentSummary = c.componentSummary
                 })
@@ -70,6 +72,7 @@ namespace backend.Controllers_Framework
                 return NotFound();
             }
 
+            component.componentNumber = dto.componentNumber;
             component.componentName = dto.componentName;
             component.componentSummary = dto.componentSummary;
             
@@ -99,6 +102,7 @@ namespace backend.Controllers_Framework
         {
             var componentModel = new Component
             {
+                componentNumber = component.componentNumber,
                 componentName = component.componentName,
                 componentSummary = component.componentSummary
             };
@@ -109,6 +113,7 @@ namespace backend.Controllers_Framework
             var componentDto = new ComponentDTO
             {
                 componentId = componentModel.componentId,
+                componentNumber = componentModel.componentNumber,
                 componentName = componentModel.componentName,
                 componentSummary = componentModel.componentSummary
             };

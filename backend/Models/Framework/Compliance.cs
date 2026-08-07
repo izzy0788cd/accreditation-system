@@ -12,6 +12,8 @@ namespace backend.Models.Framework
     {
         [Key]
         public int complianceId { get; set; }
+        [MaxLength(20)]
+        public required string complianceNumber { get; set; }
         public required string complianceSummary { get; set; }
         public required int criterionId { get; set; }
         [ForeignKey("criterionId")]

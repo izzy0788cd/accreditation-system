@@ -9,6 +9,8 @@ namespace backend.DTOs.Framework
 {
     public class CriterionCreateDTO
     {
+        [MaxLength(20)]
+        public required string criterionNumber { get; set; }
         [MaxLength(500)]
         public required string criterionTitle { get; set; }
         public required int standardId { get; set; }

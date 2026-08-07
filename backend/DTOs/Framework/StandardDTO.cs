@@ -8,6 +8,7 @@ namespace backend.DTOs.Framework
     public class StandardDTO
     {
         public int standardId { get; set; }
+        public string standardNumber { get; set; } = string.Empty;
         public string standardTitle { get; set; } = string.Empty;
         public string? componentName { get; set; }
         public string? functionTitle { get; set; }

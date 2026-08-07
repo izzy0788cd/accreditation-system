@@ -30,6 +30,7 @@ namespace backend.Controllers_Framework
             var compliances = await _context.compliances.Select(co => new ComplianceDTO
             {
                 complianceId = co.complianceId,
+                complianceNumber = co.complianceNumber,
                 complianceSummary = co.complianceSummary,
                 criterionId = co.criterionId,
                 isApplicable = co.isApplicable
@@ -48,6 +49,7 @@ namespace backend.Controllers_Framework
                 .Select(co => new ComplianceDTO
                 {
                     complianceId = co.complianceId,
+                    complianceNumber= co.complianceNumber,
                     complianceSummary = co.complianceSummary,
                     criterionId = co.criterionId,
                     isApplicable = co.isApplicable
@@ -74,6 +76,7 @@ namespace backend.Controllers_Framework
                 return NotFound();
             }
 
+            compliance.complianceNumber = dto.complianceNumber;
             compliance.complianceSummary = dto.complianceSummary;
             compliance.criterionId = dto.criterionId;
             compliance.isApplicable = dto.isApplicable;
@@ -104,6 +107,7 @@ namespace backend.Controllers_Framework
         {
             var complianceModel = new Compliance
             {
+                complianceNumber = dto.complianceNumber,
                 complianceSummary = dto.complianceSummary,
                 criterionId = dto.criterionId,
                 isApplicable = true
@@ -124,6 +128,7 @@ namespace backend.Controllers_Framework
             var complianceDto = new ComplianceDTO
             {
                 complianceId = complianceModel.complianceId,
+                complianceNumber = complianceModel.complianceNumber,
                 complianceSummary = complianceModel.complianceSummary,
                 criterionId = complianceModel.criterionId,
                 isApplicable = complianceModel.isApplicable

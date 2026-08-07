@@ -30,6 +30,7 @@ namespace backend.Controllers.Framework
             var standards = await _context.standards.Select(s => new StandardDTO
             {
                 standardId = s.standardId,
+                standardNumber = s.standardNumber,
                 standardTitle = s.standardTitle,
                 componentName = s.component!.componentName,
                 functionTitle = s.function!.functiontTitle,
@@ -49,6 +50,7 @@ namespace backend.Controllers.Framework
                 .Select(s => new StandardDTO
                 {
                     standardId = s.standardId,
+                    standardNumber = s.standardNumber,
                     standardTitle = s.standardTitle,
                     componentName = s.component!.componentName,
                     functionTitle = s.function!.functiontTitle,
@@ -76,6 +78,7 @@ namespace backend.Controllers.Framework
                 return NotFound();
             }
 
+            standard.standardNumber = dto.standardNumber;
             standard.standardTitle = dto.standardTitle;
             standard.componentId = dto.componentId;
             standard.functionId = dto.functionId;
@@ -107,6 +110,7 @@ namespace backend.Controllers.Framework
         {
             var standardModel = new Standard
             {
+                standardNumber = dto.standardNumber,
                 standardTitle = dto.standardTitle,
                 componentId = dto.componentId,
                 functionId = dto.functionId,
@@ -129,6 +133,8 @@ namespace backend.Controllers.Framework
             var standardDto = new StandardDTO
             {
                 standardId = standardModel.standardId,
+                standardNumber = standardModel.standardNumber,
+                standardTitle = standardModel.standardTitle,
                 componentName = standardModel.component!.componentName,
                 functionTitle = standardModel.function!.functiontTitle,
                 standardSummary = standardModel.standardSummary

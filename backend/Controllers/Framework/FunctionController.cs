@@ -30,6 +30,7 @@ namespace backend.Controllers_Framework
             return await _context.functions.Select(f => new FunctionDTO
             {
                 functionId = f.functionId,
+                functionNumber = f.functionNumber,
                 functionTitle = f.functiontTitle,
                 functionSummary = f.functionSummary
             })
@@ -45,6 +46,7 @@ namespace backend.Controllers_Framework
                 .Select(f => new FunctionDTO
                 {
                     functionId = f.functionId,
+                    functionNumber = f.functionNumber,
                     functionTitle = f.functiontTitle,
                     functionSummary = f.functionSummary
                 })
@@ -70,6 +72,7 @@ namespace backend.Controllers_Framework
                 return NotFound();
             }
 
+            function.functionNumber = dto.functionNumber;
             function.functiontTitle = dto.functionTitle;
             function.functionSummary = dto.functionSummary;
 
@@ -99,6 +102,7 @@ namespace backend.Controllers_Framework
         {
             var functionModel = new Function
             {
+                functionNumber = function.functionNumber,
                 functiontTitle = function.functionTitle,
                 functionSummary = function.functionSummary
             };
@@ -110,6 +114,7 @@ namespace backend.Controllers_Framework
             var functionDto = new FunctionDTO
             {
                 functionId = functionModel.functionId,
+                functionNumber = functionModel.functionNumber,
                 functionTitle = functionModel.functiontTitle,
                 functionSummary = functionModel.functionSummary
             };

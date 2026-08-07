@@ -8,6 +8,7 @@ namespace backend.DTOs.Framework
     public class FunctionDTO
     {
         public int functionId { get; set; }
+        public string functionNumber { get; set; } = string.Empty;
         public string functionTitle { get; set; } = string.Empty;
         public string functionSummary { get; set; } = string.Empty;
     }

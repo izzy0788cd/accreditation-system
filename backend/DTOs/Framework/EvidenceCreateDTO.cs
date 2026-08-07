@@ -7,6 +7,7 @@ namespace backend.DTOs.Framework
 {
     public class EvidenceCreateDTO
     {
+        public required string evidenceNumber { get; set; }
         public required string evidenceSummary { get; set; }
         public int complianceId { get; set; }
     }

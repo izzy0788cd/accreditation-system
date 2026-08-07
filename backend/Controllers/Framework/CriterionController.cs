@@ -30,6 +30,7 @@ namespace backend.Controllers_Framework
             var criteria = await _context.criteria.Select(cr => new CriterionDTO
             {
                 criterionId = cr.criterionId,
+                criterionNumber = cr.criterionNumber,
                 criterionTitle = cr.criterionTitle,
                 standardTitle = cr.standard!.standardTitle,
                 isApplicable = cr.isApplicable
@@ -48,6 +49,7 @@ namespace backend.Controllers_Framework
                 .Select(cr => new CriterionDTO
                 {
                     criterionId = cr.criterionId,
+                    criterionNumber = cr.criterionNumber,
                     criterionTitle = cr.criterionTitle,
                     standardTitle = cr.standard!.standardTitle,
                     isApplicable = cr.isApplicable
@@ -74,6 +76,7 @@ namespace backend.Controllers_Framework
                 return NotFound();
             }
 
+            criterion.criterionNumber = dto.criterionNumber;
             criterion.criterionTitle = dto.criterionTitle;
             criterion.standardId = dto.standardId;
             criterion.isApplicable = dto.isApplicable;
@@ -104,6 +107,7 @@ namespace backend.Controllers_Framework
         {
             var criterionModel = new Criterion
             {
+                criterionNumber = dto.criterionNumber,
                 criterionTitle = dto.criterionTitle,
                 standardId = dto.standardId,
                 isApplicable = true
@@ -124,6 +128,7 @@ namespace backend.Controllers_Framework
             var criterionDto = new CriterionDTO
             {
                 criterionId = criterionModel.criterionId,
+                criterionNumber = criterionModel.criterionNumber,
                 criterionTitle = criterionModel.criterionTitle,
                 standardTitle = criterionModel.standard!.standardTitle,
                 isApplicable = criterionModel.isApplicable
