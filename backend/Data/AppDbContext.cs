@@ -29,35 +29,67 @@ namespace backend.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Component>().HasKey(c => c.componentId);
+            modelBuilder.Entity<Component>()
+                .HasIndex(c => c.componentNumber)
+                .IsUnique();
+            
             modelBuilder.Entity<Function>().HasKey(f => f.functionId);
+            modelBuilder.Entity<Function>()
+                .HasIndex(f => f.functionNumber)
+                .IsUnique();
 
             modelBuilder.Entity<Standard>().HasKey(s => s.standardId);
             modelBuilder.Entity<Standard>()
-                .HasOne(c => c.component)
-                .WithMany(s => s.standards)
-                .HasForeignKey(c => c.componentId);
+                .HasIndex(s => s.standardNumber)
+                .IsUnique();
+            
             modelBuilder.Entity<Standard>()
-                .HasOne(f => f.function)
-                .WithMany(s => s.standards)
-                .HasForeignKey(f => f.functionId);
+                .HasOne(s => s.component)
+                .WithMany(c => c.standards)
+                .HasForeignKey(s => s.componentId);
+
+            modelBuilder.Entity<Standard>()
+                .HasOne(s => s.function)
+                .WithMany(f => f.standards)
+                .HasForeignKey(s => s.functionId);
 
             modelBuilder.Entity<Criterion>().HasKey(cr => cr.criterionId);
             modelBuilder.Entity<Criterion>()
-                .HasOne(s => s.standard)
-                .WithMany(cr => cr.criteria)
-                .HasForeignKey(s => s.standardId);
+                .HasIndex(cr => cr.criterionNumber)
+                .IsUnique();
+
+            modelBuilder.Entity<Criterion>()
+                .Property(cr => cr.isApplicable)
+                .HasDefaultValue(true);
+            
+            modelBuilder.Entity<Criterion>()
+                .HasOne(cr => cr.standard)
+                .WithMany(s => s.criteria)
+                .HasForeignKey(cr => cr.standardId);
 
             modelBuilder.Entity<Compliance>().HasKey(co => co.complianceId);
             modelBuilder.Entity<Compliance>()
-                .HasOne(cr => cr.criterion)
-                .WithMany(co => co.compliances)
-                .HasForeignKey(cr => cr.criterionId);
+                .HasIndex(co => co.complianceNumber)
+                .IsUnique();
+                
+            modelBuilder.Entity<Compliance>()
+                .Property(co => co.isApplicable)
+                .HasDefaultValue(true);
+            
+            modelBuilder.Entity<Compliance>()
+                .HasOne(co => co.criterion)
+                .WithMany(cr => cr.compliances)
+                .HasForeignKey(co => co.criterionId);
 
             modelBuilder.Entity<Evidence>().HasKey(e => e.evidenceId);
             modelBuilder.Entity<Evidence>()
-                .HasOne(co => co.compliance)
-                .WithMany(e => e.evidence)
-                .HasForeignKey(co => co.complianceId);
+                .Property(e => e.isApplicable)
+                .HasDefaultValue(true);
+
+            modelBuilder.Entity<Evidence>()
+                .HasOne(e => e.compliance)
+                .WithMany(co => co.evidence)
+                .HasForeignKey(e => e.complianceId);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -11,7 +12,9 @@ namespace backend.Models.Framework
     public class Standard
     {
         [Key]
-        public required int standardId { get; set; }
+        public int standardId { get; set; }
+        [MaxLength(20)]
+        public required string standardNumber { get; set; }
         [MaxLength(200)]
         public required string standardTitle { get; set; }
         public required int functionId { get; set; }
@@ -20,7 +23,8 @@ namespace backend.Models.Framework
         public required int componentId { get; set; }
         [ForeignKey("componentId")] 
         public Component? component { get; set; }
-
+        public required string standardSummary { get; set; }
+        [JsonIgnore]
         public ICollection<Criterion>? criteria { get; set; }
     }
 }

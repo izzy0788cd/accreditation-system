@@ -1,0 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Humanizer;
+
+namespace backend.DTOs.Framework
+{
+    public class StandardCreateDTO
+    {
+        public required string standardNumber { get; set; }
+        public required string standardTitle { get; set; }
+        public required int componentId { get; set; }
+        public required int functionId { get; set; }
+        public required string standardSummary { get; set; }
+    }
+}
