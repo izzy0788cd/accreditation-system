@@ -13,6 +13,6 @@ namespace backend.DTOs.Framework
         [MaxLength(500)]
         public required string criterionTitle { get; set; }
         public required int standardId { get; set; }
-        public required bool isApplicable { get; set; }
+        //public required bool isApplicable { get; set; }
     }
 }

@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models.Framework;
 using backend.DTOs.Framework;
-using System.Data;
 
 namespace backend.Controllers_Framework
 {
@@ -79,13 +78,13 @@ namespace backend.Controllers_Framework
             evidence.evidenceNumber = dto.evidenceNumber;
             evidence.evidenceSumaary = dto.evidenceSummary;
             evidence.complianceId = dto.complianceId;
-            evidence.isApplicable = dto.isApplicable;
+            //evidence.isApplicable = dto.isApplicable;
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DBConcurrencyException)
+            catch (DbUpdateConcurrencyException)
             {
                 if (!EvidenceExists(id))
                 {
@@ -95,6 +94,31 @@ namespace backend.Controllers_Framework
                 {
                     throw;
                 }
+            }
+
+            return NoContent();
+        }
+
+        // PATCH: api/evidence/5/applicability
+        [HttpPatch("{id}/applicability")]
+        public async Task<IActionResult> PatchEvidenceApplicability(int id, [FromBody] bool isApplicable)
+        {
+            var evidence = await _context.evidence.FindAsync(id);
+
+            if (evidence == null)
+            {
+                return NotFound();
+            }
+
+            evidence.isApplicable = isApplicable;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
             }
 
             return NoContent();

@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models.Framework;
 using backend.DTOs.Framework;
-using System.Data;
 
 namespace backend.Controllers_Framework
 {
@@ -79,13 +78,64 @@ namespace backend.Controllers_Framework
             criterion.criterionNumber = dto.criterionNumber;
             criterion.criterionTitle = dto.criterionTitle;
             criterion.standardId = dto.standardId;
-            criterion.isApplicable = dto.isApplicable;
+            //criterion.isApplicable = dto.isApplicable;
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DBConcurrencyException)
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CriterionExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // PATCH: api/Criterion/1/applicability
+        [HttpPatch("{id}/applicability")]
+        public async Task<IActionResult> PatchEvidenceApplicability(int id, [FromBody] bool isApplicable)
+        {
+            var criterion = await _context.criteria
+                .Include(cr => cr.compliances!)
+                    .ThenInclude(co => co.evidence)
+                .FirstOrDefaultAsync(cr => cr.criterionId == id);
+            
+            if (criterion == null)
+            {
+                return NotFound();
+            }
+
+            criterion.isApplicable = isApplicable;
+
+            if (criterion.compliances != null)
+            {
+                foreach (var compliance in criterion.compliances)
+                {
+                    compliance.isApplicable = isApplicable;
+
+                    if (compliance.evidence != null)
+                    {
+                        foreach (var ev in compliance.evidence)
+                        {
+                            ev.isApplicable = isApplicable;
+                        }
+                    }
+                }
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
             {
                 if (!CriterionExists(id))
                 {

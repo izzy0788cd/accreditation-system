@@ -80,7 +80,7 @@ namespace backend.Controllers_Framework
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DBConcurrencyException)
+            catch (DbUpdateConcurrencyException)
             {
                 if (!FunctionExists(id))
                 {

@@ -79,13 +79,13 @@ namespace backend.Controllers_Framework
             compliance.complianceNumber = dto.complianceNumber;
             compliance.complianceSummary = dto.complianceSummary;
             compliance.criterionId = dto.criterionId;
-            compliance.isApplicable = dto.isApplicable;
+            //compliance.isApplicable = dto.isApplicable;
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DBConcurrencyException)
+            catch (DbUpdateConcurrencyException)
             {
                 if (!ComplianceExists(id))
                 {
@@ -95,6 +95,41 @@ namespace backend.Controllers_Framework
                 {
                     throw;
                 }
+            }
+
+            return NoContent();
+        }
+
+        // PATCH: api/compliance/1/applicability
+        [HttpPatch("{id}/applicability")]
+        public async Task<IActionResult> PatchEvidenceApplicability(int id, [FromBody] bool isApplicable)
+        {
+            var compliance = await _context.compliances
+                .Include(co => co.evidence)
+                .FirstOrDefaultAsync(co => co.complianceId == id);
+
+            if (compliance == null)
+            {
+                return NotFound();
+            }
+
+            compliance.isApplicable = isApplicable;
+
+            if (compliance.evidence != null)
+            {
+                foreach (var ev in compliance.evidence)
+                {
+                    ev.isApplicable = isApplicable;
+                }
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
             }
 
             return NoContent();
