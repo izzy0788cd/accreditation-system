@@ -31,6 +31,8 @@ namespace backend.Controllers_Framework
                 criterionId = cr.criterionId,
                 criterionNumber = cr.criterionNumber,
                 criterionTitle = cr.criterionTitle,
+                standardId = cr.standard!.standardId,
+                standardNumber = cr.standard!.standardNumber,
                 standardTitle = cr.standard!.standardTitle,
                 isApplicable = cr.isApplicable
             })
@@ -50,6 +52,8 @@ namespace backend.Controllers_Framework
                     criterionId = cr.criterionId,
                     criterionNumber = cr.criterionNumber,
                     criterionTitle = cr.criterionTitle,
+                    standardId = cr.standard!.standardId,
+                    standardNumber = cr.standard!.standardNumber,
                     standardTitle = cr.standard!.standardTitle,
                     isApplicable = cr.isApplicable
                 })
@@ -101,7 +105,7 @@ namespace backend.Controllers_Framework
 
         // PATCH: api/Criterion/1/applicability
         [HttpPatch("{id}/applicability")]
-        public async Task<IActionResult> PatchEvidenceApplicability(int id, [FromBody] bool isApplicable)
+        public async Task<IActionResult> PatchCriterionApplicability(int id, [FromBody] bool isApplicable)
         {
             var criterion = await _context.criteria
                 .Include(cr => cr.compliances!)
@@ -180,6 +184,8 @@ namespace backend.Controllers_Framework
                 criterionId = criterionModel.criterionId,
                 criterionNumber = criterionModel.criterionNumber,
                 criterionTitle = criterionModel.criterionTitle,
+                standardId = criterionModel.standard!.standardId,
+                standardNumber = criterionModel.standard!.standardNumber,
                 standardTitle = criterionModel.standard!.standardTitle,
                 isApplicable = criterionModel.isApplicable
             };

@@ -31,7 +31,7 @@ namespace backend.Controllers_Framework
             {
                 functionId = f.functionId,
                 functionNumber = f.functionNumber,
-                functionTitle = f.functiontTitle,
+                functionTitle = f.functionTitle,
                 functionSummary = f.functionSummary
             })
             .ToListAsync();
@@ -47,7 +47,7 @@ namespace backend.Controllers_Framework
                 {
                     functionId = f.functionId,
                     functionNumber = f.functionNumber,
-                    functionTitle = f.functiontTitle,
+                    functionTitle = f.functionTitle,
                     functionSummary = f.functionSummary
                 })
                 .FirstOrDefaultAsync();
@@ -73,7 +73,7 @@ namespace backend.Controllers_Framework
             }
 
             function.functionNumber = dto.functionNumber;
-            function.functiontTitle = dto.functionTitle;
+            function.functionTitle = dto.functionTitle;
             function.functionSummary = dto.functionSummary;
 
             try
@@ -103,7 +103,7 @@ namespace backend.Controllers_Framework
             var functionModel = new Function
             {
                 functionNumber = function.functionNumber,
-                functiontTitle = function.functionTitle,
+                functionTitle = function.functionTitle,
                 functionSummary = function.functionSummary
             };
 
@@ -115,7 +115,7 @@ namespace backend.Controllers_Framework
             {
                 functionId = functionModel.functionId,
                 functionNumber = functionModel.functionNumber,
-                functionTitle = functionModel.functiontTitle,
+                functionTitle = functionModel.functionTitle,
                 functionSummary = functionModel.functionSummary
             };
 
