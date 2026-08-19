@@ -55,7 +55,7 @@ namespace backend.Data
 
             modelBuilder.Entity<Criterion>().HasKey(cr => cr.criterionId);
             modelBuilder.Entity<Criterion>()
-                .HasIndex(cr => cr.criterionNumber)
+                .HasIndex(cr => new { cr.standardId, cr.criterionNumber})
                 .IsUnique();
 
             modelBuilder.Entity<Criterion>()
@@ -69,7 +69,7 @@ namespace backend.Data
 
             modelBuilder.Entity<Compliance>().HasKey(co => co.complianceId);
             modelBuilder.Entity<Compliance>()
-                .HasIndex(co => co.complianceNumber)
+                .HasIndex(co => new { co.criterionId, co.complianceNumber})
                 .IsUnique();
                 
             modelBuilder.Entity<Compliance>()

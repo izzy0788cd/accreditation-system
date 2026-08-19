@@ -32,8 +32,10 @@ namespace backend.Controllers.Framework
                 standardId = s.standardId,
                 standardNumber = s.standardNumber,
                 standardTitle = s.standardTitle,
+                componentNumber = s.component!.componentNumber,
                 componentName = s.component!.componentName,
-                functionTitle = s.function!.functiontTitle,
+                functionNumber = s.function!.functionNumber,
+                functionTitle = s.function!.functionTitle,
                 standardSummary = s.standardSummary
             })
             .ToListAsync();
@@ -52,8 +54,10 @@ namespace backend.Controllers.Framework
                     standardId = s.standardId,
                     standardNumber = s.standardNumber,
                     standardTitle = s.standardTitle,
+                    componentNumber = s.component!.componentNumber,
                     componentName = s.component!.componentName,
-                    functionTitle = s.function!.functiontTitle,
+                    functionNumber = s.function!.functionNumber,
+                    functionTitle = s.function!.functionTitle,
                     standardSummary = s.standardSummary
                 })
                 .FirstOrDefaultAsync();
@@ -136,7 +140,7 @@ namespace backend.Controllers.Framework
                 standardNumber = standardModel.standardNumber,
                 standardTitle = standardModel.standardTitle,
                 componentName = standardModel.component!.componentName,
-                functionTitle = standardModel.function!.functiontTitle,
+                functionTitle = standardModel.function!.functionTitle,
                 standardSummary = standardModel.standardSummary
             };
 

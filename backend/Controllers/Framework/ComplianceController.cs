@@ -32,7 +32,8 @@ namespace backend.Controllers_Framework
                 complianceId = co.complianceId,
                 complianceNumber = co.complianceNumber,
                 complianceSummary = co.complianceSummary,
-                criterionId = co.criterionId,
+                criterionId = co.criterion!.criterionId,
+                criterionNumber = co.criterion!.criterionNumber,
                 isApplicable = co.isApplicable
             })
             .ToListAsync();
@@ -51,7 +52,8 @@ namespace backend.Controllers_Framework
                     complianceId = co.complianceId,
                     complianceNumber= co.complianceNumber,
                     complianceSummary = co.complianceSummary,
-                    criterionId = co.criterionId,
+                    criterionId = co.criterion!.criterionId,
+                    criterionNumber = co.criterion!.criterionNumber,
                     isApplicable = co.isApplicable
                 })
                 .FirstOrDefaultAsync();
@@ -165,7 +167,8 @@ namespace backend.Controllers_Framework
                 complianceId = complianceModel.complianceId,
                 complianceNumber = complianceModel.complianceNumber,
                 complianceSummary = complianceModel.complianceSummary,
-                criterionId = complianceModel.criterionId,
+                criterionId = complianceModel.criterion!.criterionId,
+                criterionNumber = complianceModel.criterion!.criterionNumber,
                 isApplicable = complianceModel.isApplicable
             };
 

@@ -10,6 +10,8 @@ namespace backend.DTOs.Framework
         public int criterionId { get; set; }
         public string criterionNumber { get; set; } = string.Empty;
         public string criterionTitle { get; set; } = string.Empty;
+        public int standardId { get; set; }
+        public string? standardNumber { get; set; }
         public string? standardTitle { get; set; }
         public bool isApplicable { get; set; }
     }

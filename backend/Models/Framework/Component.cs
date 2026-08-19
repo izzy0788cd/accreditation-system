@@ -14,7 +14,6 @@ namespace backend.Models.Framework
         [MaxLength(20)]
         public required string componentNumber { get; set; }
         public required string componentName { get; set; }
-        [MaxLength(500)]
         public required string componentSummary { get; set; }
         [JsonIgnore]
         public ICollection<Standard>? standards { get; set; }

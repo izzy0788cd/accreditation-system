@@ -14,8 +14,7 @@ namespace backend.Models.Framework
         [MaxLength(20)]
         public required string functionNumber { get; set; }
         [MaxLength(200)]
-        public required string functiontTitle { get; set; }
-        [MaxLength(500)]
+        public required string functionTitle { get; set; }
         public required string functionSummary { get; set; }
         [JsonIgnore]
         public ICollection<Standard>? standards { get; set; }
