@@ -62,7 +62,7 @@ const handleSubmit = async (formData) => {
             setShowForm(false);
             setEditingCriterion(null);
         } else {
-            await create("criteria", formData);
+            await create("criteria", { ...formData, standardId: Number(standardId) });
             setSuccessMessage(`"${formData.criterionTitle}" added.`);
             setTimeout(() => setSuccessMessage(null), 2000);
         }
@@ -138,13 +138,13 @@ const handleSubmit = async (formData) => {
             <th className="p-2">Number</th>
             <th className="p-2">Title</th>
             <th className="p-2">Applicable</th>
-            <th className="p-2">Actions</th>
+            <th className="p-2 text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
           {sortedCriteria.map((c) => (
             <tr key={c.criterionId} className="border-b">
-              <td className="p-2 text-left font-semibold">{c.criterionNumber}</td>
+              <td className="p-2 text-left font-semibold"><Link to={`/framework/criteria/${c.criterionId}`} className="text-blue-600 hover:underline">{c.criterionNumber}</Link></td>
               <td className="p-2">{c.criterionTitle}</td>
               <td className="p-2">
                 <button
@@ -182,6 +182,7 @@ const handleSubmit = async (formData) => {
           initialData={editingCriterion}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
+          lockedStandardId={editingCriterion ? undefined : Number(standardId)}
         />
       </FormModal>
 

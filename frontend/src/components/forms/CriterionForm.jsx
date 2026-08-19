@@ -1,16 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getAll } from "../../api/api";
 
-function CriterionForm({ initialData, onSubmit, onCancel }) {
+function CriterionForm({ initialData, onSubmit, onCancel, lockedStandardId }) {
     const [formData, setFormData] = useState({
-        standardId: "",
+        standardId: lockedStandardId ?? "",
         criterionNumber: "",
         criterionTitle: "",
     });
 
     const [standards, setStandards] = useState([]);
+    const numberInputRef = useRef(null);
 
     useEffect(() => {
+        if (lockedStandardId) return;
         const loadStandards = async () => {
             try {
                 const res = await getAll("standards");
@@ -20,7 +22,7 @@ function CriterionForm({ initialData, onSubmit, onCancel }) {
             }
         };
         loadStandards();
-    }, []);
+    }, [lockedStandardId]);
 
     useEffect(() => {
         if (initialData) {
@@ -31,11 +33,17 @@ function CriterionForm({ initialData, onSubmit, onCancel }) {
             });
         } else {
             setFormData({
-                standardId: "",
+                standardId: lockedStandardId ?? "",
                 criterionNumber: "",
                 criterionTitle: ""});
         }
-    }, [initialData]);
+    }, [initialData, lockedStandardId]);
+
+    useEffect(() => {
+        if (numberInputRef.current) {
+            numberInputRef.current.focus();
+        }
+    })
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value});
@@ -47,25 +55,32 @@ function CriterionForm({ initialData, onSubmit, onCancel }) {
             ...formData,
             standardId: Number(formData.standardId),
         });
+        setFormData({
+            standardId: lockedStandardId ?? "",
+            criterionNumber: "",
+            criterionTitle: "",
+        });
     };
 
     return (
         <form onSubmit={handleSubmit} className="mb-8 space-y-3 border p-4 rounded">
             <h2 className="text-lg font-semibold">{initialData ? "Edit Criterion" : "Add Criterion"}</h2>
 
-            <div>
-                <label className="block text-sm font-medium mb-1">Standard</label>
-                <select name="standardId" value={formData.standardId} onChange={handleChange} required className="border rounded px-3 py-2 w-full" >
-                    <option value="">Select a Standard</option>
-                    {standards.map((s) => (
-                        <option key={s.standardId} value={s.standardId}>{s.standardNumber} - {s.standardTitle}</option>
-                    ))}
-                </select>
-            </div>
+            {!lockedStandardId && (
+                <div>
+                    <label className="block text-sm font-medium mb-1">Standard</label>
+                    <select name="standardId" value={formData.standardId} onChange={handleChange} required className="border rounded px-3 py-2 w-full" >
+                        <option value="">Select a Standard</option>
+                        {standards.map((s) => (
+                            <option key={s.standardId} value={s.standardId}>{s.standardNumber} - {s.standardTitle}</option>
+                        ))}
+                    </select>
+                </div>
+            )}
 
             <div>
                 <label className="block text-sm font-medium mb-1">Number</label>
-                <input type="text" name="criterionNumber" value={formData.criterionNumber} onChange={handleChange} required maxLength={10} className="border rounded px-3 py-2 w-full" />
+                <input ref={numberInputRef} type="text" name="criterionNumber" value={formData.criterionNumber} onChange={handleChange} required maxLength={10} className="border rounded px-3 py-2 w-full" />
             </div>
 
             <div>

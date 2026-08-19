@@ -29,10 +29,11 @@ namespace backend.Controllers_Framework
             var evidences = await _context.evidence.Select(e => new EvidenceDTO
             {
                 evidenceId = e.evidenceId,
+                complianceId = e.compliance!.complianceId,
+                complianceNumber = e.compliance!.complianceNumber,
                 evidenceNumber = e.evidenceNumber,
-                evidenceSummary = e.evidenceSumaary,
-                complianceId = e.complianceId,
-                isApplicable = e.isApplicable
+                evidenceSummary = e.evidenceSummary,
+                isApplicable = e.isApplicable,
             })
             .ToListAsync();
 
@@ -48,10 +49,11 @@ namespace backend.Controllers_Framework
                 .Select(e => new EvidenceDTO
                 {
                     evidenceId = e.evidenceId,
+                    complianceId = e.compliance!.complianceId,
+                    complianceNumber = e.compliance!.complianceNumber,
                     evidenceNumber = e.evidenceNumber,
-                    evidenceSummary = e.evidenceSumaary,
-                    complianceId = e.complianceId,
-                    isApplicable = e.isApplicable
+                    evidenceSummary = e.evidenceSummary,
+                    isApplicable = e.isApplicable,
                 })
                 .FirstOrDefaultAsync();
 
@@ -76,7 +78,7 @@ namespace backend.Controllers_Framework
             }
 
             evidence.evidenceNumber = dto.evidenceNumber;
-            evidence.evidenceSumaary = dto.evidenceSummary;
+            evidence.evidenceSummary = dto.evidenceSummary;
             evidence.complianceId = dto.complianceId;
             //evidence.isApplicable = dto.isApplicable;
 
@@ -132,7 +134,7 @@ namespace backend.Controllers_Framework
             var evidenceModel = new Evidence
             {
                 evidenceNumber = dto.evidenceNumber,
-                evidenceSumaary = dto.evidenceSummary,
+                evidenceSummary = dto.evidenceSummary,
                 complianceId = dto.complianceId,
                 isApplicable = true
             };
@@ -152,9 +154,10 @@ namespace backend.Controllers_Framework
             var evidenceDto = new EvidenceDTO
             {
                 evidenceId = evidenceModel.evidenceId,
+                complianceId = evidenceModel.compliance!.complianceId,
+                complianceNumber = evidenceModel.compliance!.complianceNumber,
                 evidenceNumber = evidenceModel.evidenceNumber,
-                evidenceSummary =  evidenceModel.evidenceSumaary,
-                complianceId = evidenceModel.complianceId,
+                evidenceSummary =  evidenceModel.evidenceSummary,
                 isApplicable = evidenceModel.isApplicable
             };
 

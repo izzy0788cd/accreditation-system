@@ -62,6 +62,14 @@ function StandardForm ({ initialData, onSubmit, onCancel }) {
         });
     };
 
+    const sortedFunctions = [ ...functions].sort((a, b) => 
+        a.functionNumber.localeCompare(b.functionNumber, undefined, { numeric: true })
+    );
+
+    const sortedComponents = [ ...components].sort((a, b) => 
+        a.componentNumber.localeCompare(b.componentNumber, undefined, { numeric: true })
+    );
+
     return (
         <form onSubmit={handleSubmit} className="mb-8 space-y-3 border p-4 rounded">
             <h2 className="text-lg font-semibold">{initialData ? "Edit Standard" : "Add Standard"}</h2>
@@ -70,7 +78,7 @@ function StandardForm ({ initialData, onSubmit, onCancel }) {
                 <label className="block text-sm font-medium mb-1">Function</label>
                 <select name="functionId" value={formData.functionId} onChange={handleChange} required className="border rounded px-3 py-2 w-full" >
                     <option value="">Select a Function</option>
-                    {functions.map((f) => (
+                    {sortedFunctions.map((f) => (
                         <option key={f.functionId} value={f.functionId}>{f.functionNumber} - {f.functionTitle}</option>
                     ))}
                 </select>
@@ -80,7 +88,7 @@ function StandardForm ({ initialData, onSubmit, onCancel }) {
                 <label className="block text-sm font-medium mb-1">Component</label>
                 <select name="componentId" value={formData.componentId} onChange={handleChange} required className="border rounded px-3 py-2 w-full" >
                     <option value="">Select a Component</option>
-                    {components.map((c) => (
+                    {sortedComponents.map((c) => (
                         <option key={c.componentId} value={c.componentId}>{c.componentNumber} - {c.componentName}</option>
                     ))}
                 </select>
@@ -98,7 +106,7 @@ function StandardForm ({ initialData, onSubmit, onCancel }) {
 
             <div>
                 <label className="block text-sm font-medium mb-1">Standard Summary</label>
-                <input type="text" name="standardSummary" value={formData.standardSummary} onChange={handleChange} required className="border rounded px-3 py-2 w-full" />
+                <textarea name="standardSummary" value={formData.standardSummary} onChange={handleChange} required className="border rounded px-3 py-2 w-full" />
             </div>
 
             <div className="flex gap-2">

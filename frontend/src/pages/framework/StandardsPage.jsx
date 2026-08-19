@@ -101,8 +101,8 @@ function StandardsPage() {
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b text-left">
-              <th className="p-2">Function</th>
-              <th className="p-2">Component</th>
+              {/* <th className="p-2">Function</th> */}
+              {/* <th className="p-2">Component</th> */}
               <th className="p-2">NHSS Standard</th>
               <th className="p-2">Title</th>
               <th className="p-2">Summary</th>
@@ -112,8 +112,8 @@ function StandardsPage() {
           <tbody>
             {sortedStandards.map((s) => (
               <tr key={s.standardId} className="border-b">
-                <td className="p-2 text-center font-semibold">{s.functionNumber}</td>
-                <td className="p-2 text-center font-semibold">{s.componentNumber}</td>
+                {/* <td className="p-2 text-center font-semibold">{s.functionNumber}</td> */}
+                {/* <td className="p-2 text-center font-semibold">{s.componentNumber}</td> */}
                 <td className="p-2 text-left font-semibold"><Link to={`/framework/standards/${s.standardId}`} className="text-blue-600 hover:underline">{s.standardNumber}</Link></td>
                 <td className="p-2">{s.standardTitle}</td>
                 <td className="p-2 text-justify">{s.standardSummary}</td>

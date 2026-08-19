@@ -13,6 +13,7 @@ namespace backend.DTOs.Framework
         public string complianceNumber { get; set; } = string.Empty;
         public string complianceSummary { get; set; } = string.Empty;
         public int criterionId { get; set; }
+        public string? criterionNumber { get; set; }
         public bool isApplicable { get; set; }
     }
 }

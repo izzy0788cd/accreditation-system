@@ -8,7 +8,12 @@ import FunctionsPage from "./pages/framework/FunctionsPage";
 import "./App.css";
 import StandardsPage from "./pages/framework/StandardsPage";
 import CriteriaPage from "./pages/framework/CriteriaPage";
+import CompliancePage from "./pages/framework/CompliancePage";
 import StandardDetailPage from "./pages/framework/StandardDetailPage";
+import CriterionDetailPage from "./pages/framework/CriterionDetailPage";
+import EvidencePage from "./pages/framework/EvidencePage";
+import ComplianceDetailPage from "./pages/framework/ComplianceDetail";
+//import EvidenceDetailPage from "./pages/framework/EvidenceDetailPage";
 
 function App() {
   return (
@@ -24,6 +29,10 @@ function App() {
           <Route path="standards" element={<StandardsPage />} />
           <Route path="standards/:standardId" element={<StandardDetailPage />} />
           <Route path="criteria" element={<CriteriaPage />} />
+          <Route path="criteria/:criterionId" element={<CriterionDetailPage />} />
+          <Route path="compliance" element={<CompliancePage />} />
+          <Route path="compliance/:complianceId" element={<ComplianceDetailPage />} />
+          <Route path="evidence" element={<EvidencePage />} />
           {/* add as built: standards, criteria, compliance, evidence */}
         </Route>
       </Routes>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAll, create, update, remove, patchApplicability } from "../../api/api";
+import { Link } from "react-router-dom";
 import CriterionForm from "../../components/forms/CriterionForm";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
@@ -114,8 +115,8 @@ const handleSubmit = async (formData) => {
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b text-left">
-              <th className="p-2">Standards</th>
-              <th className="p-2">Number</th>
+              <th className="p-2">Standard</th>
+              <th className="p-2">Criteria</th>
               <th className="p-2">Title</th>
               <th className="p-2">Applicable</th>
               <th className="p-2">Actions</th>
@@ -124,8 +125,8 @@ const handleSubmit = async (formData) => {
           <tbody>
             {sortedCriteria.map((c) => (
               <tr key={c.criterionId} className="border-b">
-                <td className="p-2">{c.standardNumber}</td>
-                <td className="p-2 text-left font-semibold">{c.criterionNumber}</td>
+                <td className="p-2"><Link to={`/framework/standards/${c.standardId}`} className="text-blue-600 hover:underline">{c.standardNumber}</Link></td>
+                <td className="p-2 text-left font-semibold"><Link to={`/framework/criteria/${c.criterionId}`} className="text-blue-600 hover:underline">{c.criterionNumber}</Link></td>
                 <td className="p-2">{c.criterionTitle}</td>
                 <td className="p-2">
                   <button
@@ -140,7 +141,8 @@ const handleSubmit = async (formData) => {
                   </button>
                 </td>
                 <td className="p-2 space-x-2">
-                  <button
+                  <div className="flex gap-2">
+                    <button
                     onClick={() => handleEditClick(c)}
                     className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-20 mb-2"
                   >
@@ -152,6 +154,7 @@ const handleSubmit = async (formData) => {
                   >
                     Delete
                   </button>
+                  </div>
                 </td>
               </tr>
             ))}

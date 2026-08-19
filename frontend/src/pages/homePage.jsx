@@ -11,6 +11,8 @@ function HomePage() {
         for the National Health Service Standards Volume 2 (Papua New Guinea).
       </p>
 
+      <br />
+
       <Link to={"/framework"} className="inline-block bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">Go to Framework</Link>
 
     </div>
