@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using backend.Models.Framework;
+using backend.Models.Location;
 
 namespace backend.Data
 {
@@ -14,7 +15,7 @@ namespace backend.Data
             
         }
         
-        //db sets for all the tables
+        //db sets for framework
         public DbSet<Function> functions { get; set; }
         public DbSet<Component> components { get; set; }
         public DbSet<Standard> standards { get; set; }
@@ -22,12 +23,18 @@ namespace backend.Data
         public DbSet<Compliance> compliances { get; set; }
         public DbSet<Evidence> evidence { get; set; }
 
+        //db sets for location
+        public DbSet<Region> regions { get; set; }
+        public DbSet<Province> provinces { get; set; }
+        public DbSet<District> districts { get; set; }
+
         //database relationships between the tables created...
-        //Framework relationships
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            //Framework relationships
             modelBuilder.Entity<Component>().HasKey(c => c.componentId);
             modelBuilder.Entity<Component>()
                 .HasIndex(c => c.componentNumber)
@@ -46,12 +53,14 @@ namespace backend.Data
             modelBuilder.Entity<Standard>()
                 .HasOne(s => s.component)
                 .WithMany(c => c.standards)
-                .HasForeignKey(s => s.componentId);
+                .HasForeignKey(s => s.componentId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Standard>()
                 .HasOne(s => s.function)
                 .WithMany(f => f.standards)
-                .HasForeignKey(s => s.functionId);
+                .HasForeignKey(s => s.functionId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Criterion>().HasKey(cr => cr.criterionId);
             modelBuilder.Entity<Criterion>()
@@ -65,7 +74,8 @@ namespace backend.Data
             modelBuilder.Entity<Criterion>()
                 .HasOne(cr => cr.standard)
                 .WithMany(s => s.criteria)
-                .HasForeignKey(cr => cr.standardId);
+                .HasForeignKey(cr => cr.standardId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Compliance>().HasKey(co => co.complianceId);
             modelBuilder.Entity<Compliance>()
@@ -79,7 +89,8 @@ namespace backend.Data
             modelBuilder.Entity<Compliance>()
                 .HasOne(co => co.criterion)
                 .WithMany(cr => cr.compliances)
-                .HasForeignKey(co => co.criterionId);
+                .HasForeignKey(co => co.criterionId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Evidence>().HasKey(e => e.evidenceId);
             modelBuilder.Entity<Evidence>()
@@ -89,7 +100,26 @@ namespace backend.Data
             modelBuilder.Entity<Evidence>()
                 .HasOne(e => e.compliance)
                 .WithMany(co => co.evidence)
-                .HasForeignKey(e => e.complianceId);
+                .HasForeignKey(e => e.complianceId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            //location relationships
+            modelBuilder.Entity<Region>().HasKey(r => r.regionId);
+            
+            modelBuilder.Entity<Province>().HasKey(p => p.provinceId);
+            modelBuilder.Entity<Province>()
+                .HasOne(p => p.region)
+                .WithMany(p => p.provinces)
+                .HasForeignKey(p => p.regionId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<District>().HasKey(d => d.districtId);
+            modelBuilder.Entity<District>()
+                .HasOne(d => d.province)
+                .WithMany(p => p.districts)
+                .HasForeignKey(d => d.provinceId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
