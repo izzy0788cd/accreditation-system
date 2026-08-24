@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Models.Facilities;
 
 namespace backend.Models.Location
 {
@@ -16,5 +17,6 @@ namespace backend.Models.Location
         public required int provinceId { get; set; }
         [ForeignKey("provinceId")]
         public Province? province { get; set; }
+        public ICollection<Facility>? facilities { get; set; }
     }
 }
