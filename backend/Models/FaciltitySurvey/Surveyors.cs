@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using backend.Models.Accounts;
+using backend.Models.Assessment;
 
 namespace backend.Models.FaciltitySurvey
 {
@@ -21,6 +22,7 @@ namespace backend.Models.FaciltitySurvey
         public int specializationId { get; set; }
         [ForeignKey("specializationId")]
         public Specialization? specialization { get; set; }
-        public ICollection<Survey>? surveys { get; set; }
+        public ICollection<Survey>? surveys { get; set; } //survey(s) team lead
+        public ICollection<ComplianceAssessment>? complianceAssessments { get; set; }
     }
 }

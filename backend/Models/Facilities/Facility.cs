@@ -25,9 +25,9 @@ namespace backend.Models.Facilities
         [ForeignKey("organizationId")]
         public Organization? organization { get; set; }
         public int creditationStatusId { get; set; }
-        [ForeignKey("creditationId")]
+        [ForeignKey("creditationStatusId")]
         public CreditationStatus? creditationStatus { get; set; }
-        public string? headOfService { get; set; }
+        public string? headOfService { get; set; } //may consider this later to be a userId
         public string? comments { get; set; }
         public ICollection<Survey>? surveys { get; set; }
     }

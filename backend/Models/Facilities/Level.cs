@@ -10,10 +10,10 @@ namespace backend.Models.Facilities
     {
         [Key]
         public int levelId { get; set; }
-        [MaxLength(1)]
-        public required string levelNumber { get; set; }
         [MaxLength(100)]
-        public required string levelLabel { get; set; }
+        public required string levelName { get; set; }
+        [MaxLength(1)]
+        public required int levelOrder { get; set; } //aka, level number
         public string? description { get; set; }
         public ICollection<Facility>? facilities { get; set; }
     }

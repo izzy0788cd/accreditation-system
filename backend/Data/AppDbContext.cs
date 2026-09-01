@@ -9,6 +9,7 @@ using backend.Models.Facilities;
 using backend.Models.Accounts;
 using backend.Models.Scoring;
 using backend.Models.FaciltitySurvey;
+using backend.Models.Assessment;
 
 namespace backend.Data
 {
@@ -54,6 +55,10 @@ namespace backend.Data
         public DbSet<Surveyors> surveyors { get; set; }
         public DbSet<SurveyType> surveyTypes { get; set; }
         public DbSet<Survey> surveys { get; set; }
+
+        //db sets for survey assessements
+        public DbSet<ComplianceAssessment> complianceAssessments { get; set; }
+        public DbSet<ComplianceEvidenceCheck> complianceEvidenceChecks { get; set; }
 
         //database relationships between the tables created...
 
@@ -151,8 +156,8 @@ namespace backend.Data
             //facility relationships
             modelBuilder.Entity<Facility>().HasKey(f => f.facilityId);
             modelBuilder.Entity<Facility>()
-                .HasOne(l => l.level)
-                .WithMany(f => f.facilities)
+                .HasOne(f => f.level)
+                .WithMany(l => l.facilities)
                 .HasForeignKey(f => f.levelId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -176,15 +181,15 @@ namespace backend.Data
 
             modelBuilder.Entity<Facility>()
                 .HasMany(f => f.surveys)
-                .WithOne(s => s.facilities)
+                .WithOne(s => s.facility)
                 .HasForeignKey(s => s.facilityId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<CreditationStatus>().HasKey(cr => cr.creditaitonStatusId);
+            modelBuilder.Entity<CreditationStatus>().HasKey(cr => cr.creditationStatusId);
             modelBuilder.Entity<Organization>().HasKey(o => o.organizationId);
             modelBuilder.Entity<Organization>()
                 .HasOne(c => c.category)
-                .WithMany(o => organizations)
+                .WithMany(o => o.organizations)
                 .HasForeignKey(o => o.categoryId)
                 .OnDelete(DeleteBehavior.Restrict);
             
@@ -239,6 +244,12 @@ namespace backend.Data
                 .WithOne(sv => sv.surveyor)
                 .HasForeignKey(sv => sv.surveyorId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Surveyors>()
+                .HasOne(s => s.user)
+                .WithOne(u => u.surveyors)
+                .HasForeignKey<Surveyors>(s => s.userId)
+                .OnDelete(DeleteBehavior.Cascade);
             
             modelBuilder.Entity<SurveyType>().HasKey(st => st.surveyTypeId);
             modelBuilder.Entity<SurveyType>()
@@ -248,6 +259,55 @@ namespace backend.Data
                 .OnDelete(DeleteBehavior.Restrict);
             
             modelBuilder.Entity<Survey>().HasKey(sv => sv.surveyId);
+
+            //survey assessment relationships
+            modelBuilder.Entity<ComplianceAssessment>().HasKey(ca => ca.complianceAssessmentId);
+            modelBuilder.Entity<ComplianceAssessment>()
+                .HasOne(ca => ca.surveyor)
+                .WithMany(s => s.complianceAssessments)
+                .HasForeignKey(ca => ca.surveyorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ComplianceAssessment>()
+                .HasOne(ca => ca.survey)
+                .WithMany(s => s.complianceAssessments)
+                .HasForeignKey(ca => ca.surveyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ComplianceAssessment>()
+                .HasOne(ca => ca.compliance)
+                .WithMany()
+                .HasForeignKey(ca => ca.complianceId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ComplianceAssessment>()
+                .HasOne(ca => ca.score)
+                .WithMany(sc => sc.complianceAssessments)
+                .HasForeignKey(ca => ca.scoreId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ComplianceAssessment>()
+                .HasOne(ca => ca.riskRating)
+                .WithMany(r => r.complianceAssessments)
+                .HasForeignKey(ca => ca.riskRatingId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ComplianceAssessment>()
+                .HasIndex(ca => new { ca.surveyId, ca.complianceId})
+                .IsUnique();
+
+            modelBuilder.Entity<ComplianceEvidenceCheck>().HasKey(se => se.complianceEvidenceCheckId);
+            modelBuilder.Entity<ComplianceEvidenceCheck>()
+                .HasOne(ce => ce.evidence)
+                .WithMany()
+                .HasForeignKey(ce => ce.evidenceId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ComplianceEvidenceCheck>()
+                .HasOne(ce => ce.complianceAssessment)
+                .WithMany(ca => ca.complianceEvidenceChecks)
+                .HasForeignKey(ce => ce.complianceAssessmentId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

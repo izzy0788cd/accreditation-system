@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using backend.Models.Accounts;
+using backend.Models.Assessment;
 using backend.Models.Facilities;
 
 namespace backend.Models.FaciltitySurvey
@@ -14,8 +15,8 @@ namespace backend.Models.FaciltitySurvey
         [Key]
         public int surveyId { get; set; }
         public int facilityId { get; set; }
-        [ForeignKey("faciltityId")]
-        public Facility? facilities { get; set; }
+        [ForeignKey("facilityId")]
+        public Facility? facility { get; set; }
         public int surveyTypeId { get; set; }
         [ForeignKey("surveyTypeId")]
         public SurveyType? surveyType { get; set; }
@@ -24,5 +25,6 @@ namespace backend.Models.FaciltitySurvey
         public Surveyors? surveyor { get; set; }
         public DateOnly startDate { get; set; } // approx. start date of survey
         public DateOnly endDate { get; set; } // approx. end date of survey
+        public ICollection<ComplianceAssessment>? complianceAssessments { get; set; }
     }
 }

@@ -27,7 +27,8 @@ namespace backend.Models.Accounts
         public required string phone { get; set; }
         public string? mobile { get; set; }
         public string? comments { get; set; }
-        public ICollection<Surveyors>? surveyors { get; set; }
-        public ICollection<Survey>? surveys { get; set; }
+        //public ICollection<Surveyors>? surveyors { get; set; }
+        //public ICollection<Survey>? surveys { get; set; }
+        public Surveyors? surveyors { get; set; }
     }
 }
