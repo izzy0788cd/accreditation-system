@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Data;
+using backend.DTOs.Framework;
+using backend.Models.Framework;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models.Framework;
-using backend.DTOs.Framework;
-using System.Data;
 
 namespace backend.Controllers_Framework
 {
@@ -25,30 +26,33 @@ namespace backend.Controllers_Framework
 
         // GET: api/Function
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<FunctionDTO>>> Getfunctions()
         {
-            return await _context.functions.Select(f => new FunctionDTO
-            {
-                functionId = f.functionId,
-                functionNumber = f.functionNumber,
-                functionTitle = f.functionTitle,
-                functionSummary = f.functionSummary
-            })
-            .ToListAsync();
+            return await _context
+                .functions.Select(f => new FunctionDTO
+                {
+                    functionId = f.functionId,
+                    functionNumber = f.functionNumber,
+                    functionTitle = f.functionTitle,
+                    functionSummary = f.functionSummary,
+                })
+                .ToListAsync();
         }
 
         // GET: api/Function/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<FunctionDTO>> GetFunction(int id)
         {
-            var function = await _context.functions
-                .Where(f => f.functionId == id)
+            var function = await _context
+                .functions.Where(f => f.functionId == id)
                 .Select(f => new FunctionDTO
                 {
                     functionId = f.functionId,
                     functionNumber = f.functionNumber,
                     functionTitle = f.functionTitle,
-                    functionSummary = f.functionSummary
+                    functionSummary = f.functionSummary,
                 })
                 .FirstOrDefaultAsync();
 
@@ -63,6 +67,7 @@ namespace backend.Controllers_Framework
         // PUT: api/Function/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutFunction(int id, FunctionUpdateDTO dto)
         {
             var function = await _context.functions.FindAsync(id);
@@ -98,13 +103,14 @@ namespace backend.Controllers_Framework
         // POST: api/Function
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<FunctionDTO>> PostFunction(FunctionCreateDTO function)
         {
             var functionModel = new Function
             {
                 functionNumber = function.functionNumber,
                 functionTitle = function.functionTitle,
-                functionSummary = function.functionSummary
+                functionSummary = function.functionSummary,
             };
 
             _context.functions.Add(functionModel);
@@ -116,7 +122,7 @@ namespace backend.Controllers_Framework
                 functionId = functionModel.functionId,
                 functionNumber = functionModel.functionNumber,
                 functionTitle = functionModel.functionTitle,
-                functionSummary = functionModel.functionSummary
+                functionSummary = functionModel.functionSummary,
             };
 
             return CreatedAtAction("GetFunction", new { id = functionDto.functionId }, functionDto);
@@ -124,6 +130,7 @@ namespace backend.Controllers_Framework
 
         // DELETE: api/Function/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteFunction(int id)
         {
             var function = await _context.functions.FindAsync(id);

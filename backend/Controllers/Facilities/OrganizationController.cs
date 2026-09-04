@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Data;
+using backend.DTOs.Facilities;
+using backend.Models.Facilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models.Facilities;
-using backend.DTOs.Facilities;
 
 namespace backend.Controllers_Facilities
 {
@@ -24,32 +25,35 @@ namespace backend.Controllers_Facilities
 
         // GET: api/Organization
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<OrganizationDTO>>> GetOrganizations()
         {
-            return await _context.organizations.Select(o => new OrganizationDTO
-            {
-                organizationId = o.organizationId,
-                organizationName = o.organizationName,
-                categoryId = o.category!.categoryId,
-                categoryName = o.category!.categoryName,
-                description = o.description
-            })
-            .ToListAsync();
+            return await _context
+                .organizations.Select(o => new OrganizationDTO
+                {
+                    organizationId = o.organizationId,
+                    organizationName = o.organizationName,
+                    categoryId = o.category!.categoryId,
+                    categoryName = o.category!.categoryName,
+                    description = o.description,
+                })
+                .ToListAsync();
         }
 
         // GET: api/Organization/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<OrganizationDTO>> GetOrganization(int id)
         {
-            var organization = await _context.organizations
-                .Where(o => o.organizationId == id)
+            var organization = await _context
+                .organizations.Where(o => o.organizationId == id)
                 .Select(o => new OrganizationDTO
                 {
                     organizationId = o.organizationId,
                     organizationName = o.organizationName,
                     categoryId = o.category!.categoryId,
                     categoryName = o.category!.categoryName,
-                    description = o.description
+                    description = o.description,
                 })
                 .FirstOrDefaultAsync();
 
@@ -64,6 +68,7 @@ namespace backend.Controllers_Facilities
         // PUT: api/Organization/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutOrganization(int id, OrganizationUpdateDTO dto)
         {
             var organization = await _context.organizations.FindAsync(id);
@@ -99,6 +104,7 @@ namespace backend.Controllers_Facilities
         // POST: api/Organization
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<OrganizationDTO>> PostOrganization(OrganizationCreateDTO dto)
         {
             var organizationModel = new Organization
@@ -111,8 +117,8 @@ namespace backend.Controllers_Facilities
             _context.organizations.Add(organizationModel);
             await _context.SaveChangesAsync();
 
-            organizationModel = await _context.organizations
-                .Include(o => o.category)
+            organizationModel = await _context
+                .organizations.Include(o => o.category)
                 .FirstOrDefaultAsync(o => o.categoryId == organizationModel.categoryId);
 
             if (organizationModel is null || organizationModel.category is null)
@@ -129,11 +135,16 @@ namespace backend.Controllers_Facilities
                 description = organizationModel.description,
             };
 
-            return CreatedAtAction("GetOrganization", new { id = organizationDto.organizationId }, organizationDto);
+            return CreatedAtAction(
+                "GetOrganization",
+                new { id = organizationDto.organizationId },
+                organizationDto
+            );
         }
 
         // DELETE: api/Organization/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteOrganization(int id)
         {
             var organization = await _context.organizations.FindAsync(id);

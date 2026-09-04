@@ -1,4 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LoginPage from "./pages/loginPage";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import FrameworkPage from "./pages/FrameworkPage";
@@ -14,29 +17,35 @@ import CriterionDetailPage from "./pages/framework/CriterionDetailPage";
 import EvidencePage from "./pages/framework/EvidencePage";
 import ComplianceDetailPage from "./pages/framework/ComplianceDetail";
 //import EvidenceDetailPage from "./pages/framework/EvidenceDetailPage";
+import CompleteProfilePage from "./pages/CompleteProfilePage";
+import ProfilePage from "./pages/profilePage";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-
-        <Route path="/framework" element={<FrameworkPage />}>
-          <Route index element={<FrameworkDashboard />} />
-          <Route path="functions" element={<FunctionsPage />} />
-          <Route path="components" element={<ComponentsPage />} />
-          <Route path="standards" element={<StandardsPage />} />
-          <Route path="standards/:standardId" element={<StandardDetailPage />} />
-          <Route path="criteria" element={<CriteriaPage />} />
-          <Route path="criteria/:criterionId" element={<CriterionDetailPage />} />
-          <Route path="compliance" element={<CompliancePage />} />
-          <Route path="compliance/:complianceId" element={<ComplianceDetailPage />} />
-          <Route path="evidence" element={<EvidencePage />} />
-          {/* add as built: standards, criteria, compliance, evidence */}
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+          <Route path="/complete-profile" element={<ProtectedRoute><CompleteProfilePage /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="/framework" element={<ProtectedRoute><FrameworkPage /></ProtectedRoute>}>
+            <Route index element={<FrameworkDashboard />} />
+            <Route path="functions" element={<FunctionsPage />} />
+            <Route path="components" element={<ComponentsPage />} />
+            <Route path="standards" element={<StandardsPage />} />
+            <Route path="standards/:standardId" element={<StandardDetailPage />} />
+            <Route path="criteria" element={<CriteriaPage />} />
+            <Route path="criteria/:criterionId" element={<CriterionDetailPage />} />
+            <Route path="compliance" element={<CompliancePage />} />
+            <Route path="compliance/:complianceId" element={<ComplianceDetailPage />} />
+            <Route path="evidence" element={<EvidencePage />} />
+            {/* add as built: standards, criteria, compliance, evidence */}
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
