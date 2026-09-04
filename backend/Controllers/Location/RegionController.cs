@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Data;
+using backend.DTOs.Location;
+using backend.Models.Location;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models.Location;
-using backend.DTOs.Location;
 
 namespace backend.Controllers_Location
 {
@@ -24,29 +25,28 @@ namespace backend.Controllers_Location
 
         // GET: api/Region
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<RegionDTO>>> GetRegions()
         {
-            return await _context.regions.Select(r => new RegionDTO
-            {
-                regionId = r.regionId,
-                regionName = r.regionName,
-            })
-            .ToListAsync();
-        }
-
-        // GET: api/Region/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<RegionDTO>> GetRegion(int id)
-        {
-            var region = await _context.regions
-                .Where(r => r.regionId == id)
-                .Select(r => new RegionDTO
+            return await _context
+                .regions.Select(r => new RegionDTO
                 {
                     regionId = r.regionId,
                     regionName = r.regionName,
                 })
+                .ToListAsync();
+        }
+
+        // GET: api/Region/5
+        [HttpGet("{id}")]
+        [Authorize]
+        public async Task<ActionResult<RegionDTO>> GetRegion(int id)
+        {
+            var region = await _context
+                .regions.Where(r => r.regionId == id)
+                .Select(r => new RegionDTO { regionId = r.regionId, regionName = r.regionName })
                 .FirstOrDefaultAsync();
-            
+
             if (region == null)
             {
                 return NotFound();
@@ -58,6 +58,7 @@ namespace backend.Controllers_Location
         // PUT: api/Region/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutRegion(int id, RegionUpdateDTO dto)
         {
             var region = await _context.regions.FindAsync(id);
@@ -91,26 +92,22 @@ namespace backend.Controllers_Location
         // POST: api/Region
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<RegionDTO>> PostRegion(RegionCreateDTO region)
         {
-            var regionModel = new Region
-            {
-                regionName = region.regionName
-            };
+            var regionModel = new Region { regionName = region.regionName };
 
             _context.regions.Add(regionModel);
             await _context.SaveChangesAsync();
 
-            var regionDto = new RegionDTO
-            {
-                regionName = regionModel.regionName
-            };
+            var regionDto = new RegionDTO { regionName = regionModel.regionName };
 
             return CreatedAtAction("GetRegion", new { id = regionDto.regionId }, regionDto);
         }
 
         // DELETE: api/Region/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteRegion(int id)
         {
             var region = await _context.regions.FindAsync(id);

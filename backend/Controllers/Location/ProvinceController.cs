@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Data;
+using backend.DTOs.Location;
+using backend.Models.Location;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models.Location;
-using backend.DTOs.Location;
 
 namespace backend.Controllers_Location
 {
@@ -24,30 +25,33 @@ namespace backend.Controllers_Location
 
         // GET: api/Province
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ProvinceDTO>>> GetProvinces()
         {
-            return await _context.provinces.Select(p => new ProvinceDTO
-            {
-                provinceId = p.provinceId,
-                provinceName = p.provinceName,
-                regionId = p.region!.regionId,
-                regionName = p.region!.regionName
-            })
-            .ToListAsync();
+            return await _context
+                .provinces.Select(p => new ProvinceDTO
+                {
+                    provinceId = p.provinceId,
+                    provinceName = p.provinceName,
+                    regionId = p.region!.regionId,
+                    regionName = p.region!.regionName,
+                })
+                .ToListAsync();
         }
 
         // GET: api/Province/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<ProvinceDTO>> GetProvince(int id)
         {
-            var province = await _context.provinces
-                .Where(p => p.provinceId == id)
+            var province = await _context
+                .provinces.Where(p => p.provinceId == id)
                 .Select(p => new ProvinceDTO
                 {
                     provinceId = p.provinceId,
                     regionId = p.region!.regionId,
                     provinceName = p.provinceName,
-                    regionName = p.region!.regionName
+                    regionName = p.region!.regionName,
                 })
                 .FirstOrDefaultAsync();
 
@@ -62,6 +66,7 @@ namespace backend.Controllers_Location
         // PUT: api/Province/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutProvince(int id, ProvinceUpdateDTO dto)
         {
             var province = await _context.provinces.FindAsync(id);
@@ -96,6 +101,7 @@ namespace backend.Controllers_Location
         // POST: api/Province
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Province>> PostProvince(ProvinceCreateDTO dto)
         {
             var provinceModel = new Province
@@ -107,10 +113,10 @@ namespace backend.Controllers_Location
             _context.provinces.Add(provinceModel);
             await _context.SaveChangesAsync();
 
-            provinceModel = await _context.provinces
-                .Include(p => p.region)
+            provinceModel = await _context
+                .provinces.Include(p => p.region)
                 .FirstOrDefaultAsync(p => p.provinceId == provinceModel.provinceId);
-            
+
             if (provinceModel is null || provinceModel.region is null)
             {
                 return NotFound();
@@ -129,6 +135,7 @@ namespace backend.Controllers_Location
 
         // DELETE: api/Province/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteProvince(int id)
         {
             var province = await _context.provinces.FindAsync(id);

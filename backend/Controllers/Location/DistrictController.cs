@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Data;
+using backend.DTOs.Location;
+using backend.Models.Location;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models.Location;
-using backend.DTOs.Location;
 
 namespace backend.Controllers_Location
 {
@@ -24,26 +25,29 @@ namespace backend.Controllers_Location
 
         // GET: api/District
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<DistrictDTO>>> Getdistricts()
         {
-            var districts = await _context.districts.Select(d => new DistrictDTO
-            {
-                districtId = d.districtId,
-                distrctName = d.districtName,
-                provinceId = d.province!.provinceId,
-                provinceName = d.province!.provinceName,
-            })
-            .ToListAsync();
+            var districts = await _context
+                .districts.Select(d => new DistrictDTO
+                {
+                    districtId = d.districtId,
+                    distrctName = d.districtName,
+                    provinceId = d.province!.provinceId,
+                    provinceName = d.province!.provinceName,
+                })
+                .ToListAsync();
 
             return Ok(districts);
         }
 
         // GET: api/District/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<DistrictDTO>> GetDistrict(int id)
         {
-            var district = await _context.districts
-                .Where(d => d.districtId == id)
+            var district = await _context
+                .districts.Where(d => d.districtId == id)
                 .Select(d => new DistrictDTO
                 {
                     districtId = d.districtId,
@@ -64,6 +68,7 @@ namespace backend.Controllers_Location
         // PUT: api/District/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutDistrict(int id, DistrictUpdateDTO dto)
         {
             var district = await _context.districts.FindAsync(id);
@@ -98,6 +103,7 @@ namespace backend.Controllers_Location
         // POST: api/District
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<DistrictDTO>> PostDistrict(DistrictCreateDTO dto)
         {
             var districtModel = new District
@@ -109,8 +115,8 @@ namespace backend.Controllers_Location
             _context.districts.Add(districtModel);
             await _context.SaveChangesAsync();
 
-            districtModel = await _context.districts
-                .Include(d => d.province)
+            districtModel = await _context
+                .districts.Include(d => d.province)
                 .FirstOrDefaultAsync(d => d.districtId == districtModel.districtId);
 
             if (districtModel is null || districtModel.province is null)
@@ -123,7 +129,7 @@ namespace backend.Controllers_Location
                 districtId = districtModel.districtId,
                 distrctName = districtModel.districtName,
                 provinceId = districtModel.province!.provinceId,
-                provinceName = districtModel.province!.provinceName
+                provinceName = districtModel.province!.provinceName,
             };
 
             return CreatedAtAction("GetDistrict", new { id = districtDto.districtId }, districtDto);
@@ -131,6 +137,7 @@ namespace backend.Controllers_Location
 
         // DELETE: api/District/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteDistrict(int id)
         {
             var district = await _context.districts.FindAsync(id);
