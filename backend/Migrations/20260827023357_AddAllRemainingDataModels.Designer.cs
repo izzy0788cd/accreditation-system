@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend.Data;
@@ -11,9 +12,11 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260827023357_AddAllRemainingDataModels")]
+    partial class AddAllRemainingDataModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,11 +217,11 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Facilities.CreditationStatus", b =>
                 {
-                    b.Property<int>("creditationStatusId")
+                    b.Property<int>("creditaitonStatusId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("creditationStatusId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("creditaitonStatusId"));
 
                     b.Property<string>("comments")
                         .HasColumnType("text");
@@ -231,7 +234,7 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("creditationStatusId");
+                    b.HasKey("creditaitonStatusId");
 
                     b.ToTable("creditationStatuses");
                 });
@@ -246,6 +249,9 @@ namespace backend.Migrations
 
                     b.Property<string>("comments")
                         .HasColumnType("text");
+
+                    b.Property<int?>("creditationId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("creditationStatusId")
                         .HasColumnType("integer");
@@ -290,14 +296,15 @@ namespace backend.Migrations
                     b.Property<string>("description")
                         .HasColumnType("text");
 
-                    b.Property<string>("levelName")
+                    b.Property<string>("levelLabel")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<int>("levelOrder")
+                    b.Property<string>("levelNumber")
+                        .IsRequired()
                         .HasMaxLength(1)
-                        .HasColumnType("integer");
+                        .HasColumnType("character varying(1)");
 
                     b.HasKey("levelId");
 
@@ -372,6 +379,9 @@ namespace backend.Migrations
                     b.Property<int>("surveyorId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("userId")
+                        .HasColumnType("integer");
+
                     b.HasKey("surveyId");
 
                     b.HasIndex("facilityId");
@@ -379,6 +389,8 @@ namespace backend.Migrations
                     b.HasIndex("surveyTypeId");
 
                     b.HasIndex("surveyorId");
+
+                    b.HasIndex("userId");
 
                     b.ToTable("surveys");
                 });
@@ -446,8 +458,7 @@ namespace backend.Migrations
 
                     b.HasIndex("surveyorCertStatusId");
 
-                    b.HasIndex("userId")
-                        .IsUnique();
+                    b.HasIndex("userId");
 
                     b.ToTable("surveyors");
                 });
@@ -920,6 +931,10 @@ namespace backend.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("backend.Models.Accounts.User", null)
+                        .WithMany("surveys")
+                        .HasForeignKey("userId");
+
                     b.Navigation("facility");
 
                     b.Navigation("surveyType");
@@ -942,8 +957,8 @@ namespace backend.Migrations
                         .IsRequired();
 
                     b.HasOne("backend.Models.Accounts.User", "user")
-                        .WithOne("surveyors")
-                        .HasForeignKey("backend.Models.FaciltitySurvey.Surveyors", "userId")
+                        .WithMany("surveyors")
+                        .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1036,6 +1051,8 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.Accounts.User", b =>
                 {
                     b.Navigation("surveyors");
+
+                    b.Navigation("surveys");
                 });
 
             modelBuilder.Entity("backend.Models.Accounts.UserAccount", b =>
