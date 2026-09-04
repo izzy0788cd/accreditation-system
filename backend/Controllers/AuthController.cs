@@ -27,7 +27,7 @@ namespace backend.Controllers
 
         [HttpPost("login")]
         public async Task<ActionResult<LoginResponseDTO>> Login(LoginRequestDTO request)
-        {
+        {            
             var userAccount = await _context.userAccounts
                 .Include(ua => ua.role)
                 .FirstOrDefaultAsync(ua => ua.username == request.username);
