@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Data;
+using backend.DTOs.Framework;
+using backend.Models.Framework;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models.Framework;
-using backend.DTOs.Framework;
 
 namespace backend.Controllers_Framework
 {
@@ -24,29 +25,32 @@ namespace backend.Controllers_Framework
 
         // GET: api/Criterion
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<CriterionDTO>>> GetCriteria()
         {
-            var criteria = await _context.criteria.Select(cr => new CriterionDTO
-            {
-                criterionId = cr.criterionId,
-                criterionNumber = cr.criterionNumber,
-                criterionTitle = cr.criterionTitle,
-                standardId = cr.standard!.standardId,
-                standardNumber = cr.standard!.standardNumber,
-                standardTitle = cr.standard!.standardTitle,
-                isApplicable = cr.isApplicable
-            })
-            .ToListAsync();
+            var criteria = await _context
+                .criteria.Select(cr => new CriterionDTO
+                {
+                    criterionId = cr.criterionId,
+                    criterionNumber = cr.criterionNumber,
+                    criterionTitle = cr.criterionTitle,
+                    standardId = cr.standard!.standardId,
+                    standardNumber = cr.standard!.standardNumber,
+                    standardTitle = cr.standard!.standardTitle,
+                    isApplicable = cr.isApplicable,
+                })
+                .ToListAsync();
 
             return Ok(criteria);
         }
 
         // GET: api/Criterion/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<CriterionDTO>> GetCriterion(int id)
         {
-            var criterion = await _context.criteria
-                .Where(cr => cr.criterionId == id)
+            var criterion = await _context
+                .criteria.Where(cr => cr.criterionId == id)
                 .Select(cr => new CriterionDTO
                 {
                     criterionId = cr.criterionId,
@@ -55,7 +59,7 @@ namespace backend.Controllers_Framework
                     standardId = cr.standard!.standardId,
                     standardNumber = cr.standard!.standardNumber,
                     standardTitle = cr.standard!.standardTitle,
-                    isApplicable = cr.isApplicable
+                    isApplicable = cr.isApplicable,
                 })
                 .FirstOrDefaultAsync();
 
@@ -70,6 +74,7 @@ namespace backend.Controllers_Framework
         // PUT: api/Criterion/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutCriterion(int id, CriterionUpdateDTO dto)
         {
             var criterion = await _context.criteria.FindAsync(id);
@@ -105,13 +110,17 @@ namespace backend.Controllers_Framework
 
         // PATCH: api/Criterion/1/applicability
         [HttpPatch("{id}/applicability")]
-        public async Task<IActionResult> PatchCriterionApplicability(int id, [FromBody] bool isApplicable)
+        [Authorize(Roles = "Admin, Surveyor")]
+        public async Task<IActionResult> PatchCriterionApplicability(
+            int id,
+            [FromBody] bool isApplicable
+        )
         {
-            var criterion = await _context.criteria
-                .Include(cr => cr.compliances!)
+            var criterion = await _context
+                .criteria.Include(cr => cr.compliances!)
                     .ThenInclude(co => co.evidence)
                 .FirstOrDefaultAsync(cr => cr.criterionId == id);
-            
+
             if (criterion == null)
             {
                 return NotFound();
@@ -157,6 +166,7 @@ namespace backend.Controllers_Framework
         // POST: api/Criterion
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<CriterionDTO>> PostCriterion(CriterionCreateDTO dto)
         {
             var criterionModel = new Criterion
@@ -164,14 +174,14 @@ namespace backend.Controllers_Framework
                 criterionNumber = dto.criterionNumber,
                 criterionTitle = dto.criterionTitle,
                 standardId = dto.standardId,
-                isApplicable = true
+                isApplicable = true,
             };
 
             _context.criteria.Add(criterionModel);
             await _context.SaveChangesAsync();
 
-            criterionModel = await _context.criteria
-                .Include(cr => cr.standard)
+            criterionModel = await _context
+                .criteria.Include(cr => cr.standard)
                 .FirstOrDefaultAsync(cr => cr.criterionId == criterionModel.criterionId);
 
             if (criterionModel is null || criterionModel.standard is null)
@@ -187,14 +197,19 @@ namespace backend.Controllers_Framework
                 standardId = criterionModel.standard!.standardId,
                 standardNumber = criterionModel.standard!.standardNumber,
                 standardTitle = criterionModel.standard!.standardTitle,
-                isApplicable = criterionModel.isApplicable
+                isApplicable = criterionModel.isApplicable,
             };
 
-            return CreatedAtAction("GetCriterion", new { id = criterionDto.criterionId }, criterionDto);
+            return CreatedAtAction(
+                "GetCriterion",
+                new { id = criterionDto.criterionId },
+                criterionDto
+            );
         }
 
         // DELETE: api/Criterion/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCriterion(int id)
         {
             var criterion = await _context.criteria.FindAsync(id);

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using backend.Models.Assessment;
+using Humanizer;
 
 namespace backend.Models.Scoring
 {
@@ -11,8 +12,8 @@ namespace backend.Models.Scoring
     {
         [Key]
         public int scoreId { get; set; }
-        public required string scoreValue { get; set; } //0 = not met, 1 = met with recommendation(s), 2 = met, NA = not applicable, i.e., don't calculate
-        public required string scoreLabel { get; set; }
+        public int? scoreValue { get; set; } //nullable int: 0, 1, 2 — null represents "Not Applicable"
+        public required string scoreLabel { get; set; } //e.g. "Non-Compliant", "Partially Compliant", "Compliant", "Not Applicable"
         public string? description { get; set; }
         public ICollection<ComplianceAssessment>? complianceAssessments { get; set; }
     }

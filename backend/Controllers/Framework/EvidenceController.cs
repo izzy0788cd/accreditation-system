@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Data;
+using backend.DTOs.Framework;
+using backend.Models.Framework;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models.Framework;
-using backend.DTOs.Framework;
 
 namespace backend.Controllers_Framework
 {
@@ -24,28 +25,31 @@ namespace backend.Controllers_Framework
 
         // GET: api/Evidence
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<EvidenceDTO>>> GetEvidence()
         {
-            var evidences = await _context.evidence.Select(e => new EvidenceDTO
-            {
-                evidenceId = e.evidenceId,
-                complianceId = e.compliance!.complianceId,
-                complianceNumber = e.compliance!.complianceNumber,
-                evidenceNumber = e.evidenceNumber,
-                evidenceSummary = e.evidenceSummary,
-                isApplicable = e.isApplicable,
-            })
-            .ToListAsync();
+            var evidences = await _context
+                .evidence.Select(e => new EvidenceDTO
+                {
+                    evidenceId = e.evidenceId,
+                    complianceId = e.compliance!.complianceId,
+                    complianceNumber = e.compliance!.complianceNumber,
+                    evidenceNumber = e.evidenceNumber,
+                    evidenceSummary = e.evidenceSummary,
+                    isApplicable = e.isApplicable,
+                })
+                .ToListAsync();
 
             return Ok(evidences);
         }
 
         // GET: api/Evidence/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<EvidenceDTO>> GetEvidence(int id)
         {
-            var evidence = await _context.evidence
-                .Where(e => e.evidenceId == id)
+            var evidence = await _context
+                .evidence.Where(e => e.evidenceId == id)
                 .Select(e => new EvidenceDTO
                 {
                     evidenceId = e.evidenceId,
@@ -68,6 +72,7 @@ namespace backend.Controllers_Framework
         // PUT: api/Evidence/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutEvidence(int id, EvidenceUpdateDTO dto)
         {
             var evidence = await _context.evidence.FindAsync(id);
@@ -103,7 +108,11 @@ namespace backend.Controllers_Framework
 
         // PATCH: api/evidence/5/applicability
         [HttpPatch("{id}/applicability")]
-        public async Task<IActionResult> PatchEvidenceApplicability(int id, [FromBody] bool isApplicable)
+        [Authorize(Roles = "Admin, Surveyor")]
+        public async Task<IActionResult> PatchEvidenceApplicability(
+            int id,
+            [FromBody] bool isApplicable
+        )
         {
             var evidence = await _context.evidence.FindAsync(id);
 
@@ -129,6 +138,7 @@ namespace backend.Controllers_Framework
         // POST: api/Evidence
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<EvidenceDTO>> PostEvidence(EvidenceCreateDTO dto)
         {
             var evidenceModel = new Evidence
@@ -136,14 +146,14 @@ namespace backend.Controllers_Framework
                 evidenceNumber = dto.evidenceNumber,
                 evidenceSummary = dto.evidenceSummary,
                 complianceId = dto.complianceId,
-                isApplicable = true
+                isApplicable = true,
             };
 
             _context.evidence.Add(evidenceModel);
             await _context.SaveChangesAsync();
 
-            evidenceModel = await _context.evidence
-                .Include(e => e.compliance)
+            evidenceModel = await _context
+                .evidence.Include(e => e.compliance)
                 .FirstOrDefaultAsync(e => e.evidenceId == evidenceModel.evidenceId);
 
             if (evidenceModel is null || evidenceModel.compliance is null)
@@ -157,8 +167,8 @@ namespace backend.Controllers_Framework
                 complianceId = evidenceModel.compliance!.complianceId,
                 complianceNumber = evidenceModel.compliance!.complianceNumber,
                 evidenceNumber = evidenceModel.evidenceNumber,
-                evidenceSummary =  evidenceModel.evidenceSummary,
-                isApplicable = evidenceModel.isApplicable
+                evidenceSummary = evidenceModel.evidenceSummary,
+                isApplicable = evidenceModel.isApplicable,
             };
 
             return CreatedAtAction("GetEvidence", new { id = evidenceDto.evidenceId }, evidenceDto);
@@ -166,6 +176,7 @@ namespace backend.Controllers_Framework
 
         // DELETE: api/Evidence/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteEvidence(int id)
         {
             var evidence = await _context.evidence.FindAsync(id);

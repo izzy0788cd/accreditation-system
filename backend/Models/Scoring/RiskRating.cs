@@ -13,6 +13,7 @@ namespace backend.Models.Scoring
         public int riskId { get; set; }
         public required string riskValue { get; set; } //using 'L' = low, 'M' = medium, 'H' = high & 'E' = extreme
         public required string riskLabel { get; set; }
+        public int? severityOrder { get; set; }
         public string? description { get; set; }
         public ICollection<ComplianceAssessment>? complianceAssessments { get; set; }
     }
