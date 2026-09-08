@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend.Data;
@@ -11,9 +12,11 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260904112609_ChangedScoreValueFromStringToInt")]
+    partial class ChangedScoreValueFromStringToInt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,10 +140,10 @@ namespace backend.Migrations
                     b.Property<int>("complianceId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("riskRatingId")
+                    b.Property<int>("riskRatingId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("scoreId")
+                    b.Property<int>("scoreId")
                         .HasColumnType("integer");
 
                     b.Property<int>("surveyId")
@@ -805,12 +808,14 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.Scoring.RiskRating", "riskRating")
                         .WithMany("complianceAssessments")
                         .HasForeignKey("riskRatingId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("backend.Models.Scoring.Score", "score")
                         .WithMany("complianceAssessments")
                         .HasForeignKey("scoreId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("backend.Models.FaciltitySurvey.Survey", "survey")
                         .WithMany("complianceAssessments")

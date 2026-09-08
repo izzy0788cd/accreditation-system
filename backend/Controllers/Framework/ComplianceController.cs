@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Data;
+using backend.DTOs.Framework;
+using backend.Models.Accounts;
+using backend.Models.Framework;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models.Framework;
-using backend.DTOs.Framework;
-using System.Data;
 
 namespace backend.Controllers_Framework
 {
@@ -25,36 +27,39 @@ namespace backend.Controllers_Framework
 
         // GET: api/Compliance
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ComplianceDTO>>> GetCompliances()
         {
-            var compliances = await _context.compliances.Select(co => new ComplianceDTO
-            {
-                complianceId = co.complianceId,
-                complianceNumber = co.complianceNumber,
-                complianceSummary = co.complianceSummary,
-                criterionId = co.criterion!.criterionId,
-                criterionNumber = co.criterion!.criterionNumber,
-                isApplicable = co.isApplicable
-            })
-            .ToListAsync();
+            var compliances = await _context
+                .compliances.Select(co => new ComplianceDTO
+                {
+                    complianceId = co.complianceId,
+                    complianceNumber = co.complianceNumber,
+                    complianceSummary = co.complianceSummary,
+                    criterionId = co.criterion!.criterionId,
+                    criterionNumber = co.criterion!.criterionNumber,
+                    isApplicable = co.isApplicable,
+                })
+                .ToListAsync();
 
             return Ok(compliances);
         }
 
         // GET: api/Compliance/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<ComplianceDTO>> GetCompliance(int id)
         {
-            var compliance = await _context.compliances
-                .Where(co => co.complianceId == id)
+            var compliance = await _context
+                .compliances.Where(co => co.complianceId == id)
                 .Select(co => new ComplianceDTO
                 {
                     complianceId = co.complianceId,
-                    complianceNumber= co.complianceNumber,
+                    complianceNumber = co.complianceNumber,
                     complianceSummary = co.complianceSummary,
                     criterionId = co.criterion!.criterionId,
                     criterionNumber = co.criterion!.criterionNumber,
-                    isApplicable = co.isApplicable
+                    isApplicable = co.isApplicable,
                 })
                 .FirstOrDefaultAsync();
 
@@ -69,6 +74,7 @@ namespace backend.Controllers_Framework
         // PUT: api/Compliance/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutCompliance(int id, ComplianceUpdateDTO dto)
         {
             var compliance = await _context.compliances.FindAsync(id);
@@ -104,10 +110,14 @@ namespace backend.Controllers_Framework
 
         // PATCH: api/compliance/1/applicability
         [HttpPatch("{id}/applicability")]
-        public async Task<IActionResult> PatchEvidenceApplicability(int id, [FromBody] bool isApplicable)
+        [Authorize(Roles = "Admin, Surveyor")]
+        public async Task<IActionResult> PatchEvidenceApplicability(
+            int id,
+            [FromBody] bool isApplicable
+        )
         {
-            var compliance = await _context.compliances
-                .Include(co => co.evidence)
+            var compliance = await _context
+                .compliances.Include(co => co.evidence)
                 .FirstOrDefaultAsync(co => co.complianceId == id);
 
             if (compliance == null)
@@ -140,6 +150,7 @@ namespace backend.Controllers_Framework
         // POST: api/Compliance
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ComplianceDTO>> PostCompliance(ComplianceCreateDTO dto)
         {
             var complianceModel = new Compliance
@@ -147,21 +158,21 @@ namespace backend.Controllers_Framework
                 complianceNumber = dto.complianceNumber,
                 complianceSummary = dto.complianceSummary,
                 criterionId = dto.criterionId,
-                isApplicable = true
+                isApplicable = true,
             };
 
             _context.compliances.Add(complianceModel);
             await _context.SaveChangesAsync();
 
-            complianceModel = await _context.compliances
-                .Include(co => co.criterion)
+            complianceModel = await _context
+                .compliances.Include(co => co.criterion)
                 .FirstOrDefaultAsync(co => co.complianceId == complianceModel.complianceId);
-                
+
             if (complianceModel is null || complianceModel.criterion is null)
             {
                 return NotFound();
             }
-            
+
             var complianceDto = new ComplianceDTO
             {
                 complianceId = complianceModel.complianceId,
@@ -169,14 +180,19 @@ namespace backend.Controllers_Framework
                 complianceSummary = complianceModel.complianceSummary,
                 criterionId = complianceModel.criterion!.criterionId,
                 criterionNumber = complianceModel.criterion!.criterionNumber,
-                isApplicable = complianceModel.isApplicable
+                isApplicable = complianceModel.isApplicable,
             };
 
-            return CreatedAtAction("GetCompliance", new { id = complianceDto.complianceId }, complianceDto);
+            return CreatedAtAction(
+                "GetCompliance",
+                new { id = complianceDto.complianceId },
+                complianceDto
+            );
         }
 
         // DELETE: api/Compliance/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCompliance(int id)
         {
             var compliance = await _context.compliances.FindAsync(id);

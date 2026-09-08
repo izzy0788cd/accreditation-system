@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Data;
+using backend.DTOs.Framework;
+using backend.Models.Framework;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models.Framework;
-using backend.DTOs.Framework;
-using System.Data;
 
 namespace backend.Controllers.Framework
 {
@@ -25,30 +26,33 @@ namespace backend.Controllers.Framework
 
         // GET: api/Standard
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<StandardDTO>>> GetStandards()
         {
-            var standards = await _context.standards.Select(s => new StandardDTO
-            {
-                standardId = s.standardId,
-                standardNumber = s.standardNumber,
-                standardTitle = s.standardTitle,
-                componentNumber = s.component!.componentNumber,
-                componentName = s.component!.componentName,
-                functionNumber = s.function!.functionNumber,
-                functionTitle = s.function!.functionTitle,
-                standardSummary = s.standardSummary
-            })
-            .ToListAsync();
+            var standards = await _context
+                .standards.Select(s => new StandardDTO
+                {
+                    standardId = s.standardId,
+                    standardNumber = s.standardNumber,
+                    standardTitle = s.standardTitle,
+                    componentNumber = s.component!.componentNumber,
+                    componentName = s.component!.componentName,
+                    functionNumber = s.function!.functionNumber,
+                    functionTitle = s.function!.functionTitle,
+                    standardSummary = s.standardSummary,
+                })
+                .ToListAsync();
 
             return Ok(standards);
         }
 
         // GET: api/Standard/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<StandardDTO>> GetStandard(int id)
         {
-            var standard = await _context.standards
-                .Where(s => s.standardId == id)
+            var standard = await _context
+                .standards.Where(s => s.standardId == id)
                 .Select(s => new StandardDTO
                 {
                     standardId = s.standardId,
@@ -58,7 +62,7 @@ namespace backend.Controllers.Framework
                     componentName = s.component!.componentName,
                     functionNumber = s.function!.functionNumber,
                     functionTitle = s.function!.functionTitle,
-                    standardSummary = s.standardSummary
+                    standardSummary = s.standardSummary,
                 })
                 .FirstOrDefaultAsync();
 
@@ -73,6 +77,7 @@ namespace backend.Controllers.Framework
         // PUT: api/Standard/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutStandard(int id, StandardUpdateDTO dto)
         {
             var standard = await _context.standards.FindAsync(id);
@@ -110,6 +115,7 @@ namespace backend.Controllers.Framework
         // POST: api/Standard
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<StandardDTO>> PostStandard(StandardCreateDTO dto)
         {
             var standardModel = new Standard
@@ -118,22 +124,26 @@ namespace backend.Controllers.Framework
                 standardTitle = dto.standardTitle,
                 componentId = dto.componentId,
                 functionId = dto.functionId,
-                standardSummary = dto.standardSummary
+                standardSummary = dto.standardSummary,
             };
 
             _context.standards.Add(standardModel);
             await _context.SaveChangesAsync();
 
-            standardModel = await _context.standards
-                .Include(s => s.component)
+            standardModel = await _context
+                .standards.Include(s => s.component)
                 .Include(s => s.function)
                 .FirstOrDefaultAsync(s => s.standardId == standardModel.standardId);
 
-            if (standardModel is null || standardModel.component is null || standardModel.function is null)
+            if (
+                standardModel is null
+                || standardModel.component is null
+                || standardModel.function is null
+            )
             {
                 return NotFound();
             }
-            
+
             var standardDto = new StandardDTO
             {
                 standardId = standardModel.standardId,
@@ -141,7 +151,7 @@ namespace backend.Controllers.Framework
                 standardTitle = standardModel.standardTitle,
                 componentName = standardModel.component!.componentName,
                 functionTitle = standardModel.function!.functionTitle,
-                standardSummary = standardModel.standardSummary
+                standardSummary = standardModel.standardSummary,
             };
 
             return CreatedAtAction("GetStandard", new { id = standardDto.standardId }, standardDto);
@@ -149,6 +159,7 @@ namespace backend.Controllers.Framework
 
         // DELETE: api/Standard/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteStandard(int id)
         {
             var standard = await _context.standards.FindAsync(id);

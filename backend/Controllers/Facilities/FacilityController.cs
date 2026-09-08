@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Data;
+using backend.DTOs.Facilities;
+using backend.Models.Facilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models.Facilities;
-using backend.DTOs.Facilities;
 
 namespace backend.Controllers.Facilities
 {
@@ -26,30 +26,31 @@ namespace backend.Controllers.Facilities
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FacilityDTO>>> GetFacilities()
         {
-            return await _context.facilities.Select(f => new FacilityDTO
-            {
-                facilityId = f.facilityId,
-                facilityName = f.facilityName,
-                levelId = f.level!.levelId,
-                levelName = f.level!.levelName,
-                districtId = f.district!.districtId,
-                districtName = f.district!.districtName,
-                organizationId = f.organization!.organizationId,
-                organizationName = f.organization!.organizationName,
-                creditationStatusId = f.creditationStatus!.creditationStatusId,
-                creditationStatus = f.creditationStatus!.creditationStatus,
-                headOfService = f.headOfService ?? string.Empty,
-                comments = f.comments ?? string.Empty
-            })
-            .ToListAsync();
+            return await _context
+                .facilities.Select(f => new FacilityDTO
+                {
+                    facilityId = f.facilityId,
+                    facilityName = f.facilityName,
+                    levelId = f.level!.levelId,
+                    levelName = f.level!.levelName,
+                    districtId = f.district!.districtId,
+                    districtName = f.district!.districtName,
+                    organizationId = f.organization!.organizationId,
+                    organizationName = f.organization!.organizationName,
+                    creditationStatusId = f.creditationStatus!.creditationStatusId,
+                    creditationStatus = f.creditationStatus!.creditationStatus,
+                    headOfService = f.headOfService ?? string.Empty,
+                    comments = f.comments ?? string.Empty,
+                })
+                .ToListAsync();
         }
 
         // GET: api/Facility/5
         [HttpGet("{id}")]
         public async Task<ActionResult<FacilityDTO>> GetFacility(int id)
         {
-            var facility = await _context.facilities
-                .Where(f => f.facilityId == id)
+            var facility = await _context
+                .facilities.Where(f => f.facilityId == id)
                 .Select(f => new FacilityDTO
                 {
                     facilityId = f.facilityId,
@@ -63,7 +64,7 @@ namespace backend.Controllers.Facilities
                     creditationStatusId = f.creditationStatus!.creditationStatusId,
                     creditationStatus = f.creditationStatus!.creditationStatus,
                     headOfService = f.headOfService ?? string.Empty,
-                    comments = f.comments ?? string.Empty
+                    comments = f.comments ?? string.Empty,
                 })
                 .FirstOrDefaultAsync();
 
@@ -93,7 +94,7 @@ namespace backend.Controllers.Facilities
             facility.organizationId = dto.organizationId;
             facility.creditationStatusId = dto.creditationStatusId;
             facility.headOfService = dto.headOfService;
-            facility.comments =dto.comments;
+            facility.comments = dto.comments;
 
             try
             {
@@ -127,62 +128,43 @@ namespace backend.Controllers.Facilities
                 organizationId = dto.organizationId,
                 creditationStatusId = dto.creditationStatusId,
                 headOfService = dto.headOfService,
-                comments =dto.comments,
+                comments = dto.comments,
             };
 
             _context.facilities.Add(facilityModel);
             await _context.SaveChangesAsync();
 
-            facilityModel = await _context.facilities
-                .Include(f => f.level)
-                .FirstOrDefaultAsync(f => f.levelId == facilityModel.levelId);
-
-            if (facilityModel is null || facilityModel.level is null)
-            {
-                return NotFound();
-            }
-
-            facilityModel = await _context.facilities
+            facilityModel = await _context
+                .facilities.Include(f => f.level)
                 .Include(f => f.district)
-                .FirstOrDefaultAsync(f => f.districtId == facilityModel.districtId);
-
-            if (facilityModel is null || facilityModel.district is null)
-            {
-                return NotFound();
-            }
-
-            facilityModel = await _context.facilities
                 .Include(f => f.organization)
-                .FirstOrDefaultAsync(f => f.organizationId == facilityModel.organizationId);
-
-            if (facilityModel is null || facilityModel.organization is null)
-            {
-                return NotFound();
-            }
-
-            facilityModel = await _context.facilities
                 .Include(f => f.creditationStatus)
-                .FirstOrDefaultAsync(f => f.creditationStatusId == facilityModel.creditationStatusId);
+                .FirstOrDefaultAsync(f => f.facilityId == facilityModel.facilityId);
 
-            if (facilityModel is null || facilityModel.creditationStatus is null)
+            if (facilityModel is null)
             {
-                return NotFound();
+                // Shouldn't happen right after a successful insert, but guard anyway
+                return Problem("Facility was created but could not be reloaded.");
             }
 
             var facilityDto = new FacilityDTO
             {
                 facilityId = facilityModel.facilityId,
                 facilityName = facilityModel.facilityName,
-                levelId = facilityModel.level!.levelId,
-                levelName = facilityModel.level!.levelName,
-                districtId = facilityModel.district!.districtId,
-                districtName = facilityModel.district!.districtName,
-                organizationId = facilityModel.organization!.organizationId,
-                organizationName = facilityModel.organization!.organizationName,
-                creditationStatusId = facilityModel.creditationStatus!.creditationStatusId,
-                creditationStatus = facilityModel.creditationStatus!.creditationStatus,
+                levelId = facilityModel.level?.levelId ?? facilityModel.levelId,
+                levelName = facilityModel.level?.levelName ?? string.Empty,
+                districtId = facilityModel.district?.districtId ?? facilityModel.districtId,
+                districtName = facilityModel.district?.districtName ?? string.Empty,
+                organizationId =
+                    facilityModel.organization?.organizationId ?? facilityModel.organizationId,
+                organizationName = facilityModel.organization?.organizationName ?? string.Empty,
+                creditationStatusId =
+                    facilityModel.creditationStatus?.creditationStatusId
+                    ?? facilityModel.creditationStatusId,
+                creditationStatus =
+                    facilityModel.creditationStatus?.creditationStatus ?? string.Empty,
                 headOfService = facilityModel.headOfService ?? string.Empty,
-                comments = facilityModel.comments ?? string.Empty
+                comments = facilityModel.comments ?? string.Empty,
             };
 
             return CreatedAtAction("GetFacility", new { id = facilityDto.facilityId }, facilityDto);

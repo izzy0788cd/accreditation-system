@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Data;
+using backend.DTOs.Framework;
+using backend.Models.Framework;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using backend.Data;
-using backend.Models.Framework;
-using backend.DTOs.Framework;
-using System.Data;
 
 namespace backend.Controllers_Framework
 {
@@ -25,30 +26,33 @@ namespace backend.Controllers_Framework
 
         // GET: api/Component
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ComponentDTO>>> Getcomponents()
         {
-            return await _context.components.Select(c => new ComponentDTO
-            {
-                componentId = c.componentId,
-                componentNumber = c.componentNumber,
-                componentName = c.componentName,
-                componentSummary = c.componentSummary
-            })
-            .ToListAsync();
+            return await _context
+                .components.Select(c => new ComponentDTO
+                {
+                    componentId = c.componentId,
+                    componentNumber = c.componentNumber,
+                    componentName = c.componentName,
+                    componentSummary = c.componentSummary,
+                })
+                .ToListAsync();
         }
 
         // GET: api/Component/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<ComponentDTO>> GetComponent(int id)
         {
-            var component = await _context.components
-                .Where(c => c.componentId == id)
+            var component = await _context
+                .components.Where(c => c.componentId == id)
                 .Select(c => new ComponentDTO
                 {
                     componentId = c.componentId,
-                    componentNumber= c.componentNumber,
+                    componentNumber = c.componentNumber,
                     componentName = c.componentName,
-                    componentSummary = c.componentSummary
+                    componentSummary = c.componentSummary,
                 })
                 .FirstOrDefaultAsync();
 
@@ -63,6 +67,7 @@ namespace backend.Controllers_Framework
         // PUT: api/Component/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutComponent(int id, ComponentUpdateDTO dto)
         {
             var component = await _context.components.FindAsync(id);
@@ -75,7 +80,7 @@ namespace backend.Controllers_Framework
             component.componentNumber = dto.componentNumber;
             component.componentName = dto.componentName;
             component.componentSummary = dto.componentSummary;
-            
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -98,13 +103,14 @@ namespace backend.Controllers_Framework
         // POST: api/Component
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ComponentDTO>> PostComponent(ComponentCreateDTO component)
         {
             var componentModel = new Component
             {
                 componentNumber = component.componentNumber,
                 componentName = component.componentName,
-                componentSummary = component.componentSummary
+                componentSummary = component.componentSummary,
             };
 
             _context.components.Add(componentModel);
@@ -115,14 +121,19 @@ namespace backend.Controllers_Framework
                 componentId = componentModel.componentId,
                 componentNumber = componentModel.componentNumber,
                 componentName = componentModel.componentName,
-                componentSummary = componentModel.componentSummary
+                componentSummary = componentModel.componentSummary,
             };
 
-            return CreatedAtAction("GetComponent", new { id = componentDto.componentId }, componentDto);
+            return CreatedAtAction(
+                "GetComponent",
+                new { id = componentDto.componentId },
+                componentDto
+            );
         }
 
         // DELETE: api/Component/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteComponent(int id)
         {
             var component = await _context.components.FindAsync(id);
