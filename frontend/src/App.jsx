@@ -16,9 +16,13 @@ import StandardDetailPage from "./pages/framework/StandardDetailPage";
 import CriterionDetailPage from "./pages/framework/CriterionDetailPage";
 import EvidencePage from "./pages/framework/EvidencePage";
 import ComplianceDetailPage from "./pages/framework/ComplianceDetail";
-//import EvidenceDetailPage from "./pages/framework/EvidenceDetailPage";
 import CompleteProfilePage from "./pages/CompleteProfilePage";
 import ProfilePage from "./pages/profilePage";
+import LocationPage from "./pages/location/LocationPage";
+import RegionsPage from "./pages/location/RegionsPage";
+import ProvincesPage from "./pages/location/ProvincesPage";
+import DistrictsPage from "./pages/location/DistrictsPage";
+import LocationDashboard from "./pages/location/LocationDashboard";
 
 function App() {
   return (
@@ -30,6 +34,7 @@ function App() {
           <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
           <Route path="/complete-profile" element={<ProtectedRoute><CompleteProfilePage /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+
           <Route path="/framework" element={<ProtectedRoute><FrameworkPage /></ProtectedRoute>}>
             <Route index element={<FrameworkDashboard />} />
             <Route path="functions" element={<FunctionsPage />} />
@@ -41,7 +46,13 @@ function App() {
             <Route path="compliance" element={<CompliancePage />} />
             <Route path="compliance/:complianceId" element={<ComplianceDetailPage />} />
             <Route path="evidence" element={<EvidencePage />} />
-            {/* add as built: standards, criteria, compliance, evidence */}
+          </Route>
+
+          <Route path="/location" element={<ProtectedRoute><LocationPage /></ProtectedRoute>}>
+            <Route index element={<LocationDashboard />} />
+            <Route path="regions" element={<RegionsPage />} />
+            <Route path="provinces" element={<ProvincesPage />} />
+            <Route path="districts" element={<DistrictsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -32,7 +32,7 @@ namespace backend.Controllers_Location
                 .districts.Select(d => new DistrictDTO
                 {
                     districtId = d.districtId,
-                    distrctName = d.districtName,
+                    districtName = d.districtName,
                     provinceId = d.province!.provinceId,
                     provinceName = d.province!.provinceName,
                 })
@@ -51,7 +51,7 @@ namespace backend.Controllers_Location
                 .Select(d => new DistrictDTO
                 {
                     districtId = d.districtId,
-                    distrctName = d.districtName,
+                    districtName = d.districtName,
                     provinceId = d.province!.provinceId,
                     provinceName = d.province!.provinceName,
                 })
@@ -127,7 +127,7 @@ namespace backend.Controllers_Location
             var districtDto = new DistrictDTO
             {
                 districtId = districtModel.districtId,
-                distrctName = districtModel.districtName,
+                districtName = districtModel.districtName,
                 provinceId = districtModel.province!.provinceId,
                 provinceName = districtModel.province!.provinceName,
             };

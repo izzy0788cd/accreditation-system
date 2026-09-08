@@ -15,13 +15,14 @@ export const setAuthToken = (token) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
+    const isLoginRequest = error.config?.url?.includes("/auth/login");
+    if (error.response?.status === 401 && !isLoginRequest) {
       setAuthToken(null);
       window.location.href = "/login";
     }
     return Promise.reject(error);
   }
-)
+);
 
 export const login = (username, password) => 
   api.post("/auth/login", { username, password });

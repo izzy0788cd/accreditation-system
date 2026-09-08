@@ -73,7 +73,7 @@ namespace backend.Controllers.Assessment
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<IActionResult> Update(int id, ComplianceAssessmentUpdateDTO dto)
         {
             var assessment = await _context

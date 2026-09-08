@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 const links = [
   { to: "/", label: "Home", end: true },
   { to: "/framework", label: "Framework" },
+  { to: "/location", label: "Location" },
 ];
 
 function Navbar() {

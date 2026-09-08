@@ -11,17 +11,19 @@ function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setIsSubmitting(true);
     try {
-    const hasProfile = await login(username, password);
-    navigate(hasProfile ? "/framework" : "/complete-profile");
+      const hasProfile = await login(username, password);
+      navigate(hasProfile ? "/framework" : "/complete-profile");
     } catch {
-    setError("Incorrect username or password.");
+      setError("Incorrect username or password.");
+    } finally {
+      setIsSubmitting(false);
     }
-  };
+};
 
   return (
     <div className="min-h-[calc(100vh-57px)] bg-gray-50 flex items-center justify-center px-4">
