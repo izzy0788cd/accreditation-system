@@ -7,12 +7,14 @@ using backend.DTOs.Facilities;
 using backend.Models.Facilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers.Facilities
 {
     [Route("api/facilities")]
     [ApiController]
+    [Authorize]
     public class FacilityController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -79,6 +81,7 @@ namespace backend.Controllers.Facilities
         // PUT: api/Facility/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutFacility(int id, FacilityUpdateDTO dto)
         {
             var facility = await _context.facilities.FindAsync(id);
@@ -118,6 +121,7 @@ namespace backend.Controllers.Facilities
         // POST: api/Facility
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<FacilityDTO>> PostFacility(FacilityCreateDTO dto)
         {
             var facilityModel = new Facility
@@ -167,11 +171,12 @@ namespace backend.Controllers.Facilities
                 comments = facilityModel.comments ?? string.Empty,
             };
 
-            return CreatedAtAction("GetFacility", new { id = facilityDto.facilityId }, facilityDto);
+            return CreatedAtAction(nameof(GetFacility), new { id = facilityDto.facilityId }, facilityDto);
         }
 
         // DELETE: api/Facility/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteFacility(int id)
         {
             var facility = await _context.facilities.FindAsync(id);

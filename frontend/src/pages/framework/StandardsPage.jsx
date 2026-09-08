@@ -83,11 +83,11 @@ function StandardsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">Standards</h1>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">Framework layer</p><h2 className="mt-1 text-2xl font-bold tracking-tight text-[#143c42]">Standards</h2></div>
         <button
           onClick={handleAddClick}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="rounded-lg bg-[#087c77] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#05635f]"
         >
           + Add Standard
         </button>
@@ -98,43 +98,41 @@ function StandardsPage() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="border-b text-left">
+        <div className="overflow-x-auto rounded-xl border border-[#e2ecea] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[800px] text-sm"><thead className="border-b border-[#dce9e7] bg-[#f5faf9] text-xs uppercase tracking-wider text-[#527076]"><tr className="text-left">
               {/* <th className="p-2">Function</th> */}
               {/* <th className="p-2">Component</th> */}
               <th className="p-2">NHSS Standard</th>
               <th className="p-2">Title</th>
               <th className="p-2">Summary</th>
-              <th className="p-2">Actions</th>
+              <th className="p-2 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-[#e7efed]">
             {sortedStandards.map((s) => (
-              <tr key={s.standardId} className="border-b">
+              <tr key={s.standardId} className="hover:bg-[#f5fbfa]">
                 {/* <td className="p-2 text-center font-semibold">{s.functionNumber}</td> */}
                 {/* <td className="p-2 text-center font-semibold">{s.componentNumber}</td> */}
                 <td className="p-2 text-left font-semibold"><Link to={`/framework/standards/${s.standardId}`} className="text-blue-600 hover:underline">{s.standardNumber}</Link></td>
                 <td className="p-2">{s.standardTitle}</td>
                 <td className="p-2 text-justify">{s.standardSummary}</td>
-                <td className="p-2 space-x-2">
+                <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap">
                   <button
                     onClick={() => handleEditClick(s)}
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-20 mb-2"
+                    className="rounded-md border border-[#b9d6d1] px-3 py-1.5 text-xs font-semibold text-[#087c77] hover:bg-teal-50"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDeleteClick(s)}
-                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 w-20 mb-2"
+                    className="rounded-md border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-50"
                   >
                     Delete
-                  </button>
+                  </button></div>
                 </td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       )}
 
       <FormModal open={showForm} onClose={handleCancel}>

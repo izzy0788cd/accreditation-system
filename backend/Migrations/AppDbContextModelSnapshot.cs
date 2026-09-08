@@ -22,6 +22,37 @@ namespace backend.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("backend.Models.Accounts.RefreshToken", b =>
+                {
+                    b.Property<int>("refreshTokenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("refreshTokenId"));
+
+                    b.Property<DateTime>("expiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("revokedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("tokenHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("userAccountId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("refreshTokenId");
+
+                    b.HasIndex("tokenHash")
+                        .IsUnique();
+
+                    b.HasIndex("userAccountId");
+
+                    b.ToTable("refreshTokens");
+                });
+
             modelBuilder.Entity("backend.Models.Accounts.Role", b =>
                 {
                     b.Property<int>("roleId")
@@ -764,6 +795,17 @@ namespace backend.Migrations
                     b.ToTable("scores");
                 });
 
+            modelBuilder.Entity("backend.Models.Accounts.RefreshToken", b =>
+                {
+                    b.HasOne("backend.Models.Accounts.UserAccount", "userAccount")
+                        .WithMany("refreshTokens")
+                        .HasForeignKey("userAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("userAccount");
+                });
+
             modelBuilder.Entity("backend.Models.Accounts.User", b =>
                 {
                     b.HasOne("backend.Models.Facilities.Organization", "organization")
@@ -1040,6 +1082,8 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Accounts.UserAccount", b =>
                 {
+                    b.Navigation("refreshTokens");
+
                     b.Navigation("user");
                 });
 

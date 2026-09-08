@@ -25,24 +25,19 @@ function FunctionForm ({ initialData, onSubmit, onCancel }) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="mb-8 space-y-3 border p-4 rounded">
-            <h2 className="text-lg font-semibold">{initialData ? "Edit Function" : "Add Function"}</h2>
+        <form onSubmit={handleSubmit} className="space-y-5"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">Framework</p><h2 className="mt-1 text-xl font-bold text-[#143c42]">{initialData ? "Edit function" : "Add a function"}</h2></div>
             <div>
-                <label className="block text-sm font-medium mb-1">Number</label>
-                <input type="text" name="functionNumber" value={formData.functionNumber} onChange={handleChange} required maxLength={10} className="border rounded px-3 py-2 w-full"></input>
+                <label className="mb-1.5 block text-sm font-semibold text-[#284e53]">Number</label><input type="text" name="functionNumber" value={formData.functionNumber} onChange={handleChange} required maxLength={10} className="w-full rounded-lg border border-[#b9d6d1] px-3 py-2.5 text-sm outline-none focus:border-[#087c77] focus:ring-2 focus:ring-teal-100"></input>
             </div>
             <div>
-            <label className="block text-sm font-medium mb-1">Title</label>
-                <input type="text" name="functionTitle" value={formData.functionTitle} onChange={handleChange} required maxLength={100} className="border rounded px-3 py-2 w-full" />
+            <label className="mb-1.5 block text-sm font-semibold text-[#284e53]">Title</label><input type="text" name="functionTitle" value={formData.functionTitle} onChange={handleChange} required maxLength={100} className="w-full rounded-lg border border-[#b9d6d1] px-3 py-2.5 text-sm outline-none focus:border-[#087c77] focus:ring-2 focus:ring-teal-100" />
             </div>
             <div>
-                <label className="block text-sm font-medium mb-1">Summary</label>
-                <textarea name="functionSummary" value={formData.functionSummary} onChange={handleChange} className="border rounded px-3 py-2 w-full" rows={3} />
+                <label className="mb-1.5 block text-sm font-semibold text-[#284e53]">Summary</label><textarea name="functionSummary" value={formData.functionSummary} onChange={handleChange} className="w-full rounded-lg border border-[#b9d6d1] px-3 py-2.5 text-sm outline-none focus:border-[#087c77] focus:ring-2 focus:ring-teal-100" rows={3} />
             </div>
 
             <div className="flex gap-2">
-                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" >{initialData ? "Update" : "Add"}</button>
-                <button type="button" onClick={onCancel} className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400" >Cancel</button>
+                <button type="submit" className="rounded-lg bg-[#087c77] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#05635f]" >{initialData ? "Save changes" : "Add function"}</button><button type="button" onClick={onCancel} className="rounded-lg px-4 py-2.5 text-sm font-semibold text-[#527076] hover:bg-slate-100" >Cancel</button>
             </div>
         </form>
     )

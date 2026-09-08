@@ -71,12 +71,11 @@ function StandardForm ({ initialData, onSubmit, onCancel }) {
     );
 
     return (
-        <form onSubmit={handleSubmit} className="mb-8 space-y-3 border p-4 rounded">
-            <h2 className="text-lg font-semibold">{initialData ? "Edit Standard" : "Add Standard"}</h2>
+        <form onSubmit={handleSubmit} className="space-y-5"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">Framework</p><h2 className="mt-1 text-xl font-bold text-[#143c42]">{initialData ? "Edit standard" : "Add a standard"}</h2></div>
 
             <div>
                 <label className="block text-sm font-medium mb-1">Function</label>
-                <select name="functionId" value={formData.functionId} onChange={handleChange} required className="border rounded px-3 py-2 w-full" >
+                <select name="functionId" value={formData.functionId} onChange={handleChange} required className="w-full rounded-lg border border-[#b9d6d1] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#087c77] focus:ring-2 focus:ring-teal-100" >
                     <option value="">Select a Function</option>
                     {sortedFunctions.map((f) => (
                         <option key={f.functionId} value={f.functionId}>{f.functionNumber} - {f.functionTitle}</option>
@@ -86,7 +85,7 @@ function StandardForm ({ initialData, onSubmit, onCancel }) {
 
             <div>
                 <label className="block text-sm font-medium mb-1">Component</label>
-                <select name="componentId" value={formData.componentId} onChange={handleChange} required className="border rounded px-3 py-2 w-full" >
+                <select name="componentId" value={formData.componentId} onChange={handleChange} required className="w-full rounded-lg border border-[#b9d6d1] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#087c77] focus:ring-2 focus:ring-teal-100" >
                     <option value="">Select a Component</option>
                     {sortedComponents.map((c) => (
                         <option key={c.componentId} value={c.componentId}>{c.componentNumber} - {c.componentName}</option>
@@ -96,22 +95,21 @@ function StandardForm ({ initialData, onSubmit, onCancel }) {
 
             <div>
                 <label className="block text-sm font-medium mb-1">Standard No.</label>
-                <input type="text" name="standardNumber" value={formData.standardNumber} onChange={handleChange} required maxLength={10} className="border rounded px-3 py-2 w-full" />
+                <input type="text" name="standardNumber" value={formData.standardNumber} onChange={handleChange} required maxLength={10} className="w-full rounded-lg border border-[#b9d6d1] px-3 py-2.5 text-sm outline-none focus:border-[#087c77] focus:ring-2 focus:ring-teal-100" />
             </div>
 
             <div>
                 <label className="block text-sm font-medium mb-1">Standard Title</label>
-                <input typeof="text" name="standardTitle" value={formData.standardTitle} onChange={handleChange} required className="border rounded px-3 py-2 w-full" />
+                <input type="text" name="standardTitle" value={formData.standardTitle} onChange={handleChange} required className="w-full rounded-lg border border-[#b9d6d1] px-3 py-2.5 text-sm outline-none focus:border-[#087c77] focus:ring-2 focus:ring-teal-100" />
             </div>
 
             <div>
                 <label className="block text-sm font-medium mb-1">Standard Summary</label>
-                <textarea name="standardSummary" value={formData.standardSummary} onChange={handleChange} required className="border rounded px-3 py-2 w-full" />
+                <textarea name="standardSummary" value={formData.standardSummary} onChange={handleChange} required rows={4} className="w-full rounded-lg border border-[#b9d6d1] px-3 py-2.5 text-sm outline-none focus:border-[#087c77] focus:ring-2 focus:ring-teal-100" />
             </div>
 
             <div className="flex gap-2">
-                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">{initialData ? "Update" : "Add"}</button>
-                <button type="button" className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400" onClick={onCancel}>Cancel</button>
+                <button type="submit" className="rounded-lg bg-[#087c77] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#05635f]">{initialData ? "Save changes" : "Add standard"}</button><button type="button" className="rounded-lg px-4 py-2.5 text-sm font-semibold text-[#527076] hover:bg-slate-100" onClick={onCancel}>Cancel</button>
             </div>
         </form>
     )

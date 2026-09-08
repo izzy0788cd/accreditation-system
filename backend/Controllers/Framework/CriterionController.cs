@@ -110,7 +110,7 @@ namespace backend.Controllers_Framework
 
         // PATCH: api/Criterion/1/applicability
         [HttpPatch("{id}/applicability")]
-        [Authorize(Roles = "Admin, Surveyor")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PatchCriterionApplicability(
             int id,
             [FromBody] bool isApplicable

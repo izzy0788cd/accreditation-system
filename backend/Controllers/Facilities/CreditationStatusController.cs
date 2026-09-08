@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models.Facilities;
 using backend.DTOs.Facilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers.Facilities
 {
     [Route("api/creditationstatuses")]
     [ApiController]
+    [Authorize]
     public class CreditationStatusController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -62,6 +64,7 @@ namespace backend.Controllers.Facilities
         // PUT: api/CreditationStatus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutCreditationStatus(int id, CreditationStatusUpdateDTO dto)
         {
             var creditationStatus = await _context.creditationStatuses.FindAsync(id);
@@ -97,12 +100,13 @@ namespace backend.Controllers.Facilities
         // POST: api/CreditationStatus
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<CreditationStatusDTO>> PostCreditationStatus(CreditationStatusCreateDTO dto)
         {
             var creditationStatusModel = new CreditationStatus
             {
                 creditationStatus = dto.creditationStatus,
-                description = dto.desctiption ?? string.Empty,
+                description = dto.description ?? string.Empty,
                 comments = dto.comments ?? string.Empty
             };
 
@@ -111,16 +115,18 @@ namespace backend.Controllers.Facilities
 
             var creditationStatusDto = new CreditationStatusDTO
             {
+                creditationStatusId = creditationStatusModel.creditationStatusId,
                 creditationStatus = creditationStatusModel.creditationStatus,
                 description = creditationStatusModel.description,
                 comments = creditationStatusModel.comments,
             };
 
-            return CreatedAtAction("GetCreditationStatus", new { id = creditationStatusDto.creditationStatusId }, creditationStatusDto);
+            return CreatedAtAction(nameof(GetCreditationStatus), new { id = creditationStatusDto.creditationStatusId }, creditationStatusDto);
         }
 
         // DELETE: api/CreditationStatus/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCreditationStatus(int id)
         {
             var creditationStatus = await _context.creditationStatuses.FindAsync(id);

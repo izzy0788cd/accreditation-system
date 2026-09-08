@@ -108,7 +108,7 @@ namespace backend.Controllers_Framework
 
         // PATCH: api/evidence/5/applicability
         [HttpPatch("{id}/applicability")]
-        [Authorize(Roles = "Admin, Surveyor")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PatchEvidenceApplicability(
             int id,
             [FromBody] bool isApplicable

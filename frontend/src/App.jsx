@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ErrorDialog from "./components/ErrorDialog";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LoginPage from "./pages/loginPage";
 import Navbar from "./components/Navbar";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/homePage";
 import FrameworkPage from "./pages/FrameworkPage";
 import FrameworkDashboard from "./pages/FrameworkDashboard";
 import ComponentsPage from "./pages/framework/ComponentsPage";
@@ -23,12 +25,21 @@ import RegionsPage from "./pages/location/RegionsPage";
 import ProvincesPage from "./pages/location/ProvincesPage";
 import DistrictsPage from "./pages/location/DistrictsPage";
 import LocationDashboard from "./pages/location/LocationDashboard";
+import FacilityPage from "./pages/facilities/FacilityPage";
+import FacilityDashboard from "./pages/facilities/FacilityDashboard";
+import FacilitiesPage from "./pages/facilities/FacilitiesPage";
+import FacilityDetailPage from "./pages/facilities/FacilityDetailPage";
+import ReferenceDataPage from "./pages/facilities/ReferenceDataPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
+  const [saveError, setSaveError] = useState("");
+  useEffect(() => { const showError = (event) => setSaveError(event.detail); window.addEventListener("api-save-error", showError); return () => window.removeEventListener("api-save-error", showError); }, []);
   return (
     <AuthProvider>
       <BrowserRouter>
         <Navbar />
+        <ErrorDialog message={saveError} onClose={() => setSaveError("")} />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
@@ -54,6 +65,13 @@ function App() {
             <Route path="provinces" element={<ProvincesPage />} />
             <Route path="districts" element={<DistrictsPage />} />
           </Route>
+          <Route path="/facilities" element={<ProtectedRoute><FacilityPage /></ProtectedRoute>}>
+            <Route index element={<FacilityDashboard />} />
+            <Route path="directory" element={<FacilitiesPage />} />
+            <Route path="directory/:facilityId" element={<FacilityDetailPage />} />
+            <Route path="reference-data" element={<ReferenceDataPage />} />
+          </Route>
+          <Route path="*" element={<ProtectedRoute><NotFoundPage /></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

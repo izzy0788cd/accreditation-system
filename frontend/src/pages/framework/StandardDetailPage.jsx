@@ -14,7 +14,7 @@ function StandardDetailPage() {
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [, setSuccessMessage] = useState(null);
 
   const loadData = async () => {
     try {
@@ -107,12 +107,12 @@ const handleSubmit = async (formData) => {
 
   return (
     <div>
-      <Link to="/framework/standards" className="text-blue-600 hover:underline text-sm">
+      <Link to="/framework/standards" className="text-sm font-semibold text-[#087c77] hover:underline">
         ← Back to Standards
       </Link>
 
-      <div className="mt-2 mb-6">
-        <h1 className="text-2xl font-bold">
+      <div className="mb-6 mt-3 rounded-xl border border-[#cde5e0] bg-[linear-gradient(125deg,#e8f5f3_0%,#f8fbfa_100%)] px-6 py-5">
+        <p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">NHSS standard</p><h1 className="mt-1 text-2xl font-bold tracking-tight text-[#143c42]">
           {standard.standardNumber} — {standard.standardTitle}
         </h1>
         {standard.standardSummary && (
@@ -122,23 +122,22 @@ const handleSubmit = async (formData) => {
 
       {error && <p className="text-red-600 mb-4">{error}</p>}
 
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold">Criteria</h2>
+      <div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-bold text-[#143c42]">Criteria</h2>
         <button
           onClick={handleAddClick}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="rounded-lg bg-[#087c77] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#05635f]"
         >
           + Add Criterion
         </button>
       </div>
 
-      <table className="w-full border-collapse">
+      <div className="overflow-x-auto rounded-xl border border-[#e2ecea] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[700px] text-sm">
         <thead>
           <tr className="border-b text-left">
             <th className="p-2">Number</th>
             <th className="p-2">Title</th>
             <th className="p-2">Applicable</th>
-            <th className="p-2 text-center">Actions</th>
+            <th className="p-2 text-right">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -158,24 +157,23 @@ const handleSubmit = async (formData) => {
                   {c.isApplicable ? "Applicable" : "Not Applicable"}
                 </button>
               </td>
-              <td className="p-2 space-x-2">
-                <button
+              <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap"><button
                   onClick={() => handleEditClick(c)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-20"
+                  className="rounded-md border border-[#b9d6d1] px-3 py-1.5 text-xs font-semibold text-[#087c77] hover:bg-teal-50"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDeleteClick(c)}
-                  className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 w-20"
+                  className="rounded-md border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-50"
                 >
                   Delete
-                </button>
+                </button></div>
               </td>
             </tr>
           ))}
         </tbody>
-      </table>
+      </table></div>
 
       <FormModal open={showForm} onClose={handleCancel}>
         <CriterionForm

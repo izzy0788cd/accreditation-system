@@ -119,7 +119,7 @@ namespace backend.Controllers_Facilities
 
             organizationModel = await _context
                 .organizations.Include(o => o.category)
-                .FirstOrDefaultAsync(o => o.categoryId == organizationModel.categoryId);
+                .FirstOrDefaultAsync(o => o.organizationId == organizationModel.organizationId);
 
             if (organizationModel is null || organizationModel.category is null)
             {
@@ -136,7 +136,7 @@ namespace backend.Controllers_Facilities
             };
 
             return CreatedAtAction(
-                "GetOrganization",
+                nameof(GetOrganization),
                 new { id = organizationDto.organizationId },
                 organizationDto
             );

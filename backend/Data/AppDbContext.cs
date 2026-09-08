@@ -44,6 +44,7 @@ namespace backend.Data
         public DbSet<Role> roles { get; set; }
         public DbSet<UserAccount> userAccounts { get; set; }
         public DbSet<User> users { get; set; }
+        public DbSet<RefreshToken> refreshTokens { get; set; }
 
         //db sets for scores & risk rating
         public DbSet<Score> scores { get; set; }
@@ -205,6 +206,8 @@ namespace backend.Data
                 .OnDelete(DeleteBehavior.Restrict);
             
             modelBuilder.Entity<UserAccount>().HasKey(ua => ua.userAccountId);
+            modelBuilder.Entity<RefreshToken>().HasIndex(rt => rt.tokenHash).IsUnique();
+            modelBuilder.Entity<RefreshToken>().HasOne(rt => rt.userAccount).WithMany(ua => ua.refreshTokens).HasForeignKey(rt => rt.userAccountId).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>().HasKey(u => u.userId);
             modelBuilder.Entity<User>()

@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { getOwnProfile, updateOwnProfile, getAll } from "../api/api";
+import { useAuth } from "../context/AuthContext";
 
 function getInitials(firstName, lastName) {
   return `${firstName?.[0] || ""}${lastName?.[0] || ""}`.toUpperCase();
 }
 
 function ProfilePage() {
+  const { setProfile: setAuthProfile } = useAuth();
   const [profile, setProfile] = useState(null);
   const [organizations, setOrganizations] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -40,7 +42,9 @@ function ProfilePage() {
         ...form,
         organizationId: Number(form.organizationId),
       });
-      loadProfile();
+      const updated = await getOwnProfile();
+      setAuthProfile(updated.data);
+      setForm(updated.data);
       setIsEditing(false);
     } catch {
       setError("Could not save changes. Check the required fields and try again.");
@@ -62,12 +66,12 @@ function ProfilePage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-57px)] bg-gray-50 px-4 py-10">
+    <main className="min-h-[calc(100vh-57px)] bg-[#f7fbfa] px-4 py-10">
       <div className="mx-auto w-full max-w-2xl">
-        <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+        <div className="overflow-hidden rounded-2xl border border-[#dce9e7] bg-white shadow-[0_12px_30px_rgba(20,60,66,0.08)]">
           {/* Identity header */}
-          <div className="px-8 pt-8 pb-6 border-b border-gray-100 flex items-center gap-4">
-            <div className="h-14 w-14 shrink-0 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg font-semibold">
+          <div className="flex items-center gap-4 border-b border-[#e1ecea] bg-[linear-gradient(125deg,#e8f5f3_0%,#f8fbfa_100%)] px-8 pb-6 pt-8">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#087c77] text-lg font-semibold text-white">
               {getInitials(profile.firstName, profile.lastName)}
             </div>
             <div className="min-w-0">
@@ -82,7 +86,7 @@ function ProfilePage() {
             {!isEditing && (
               <button
                 onClick={() => setIsEditing(true)}
-                className="ml-auto shrink-0 text-sm font-medium text-blue-600 hover:text-blue-700"
+                className="ml-auto shrink-0 rounded-md border border-[#b9d6d1] px-3 py-1.5 text-sm font-semibold text-[#087c77] hover:bg-teal-50"
               >
                 Edit
               </button>
@@ -97,7 +101,7 @@ function ProfilePage() {
             )}
 
             {isEditing ? (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4 [&_input]:rounded-lg [&_input]:border-[#b9d6d1] [&_input:focus]:border-[#087c77] [&_input:focus]:ring-teal-100 [&_select]:rounded-lg [&_select]:border-[#b9d6d1] [&_select:focus]:border-[#087c77] [&_select:focus]:ring-teal-100 [&_textarea]:rounded-lg [&_textarea]:border-[#b9d6d1] [&_textarea:focus]:border-[#087c77] [&_textarea:focus]:ring-teal-100">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
@@ -213,7 +217,7 @@ function ProfilePage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex-1 rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="flex-1 rounded-lg bg-[#087c77] px-3 py-2.5 text-sm font-semibold text-white hover:bg-[#05635f] disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {isSubmitting ? "Saving…" : "Save changes"}
                   </button>
@@ -224,7 +228,7 @@ function ProfilePage() {
                       setIsEditing(false);
                       setError("");
                     }}
-                    className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                    className="flex-1 rounded-lg border border-[#b9d6d1] px-3 py-2.5 text-sm font-semibold text-[#527076] hover:bg-slate-50"
                   >
                     Cancel
                   </button>
@@ -257,7 +261,7 @@ function ProfilePage() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
