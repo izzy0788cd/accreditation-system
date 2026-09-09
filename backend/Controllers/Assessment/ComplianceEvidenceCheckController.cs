@@ -1,5 +1,6 @@
 using backend.Data;
 using backend.DTOs.Assessment;
+using backend.Models.Assessment;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +16,73 @@ namespace backend.Controllers.Assessment
 
         public ComplianceEvidenceCheckController(AppDbContext context) => _context = context;
 
+        // A survey snapshots the evidence list when it is created. Framework evidence can
+        // subsequently be added (for example, evidence for compliance 1.4.8), so bring an
+        // existing survey checklist up to date before returning it. Existing check states
+        // are deliberately left untouched.
+        private async Task EnsureCurrentEvidenceChecksAsync(int surveyId)
+        {
+            var assessmentEvidencePairs = await _context.complianceAssessments
+                .Where(assessment => assessment.surveyId == surveyId)
+                .SelectMany(assessment => _context.evidence
+                    .Where(evidence =>
+                        evidence.complianceId == assessment.complianceId
+                        && evidence.isApplicable
+                    )
+                    .Select(evidence => new
+                    {
+                        assessment.complianceAssessmentId,
+                        evidence.evidenceId,
+                    })
+                )
+                .ToListAsync();
+
+            if (assessmentEvidencePairs.Count == 0)
+                return;
+
+            var assessmentIds = assessmentEvidencePairs
+                .Select(pair => pair.complianceAssessmentId)
+                .Distinct()
+                .ToList();
+            var existingPairs = await _context.complianceEvidenceChecks
+                .Where(check => assessmentIds.Contains(check.complianceAssessmentId))
+                .Select(check => new { check.complianceAssessmentId, check.evidenceId })
+                .ToListAsync();
+            var existing = existingPairs
+                .Select(pair => (pair.complianceAssessmentId, pair.evidenceId))
+                .ToHashSet();
+            var missing = assessmentEvidencePairs
+                .Where(pair => !existing.Contains((pair.complianceAssessmentId, pair.evidenceId)))
+                .Select(pair => new ComplianceEvidenceCheck
+                {
+                    complianceAssessmentId = pair.complianceAssessmentId,
+                    evidenceId = pair.evidenceId,
+                    isChecked = false,
+                })
+                .ToList();
+
+            if (missing.Count == 0)
+                return;
+
+            _context.complianceEvidenceChecks.AddRange(missing);
+            await _context.SaveChangesAsync();
+        }
+
         [HttpGet("assessment/{complianceAssessmentId}")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<ComplianceEvidenceCheckDTO>>> GetForAssessment(
             int complianceAssessmentId
         )
         {
+            var surveyId = await _context.complianceAssessments
+                .Where(assessment => assessment.complianceAssessmentId == complianceAssessmentId)
+                .Select(assessment => (int?)assessment.surveyId)
+                .FirstOrDefaultAsync();
+            if (!surveyId.HasValue)
+                return NotFound();
+
+            await EnsureCurrentEvidenceChecksAsync(surveyId.Value);
+
             var checks = await _context
                 .complianceEvidenceChecks.Where(ce =>
                     ce.complianceAssessmentId == complianceAssessmentId
@@ -43,6 +105,11 @@ namespace backend.Controllers.Assessment
         [Authorize]
         public async Task<ActionResult<IEnumerable<ComplianceEvidenceCheckDTO>>> GetForSurvey(int surveyId)
         {
+            if (!await _context.surveys.AnyAsync(survey => survey.surveyId == surveyId))
+                return NotFound();
+
+            await EnsureCurrentEvidenceChecksAsync(surveyId);
+
             var checks = await _context
                 .complianceEvidenceChecks.Where(check =>
                     check.complianceAssessment!.surveyId == surveyId

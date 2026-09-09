@@ -68,7 +68,7 @@ namespace backend.Controllers
             var rawRefreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
             _context.refreshTokens.Add(new RefreshToken { userAccountId = userAccount.userAccountId, tokenHash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(rawRefreshToken))), expiresAt = DateTime.UtcNow.AddDays(int.Parse(_config["Jwt:RefreshExpiryDays"]!)) });
             await _context.SaveChangesAsync();
-            Response.Cookies.Append("refreshToken", rawRefreshToken, new CookieOptions { HttpOnly = true, Secure = !HttpContext.Request.IsHttps ? false : true, SameSite = SameSiteMode.Lax, Expires = DateTimeOffset.UtcNow.AddDays(int.Parse(_config["Jwt:RefreshExpiryDays"]!)), Path = "/api/auth" });
+            Response.Cookies.Append("refreshToken", rawRefreshToken, new CookieOptions { HttpOnly = true, Secure = !HttpContext.Request.IsHttps ? false : true, SameSite = SameSiteMode.Lax, Path = "/api/auth" });
 
             return Ok(new LoginResponseDTO
             {
@@ -103,7 +103,7 @@ namespace backend.Controllers
             var refreshDays = int.Parse(_config["Jwt:RefreshExpiryDays"]!);
             _context.refreshTokens.Add(new RefreshToken { userAccountId = refreshToken.userAccountId, tokenHash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(replacement))), expiresAt = DateTime.UtcNow.AddDays(refreshDays) });
             await _context.SaveChangesAsync();
-            Response.Cookies.Append("refreshToken", replacement, new CookieOptions { HttpOnly = true, Secure = Request.IsHttps, SameSite = SameSiteMode.Lax, Expires = DateTimeOffset.UtcNow.AddDays(refreshDays), Path = "/api/auth" });
+            Response.Cookies.Append("refreshToken", replacement, new CookieOptions { HttpOnly = true, Secure = Request.IsHttps, SameSite = SameSiteMode.Lax, Path = "/api/auth" });
             return Ok(CreateLoginResponse(refreshToken.userAccount));
         }
 

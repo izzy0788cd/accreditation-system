@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { login as loginRequest, logoutSession, refreshSession, setAuthToken, getOwnProfile } from "../api/api";
 
 const AuthContext = createContext(null);
+const TAB_SESSION_KEY = "accreditation-auth-tab";
 
 export function AuthProvider({ children }) {
   const [auth, setAuth] = useState(null);
@@ -23,6 +24,14 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
+    if (sessionStorage.getItem(TAB_SESSION_KEY) !== "active") {
+      // A new tab must not revive a previous tab's refresh session. sessionStorage
+      // survives reloads, but is cleared when the tab is closed.
+      logoutSession().catch(() => {});
+      setIsInitializing(false);
+      return;
+    }
+
     refreshSession()
       .then(({ data }) => { setAuthToken(data.token); setAuth({ token: data.token, username: data.username, roleName: data.roleName }); return checkProfile(); })
       .catch(() => {})
@@ -33,12 +42,14 @@ export function AuthProvider({ children }) {
     const response = await loginRequest(username, password);
     const { token, username: name, roleName } = response.data;
     setAuthToken(token);
+    sessionStorage.setItem(TAB_SESSION_KEY, "active");
     setAuth({ token, username: name, roleName });
     return checkProfile();
   };
 
   const logout = () => {
     logoutSession().catch(() => {});
+    sessionStorage.removeItem(TAB_SESSION_KEY);
     setAuthToken(null);
     setAuth(null);
     setHasProfile(false);

@@ -37,6 +37,8 @@ import SurveysPage from "./pages/surveys/SurveysPage";
 import SurveyAssessmentPage from "./pages/surveys/SurveyAssessmentPage";
 import SurveySetupPage from "./pages/surveys/SurveySetupPage";
 import SurveyAdminPage from "./pages/surveys/SurveyAdminPage";
+import SurveyResultsPage from "./pages/surveys/SurveyResultsPage";
+import SurveyTeamLeadDashboardPage from "./pages/surveys/SurveyTeamLeadDashboardPage";
 
 function App() {
   const [saveError, setSaveError] = useState("");
@@ -55,6 +57,8 @@ function App() {
           <Route path="/surveys" element={<ProtectedRoute><SurveysPage /></ProtectedRoute>} />
           <Route path="/surveys/setup" element={<ProtectedRoute><AdminRoute><SurveySetupPage /></AdminRoute></ProtectedRoute>} />
           <Route path="/surveys/:surveyId/admin" element={<ProtectedRoute><AdminRoute><SurveyAdminPage /></AdminRoute></ProtectedRoute>} />
+          <Route path="/surveys/:surveyId/team-dashboard" element={<ProtectedRoute><SurveyTeamLeadDashboardPage /></ProtectedRoute>} />
+          <Route path="/surveys/:surveyId/results" element={<ProtectedRoute><SurveyResultsPage /></ProtectedRoute>} />
           <Route path="/surveys/:surveyId" element={<ProtectedRoute><SurveyAssessmentPage /></ProtectedRoute>} />
 
           <Route path="/framework" element={<ProtectedRoute><FrameworkPage /></ProtectedRoute>}>

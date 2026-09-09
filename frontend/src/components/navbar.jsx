@@ -24,7 +24,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-40 border-b border-[#dce9e7] bg-white/95 shadow-sm backdrop-blur">
+    <nav className="print:hidden sticky top-0 z-40 border-b border-[#dce9e7] bg-white/95 shadow-sm backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6">
         <NavLink to="/" end className="mr-1 flex shrink-0 items-center gap-2" aria-label="Accreditation System home">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#087c77] text-sm font-bold text-white">A</span>

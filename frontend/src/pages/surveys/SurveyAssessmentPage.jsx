@@ -15,6 +15,11 @@ import ConfirmDialog from "../../components/ConfirmDialog";
 import { useAuth } from "../../context/AuthContext";
 
 const percentage = (complete, total) => (total ? Math.round((complete / total) * 100) : 0);
+const compareNumber = (first, second) => String(first ?? "").localeCompare(
+  String(second ?? ""),
+  undefined,
+  { numeric: true, sensitivity: "base" },
+);
 
 function ProgressBar({ label, value }) {
   return (
@@ -47,14 +52,23 @@ function SurveyAssessmentPage() {
   const [resetting, setResetting] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [resumeAssessmentId, setResumeAssessmentId] = useState(null);
   const isSurveyor = auth?.roleName === "Surveyor";
   const isAdmin = auth?.roleName === "Admin";
   const isExternal = survey?.surveyTypeName === "External";
   const isOverview = searchParams.get("view") === "overview";
+  const resumeFromQuery = Number(searchParams.get("resume")) || null;
+  const resumeStorageKey = `survey-resume-${profile?.userId || "anonymous"}-${surveyId}`;
 
-  const load = async () => {
+  const rememberPosition = (assessmentId) => {
+    const position = { assessmentId, savedAt: new Date().toISOString() };
+    localStorage.setItem(resumeStorageKey, JSON.stringify(position));
+    setResumeAssessmentId(assessmentId);
+  };
+
+  const load = async (showLoading = true) => {
     try {
-      setLoading(true);
+      if (showLoading) setLoading(true);
       const [surveyRes, assessmentRes, progressRes, scoreRes, riskRes, criterionRes, complianceRes, surveyorRes, evidenceRes] = await Promise.all([
         getOne("surveys", surveyId), isOverview ? getSurveyAssessmentOverview(surveyId) : getSurveyAssessments(surveyId), getSurveyProgress(surveyId),
         getAll("scores"), getAll("riskRating"), getAll("criteria"), getAll("compliances"), getAll("surveyors"), getSurveyEvidenceChecks(surveyId),
@@ -74,10 +88,19 @@ function SurveyAssessmentPage() {
     } catch (loadError) {
       console.error(loadError);
       setError("We couldn't load this assessment. Please confirm the survey exists and has generated its checklist.");
-    } finally { setLoading(false); }
+    } finally { if (showLoading) setLoading(false); }
   };
 
   useEffect(() => { load(); }, [surveyId, isOverview]);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(resumeStorageKey) || "null");
+      setResumeAssessmentId(saved?.assessmentId || null);
+    } catch {
+      localStorage.removeItem(resumeStorageKey);
+    }
+  }, [resumeStorageKey]);
 
   const enriched = useMemo(() => {
     const complianceById = new Map(compliances.map((item) => [item.complianceId, item]));
@@ -91,15 +114,63 @@ function SurveyAssessmentPage() {
 
   const currentSurveyorId = useMemo(() => surveyors.find((surveyor) => surveyor.userId === profile?.userId)?.surveyorId, [profile?.userId, surveyors]);
   const canAssess = (assessment) => !isOverview && (isAdmin || (isSurveyor && assessment.surveyorId === currentSurveyorId));
+  const showAssessment = (assessmentId) => {
+    const assessment = enriched.find((item) => item.complianceAssessmentId === assessmentId);
+    if (assessment?.standardId) setSelectedStandard(String(assessment.standardId));
+  };
 
-  const standards = useMemo(() => [...new Map(enriched.filter((item) => item.standardId).map((item) => [item.standardId, {
-    id: String(item.standardId), label: `${item.standardNumber} — ${item.standardTitle}`,
-    total: enriched.filter((candidate) => candidate.standardId === item.standardId).length,
-    scored: enriched.filter((candidate) => candidate.standardId === item.standardId && candidate.scoreId).length,
-  }])).values()], [enriched]);
+  useEffect(() => {
+    const assessmentId = resumeFromQuery || resumeAssessmentId;
+    if (!assessmentId || !assessments.some((assessment) => assessment.complianceAssessmentId === assessmentId)) return undefined;
+    const timer = window.setTimeout(() => {
+      document.getElementById(`assessment-${assessmentId}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 120);
+    return () => window.clearTimeout(timer);
+  }, [assessments, resumeAssessmentId, resumeFromQuery]);
+
+  const outstanding = useMemo(() => {
+    const ordered = [...enriched].sort((first, second) => (
+      compareNumber(first.standardNumber, second.standardNumber)
+      || compareNumber(first.criterionNumber, second.criterionNumber)
+      || compareNumber(first.complianceNumber, second.complianceNumber)
+    ));
+    const missingScores = ordered.filter((assessment) => !assessment.scoreId);
+    const missingEvidence = ordered.flatMap((assessment) => (
+      (checks[assessment.complianceAssessmentId] || [])
+        .filter((check) => !check.isChecked)
+        .map((check) => ({ ...check, complianceAssessmentId: assessment.complianceAssessmentId }))
+    ));
+    const incompleteAssessmentIds = new Set([
+      ...missingScores.map((assessment) => assessment.complianceAssessmentId),
+      ...missingEvidence.map((check) => check.complianceAssessmentId),
+    ]);
+    return {
+      missingScores,
+      missingEvidence,
+      incompleteAssessmentIds,
+      nextAssessmentId: ordered.find((assessment) => incompleteAssessmentIds.has(assessment.complianceAssessmentId))?.complianceAssessmentId,
+    };
+  }, [enriched, checks]);
+
+  const standards = useMemo(() => [...new Map(enriched.filter((item) => item.standardId).map((item) => {
+    const standardAssessments = enriched.filter((candidate) => candidate.standardId === item.standardId);
+    const incompleteCount = standardAssessments.filter((candidate) => outstanding.incompleteAssessmentIds.has(candidate.complianceAssessmentId)).length;
+    return [item.standardId, {
+      id: String(item.standardId), label: `${item.standardNumber} — ${item.standardTitle}`,
+      total: standardAssessments.length,
+      scored: standardAssessments.filter((candidate) => candidate.scoreId).length,
+      incompleteCount,
+    }];
+  })).values()].sort((first, second) => compareNumber(first.label, second.label)), [enriched, outstanding.incompleteAssessmentIds]);
 
   const grouped = useMemo(() => {
-    const visible = enriched.filter((item) => !selectedStandard || String(item.standardId) === selectedStandard);
+    const visible = enriched
+      .filter((item) => !selectedStandard || String(item.standardId) === selectedStandard)
+      .sort((first, second) => (
+        compareNumber(first.standardNumber, second.standardNumber)
+        || compareNumber(first.criterionNumber, second.criterionNumber)
+        || compareNumber(first.complianceNumber, second.complianceNumber)
+      ));
     return visible.reduce((standardGroups, item) => {
       let standard = standardGroups.find((group) => group.standardId === item.standardId);
       if (!standard) {
@@ -120,9 +191,11 @@ function SurveyAssessmentPage() {
   const evidenceCompletion = progress ? percentage(progress.checkedEvidenceCount, progress.totalEvidenceChecks) : 0;
 
   const saveAssessment = async (assessmentId, data) => {
-    try { await updateAssessment(assessmentId, data); await load(); } catch (saveError) { console.error(saveError); }
+    rememberPosition(assessmentId);
+    try { await updateAssessment(assessmentId, data); await load(false); } catch (saveError) { console.error(saveError); }
   };
   const toggleEvidence = async (check) => {
+    rememberPosition(check.complianceAssessmentId);
     try {
       await patchEvidenceCheck(check.complianceEvidenceCheckId, !check.isChecked);
       setChecks((current) => ({ ...current, [check.complianceAssessmentId]: current[check.complianceAssessmentId].map((item) => item.complianceEvidenceCheckId === check.complianceEvidenceCheckId ? { ...item, isChecked: !item.isChecked } : item) }));
@@ -161,7 +234,7 @@ function SurveyAssessmentPage() {
               <div><dt className="inline font-semibold text-[#143c42]">Assessment period:</dt> <dd className="inline">{survey.startDate} — {survey.endDate}</dd></div>
             </dl>
           </div>
-          <div className="flex flex-col gap-2 sm:flex-row">{isTeamLead && <Link to={isOverview ? `/surveys/${surveyId}` : `/surveys/${surveyId}?view=overview`} className="rounded-lg border border-[#b9d6d1] bg-white px-4 py-2.5 text-center text-sm font-semibold text-[#087c77] shadow-sm hover:bg-teal-50">{isOverview ? "My assigned standards" : "View all scores"}</Link>}{isAdmin && <button onClick={() => setResetOpen(true)} className="w-full rounded-lg border border-red-200 bg-white px-4 py-2.5 text-sm font-semibold text-red-700 shadow-sm transition hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 lg:w-auto">Reset survey</button>}</div>
+          <div className="flex flex-col gap-2 sm:flex-row">{resumeAssessmentId && <Link onClick={() => showAssessment(resumeAssessmentId)} to={`/surveys/${surveyId}?resume=${resumeAssessmentId}`} className="rounded-lg bg-[#d6aa45] px-4 py-2.5 text-center text-sm font-semibold text-[#143c42] shadow-sm hover:bg-[#c99d38]">Continue where I left off</Link>}{isTeamLead && <Link to={`/surveys/${surveyId}/team-dashboard`} className="rounded-lg bg-[#143c42] px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0d2c31]">Team dashboard</Link>}{(isTeamLead || isAdmin || isSurveyor) && <Link to={`/surveys/${surveyId}/results`} className="rounded-lg border border-[#b9d6d1] bg-white px-4 py-2.5 text-center text-sm font-semibold text-[#087c77] shadow-sm hover:bg-teal-50">Results summary</Link>}{isTeamLead && <Link to={isOverview ? `/surveys/${surveyId}` : `/surveys/${surveyId}?view=overview`} className="rounded-lg border border-[#b9d6d1] bg-white px-4 py-2.5 text-center text-sm font-semibold text-[#087c77] shadow-sm hover:bg-teal-50">{isOverview ? "My assigned standards" : "View all scores"}</Link>}{isAdmin && <button onClick={() => setResetOpen(true)} className="w-full rounded-lg border border-red-200 bg-white px-4 py-2.5 text-sm font-semibold text-red-700 shadow-sm transition hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 lg:w-auto">Reset survey</button>}</div>
         </div>
         <div className="grid gap-5 border-t border-[#dce9e7] px-5 py-5 sm:grid-cols-2 sm:px-7">
           <ProgressBar label={`${progress.scoredCount} of ${progress.totalCompliances} requirements scored`} value={completion} />
@@ -170,6 +243,8 @@ function SurveyAssessmentPage() {
       </header>
 
       {!isAdmin && <p className="mt-5 rounded-lg border border-sky-100 bg-sky-50 px-4 py-3 text-sm text-sky-800">{isOverview ? "This is the team-lead overview of all standards. It is read-only." : "This is your worklist: only standards assigned to you are displayed and can be scored."}</p>}
+      {isSurveyor && !isOverview && outstanding.incompleteAssessmentIds.size > 0 && <section className="mt-5 rounded-xl border border-[#ead7a3] bg-[#fffbf0] p-4 shadow-sm sm:flex sm:items-center sm:justify-between sm:gap-5"><div><p className="text-sm font-bold text-[#624b14]">Outstanding work in your assigned standards</p><p className="mt-1 text-sm leading-6 text-[#735b21]">{outstanding.incompleteAssessmentIds.size} compliance requirement{outstanding.incompleteAssessmentIds.size === 1 ? "" : "s"} need attention: {outstanding.missingScores.length} score{outstanding.missingScores.length === 1 ? "" : "s"} still to record and {outstanding.missingEvidence.length} evidence check{outstanding.missingEvidence.length === 1 ? "" : "s"} still to complete.</p></div>{outstanding.nextAssessmentId && <Link onClick={() => showAssessment(outstanding.nextAssessmentId)} to={`/surveys/${surveyId}?resume=${outstanding.nextAssessmentId}`} className="mt-3 inline-block shrink-0 rounded-lg bg-[#d6aa45] px-4 py-2.5 text-sm font-semibold text-[#143c42] shadow-sm hover:bg-[#c99d38] sm:mt-0">Go to next item</Link>}</section>}
+      {isSurveyor && !isOverview && outstanding.incompleteAssessmentIds.size === 0 && <p className="mt-5 rounded-lg border border-teal-100 bg-teal-50 px-4 py-3 text-sm font-medium text-teal-800">All scores and evidence checks in your assigned standards are complete.</p>}
       <div className="mt-6 grid gap-6 lg:grid-cols-[17rem_minmax(0,1fr)]">
         <aside className="h-fit rounded-xl border border-[#dce9e7] bg-white p-3 shadow-sm lg:sticky lg:top-5">
           <p className="px-2 pb-2 text-xs font-bold uppercase tracking-wider text-[#527076]">Completion tracker</p>
@@ -179,6 +254,7 @@ function SurveyAssessmentPage() {
             return <button key={standard.id} onClick={() => setSelectedStandard(standard.id)} className={`mb-1 w-full rounded-lg px-3 py-2.5 text-left transition ${selectedStandard === standard.id ? "bg-teal-50 text-[#087c77]" : "text-[#527076] hover:bg-slate-50"}`}>
               <span className="block truncate text-sm font-semibold">{standard.label}</span>
               <span className="mt-1.5 flex items-center gap-2 text-xs"><span className="h-1.5 flex-1 overflow-hidden rounded-full bg-[#dce9e7]"><span className="block h-full rounded-full bg-[#087c77]" style={{ width: `${standardCompletion}%` }} /></span>{standardCompletion}%</span>
+              {isSurveyor && !isOverview && standard.incompleteCount > 0 && <span className="mt-1 block text-xs font-semibold text-amber-700">{standard.incompleteCount} requirement{standard.incompleteCount === 1 ? "" : "s"} to review</span>}
             </button>;
           })}
         </aside>
@@ -188,7 +264,7 @@ function SurveyAssessmentPage() {
             <div className="border-y border-[#0b6f6b] bg-[#0b6f6b] px-5 py-3 text-white"><p className="text-xs font-bold uppercase tracking-[0.14em]">Standard {standard.standardNumber}</p><h2 className="mt-1 font-semibold">{standard.standardTitle}</h2></div>
             {standard.criteria.map((criterion) => <div key={criterion.criterionId} className="border-b border-[#cfe2df] last:border-b-0">
               <div className="border-l-4 border-[#d6aa45] bg-[#f5faf9] px-5 py-3 text-sm text-[#315e61]"><p className="text-xs font-bold uppercase tracking-[0.12em] text-[#876318]">Criterion {criterion.criterionNumber}</p><h3 className="mt-1 font-semibold leading-6 text-[#143c42]">{criterion.criterionTitle || "Criterion title not available"}</h3></div>
-              {criterion.assessments.map((assessment) => <article key={assessment.complianceAssessmentId} className="border-t border-[#e1edeb] px-5 py-5 first:border-t-0">
+              {criterion.assessments.map((assessment) => <article id={`assessment-${assessment.complianceAssessmentId}`} key={assessment.complianceAssessmentId} className="border-t border-[#e1edeb] px-5 py-5 first:border-t-0">
                 <div className="flex gap-4"><div className="shrink-0"><p className="font-bold text-[#0b6f6b]">{assessment.complianceNumber}</p><span className={`mt-2 inline-block rounded-full px-2 py-0.5 text-[11px] font-bold ${assessment.scoreId ? "bg-teal-50 text-teal-700" : "bg-amber-50 text-amber-700"}`}>{assessment.scoreId ? "Scored" : "To score"}</span></div><h3 className="min-w-0 flex-1 text-justify font-semibold leading-6 text-[#143c42]">{assessment.complianceSummary}</h3></div>
                 <div className="mt-5 rounded-lg border border-[#eadfbd] bg-[#fffbf0] px-4 py-3"><p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#876318]">Evidence of compliance</p><div className="divide-y divide-[#eadfbd]">{checks[assessment.complianceAssessmentId]?.length ? checks[assessment.complianceAssessmentId].slice().sort((first, second) => String(first.evidenceNumber).localeCompare(String(second.evidenceNumber), undefined, { numeric: true })).map((check) => <label key={check.complianceEvidenceCheckId} className="flex cursor-pointer gap-3 py-3 text-sm leading-6 text-[#527076]"><input type="checkbox" disabled={!canAssess(assessment)} checked={check.isChecked} onChange={() => toggleEvidence(check)} className="mt-1 h-4 w-4 shrink-0 accent-[#087c77]" /><span className="text-justify"><strong className="text-[#143c42]">{check.evidenceNumber}.</strong> {check.evidenceSummary}</span></label>) : <p className="py-2 text-sm text-[#527076]">No evidence items are linked to this requirement.</p>}</div></div>
                 <div className={`mt-4 grid gap-4 rounded-lg border border-[#dce9e7] bg-[#f8fbfa] p-4 ${isExternal ? "md:grid-cols-[minmax(10rem,.7fr)_minmax(10rem,.7fr)_minmax(0,1.6fr)]" : "md:grid-cols-[minmax(11rem,.7fr)_minmax(0,1.6fr)]"}`}>

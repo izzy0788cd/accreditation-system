@@ -1,1 +1,38 @@
 @import "tailwindcss";
+
+@media print {
+  @page { size: A4 landscape; margin: 14mm; }
+
+  body { background: #fff !important; color: #172b2f !important; font-family: Arial, Helvetica, sans-serif; }
+
+  .survey-print-report { color: #172b2f; font-size: 9.5pt; line-height: 1.35; }
+  .survey-print-heading { border-bottom: 2px solid #0b6f6b; margin-bottom: 16px; padding-bottom: 10px; }
+  .survey-print-heading p { color: #315e61; font-size: 9pt; font-weight: 700; letter-spacing: .08em; margin: 0; text-transform: uppercase; }
+  .survey-print-heading h1 { color: #143c42; font-size: 22pt; line-height: 1.1; margin: 4px 0; }
+  .survey-print-heading .survey-print-scope { color: #527076; font-size: 9pt; font-weight: 400; letter-spacing: normal; text-transform: none; }
+
+  .survey-print-metadata, .survey-print-table { border-collapse: collapse; width: 100%; }
+  .survey-print-metadata { background: #f4f8f7; margin-bottom: 18px; }
+  .survey-print-metadata th, .survey-print-metadata td { border: 1px solid #cadbd8; padding: 7px 9px; text-align: left; vertical-align: top; }
+  .survey-print-metadata th { color: #315e61; font-size: 8pt; text-transform: uppercase; width: 16%; }
+  .survey-print-metadata td { font-weight: 600; width: 34%; }
+
+  .survey-print-section { break-inside: avoid; margin: 0 0 18px; }
+  .survey-print-section h2 { border-bottom: 1px solid #0b6f6b; color: #143c42; font-size: 13pt; margin: 0 0 8px; padding-bottom: 4px; }
+  .survey-print-component h2 { background: #eaf5f3; border-left: 4px solid #0b6f6b; border-bottom: 0; padding: 7px 9px; }
+  .survey-print-table th, .survey-print-table td { border: 1px solid #cbdad7; padding: 6px 7px; text-align: left; vertical-align: top; }
+  .survey-print-table th { background: #0b6f6b; color: #fff; font-size: 8pt; letter-spacing: .04em; text-transform: uppercase; }
+  .survey-print-table tbody tr:nth-child(even) { background: #f7faf9; }
+  .survey-print-metrics td { color: #143c42; font-size: 14pt; font-weight: 700; text-align: center; }
+  .survey-print-metrics th { text-align: center; }
+  .survey-print-findings { background: #fffbf0; border-left: 3px solid #d6aa45; margin-top: 8px; padding: 7px 9px; }
+  .survey-print-findings h3 { color: #624b14; font-size: 9pt; margin: 0 0 4px; text-transform: uppercase; }
+  .survey-print-findings p { margin: 3px 0; }
+  .survey-print-chart { display: block; height: auto; max-width: 100%; width: 100%; }
+  .survey-print-chart-axis { fill: #527076; font-size: 8px; }
+  .survey-print-chart-label { fill: #143c42; font-size: 10px; }
+  .survey-print-chart-track { fill: #dce9e7; }
+  .survey-print-chart-bar { fill: #0b6f6b; }
+  .survey-print-chart-value { fill: #143c42; font-size: 10px; font-weight: 700; }
+  .survey-print-footer { border-top: 1px solid #cadbd8; color: #527076; display: flex; font-size: 8pt; justify-content: space-between; margin-top: 20px; padding-top: 7px; }
+}
