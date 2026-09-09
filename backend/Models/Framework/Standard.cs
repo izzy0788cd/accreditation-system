@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using backend.Models.FaciltitySurvey;
 
 namespace backend.Models.Framework
 {
@@ -26,5 +27,6 @@ namespace backend.Models.Framework
         public required string standardSummary { get; set; }
         [JsonIgnore]
         public ICollection<Criterion>? criteria { get; set; }
+        public ICollection<SurveyStandardAssignment>? surveyStandardAssignments { get; set; }
     }
 }

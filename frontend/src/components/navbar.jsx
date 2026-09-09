@@ -8,6 +8,7 @@ const links = [
   { to: "/framework", label: "Framework" },
   { to: "/location", label: "Location" },
   { to: "/facilities", label: "Facilities" },
+  { to: "/surveys", label: "Surveys" },
 ];
 
 function Navbar() {

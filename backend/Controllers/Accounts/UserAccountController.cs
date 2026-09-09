@@ -43,6 +43,9 @@ namespace backend.Controllers.Accounts
         [Authorize]
         public async Task<IActionResult> CreateUserAccount([FromBody] CreateUserAccountDTO dto)
         {
+            if (await _context.userAccounts.AnyAsync(account => account.username == dto.username))
+                return BadRequest("That username is already in use.");
+
             var anyAdminsExist = await _context.userAccounts.AnyAsync(ua =>
                 ua.role!.roleName == "Admin"
             );
@@ -98,6 +101,14 @@ namespace backend.Controllers.Accounts
             if (role == null)
                 return BadRequest("roleId does not exist.");
 
+            var username = dto.username.Trim();
+            if (string.IsNullOrWhiteSpace(username))
+                return BadRequest("Username is required.");
+            if (await _context.userAccounts.AnyAsync(account =>
+                account.username == username && account.userAccountId != id
+            ))
+                return BadRequest("That username is already in use.");
+
             var currentUserAccountId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             if (userAccount.userAccountId == currentUserAccountId && !dto.isActive)
                 return BadRequest("You cannot deactivate your own account.");
@@ -105,7 +116,20 @@ namespace backend.Controllers.Accounts
                 return BadRequest("You cannot remove your own Admin role.");
 
             userAccount.roleId = dto.roleId;
+            userAccount.username = username;
             userAccount.isActive = dto.isActive;
+            if (!string.IsNullOrWhiteSpace(dto.newPassword))
+            {
+                if (dto.newPassword.Length < 8)
+                    return BadRequest("The new password must be at least 8 characters.");
+
+                var hasher = new PasswordHasher<UserAccount>();
+                userAccount.passwordHash = hasher.HashPassword(userAccount, dto.newPassword);
+                var activeSessions = await _context.refreshTokens
+                    .Where(token => token.userAccountId == userAccount.userAccountId)
+                    .ToListAsync();
+                _context.refreshTokens.RemoveRange(activeSessions);
+            }
             await _context.SaveChangesAsync();
 
             return Ok(

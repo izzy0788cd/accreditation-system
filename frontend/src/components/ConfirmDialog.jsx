@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-function ConfirmDialog({ open, title, message, onConfirm, onCancel }) {
+function ConfirmDialog({ open, title, message, onConfirm, onCancel, confirmLabel = "Delete", confirmDisabled = false }) {
   const cancelButtonRef = useRef(null);
 
   useEffect(() => {
@@ -31,9 +31,10 @@ function ConfirmDialog({ open, title, message, onConfirm, onCancel }) {
           </button>
           <button
             onClick={onConfirm}
+            disabled={confirmDisabled}
             className="rounded-lg bg-red-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
           >
-            Delete
+            {confirmLabel}
           </button>
         </div>
       </div>

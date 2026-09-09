@@ -26,5 +26,6 @@ namespace backend.Models.FaciltitySurvey
         public DateOnly startDate { get; set; } // approx. start date of survey
         public DateOnly endDate { get; set; } // approx. end date of survey
         public ICollection<ComplianceAssessment>? complianceAssessments { get; set; }
+        public ICollection<SurveyStandardAssignment>? standardAssignments { get; set; }
     }
 }

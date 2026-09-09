@@ -28,13 +28,18 @@ namespace backend.Controllers.FacilitySurvey
 
         private async Task<double?> CalculateSurveyGradeAsync(int surveyId)
         {
-            var scoreValues = await _context
-                .complianceAssessments.Where(ca =>
-                    ca.surveyId == surveyId && ca.scoreId != null && ca.score!.scoreValue != null
-                )
-                .Select(ca => ca.score!.scoreValue!.Value)
+            var scores = await _context.complianceAssessments
+                .Where(ca => ca.surveyId == surveyId)
+                .Select(ca => new { ca.scoreId, scoreValue = ca.score!.scoreValue })
                 .ToListAsync();
 
+            if (scores.Count == 0 || scores.Any(score => score.scoreId == null))
+                return null;
+
+            var scoreValues = scores
+                .Where(score => score.scoreValue != null)
+                .Select(score => score.scoreValue!.Value)
+                .ToList();
             if (scoreValues.Count == 0)
                 return null;
 
@@ -70,7 +75,7 @@ namespace backend.Controllers.FacilitySurvey
 
             var grade = await CalculateSurveyGradeAsync(mostRecentInternal.surveyId);
             var threshold = _config.GetValue<double>(
-                "SurveyRules:InternalPassThresholdPercentage",
+                "SurveyRules:InternalPassingThresholdPercentage",
                 70
             );
 
@@ -137,7 +142,7 @@ namespace backend.Controllers.FacilitySurvey
 
         // PUT: api/Survey/5
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutSurvey(int id, SurveyUpdateDTO dto)
         {
             if (dto.endDate < dto.startDate)
@@ -149,9 +154,41 @@ namespace backend.Controllers.FacilitySurvey
                 return NotFound();
             }
 
+            var surveyTypeExists = await _context.surveyTypes.AnyAsync(type =>
+                type.surveyTypeId == dto.surveyTypeId
+            );
+            if (!surveyTypeExists)
+                return BadRequest("surveyTypeId does not exist.");
+
+            var surveyorExists = await _context.surveyors.AnyAsync(surveyor =>
+                surveyor.surveyorId == dto.surveyorId
+            );
+            if (!surveyorExists)
+                return BadRequest("surveyorId does not exist.");
+
             survey.surveyTypeId = dto.surveyTypeId;
+            survey.surveyorId = dto.surveyorId;
             survey.startDate = dto.startDate;
             survey.endDate = dto.endDate;
+
+            // Standards without a dedicated assignment remain the responsibility
+            // of the team lead when the lead changes.
+            var dedicatedStandardIds = await _context.surveyStandardAssignments
+                .Where(assignment => assignment.surveyId == id)
+                .Select(assignment => assignment.standardId)
+                .ToListAsync();
+            var leadAssessments = await _context
+                .complianceAssessments.Include(assessment => assessment.compliance)
+                    .ThenInclude(compliance => compliance!.criterion)
+                .Where(assessment =>
+                    assessment.surveyId == id
+                    && !dedicatedStandardIds.Contains(
+                        assessment.compliance!.criterion!.standardId
+                    )
+                )
+                .ToListAsync();
+            foreach (var assessment in leadAssessments)
+                assessment.surveyorId = dto.surveyorId;
 
             try
             {
@@ -189,6 +226,22 @@ namespace backend.Controllers.FacilitySurvey
                 return BadRequest("surveyorId does not exist.");
 
             survey.surveyorId = dto.surveyorId;
+            var dedicatedStandardIds = await _context.surveyStandardAssignments
+                .Where(assignment => assignment.surveyId == id)
+                .Select(assignment => assignment.standardId)
+                .ToListAsync();
+            var leadAssessments = await _context
+                .complianceAssessments.Include(assessment => assessment.compliance)
+                    .ThenInclude(compliance => compliance!.criterion)
+                .Where(assessment =>
+                    assessment.surveyId == id
+                    && !dedicatedStandardIds.Contains(
+                        assessment.compliance!.criterion!.standardId
+                    )
+                )
+                .ToListAsync();
+            foreach (var assessment in leadAssessments)
+                assessment.surveyorId = dto.surveyorId;
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -294,6 +347,12 @@ namespace backend.Controllers.FacilitySurvey
             var unscoredCount = await _context.complianceAssessments.CountAsync(ca =>
                 ca.surveyId == id && ca.scoreId == null
             );
+            var totalEvidenceChecks = await _context.complianceEvidenceChecks.CountAsync(check =>
+                check.complianceAssessment!.surveyId == id
+            );
+            var checkedEvidenceCount = await _context.complianceEvidenceChecks.CountAsync(check =>
+                check.complianceAssessment!.surveyId == id && check.isChecked
+            );
 
             return Ok(
                 new SurveyProgressDTO
@@ -302,6 +361,9 @@ namespace backend.Controllers.FacilitySurvey
                     totalCompliances = totalCompliances,
                     scoredCount = totalCompliances - unscoredCount,
                     unscoredCount = unscoredCount,
+                    totalEvidenceChecks = totalEvidenceChecks,
+                    checkedEvidenceCount = checkedEvidenceCount,
+                    uncheckedEvidenceCount = totalEvidenceChecks - checkedEvidenceCount,
                 }
             );
         }
@@ -322,6 +384,15 @@ namespace backend.Controllers.FacilitySurvey
                 return NotFound("No assessments found for this survey/standard combination.");
 
             var unscoredCount = await query.CountAsync(ca => ca.scoreId == null);
+            var totalEvidenceChecks = await _context.complianceEvidenceChecks.CountAsync(check =>
+                check.complianceAssessment!.surveyId == surveyId
+                && check.complianceAssessment.compliance!.criterion!.standardId == standardId
+            );
+            var checkedEvidenceCount = await _context.complianceEvidenceChecks.CountAsync(check =>
+                check.complianceAssessment!.surveyId == surveyId
+                && check.complianceAssessment.compliance!.criterion!.standardId == standardId
+                && check.isChecked
+            );
 
             return Ok(
                 new StandardProgressDTO
@@ -331,8 +402,132 @@ namespace backend.Controllers.FacilitySurvey
                     totalCompliances = totalCompliances,
                     scoredCount = totalCompliances - unscoredCount,
                     unscoredCount = unscoredCount,
+                    totalEvidenceChecks = totalEvidenceChecks,
+                    checkedEvidenceCount = checkedEvidenceCount,
+                    uncheckedEvidenceCount = totalEvidenceChecks - checkedEvidenceCount,
                 }
             );
+        }
+
+        // POST: api/surveys/5/reset
+        // Keeps the survey checklist intact while returning every response to its initial state.
+        [HttpPost("{id}/reset")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ResetSurvey(int id)
+        {
+            var surveyExists = await _context.surveys.AnyAsync(s => s.surveyId == id);
+            if (!surveyExists)
+                return NotFound();
+
+            var assessments = await _context
+                .complianceAssessments.Where(ca => ca.surveyId == id)
+                .ToListAsync();
+
+            if (assessments.Count == 0)
+                return NotFound("No assessments found for this survey.");
+
+            foreach (var assessment in assessments)
+            {
+                assessment.scoreId = null;
+                assessment.riskRatingId = null;
+                assessment.complianceComments = null;
+            }
+
+            var assessmentIds = assessments.Select(assessment => assessment.complianceAssessmentId);
+            var evidenceChecks = await _context
+                .complianceEvidenceChecks.Where(check =>
+                    assessmentIds.Contains(check.complianceAssessmentId)
+                )
+                .ToListAsync();
+
+            foreach (var check in evidenceChecks)
+                check.isChecked = false;
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpGet("{id}/standard-assignments")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IEnumerable<SurveyStandardAssignmentDTO>>> GetStandardAssignments(int id)
+        {
+            if (!await _context.surveys.AnyAsync(survey => survey.surveyId == id))
+                return NotFound();
+
+            var assignments = await _context.surveyStandardAssignments
+                .Where(assignment => assignment.surveyId == id)
+                .OrderBy(assignment => assignment.standard!.standardNumber)
+                .Select(assignment => new SurveyStandardAssignmentDTO
+                {
+                    standardId = assignment.standardId,
+                    standardNumber = assignment.standard!.standardNumber,
+                    standardTitle = assignment.standard.standardTitle,
+                    surveyorId = assignment.surveyorId,
+                    surveyorName = $"{assignment.surveyor!.user!.firstName} {assignment.surveyor.user.lastName}",
+                })
+                .ToListAsync();
+
+            return Ok(assignments);
+        }
+
+        [HttpPut("{id}/standard-assignments")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> PutStandardAssignments(
+            int id,
+            List<SurveyStandardAssignmentUpdateDTO> dto
+        )
+        {
+            var survey = await _context.surveys.FindAsync(id);
+            if (survey == null)
+                return NotFound();
+
+            if (dto.GroupBy(assignment => assignment.standardId).Any(group => group.Count() > 1))
+                return BadRequest("Each standard can be assigned to only one surveyor per survey.");
+
+            var requestedStandardIds = dto.Select(assignment => assignment.standardId).ToList();
+            var validStandardCount = await _context.standards.CountAsync(standard =>
+                requestedStandardIds.Contains(standard.standardId)
+            );
+            if (validStandardCount != requestedStandardIds.Count)
+                return BadRequest("One or more standards do not exist.");
+
+            var requestedSurveyorIds = dto.Select(assignment => assignment.surveyorId).Distinct().ToList();
+            var validSurveyorCount = await _context.surveyors.CountAsync(surveyor =>
+                requestedSurveyorIds.Contains(surveyor.surveyorId)
+            );
+            if (validSurveyorCount != requestedSurveyorIds.Count)
+                return BadRequest("One or more surveyors do not exist.");
+
+            var existingAssignments = await _context.surveyStandardAssignments
+                .Where(assignment => assignment.surveyId == id)
+                .ToListAsync();
+            _context.surveyStandardAssignments.RemoveRange(existingAssignments);
+            _context.surveyStandardAssignments.AddRange(dto.Select(assignment => new SurveyStandardAssignment
+            {
+                surveyId = id,
+                standardId = assignment.standardId,
+                surveyorId = assignment.surveyorId,
+            }));
+
+            var assignmentByStandard = dto.ToDictionary(
+                assignment => assignment.standardId,
+                assignment => assignment.surveyorId
+            );
+            var assessments = await _context
+                .complianceAssessments.Include(assessment => assessment.compliance)
+                    .ThenInclude(compliance => compliance!.criterion)
+                .Where(assessment => assessment.surveyId == id)
+                .ToListAsync();
+            foreach (var assessment in assessments)
+            {
+                var standardId = assessment.compliance!.criterion!.standardId;
+                assessment.surveyorId = assignmentByStandard.TryGetValue(standardId, out var surveyorId)
+                    ? surveyorId
+                    : survey.surveyorId;
+            }
+
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
         // DELETE: api/Survey/5

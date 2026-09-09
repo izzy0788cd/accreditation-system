@@ -33,6 +33,10 @@ import FacilityDetailPage from "./pages/facilities/FacilityDetailPage";
 import ReferenceDataPage from "./pages/facilities/ReferenceDataPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import AdminUsersPage from "./pages/admin/AdminUsersPage";
+import SurveysPage from "./pages/surveys/SurveysPage";
+import SurveyAssessmentPage from "./pages/surveys/SurveyAssessmentPage";
+import SurveySetupPage from "./pages/surveys/SurveySetupPage";
+import SurveyAdminPage from "./pages/surveys/SurveyAdminPage";
 
 function App() {
   const [saveError, setSaveError] = useState("");
@@ -48,6 +52,10 @@ function App() {
           <Route path="/complete-profile" element={<ProtectedRoute><CompleteProfilePage /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="/admin/users" element={<ProtectedRoute><AdminRoute><AdminUsersPage /></AdminRoute></ProtectedRoute>} />
+          <Route path="/surveys" element={<ProtectedRoute><SurveysPage /></ProtectedRoute>} />
+          <Route path="/surveys/setup" element={<ProtectedRoute><AdminRoute><SurveySetupPage /></AdminRoute></ProtectedRoute>} />
+          <Route path="/surveys/:surveyId/admin" element={<ProtectedRoute><AdminRoute><SurveyAdminPage /></AdminRoute></ProtectedRoute>} />
+          <Route path="/surveys/:surveyId" element={<ProtectedRoute><SurveyAssessmentPage /></ProtectedRoute>} />
 
           <Route path="/framework" element={<ProtectedRoute><FrameworkPage /></ProtectedRoute>}>
             <Route index element={<FrameworkDashboard />} />

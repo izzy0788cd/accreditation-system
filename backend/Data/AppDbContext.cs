@@ -56,6 +56,7 @@ namespace backend.Data
         public DbSet<Surveyors> surveyors { get; set; }
         public DbSet<SurveyType> surveyTypes { get; set; }
         public DbSet<Survey> surveys { get; set; }
+        public DbSet<SurveyStandardAssignment> surveyStandardAssignments { get; set; }
 
         //db sets for survey assessements
         public DbSet<ComplianceAssessment> complianceAssessments { get; set; }
@@ -262,6 +263,25 @@ namespace backend.Data
                 .OnDelete(DeleteBehavior.Restrict);
             
             modelBuilder.Entity<Survey>().HasKey(sv => sv.surveyId);
+            modelBuilder.Entity<SurveyStandardAssignment>().HasKey(assignment => assignment.surveyStandardAssignmentId);
+            modelBuilder.Entity<SurveyStandardAssignment>()
+                .HasIndex(assignment => new { assignment.surveyId, assignment.standardId })
+                .IsUnique();
+            modelBuilder.Entity<SurveyStandardAssignment>()
+                .HasOne(assignment => assignment.survey)
+                .WithMany(survey => survey.standardAssignments)
+                .HasForeignKey(assignment => assignment.surveyId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<SurveyStandardAssignment>()
+                .HasOne(assignment => assignment.standard)
+                .WithMany(standard => standard.surveyStandardAssignments)
+                .HasForeignKey(assignment => assignment.standardId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SurveyStandardAssignment>()
+                .HasOne(assignment => assignment.surveyor)
+                .WithMany(surveyor => surveyor.standardAssignments)
+                .HasForeignKey(assignment => assignment.surveyorId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             //survey assessment relationships
             modelBuilder.Entity<ComplianceAssessment>().HasKey(ca => ca.complianceAssessmentId);

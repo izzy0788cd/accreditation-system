@@ -31,6 +31,7 @@ namespace backend.Controllers.Scoring
             var scores = await _context
                 .scores.Select(s => new ScoresDTO
                 {
+                    scoreId = s.scoreId,
                     scoreValue = s.scoreValue,
                     scoreLabel = s.scoreLabel,
                     description = s.description,
@@ -118,6 +119,7 @@ namespace backend.Controllers.Scoring
 
             var scoreDto = new ScoresDTO
             {
+                scoreId = scoreModel.scoreId,
                 scoreValue = scoreModel.scoreValue,
                 scoreLabel = scoreModel.scoreLabel,
                 description = scoreModel.description,

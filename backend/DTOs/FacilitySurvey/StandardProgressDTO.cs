@@ -13,5 +13,9 @@ namespace backend.DTOs.FacilitySurvey
         public int scoredCount { get; set; }
         public int unscoredCount { get; set; }
         public bool isComplete => unscoredCount == 0;
+        public int totalEvidenceChecks { get; set; }
+        public int checkedEvidenceCount { get; set; }
+        public int uncheckedEvidenceCount { get; set; }
+        public bool isEvidenceComplete => uncheckedEvidenceCount == 0;
     }
 }

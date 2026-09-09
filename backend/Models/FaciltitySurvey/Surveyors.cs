@@ -23,6 +23,7 @@ namespace backend.Models.FaciltitySurvey
         [ForeignKey("specializationId")]
         public Specialization? specialization { get; set; }
         public ICollection<Survey>? surveys { get; set; } //survey(s) team lead
+        public ICollection<SurveyStandardAssignment>? standardAssignments { get; set; }
         public ICollection<ComplianceAssessment>? complianceAssessments { get; set; }
     }
 }
