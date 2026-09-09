@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ErrorDialog from "./components/ErrorDialog";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 import LoginPage from "./pages/loginPage";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/homePage";
@@ -31,6 +32,7 @@ import FacilitiesPage from "./pages/facilities/FacilitiesPage";
 import FacilityDetailPage from "./pages/facilities/FacilityDetailPage";
 import ReferenceDataPage from "./pages/facilities/ReferenceDataPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import AdminUsersPage from "./pages/admin/AdminUsersPage";
 
 function App() {
   const [saveError, setSaveError] = useState("");
@@ -45,6 +47,7 @@ function App() {
           <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
           <Route path="/complete-profile" element={<ProtectedRoute><CompleteProfilePage /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="/admin/users" element={<ProtectedRoute><AdminRoute><AdminUsersPage /></AdminRoute></ProtectedRoute>} />
 
           <Route path="/framework" element={<ProtectedRoute><FrameworkPage /></ProtectedRoute>}>
             <Route index element={<FrameworkDashboard />} />

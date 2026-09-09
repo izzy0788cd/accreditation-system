@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using backend.Data;
 using backend.DTOs.Accounts;
@@ -21,8 +22,8 @@ namespace backend.Controllers.Accounts
         public UserAccountController(AppDbContext context) => _context = context;
 
         [HttpGet]
-        [Authorize]
-        public async Task<ActionResult<IEnumerable<UserAccountDTO>>> GetUserAccounts()
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IEnumerable<UserAccountResponseDTO>>> GetUserAccounts()
         {
             var userAccounts = await _context
                 .userAccounts.Select(ua => new UserAccountResponseDTO
@@ -76,6 +77,43 @@ namespace backend.Controllers.Accounts
                     username = userAccount.username,
                     roleName =
                         (await _context.roles.FindAsync(userAccount.roleId))?.roleName ?? "Unknown",
+                    isActive = userAccount.isActive,
+                    dateCreated = userAccount.dateCreated.ToDateTime(TimeOnly.MinValue),
+                }
+            );
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<UserAccountResponseDTO>> UpdateUserAccount(
+            int id,
+            UserAccountAdminUpdateDTO dto
+        )
+        {
+            var userAccount = await _context.userAccounts.FindAsync(id);
+            if (userAccount == null)
+                return NotFound("User account not found.");
+
+            var role = await _context.roles.FindAsync(dto.roleId);
+            if (role == null)
+                return BadRequest("roleId does not exist.");
+
+            var currentUserAccountId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (userAccount.userAccountId == currentUserAccountId && !dto.isActive)
+                return BadRequest("You cannot deactivate your own account.");
+            if (userAccount.userAccountId == currentUserAccountId && role.roleName != "Admin")
+                return BadRequest("You cannot remove your own Admin role.");
+
+            userAccount.roleId = dto.roleId;
+            userAccount.isActive = dto.isActive;
+            await _context.SaveChangesAsync();
+
+            return Ok(
+                new UserAccountResponseDTO
+                {
+                    userAccountId = userAccount.userAccountId,
+                    username = userAccount.username,
+                    roleName = role.roleName,
                     isActive = userAccount.isActive,
                     dateCreated = userAccount.dateCreated.ToDateTime(TimeOnly.MinValue),
                 }

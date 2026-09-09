@@ -5,6 +5,7 @@ import CriterionForm from "../../components/forms/CriterionForm";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
 import { groupBy } from "../../utils/groupBy";
+import FrameworkFilters from "../../components/FrameworkFilters";
 
 
 function CriteriaPage() {
@@ -15,6 +16,9 @@ function CriteriaPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [, setSuccessMessage] = useState(null);
+    const [search, setSearch] = useState("");
+    const [standardFilter, setStandardFilter] = useState("");
+    const [applicabilityFilter, setApplicabilityFilter] = useState("");
 
     const loadData = async () => {
         try {
@@ -95,7 +99,18 @@ const handleSubmit = async (formData) => {
     const sortedCriteria = [...criteria].sort((a, b) =>
         a.criterionNumber.localeCompare(b.criterionNumber, undefined, { numeric: true })
     );
-    const criteriaByStandard = groupBy(sortedCriteria, (item) => item.standardNumber);
+    const standardOptions = [...new Map(criteria.map((item) => [item.standardId, { value: String(item.standardId), label: `${item.standardNumber} — ${item.standardTitle}` }])).values()]
+        .sort((a, b) => a.label.localeCompare(b.label, undefined, { numeric: true }));
+    const normalizedSearch = search.trim().toLowerCase();
+    const filteredCriteria = sortedCriteria.filter((item) => {
+        const matchesSearch = [item.criterionNumber, item.criterionTitle, item.standardNumber, item.standardTitle]
+            .some((value) => value?.toLowerCase().includes(normalizedSearch));
+        const matchesStandard = !standardFilter || String(item.standardId) === standardFilter;
+        const matchesApplicability = !applicabilityFilter
+            || (applicabilityFilter === "applicable" ? item.isApplicable : !item.isApplicable);
+        return matchesSearch && matchesStandard && matchesApplicability;
+    });
+    const criteriaByStandard = groupBy(filteredCriteria, (item) => item.standardNumber);
 
     return (
     <div>
@@ -114,6 +129,8 @@ const handleSubmit = async (formData) => {
       {loading ? (
         <p>Loading...</p>
       ) : (
+        <>
+        <FrameworkFilters search={search} onSearchChange={setSearch} searchPlaceholder="Search number, criterion, or standard" parentLabel="Standard" parentValue={standardFilter} onParentChange={setStandardFilter} parentOptions={standardOptions} applicability={applicabilityFilter} onApplicabilityChange={setApplicabilityFilter} resultCount={filteredCriteria.length} totalCount={criteria.length} />
         <div className="overflow-x-auto rounded-xl border border-[#e2ecea] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[760px] text-sm"><thead className="border-b border-[#dce9e7] bg-[#f5faf9] text-xs uppercase tracking-wider text-[#527076]"><tr className="text-left">
               <th className="p-2">Standard</th>
               <th className="p-2">Criteria</th>
@@ -159,6 +176,8 @@ const handleSubmit = async (formData) => {
             ))) }
           </tbody>
         </table></div>
+        {filteredCriteria.length === 0 && <p className="mt-4 rounded-lg border border-dashed border-[#c9ddd9] bg-white px-4 py-5 text-center text-sm text-[#527076]">No criteria match these filters.</p>}
+        </>
       )}
 
       <FormModal open={showForm} onClose={handleCancel}>

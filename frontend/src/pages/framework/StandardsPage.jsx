@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import StandardForm from "../../components/forms/StandardForm";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
+import FrameworkFilters from "../../components/FrameworkFilters";
 
 function StandardsPage() {
   const [standards, setStandards] = useState([]);
@@ -12,6 +13,7 @@ function StandardsPage() {
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [search, setSearch] = useState("");
 
   const loadStandards = async () => {
     try {
@@ -80,6 +82,11 @@ function StandardsPage() {
   const sortedStandards = [...standards].sort((a, b) =>
     a.standardNumber.localeCompare(b.standardNumber, undefined, { numeric: true })
   );
+  const normalizedSearch = search.trim().toLowerCase();
+  const filteredStandards = sortedStandards.filter((standard) =>
+    [standard.standardNumber, standard.standardTitle, standard.standardSummary]
+      .some((value) => value?.toLowerCase().includes(normalizedSearch))
+  );
 
   return (
     <div>
@@ -98,6 +105,8 @@ function StandardsPage() {
       {loading ? (
         <p>Loading...</p>
       ) : (
+        <>
+        <FrameworkFilters search={search} onSearchChange={setSearch} searchPlaceholder="Search number, title, or summary" resultCount={filteredStandards.length} totalCount={standards.length} />
         <div className="overflow-x-auto rounded-xl border border-[#e2ecea] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[800px] text-sm"><thead className="border-b border-[#dce9e7] bg-[#f5faf9] text-xs uppercase tracking-wider text-[#527076]"><tr className="text-left">
               {/* <th className="p-2">Function</th> */}
               {/* <th className="p-2">Component</th> */}
@@ -108,7 +117,7 @@ function StandardsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-[#e7efed]">
-            {sortedStandards.map((s) => (
+            {filteredStandards.map((s) => (
               <tr key={s.standardId} className="hover:bg-[#f5fbfa]">
                 {/* <td className="p-2 text-center font-semibold">{s.functionNumber}</td> */}
                 {/* <td className="p-2 text-center font-semibold">{s.componentNumber}</td> */}
@@ -133,6 +142,8 @@ function StandardsPage() {
             ))}
           </tbody>
         </table></div>
+        {filteredStandards.length === 0 && <p className="mt-4 rounded-lg border border-dashed border-[#c9ddd9] bg-white px-4 py-5 text-center text-sm text-[#527076]">No standards match these filters.</p>}
+        </>
       )}
 
       <FormModal open={showForm} onClose={handleCancel}>

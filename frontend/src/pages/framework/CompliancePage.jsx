@@ -5,21 +5,28 @@ import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
 import ComplianceForm from "../../components/forms/ComplianceForm";
 import { groupBy } from "../../utils/groupBy";
+import FrameworkFilters from "../../components/FrameworkFilters";
 
 function CompliancePage() {
     const [compliance, setCompliance] = useState([]);
+    const [criteria, setCriteria] = useState([]);
     const [editingCompliance, setEditingCompliance] = useState(null);
     const [showForm, setShowForm] = useState(false);
     const [deleteTarget, setDeleteTarget] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [, setSuccessMessage] = useState(null);
+    const [search, setSearch] = useState("");
+    const [criterionFilter, setCriterionFilter] = useState("");
+    const [standardFilter, setStandardFilter] = useState("");
+    const [applicabilityFilter, setApplicabilityFilter] = useState("");
 
     const loadData = async () => {
         try {
             setLoading(true);
-            const res = await getAll("compliances");
-            setCompliance(res.data);
+            const [complianceRes, criteriaRes] = await Promise.all([getAll("compliances"), getAll("criteria")]);
+            setCompliance(complianceRes.data);
+            setCriteria(criteriaRes.data);
             setError(null);
         } catch (err) {
             setError("Failed to load Compliance.");
@@ -32,6 +39,10 @@ function CompliancePage() {
     useEffect(() => {
         loadData();
     }, []);
+
+    useEffect(() => {
+        setCriterionFilter("");
+    }, [standardFilter]);
 
     const handleAddClick = () => {
         setEditingCompliance(null);
@@ -91,10 +102,33 @@ function CompliancePage() {
         }
     };
 
-    const sortedCompliance = [ ...compliance].sort((a, b) => 
+    const criteriaById = new Map(criteria.map((item) => [item.criterionId, item]));
+    const complianceWithHierarchy = compliance.map((item) => ({
+        ...item,
+        standardId: criteriaById.get(item.criterionId)?.standardId,
+        standardNumber: criteriaById.get(item.criterionId)?.standardNumber,
+        standardTitle: criteriaById.get(item.criterionId)?.standardTitle,
+    }));
+    const sortedCompliance = [ ...complianceWithHierarchy].sort((a, b) => 
         a.complianceNumber.localeCompare(b.complianceNumber, undefined, { numeric: true })
     );
-    const complianceByCriterion = groupBy(sortedCompliance, (item) => item.criterionNumber);
+    const standardOptions = [...new Map(criteria.map((item) => [item.standardId, { value: String(item.standardId), label: `${item.standardNumber} — ${item.standardTitle}` }])).values()]
+        .sort((a, b) => a.label.localeCompare(b.label, undefined, { numeric: true }));
+    const criterionOptions = [...new Map(complianceWithHierarchy
+        .filter((item) => !standardFilter || String(item.standardId) === standardFilter)
+        .map((item) => [item.criterionId, { value: String(item.criterionId), label: item.criterionNumber }])).values()]
+        .sort((a, b) => a.label.localeCompare(b.label, undefined, { numeric: true }));
+    const normalizedSearch = search.trim().toLowerCase();
+    const filteredCompliance = sortedCompliance.filter((item) => {
+        const matchesSearch = [item.complianceNumber, item.complianceSummary, item.criterionNumber]
+            .some((value) => value?.toLowerCase().includes(normalizedSearch));
+        const matchesCriterion = !criterionFilter || String(item.criterionId) === criterionFilter;
+        const matchesStandard = !standardFilter || String(item.standardId) === standardFilter;
+        const matchesApplicability = !applicabilityFilter
+            || (applicabilityFilter === "applicable" ? item.isApplicable : !item.isApplicable);
+        return matchesSearch && matchesStandard && matchesCriterion && matchesApplicability;
+    });
+    const complianceByCriterion = groupBy(filteredCompliance, (item) => item.criterionNumber);
 
     return (
         <div>
@@ -112,6 +146,8 @@ function CompliancePage() {
             {loading ? (
                 <p>Loading...</p>
             ) : (
+                <>
+                <FrameworkFilters search={search} onSearchChange={setSearch} searchPlaceholder="Search number, requirement, or criterion" filters={[{ label: "Standard", value: standardFilter, onChange: setStandardFilter, options: standardOptions }]} parentLabel="Criterion" parentValue={criterionFilter} onParentChange={setCriterionFilter} parentOptions={criterionOptions} applicability={applicabilityFilter} onApplicabilityChange={setApplicabilityFilter} resultCount={filteredCompliance.length} totalCount={compliance.length} />
                 <div className="overflow-x-auto rounded-xl border border-[#e2ecea] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[820px] text-sm"><thead className="border-b border-[#dce9e7] bg-[#f5faf9] text-xs uppercase tracking-wider text-[#527076]"><tr className="text-left">
                             <th className="p-2">Criteria</th>
                             <th className="p-2">No.</th>
@@ -149,6 +185,8 @@ function CompliancePage() {
                         ))) }
                     </tbody>
                 </table></div>
+                {filteredCompliance.length === 0 && <p className="mt-4 rounded-lg border border-dashed border-[#c9ddd9] bg-white px-4 py-5 text-center text-sm text-[#527076]">No compliance requirements match these filters.</p>}
+                </>
             )}
 
             <FormModal open={showForm} onClose={handleCancel}>

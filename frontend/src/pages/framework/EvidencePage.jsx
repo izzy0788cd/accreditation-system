@@ -5,21 +5,31 @@ import EvidenceForm from "../../components/forms/EvidenceForm";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
 import { groupBy } from "../../utils/groupBy";
+import FrameworkFilters from "../../components/FrameworkFilters";
 
 function EvidencePage() {
     const [evidence, setEvidence] = useState([]);
+    const [compliances, setCompliances] = useState([]);
+    const [criteria, setCriteria] = useState([]);
     const [editingEvidence, setEditingEvidence] = useState(null);
     const [showForm, setShowForm] = useState(false);
     const [deleteTarget, setDeleteTarget] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [, setSuccessMessage] = useState(null);
+    const [search, setSearch] = useState("");
+    const [complianceFilter, setComplianceFilter] = useState("");
+    const [criterionFilter, setCriterionFilter] = useState("");
+    const [standardFilter, setStandardFilter] = useState("");
+    const [applicabilityFilter, setApplicabilityFilter] = useState("");
 
     const loadData = async () => {
         try {
             setLoading(true);
-            const res = await getAll("evidence");
-            setEvidence(res.data);
+            const [evidenceRes, complianceRes, criteriaRes] = await Promise.all([getAll("evidence"), getAll("compliances"), getAll("criteria")]);
+            setEvidence(evidenceRes.data);
+            setCompliances(complianceRes.data);
+            setCriteria(criteriaRes.data);
             setError(null);
         } catch (err) {
             setError("Failed to load Evidence.");
@@ -32,6 +42,15 @@ function EvidencePage() {
     useEffect(() => {
         loadData();
     }, []);
+
+    useEffect(() => {
+        setCriterionFilter("");
+        setComplianceFilter("");
+    }, [standardFilter]);
+
+    useEffect(() => {
+        setComplianceFilter("");
+    }, [criterionFilter]);
     
     const handleAddClick = () => {
         setEditingEvidence(null);
@@ -91,13 +110,50 @@ function EvidencePage() {
         }
     };
 
-    const sortedEvidence = [ ...evidence].sort((a, b) => {
+    const complianceById = new Map(compliances.map((item) => [item.complianceId, item]));
+    const criteriaById = new Map(criteria.map((item) => [item.criterionId, item]));
+    const evidenceWithHierarchy = evidence.map((item) => {
+        const complianceItem = complianceById.get(item.complianceId);
+        const criterionItem = criteriaById.get(complianceItem?.criterionId);
+        return {
+            ...item,
+            criterionId: complianceItem?.criterionId,
+            criterionNumber: complianceItem?.criterionNumber,
+            standardId: criterionItem?.standardId,
+            standardNumber: criterionItem?.standardNumber,
+            standardTitle: criterionItem?.standardTitle,
+        };
+    });
+    const sortedEvidence = [ ...evidenceWithHierarchy].sort((a, b) => {
         const complianceCompare = a.complianceNumber.localeCompare(b.complianceNumber, undefined, { numeric: true });
         if (complianceCompare !== 0) return complianceCompare;
 
         return a.evidenceNumber.localeCompare(b.evidenceNumber, undefined, { numeric: true });
     });
-    const evidenceByCompliance = groupBy(sortedEvidence, (item) => item.complianceNumber);
+    const standardOptions = [...new Map(criteria.map((item) => [item.standardId, { value: String(item.standardId), label: `${item.standardNumber} — ${item.standardTitle}` }])).values()]
+        .sort((a, b) => a.label.localeCompare(b.label, undefined, { numeric: true }));
+    const criterionOptions = [...new Map(evidenceWithHierarchy
+        .filter((item) => !standardFilter || String(item.standardId) === standardFilter)
+        .map((item) => [item.criterionId, { value: String(item.criterionId), label: item.criterionNumber }])).values()]
+        .filter((option) => option.value !== "undefined")
+        .sort((a, b) => a.label.localeCompare(b.label, undefined, { numeric: true }));
+    const complianceOptions = [...new Map(evidenceWithHierarchy
+        .filter((item) => (!standardFilter || String(item.standardId) === standardFilter)
+            && (!criterionFilter || String(item.criterionId) === criterionFilter))
+        .map((item) => [item.complianceId, { value: String(item.complianceId), label: item.complianceNumber }])).values()]
+        .sort((a, b) => a.label.localeCompare(b.label, undefined, { numeric: true }));
+    const normalizedSearch = search.trim().toLowerCase();
+    const filteredEvidence = sortedEvidence.filter((item) => {
+        const matchesSearch = [item.evidenceNumber, item.evidenceSummary, item.complianceNumber]
+            .some((value) => value?.toLowerCase().includes(normalizedSearch));
+        const matchesCompliance = !complianceFilter || String(item.complianceId) === complianceFilter;
+        const matchesCriterion = !criterionFilter || String(item.criterionId) === criterionFilter;
+        const matchesStandard = !standardFilter || String(item.standardId) === standardFilter;
+        const matchesApplicability = !applicabilityFilter
+            || (applicabilityFilter === "applicable" ? item.isApplicable : !item.isApplicable);
+        return matchesSearch && matchesStandard && matchesCriterion && matchesCompliance && matchesApplicability;
+    });
+    const evidenceByCompliance = groupBy(filteredEvidence, (item) => item.complianceNumber);
 
 
     return (
@@ -116,6 +172,8 @@ function EvidencePage() {
             {loading ? (
                 <p>Loading...</p>
             ) : (
+                <>
+                <FrameworkFilters search={search} onSearchChange={setSearch} searchPlaceholder="Search number, evidence, or compliance" filters={[{ label: "Standard", value: standardFilter, onChange: setStandardFilter, options: standardOptions }, { label: "Criterion", value: criterionFilter, onChange: setCriterionFilter, options: criterionOptions }]} parentLabel="Compliance" parentValue={complianceFilter} onParentChange={setComplianceFilter} parentOptions={complianceOptions} applicability={applicabilityFilter} onApplicabilityChange={setApplicabilityFilter} resultCount={filteredEvidence.length} totalCount={evidence.length} />
                 <div className="overflow-x-auto rounded-xl border border-[#e2ecea] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[820px] text-sm"><thead className="border-b border-[#dce9e7] bg-[#f5faf9] text-xs uppercase tracking-wider text-[#527076]"><tr className="text-left">
                             <th className="p-2">Compliance</th>
                             <th className="p-2">No.</th>
@@ -153,6 +211,8 @@ function EvidencePage() {
                         ))) }
                     </tbody>
                 </table></div>
+                {filteredEvidence.length === 0 && <p className="mt-4 rounded-lg border border-dashed border-[#c9ddd9] bg-white px-4 py-5 text-center text-sm text-[#527076]">No evidence records match these filters.</p>}
+                </>
             )}
 
             <FormModal open={showForm} onClose={handleCancel}>
