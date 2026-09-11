@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-function ConfirmDialog({ open, title, message, onConfirm, onCancel, confirmLabel = "Delete", confirmDisabled = false }) {
+function ConfirmDialog({ open, title, message, onConfirm, onCancel, confirmLabel = "Delete", confirmDisabled = false, children }) {
   const cancelButtonRef = useRef(null);
 
   useEffect(() => {
@@ -21,6 +21,7 @@ function ConfirmDialog({ open, title, message, onConfirm, onCancel, confirmLabel
         <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-red-50 text-lg font-bold text-red-700" aria-hidden="true">!</div>
         <h2 id="confirm-dialog-title" className="text-xl font-bold text-[#143c42]">{title}</h2>
         <p className="mt-2 text-sm leading-6 text-[#527076]">{message}</p>
+        {children}
         <div className="mt-6 flex justify-end gap-3">
           <button
             ref={cancelButtonRef}

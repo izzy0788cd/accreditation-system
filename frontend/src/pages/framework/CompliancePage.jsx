@@ -5,7 +5,7 @@ import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
 import ComplianceForm from "../../components/forms/ComplianceForm";
 import { groupBy } from "../../utils/groupBy";
-import FrameworkFilters from "../../components/FrameworkFilters";
+import FrameworkFilters from "../../components/FrameworkFilters/FrameworkFilters";
 
 function CompliancePage() {
     const [compliance, setCompliance] = useState([]);

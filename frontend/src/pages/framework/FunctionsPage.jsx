@@ -99,7 +99,7 @@ function FunctionsPage() {
                     </thead>
                     <tbody className="divide-y divide-[#e7efed]">
                         {sortedFunctions.map((f) => (
-                        <tr key={f.functionId} className="hover:bg-[#f5fbfa]"><td className="px-6 py-4 font-semibold text-[#087c77]">{f.functionNumber}</td><td className="px-6 py-4 font-semibold text-[#143c42]">{f.functionTitle}</td><td className="px-6 py-4 leading-6 text-[#527076]">{f.functionSummary}</td><td className="px-6 py-4"><div className="flex justify-end gap-2 whitespace-nowrap">
+                        <tr key={f.functionId} className="hover:bg-[#f5fbfa]"><td className="px-6 py-4 font-semibold text-[#087c77]">{f.functionNumber}</td><td className="px-6 py-4 font-semibold text-[#143c42]">{f.functionTitle}</td><td className="px-6 py-4 text-justify leading-6 text-[#527076]">{f.functionSummary}</td><td className="px-6 py-4"><div className="flex justify-end gap-2 whitespace-nowrap">
                             <button
                                 onClick={() => handleEditClick(f)}
                                 className="rounded-md border border-[#b9d6d1] px-3 py-1.5 text-xs font-semibold text-[#087c77] hover:bg-teal-50"

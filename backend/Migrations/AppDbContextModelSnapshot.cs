@@ -388,11 +388,23 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("surveyId"));
 
+                    b.Property<string>("cancellationReason")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("cancelledAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("cancelledByUsername")
+                        .HasColumnType("text");
+
                     b.Property<DateOnly>("endDate")
                         .HasColumnType("date");
 
                     b.Property<int>("facilityId")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("isCancelled")
+                        .HasColumnType("boolean");
 
                     b.Property<DateOnly>("startDate")
                         .HasColumnType("date");
@@ -774,6 +786,39 @@ namespace backend.Migrations
                     b.ToTable("regions");
                 });
 
+            modelBuilder.Entity("backend.Models.Reports.SurveyReportVersion", b =>
+                {
+                    b.Property<int>("reportVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("reportVersionId"));
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("createdBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("reportJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("surveyId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("versionNumber")
+                        .HasColumnType("integer");
+
+                    b.HasKey("reportVersionId");
+
+                    b.HasIndex("surveyId", "versionNumber")
+                        .IsUnique();
+
+                    b.ToTable("surveyReportVersions");
+                });
+
             modelBuilder.Entity("backend.Models.Scoring.RiskRating", b =>
                 {
                     b.Property<int>("riskId")
@@ -1124,6 +1169,17 @@ namespace backend.Migrations
                         .IsRequired();
 
                     b.Navigation("region");
+                });
+
+            modelBuilder.Entity("backend.Models.Reports.SurveyReportVersion", b =>
+                {
+                    b.HasOne("backend.Models.FaciltitySurvey.Survey", "survey")
+                        .WithMany()
+                        .HasForeignKey("surveyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("survey");
                 });
 
             modelBuilder.Entity("backend.Models.Accounts.Role", b =>

@@ -71,7 +71,11 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    // Add "Preceptor" here when that role is introduced; do not grant it admin privileges.
+    options.AddPolicy("GenerateSurveyReports", policy => policy.RequireRole("Admin"));
+});
 
 var app = builder.Build();
 
@@ -93,4 +97,3 @@ app.UseCors("AllowFrontendDev");
 app.MapControllers();
 
 app.Run();
-

@@ -44,7 +44,7 @@ function ComplianceForm({ initialData, onSubmit, onCancel, lockedCriterionId }) 
         if (numberInputRef.current) {
             numberInputRef.current.focus();
         }
-    });
+    }, []);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value});

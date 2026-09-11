@@ -5,7 +5,7 @@ import EvidenceForm from "../../components/forms/EvidenceForm";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
 import { groupBy } from "../../utils/groupBy";
-import FrameworkFilters from "../../components/FrameworkFilters";
+import FrameworkFilters from "../../components/FrameworkFilters/FrameworkFilters";
 
 function EvidencePage() {
     const [evidence, setEvidence] = useState([]);

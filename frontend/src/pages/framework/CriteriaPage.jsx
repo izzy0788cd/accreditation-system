@@ -2,16 +2,18 @@ import { useEffect, useState } from "react";
 import { getAll, create, update, remove, patchApplicability } from "../../api/api";
 import { Link } from "react-router-dom";
 import CriterionForm from "../../components/forms/CriterionForm";
+import CriterionWizardForm from "../../components/forms/CriterionWizardPage";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
 import { groupBy } from "../../utils/groupBy";
-import FrameworkFilters from "../../components/FrameworkFilters";
+import FrameworkFilters from "../../components/FrameworkFilters/FrameworkFilters";
 
 
 function CriteriaPage() {
     const [criteria, setCriteria] = useState([]);
     const [editingCriterion, setEditingCriterion] = useState(null);
     const [showForm, setShowForm] = useState(false);
+    const [showWizard, setShowWizard] = useState(false);
     const [deleteTarget, setDeleteTarget] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -43,6 +45,10 @@ function CriteriaPage() {
         setShowForm(true);
     };
 
+    const handleAddWizardClick = () => {
+        setShowWizard(true);
+    };
+
     const handleEditClick = (criterion) => {
         setEditingCriterion(criterion);
         setShowForm(true);
@@ -51,6 +57,15 @@ function CriteriaPage() {
     const handleCancel = () => {
         setEditingCriterion(null);
         setShowForm(false);
+    };
+
+    const handleWizardCancel = () => {
+        setShowWizard(false);
+    };
+
+    const handleWizardDone = () => {
+        setShowWizard(false);
+        loadData();
     };
 
 const handleSubmit = async (formData) => {
@@ -64,7 +79,7 @@ const handleSubmit = async (formData) => {
             setSuccessMessage(`"${formData.criterionTitle}" added.`);
             setTimeout(() => setSuccessMessage(null), 2000);
         }
-        loadData(); // or loadCriteria(), matching whichever file you're in
+        loadData();
     } catch (err) {
         setError("Failed to save criterion.");
         console.error(err);
@@ -116,12 +131,20 @@ const handleSubmit = async (formData) => {
     <div>
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">Framework layer</p><h2 className="mt-1 text-2xl font-bold tracking-tight text-[#143c42]">Criteria</h2></div>
-        <button
-          onClick={handleAddClick}
-          className="rounded-lg bg-[#087c77] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#05635f]"
-        >
-          + Add Criterion
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={handleAddClick}
+            className="rounded-lg border border-[#b9d6d1] px-4 py-2.5 text-sm font-semibold text-[#087c77] hover:bg-teal-50"
+          >
+            + Add Criterion
+          </button>
+          <button
+            onClick={handleAddWizardClick}
+            className="rounded-lg bg-[#087c77] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#05635f]"
+          >
+            + Add Criterion with Compliance &amp; Evidence
+          </button>
+        </div>
       </div>
 
       {error && <p className="text-red-600 mb-4">{error}</p>}
@@ -185,6 +208,13 @@ const handleSubmit = async (formData) => {
           initialData={editingCriterion}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
+        />
+      </FormModal>
+
+      <FormModal open={showWizard} onClose={handleWizardCancel} wide>
+        <CriterionWizardForm
+          onDone={handleWizardDone}
+          onCancel={handleWizardCancel}
         />
       </FormModal>
 

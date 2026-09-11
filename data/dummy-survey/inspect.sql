@@ -1,0 +1,3 @@
+SELECT row_to_json(t) FROM (SELECT st."standardNumber",count(*) total,count(*) FILTER(WHERE a."scoreId" IS NOT NULL OR a."riskRatingId" IS NOT NULL OR coalesce(a."complianceComments",'')<>'') filled FROM "complianceAssessments" a JOIN compliances co ON co."complianceId"=a."complianceId" JOIN criteria c ON c."criterionId"=co."criterionId" JOIN standards st ON st."standardId"=c."standardId" WHERE a."surveyId"=1 GROUP BY st."standardNumber")t;
+SELECT row_to_json(t) FROM "surveyStandardAssignments" t WHERE "surveyId"=1;
+SELECT row_to_json(t) FROM (SELECT count(*) checks,count(*) FILTER(WHERE e."isChecked") checked FROM "complianceEvidenceChecks" e JOIN "complianceAssessments" a ON a."complianceAssessmentId"=e."complianceAssessmentId" WHERE a."surveyId"=1)t;

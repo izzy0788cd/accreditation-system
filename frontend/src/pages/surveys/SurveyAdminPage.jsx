@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getAll, getOne, getSurveyAssessments, getSurveyStandardAssignments, update, updateSurveyStandardAssignments } from "../../api/api";
+import { cancelSurvey, getAll, getOne, getSurveyAssessments, getSurveyStandardAssignments, syncSurveyFramework, update, updateSurveyStandardAssignments } from "../../api/api";
+import ConfirmDialog from "../../components/ConfirmDialog";
 
 const dateValue = (value) => value?.slice?.(0, 10) || value || "";
 
@@ -15,6 +16,11 @@ function SurveyAdminPage() {
   const [form, setForm] = useState({ surveyTypeId: "", surveyorId: "", startDate: "", endDate: "" });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
+  const [cancelOpen, setCancelOpen] = useState(false);
+  const [cancellationReason, setCancellationReason] = useState("");
+  const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
 
   const load = async () => {
@@ -35,7 +41,13 @@ function SurveyAdminPage() {
       setSurvey(currentSurvey);
       setTypes(typeRes.data);
       setSurveyors(surveyorRes.data);
-      setStandards(standardRes.data.filter((standard) => surveyedStandardIds.has(standard.standardId)));
+      setStandards(standardRes.data
+        .filter((standard) => surveyedStandardIds.has(standard.standardId))
+        .sort((first, second) => String(first.standardNumber).localeCompare(
+          String(second.standardNumber),
+          undefined,
+          { numeric: true, sensitivity: "base" },
+        )));
       setAssignments(assignmentMap);
       setForm({ surveyTypeId: String(currentSurvey.surveyTypeId), surveyorId: String(currentSurvey.surveyorId), startDate: dateValue(currentSurvey.startDate), endDate: dateValue(currentSurvey.endDate) });
       setError("");
@@ -62,6 +74,26 @@ function SurveyAdminPage() {
     } catch (saveError) { console.error(saveError); } finally { setSaving(false); }
   };
 
+  const syncFramework = async () => {
+    try {
+      setSyncing(true);
+      const response = await syncSurveyFramework(surveyId);
+      setNotice(response.data.message);
+      await load();
+    } catch (syncError) { console.error(syncError); } finally { setSyncing(false); }
+  };
+
+  const cancelCurrentSurvey = async () => {
+    if (!cancellationReason.trim()) { setError("Enter a reason before cancelling this survey."); return; }
+    try {
+      setCancelling(true);
+      await cancelSurvey(surveyId, cancellationReason);
+      setCancelOpen(false);
+      setNotice("The survey has been cancelled. Its recorded findings remain available as read-only history.");
+      await load();
+    } catch (cancelError) { console.error(cancelError); } finally { setCancelling(false); }
+  };
+
   if (loading) return <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6"><div className="h-64 animate-pulse rounded-2xl bg-slate-100" /></main>;
   if (error && !survey) return <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6"><Link to="/surveys" className="text-sm font-semibold text-[#087c77]">← Back to surveys</Link><p className="mt-5 rounded-xl border border-red-100 bg-red-50 p-5 text-sm text-red-800">{error}</p></main>;
 
@@ -72,24 +104,26 @@ function SurveyAdminPage() {
       <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#143c42]">{survey.facilityName}</h1>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-[#527076]">Update the survey details, nominate the team lead, and allocate each included standard to the surveyor responsible for it.</p>
     </header>
+    {survey.isCancelled && <section className="mt-5 rounded-xl border border-red-200 bg-red-50 p-5 text-sm text-red-900"><p className="font-bold">Cancelled survey</p><p className="mt-1 leading-6">{survey.cancellationReason}</p><p className="mt-2 text-xs text-red-700">Cancelled {survey.cancelledAt ? new Date(survey.cancelledAt).toLocaleString() : ""}{survey.cancelledByUsername ? ` by ${survey.cancelledByUsername}` : ""}. Existing findings remain available, but cannot be changed.</p></section>}
     {error && <p className="mt-5 rounded-lg border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</p>}
+    {notice && <p className="mt-5 rounded-lg border border-teal-100 bg-teal-50 px-4 py-3 text-sm text-teal-800">{notice}</p>}
     <form onSubmit={save} className="mt-6 space-y-6">
       <section className="rounded-xl border border-[#dce9e7] bg-white p-5 shadow-sm sm:p-6">
-        <h2 className="text-lg font-bold text-[#143c42]">Survey details</h2>
-        <p className="mt-1 text-sm text-[#527076]">The facility is fixed once the checklist has been generated.</p>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"><div><h2 className="text-lg font-bold text-[#143c42]">Edit survey details</h2><p className="mt-1 text-sm text-[#527076]">The facility is fixed once the checklist has been generated.</p></div>{!survey.isCancelled && <button type="button" disabled={syncing} onClick={syncFramework} className="rounded-lg border border-[#b9d6d1] bg-white px-4 py-2.5 text-sm font-semibold text-[#087c77] hover:bg-teal-50 disabled:opacity-60">{syncing ? "Synchronising…" : "Sync latest framework"}</button>}</div>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
-          <label className="text-sm font-semibold text-[#143c42]">Survey type<select value={form.surveyTypeId} onChange={(event) => setForm({ ...form, surveyTypeId: event.target.value })} className="mt-1.5 w-full rounded-lg border border-[#c9ddd9] px-3 py-2.5 text-sm"><option value="">Select survey type</option>{types.map((type) => <option key={type.surveyTypeId} value={type.surveyTypeId}>{type.surveyTypeName}</option>)}</select></label>
-          <label className="text-sm font-semibold text-[#143c42]">Team lead<select value={form.surveyorId} onChange={(event) => setForm({ ...form, surveyorId: event.target.value })} className="mt-1.5 w-full rounded-lg border border-[#c9ddd9] px-3 py-2.5 text-sm"><option value="">Select team lead</option>{surveyors.map((surveyor) => <option key={surveyor.surveyorId} value={surveyor.surveyorId}>{surveyor.fullName}</option>)}</select></label>
-          <label className="text-sm font-semibold text-[#143c42]">Start date<input required type="date" value={form.startDate} onChange={(event) => setForm({ ...form, startDate: event.target.value })} className="mt-1.5 w-full rounded-lg border border-[#c9ddd9] px-3 py-2.5 text-sm" /></label>
-          <label className="text-sm font-semibold text-[#143c42]">End date<input required type="date" value={form.endDate} onChange={(event) => setForm({ ...form, endDate: event.target.value })} className="mt-1.5 w-full rounded-lg border border-[#c9ddd9] px-3 py-2.5 text-sm" /></label>
+          <label className="text-sm font-semibold text-[#143c42]">Survey type<select disabled={survey.isCancelled} value={form.surveyTypeId} onChange={(event) => setForm({ ...form, surveyTypeId: event.target.value })} className="mt-1.5 w-full rounded-lg border border-[#c9ddd9] px-3 py-2.5 text-sm disabled:bg-slate-50"><option value="">Select survey type</option>{types.map((type) => <option key={type.surveyTypeId} value={type.surveyTypeId}>{type.surveyTypeName}</option>)}</select></label>
+          <label className="text-sm font-semibold text-[#143c42]">Team lead<select disabled={survey.isCancelled} value={form.surveyorId} onChange={(event) => setForm({ ...form, surveyorId: event.target.value })} className="mt-1.5 w-full rounded-lg border border-[#c9ddd9] px-3 py-2.5 text-sm disabled:bg-slate-50"><option value="">Select team lead</option>{surveyors.map((surveyor) => <option key={surveyor.surveyorId} value={surveyor.surveyorId}>{surveyor.fullName}</option>)}</select></label>
+          <label className="text-sm font-semibold text-[#143c42]">Start date<input disabled={survey.isCancelled} required type="date" value={form.startDate} onChange={(event) => setForm({ ...form, startDate: event.target.value })} className="mt-1.5 w-full rounded-lg border border-[#c9ddd9] px-3 py-2.5 text-sm disabled:bg-slate-50" /></label>
+          <label className="text-sm font-semibold text-[#143c42]">End date<input disabled={survey.isCancelled} required type="date" value={form.endDate} onChange={(event) => setForm({ ...form, endDate: event.target.value })} className="mt-1.5 w-full rounded-lg border border-[#c9ddd9] px-3 py-2.5 text-sm disabled:bg-slate-50" /></label>
         </div>
       </section>
       <section className="overflow-hidden rounded-xl border border-[#dce9e7] bg-white shadow-sm">
         <div className="border-b border-[#dce9e7] bg-[#f5faf9] p-5 sm:p-6"><h2 className="text-lg font-bold text-[#143c42]">Standard assignments</h2><p className="mt-1 text-sm text-[#527076]">Leave a standard with the team lead, or choose a dedicated surveyor. A surveyor can be responsible for more than one standard.</p>{unassignedCount > 0 && <p className="mt-3 text-xs font-semibold text-[#876318]">{unassignedCount} standard{unassignedCount === 1 ? "" : "s"} currently covered by the team lead.</p>}</div>
-        <div className="divide-y divide-[#e7efed]">{standards.map((standard) => <div key={standard.standardId} className="grid gap-3 p-5 sm:grid-cols-[minmax(0,1fr)_18rem] sm:items-center sm:px-6"><div><p className="text-sm font-bold text-[#0b6f6b]">Standard {standard.standardNumber}</p><p className="mt-1 text-sm leading-6 text-[#143c42]">{standard.standardTitle}</p></div><label className="text-sm font-semibold text-[#527076]"><span className="sr-only">Assigned surveyor for Standard {standard.standardNumber}</span><select value={assignments[standard.standardId] || form.surveyorId} onChange={(event) => setAssignments({ ...assignments, [standard.standardId]: event.target.value })} className="w-full rounded-lg border border-[#c9ddd9] bg-white px-3 py-2.5 text-sm text-[#143c42]"><option value={form.surveyorId}>Team lead — {surveyors.find((surveyor) => String(surveyor.surveyorId) === form.surveyorId)?.fullName || "Select team lead"}</option>{surveyors.filter((surveyor) => String(surveyor.surveyorId) !== form.surveyorId).map((surveyor) => <option key={surveyor.surveyorId} value={surveyor.surveyorId}>{surveyor.fullName}</option>)}</select></label></div>)}</div>
+        <div className="divide-y divide-[#e7efed]">{standards.map((standard) => <div key={standard.standardId} className="grid gap-3 p-5 sm:grid-cols-[minmax(0,1fr)_18rem] sm:items-center sm:px-6"><div><p className="text-sm font-bold text-[#0b6f6b]">Standard {standard.standardNumber}</p><p className="mt-1 text-sm leading-6 text-[#143c42]">{standard.standardTitle}</p></div><label className="text-sm font-semibold text-[#527076]"><span className="sr-only">Assigned surveyor for Standard {standard.standardNumber}</span><select disabled={survey.isCancelled} value={assignments[standard.standardId] || form.surveyorId} onChange={(event) => setAssignments({ ...assignments, [standard.standardId]: event.target.value })} className="w-full rounded-lg border border-[#c9ddd9] bg-white px-3 py-2.5 text-sm text-[#143c42] disabled:bg-slate-50"><option value={form.surveyorId}>Team lead — {surveyors.find((surveyor) => String(surveyor.surveyorId) === form.surveyorId)?.fullName || "Select team lead"}</option>{surveyors.filter((surveyor) => String(surveyor.surveyorId) !== form.surveyorId).map((surveyor) => <option key={surveyor.surveyorId} value={surveyor.surveyorId}>{surveyor.fullName}</option>)}</select></label></div>)}</div>
       </section>
-      <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"><Link to={`/surveys/${surveyId}`} className="rounded-lg border border-[#b9d6d1] px-4 py-2.5 text-center text-sm font-semibold text-[#527076] hover:bg-slate-50">Cancel</Link><button disabled={saving} type="submit" className="rounded-lg bg-[#087c77] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#05635f] disabled:opacity-60">{saving ? "Saving…" : "Save survey administration"}</button></div>
+      <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between"><div>{!survey.isCancelled && <button type="button" onClick={() => setCancelOpen(true)} className="rounded-lg border border-red-200 bg-white px-4 py-2.5 text-sm font-semibold text-red-700 hover:bg-red-50">Cancel survey</button>}</div><div className="flex flex-col-reverse gap-3 sm:flex-row"><Link to={`/surveys/${surveyId}`} className="rounded-lg border border-[#b9d6d1] px-4 py-2.5 text-center text-sm font-semibold text-[#527076] hover:bg-slate-50">Back to survey</Link>{!survey.isCancelled && <button disabled={saving} type="submit" className="rounded-lg bg-[#087c77] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#05635f] disabled:opacity-60">{saving ? "Saving…" : "Save survey administration"}</button>}</div></div>
     </form>
+    <ConfirmDialog open={cancelOpen} title="Cancel this survey?" message="The survey will remain in the system as read-only history. Enter the reason below so the decision is auditable." confirmLabel={cancelling ? "Cancelling…" : "Cancel survey"} confirmDisabled={cancelling || !cancellationReason.trim()} onCancel={() => !cancelling && setCancelOpen(false)} onConfirm={cancelCurrentSurvey}><label className="mt-4 block text-sm font-semibold text-[#143c42]">Cancellation reason<textarea autoFocus required value={cancellationReason} onChange={(event) => setCancellationReason(event.target.value)} rows="4" className="mt-1.5 w-full resize-y rounded-lg border border-[#c9ddd9] px-3 py-2.5 text-sm font-normal" placeholder="For example: facility requested a change of dates." /></label></ConfirmDialog>
   </main>;
 }
 

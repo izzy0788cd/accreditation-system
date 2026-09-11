@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getOne, getAll, create, update, remove, patchApplicability } from "../../api/api";
+import { getOne, getAll, update, remove, patchApplicability } from "../../api/api";
 import CriterionForm from "../../components/forms/CriterionForm";
+import CriterionWizardForm from "../../components/forms/CriterionWizardPage";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
 
@@ -11,10 +12,10 @@ function StandardDetailPage() {
   const [criteria, setCriteria] = useState([]);
   const [editingCriterion, setEditingCriterion] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [showWizard, setShowWizard] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [, setSuccessMessage] = useState(null);
 
   const loadData = async () => {
     try {
@@ -40,9 +41,8 @@ function StandardDetailPage() {
     loadData();
   }, [standardId]);
 
-  const handleAddClick = () => {
-    setEditingCriterion(null);
-    setShowForm(true);
+  const handleAddWizardClick = () => {
+    setShowWizard(true);
   };
 
   const handleEditClick = (criterion) => {
@@ -55,23 +55,26 @@ function StandardDetailPage() {
     setShowForm(false);
   };
 
-const handleSubmit = async (formData) => {
+  const handleWizardCancel = () => {
+    setShowWizard(false);
+  };
+
+  const handleWizardDone = () => {
+    setShowWizard(false);
+    loadData();
+  };
+
+  const handleSubmit = async (formData) => {
     try {
-        if (editingCriterion) {
-            await update("criteria", editingCriterion.criterionId, formData);
-            setShowForm(false);
-            setEditingCriterion(null);
-        } else {
-            await create("criteria", { ...formData, standardId: Number(standardId) });
-            setSuccessMessage(`"${formData.criterionTitle}" added.`);
-            setTimeout(() => setSuccessMessage(null), 2000);
-        }
-        loadData(); // or loadCriteria(), matching whichever file you're in
+      await update("criteria", editingCriterion.criterionId, formData);
+      setShowForm(false);
+      setEditingCriterion(null);
+      loadData();
     } catch (err) {
-        setError("Failed to save criterion.");
-        console.error(err);
+      setError("Failed to save criterion.");
+      console.error(err);
     }
-};
+  };
 
   const handleDeleteClick = (criterion) => {
     setDeleteTarget(criterion);
@@ -115,8 +118,9 @@ const handleSubmit = async (formData) => {
         <p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">NHSS standard</p><h1 className="mt-1 text-2xl font-bold tracking-tight text-[#143c42]">
           {standard.standardNumber} — {standard.standardTitle}
         </h1>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2"><div className="rounded-lg border border-[#c9ddd9] bg-white/80 px-4 py-3"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#527076]">Function</p><p className="mt-1 font-semibold text-[#143c42]">{standard.functionNumber ? `${standard.functionNumber} — ` : ""}{standard.functionTitle || "Not recorded"}</p></div><div className="rounded-lg border border-[#c9ddd9] bg-white/80 px-4 py-3"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#527076]">Component</p><p className="mt-1 font-semibold text-[#143c42]">{standard.componentNumber ? `${standard.componentNumber} — ` : ""}{standard.componentName || "Not recorded"}</p></div></div>
         {standard.standardSummary && (
-          <p className="text-gray-600 mt-2 text-justify">{standard.standardSummary}</p>
+          <p className="mt-4 text-justify leading-7 text-[#527076]">{standard.standardSummary}</p>
         )}
       </div>
 
@@ -124,7 +128,7 @@ const handleSubmit = async (formData) => {
 
       <div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-bold text-[#143c42]">Criteria</h2>
         <button
-          onClick={handleAddClick}
+          onClick={handleAddWizardClick}
           className="rounded-lg bg-[#087c77] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#05635f]"
         >
           + Add Criterion
@@ -180,7 +184,14 @@ const handleSubmit = async (formData) => {
           initialData={editingCriterion}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
-          lockedStandardId={editingCriterion ? undefined : Number(standardId)}
+        />
+      </FormModal>
+
+      <FormModal open={showWizard} onClose={handleWizardCancel} wide>
+        <CriterionWizardForm
+          onDone={handleWizardDone}
+          onCancel={handleWizardCancel}
+          lockedStandardId={Number(standardId)}
         />
       </FormModal>
 

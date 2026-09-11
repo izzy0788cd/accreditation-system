@@ -20,6 +20,8 @@ namespace backend.Data
             
         }
         
+        public DbSet<backend.Models.Reports.SurveyReportVersion> surveyReportVersions { get; set; }
+
         //db sets for framework
         public DbSet<Function> functions { get; set; }
         public DbSet<Component> components { get; set; }
@@ -67,6 +69,11 @@ namespace backend.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<backend.Models.Reports.SurveyReportVersion>()
+                .HasIndex(r => new { r.surveyId, r.versionNumber }).IsUnique();
+            modelBuilder.Entity<backend.Models.Reports.SurveyReportVersion>()
+                .HasOne(r => r.survey).WithMany().HasForeignKey(r => r.surveyId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             //Framework relationships
             modelBuilder.Entity<Component>().HasKey(c => c.componentId);

@@ -82,13 +82,13 @@ namespace backend.Controllers.Assessment
         }
 
         [HttpGet("survey/{surveyId}/overview")]
-        [Authorize(Roles = "Admin,Surveyor")]
+        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
         public async Task<ActionResult<IEnumerable<ComplianceAssessmentDTO>>> GetSurveyOverview(int surveyId)
         {
             if (!User.IsInRole("Admin"))
             {
                 var surveyorId = await GetCurrentSurveyorIdAsync();
-                var isTeamLead = surveyorId.HasValue && await _context.surveys.AnyAsync(survey =>
+                var isTeamLead = User.IsInRole("Team Lead") && surveyorId.HasValue && await _context.surveys.AnyAsync(survey =>
                     survey.surveyId == surveyId && survey.surveyorId == surveyorId.Value
                 );
                 if (!isTeamLead)
@@ -131,7 +131,7 @@ namespace backend.Controllers.Assessment
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin,Surveyor")]
+        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
         public async Task<IActionResult> Update(int id, ComplianceAssessmentUpdateDTO dto)
         {
             var assessment = await _context
@@ -142,14 +142,11 @@ namespace backend.Controllers.Assessment
             if (assessment == null)
                 return NotFound();
 
+            if (assessment.survey!.isCancelled)
+                return BadRequest("This survey has been cancelled and can no longer be updated.");
+
             if (!await CanUpdateAsync(assessment))
                 return Forbid();
-
-            // Risk rating guard: Internal (self-assessment) surveys never carry a risk rating
-            if (dto.riskId != null && assessment.survey!.surveyType!.surveyTypeName == "Internal")
-                return BadRequest(
-                    "Risk rating does not apply to Internal (self-assessment) surveys."
-                );
 
             if (dto.surveyorId.HasValue)
             {
@@ -182,6 +179,66 @@ namespace backend.Controllers.Assessment
 
             await _context.SaveChangesAsync();
             return NoContent();
+        }
+
+        // Returns the latest Internal self-assessment for the compliance items visible
+        // in an External survey. This lets external surveyors compare the facility's
+        // own score, risk rating, and comments without exposing unrelated standards.
+        [HttpGet("survey/{surveyId}/internal-reference")]
+        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        public async Task<ActionResult<IEnumerable<ComplianceAssessmentDTO>>> GetInternalReferences(
+            int surveyId
+        )
+        {
+            var survey = await _context.surveys
+                .Include(item => item.surveyType)
+                .FirstOrDefaultAsync(item => item.surveyId == surveyId);
+            if (survey == null)
+                return NotFound();
+
+            if (survey.surveyType!.surveyTypeName != "External")
+                return Ok(Enumerable.Empty<ComplianceAssessmentDTO>());
+
+            var visibleAssessments = _context.complianceAssessments.Where(assessment =>
+                assessment.surveyId == surveyId
+            );
+            if (!User.IsInRole("Admin"))
+            {
+                var surveyorId = await GetCurrentSurveyorIdAsync();
+                if (!surveyorId.HasValue)
+                    return Forbid();
+
+                var isTeamLead = survey.surveyorId == surveyorId.Value;
+                if (!isTeamLead)
+                    visibleAssessments = visibleAssessments.Where(assessment =>
+                        assessment.surveyorId == surveyorId.Value
+                    );
+            }
+
+            var visibleComplianceIds = await visibleAssessments
+                .Select(assessment => assessment.complianceId)
+                .ToListAsync();
+            if (visibleComplianceIds.Count == 0)
+                return Ok(Enumerable.Empty<ComplianceAssessmentDTO>());
+
+            var latestInternalSurveyId = await _context.surveys
+                .Where(item =>
+                    item.facilityId == survey.facilityId
+                    && item.surveyType!.surveyTypeName == "Internal"
+                )
+                .OrderByDescending(item => item.startDate)
+                .Select(item => (int?)item.surveyId)
+                .FirstOrDefaultAsync();
+            if (!latestInternalSurveyId.HasValue)
+                return Ok(Enumerable.Empty<ComplianceAssessmentDTO>());
+
+            var references = await ProjectAssessments(
+                _context.complianceAssessments.Where(assessment =>
+                    assessment.surveyId == latestInternalSurveyId.Value
+                    && visibleComplianceIds.Contains(assessment.complianceId)
+                )
+            ).ToListAsync();
+            return Ok(references);
         }
 
         [HttpGet("{id}/self-assessment")]

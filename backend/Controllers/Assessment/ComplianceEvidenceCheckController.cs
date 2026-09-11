@@ -69,7 +69,7 @@ namespace backend.Controllers.Assessment
         }
 
         [HttpGet("assessment/{complianceAssessmentId}")]
-        [Authorize]
+        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
         public async Task<ActionResult<IEnumerable<ComplianceEvidenceCheckDTO>>> GetForAssessment(
             int complianceAssessmentId
         )
@@ -102,7 +102,7 @@ namespace backend.Controllers.Assessment
         }
 
         [HttpGet("survey/{surveyId}")]
-        [Authorize]
+        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
         public async Task<ActionResult<IEnumerable<ComplianceEvidenceCheckDTO>>> GetForSurvey(int surveyId)
         {
             if (!await _context.surveys.AnyAsync(survey => survey.surveyId == surveyId))
@@ -129,12 +129,17 @@ namespace backend.Controllers.Assessment
         }
 
         [HttpPatch("{id}/checked")]
-        [Authorize(Roles = "Admin,Surveyor")]
+        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
         public async Task<IActionResult> PatchChecked(int id, [FromBody] bool isChecked)
         {
-            var check = await _context.complianceEvidenceChecks.FindAsync(id);
+            var check = await _context.complianceEvidenceChecks
+                .Include(item => item.complianceAssessment)
+                    .ThenInclude(assessment => assessment!.survey)
+                .FirstOrDefaultAsync(item => item.complianceEvidenceCheckId == id);
             if (check == null)
                 return NotFound();
+            if (check.complianceAssessment!.survey!.isCancelled)
+                return BadRequest("This survey has been cancelled and evidence checks can no longer be changed.");
 
             if (!User.IsInRole("Admin"))
             {

@@ -25,6 +25,10 @@ namespace backend.Models.FaciltitySurvey
         public Surveyors? surveyor { get; set; }
         public DateOnly startDate { get; set; } // approx. start date of survey
         public DateOnly endDate { get; set; } // approx. end date of survey
+        public bool isCancelled { get; set; } = false;
+        public string? cancellationReason { get; set; }
+        public DateTime? cancelledAt { get; set; }
+        public string? cancelledByUsername { get; set; }
         public ICollection<ComplianceAssessment>? complianceAssessments { get; set; }
         public ICollection<SurveyStandardAssignment>? standardAssignments { get; set; }
     }

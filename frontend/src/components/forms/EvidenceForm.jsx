@@ -44,7 +44,7 @@ function EvidenceForm({ initialData, onSubmit, onCancel, lockedComplianceId }) {
         if (numberInputRef.current) {
             numberInputRef.current.focus();
         }
-    });
+    }, []);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value});

@@ -1,0 +1,295 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\01 Leadership & Governance\\Standard No. 14 Patient Referral Pathways.docx",
+  "functionNumber": "2",
+  "componentNumber": "1",
+  "standardNumber": "14",
+  "standardTitle": "Formalised patient referral pathways",
+  "standardSummary": "All Healthcare Organisations should comply with the patient referral discipline, refer appropriately and safely, and follow the agreed Patient Referral Guideline. The Patient Referral Guideline is about making timely referrals based on clinical assessment, communication between different levels of care, prior approval to transfer, and supporting a patient’s acute and ongoing care management, discharge and follow-up care.",
+  "sourceReferences": "National Health Service Standards (NHSS) Vol. 2 (2nd Edition)\nNational Referral Guidelines for Health Facilities in Papua New Guinea 2025",
+  "criteria": [
+    {
+      "criterionNumber": "14.1",
+      "criterionTitle": "Strengthen the patient referral system at all levels of care",
+      "compliances": [
+        {
+          "complianceNumber": "14.1.1",
+          "complianceSummary": "The Organisation has a formalised patient referral guidelines adapted from the National Patient Referral Guidelines to best fit its geographical and population health needs. This guideline addresses:\nRelationship between all levels of care\nPeople receive the best possible care close to home\nPatients receive optimal care at the appropriate levels\nPatients who most need specialist services can access them in a timely way\nPrimary health services are well utilised\nCost effective use of hospital and primary health care services - All healthcare providers adhere to the Patient Referral Guideline \nHealth workers at each level of care are fully aware of their roles and responsibilities for patient referral and as an escort or a guardian as an escort.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of an endorsed Patient Referral Guideline."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Copies of the Organisation’s Patient Referral Guidelines are available at all health facilities."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "14.2",
+      "criterionTitle": "Effective coordination and communication mechanisms",
+      "compliances": [
+        {
+          "complianceNumber": "14.2.1",
+          "complianceSummary": "A reliable communication method is fully utilised to facilitate communication and coordination between health workers involved in the management of patient referrals.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of a toll-free number/ CUG radio/Whatsapp/ messaging service   between referring and receiving facilities including private and public."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "All health facilities must have a communication directory with details of health facilities, services and contact numbers of relevant persons."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "14.3",
+      "criterionTitle": "Initiating health facility",
+      "compliances": [
+        {
+          "complianceNumber": "14.3.1",
+          "complianceSummary": "Patients who require referral, receive timely and appropriate patient assessment, care, treatment and referral.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that Emergency cases are resuscitated and stabilised in preparation for referral/evacuation."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of triaging to Category 1, 2 and 3 based on severity of the patient’s condition."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of documented approval between referring and receiving facility prior to transfer."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Evidence of written patient/guardian consent for referral."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Evidence that the patient referral form travels with the patient."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Evidence that patient with poor prognosis are not transferred."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "Evidence that urgent referals by air or sea are appoved by the CEO/delegate."
+            },
+            {
+              "evidenceNumber": "8",
+              "evidenceSummary": "Evidence of a referral registry at the initiating health facility."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "14.4",
+      "criterionTitle": "Appropriateness of referral",
+      "compliances": [
+        {
+          "complianceNumber": "14.4.1",
+          "complianceSummary": "Evidence that emergency or urgent condition and non-urgent or elective criteria, is based on the patient’s medical condition and triage categories. Referrals are done to the appropriate level.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that the referral is appropriate to the level of triage and medical condition."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of referrals to a Rural Hospital for screening, and communication with the Provincial Senior Medical Officer for non-urgent cases."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of communication with the Provincial Senior Medical Officer for an urgent or unstable case (e.g.requiring resuscitation)."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Evidence that self- referred patients are not offered repatriation."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Evidence of referral and management for cases referred from Village Health Assistants and Community-based treatment partners."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Evidence of village deaths recorded as verbal autopsy."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "Evidence that public health programme officers are aware of referral pathways for TB patients, gender-based violence survivors, mental health patients and patients with disabilities."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "14.5",
+      "criterionTitle": "Patient referral documentation and records",
+      "compliances": [
+        {
+          "complianceNumber": "14.5.1",
+          "complianceSummary": "Standardised Patient Referral Forms are utilised and health information on this form is audited for completeness and accuracy.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that a standardised patient referral form is used for referrals which is signed off by a senior officer prior to referral."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence that the patient referral form has relevant information including presenting complaint, history, co-morbidities and regular medications."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "The patient referral form has  documentation of vital signs and treatment given."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "The patient referral form has documented time of patient arrival and time of departure."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "There is a “checklist’ to support health workers at the initiating health facility to prepare patients for transfer."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Evidence of documentation of patient’s condition during transport."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "14.6",
+      "criterionTitle": "Receiving health facility",
+      "compliances": [
+        {
+          "complianceNumber": "14.6.1",
+          "complianceSummary": "The receiving health facility can handle the immediate care of the referred patient. Patient referrals are usually from a lower level of health facility to a higher or specialist health facility and vice versa.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that the health facility receiving the patient has the available skilled workforce / right skill mix, medicines and equipment to manage the referred condition of the patient."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence  that there is documentation of a handover by accompanying staff to the receiving facility."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of a referral registry at the receiving health facility."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Hospital Emergency Department, Birth Suite or Specialist Medical Consultation Clinics is the point of call for urgent and non-urgent referrals."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "14.7",
+      "criterionTitle": "Discharge planning",
+      "compliances": [
+        {
+          "complianceNumber": "14.7.1",
+          "complianceSummary": "A patient who is discharged from a facility to his home or transferred to another facility requires a discharge plan for continuity of care.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Patient is discharged with medical and patient care instructions, supply of medications and consumables that the patient requires at the time of discharge."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Documentation of discharge plan is on Discharge Summary, Admission form and patient inpatient records."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of communication between facilities for patient discharge date, transport needs and follow up treatment."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "A copy of the Discharge Summary is given to the patient."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Evidence of instructions on repatraition cost."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "14.8",
+      "criterionTitle": "Patient education and community awareness",
+      "compliances": [
+        {
+          "complianceNumber": "14.8.1",
+          "complianceSummary": "District Health Managers and Public health teams work with communities to develop and have in place a working community transport plan.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of discussions with communities on community transport arrangements."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "14.9",
+      "criterionTitle": "Patient transport services",
+      "compliances": [
+        {
+          "complianceNumber": "14.9.1",
+          "complianceSummary": "It is the responsibility of the facility initiating the referral to organise transport for their patient to arrive safely at their referral destination (health facility). This is particularly for urgent referrals.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Urgent referals are transferred by the referring health facility’s road transport (ambulance)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Non-urgent referrals are through PMVs, dinghys or private tranport."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "The health facility’s transport vehicle is equipped to manage a critically ill patient (emergency resuscitation kits)."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Accompanying health staff are trained in Basic Life Support (BLS) and/or Advanced Cardiac Life Support (ACLS) with a current Authorisation to practice."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "14.10",
+      "criterionTitle": "Continuous quality improvement",
+      "compliances": [
+        {
+          "complianceNumber": "14.10.1",
+          "complianceSummary": "District Health Managers with the OICs of health facilities inform their District and Provincial Clinical Governance Committee about the safety and risks involved with patient care, patient referrals, public health programs, health workforce and the community.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Patient referral data is compiled and reviewed and submitted to the Provincial Clinical Governance Committees."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is evidence of audits of the patient referral forms for compliance with the referral guideline."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

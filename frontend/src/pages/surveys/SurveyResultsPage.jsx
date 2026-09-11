@@ -30,7 +30,7 @@ function SurveyResultsPage() {
         const [surveyRes, surveyorRes] = await Promise.all([getOne("surveys", surveyId), getAll("surveyors")]);
         const currentSurveyor = surveyorRes.data.find((item) => item.userId === profile?.userId);
         const isAdmin = auth?.roleName === "Admin";
-        const isTeamLead = auth?.roleName === "Surveyor" && surveyRes.data.surveyorId === currentSurveyor?.surveyorId;
+        const isTeamLead = auth?.roleName === "Team Lead" && surveyRes.data.surveyorId === currentSurveyor?.surveyorId;
         const showFullResults = isAdmin || isTeamLead;
         const [assessmentRes, checkRes, criterionRes, complianceRes, standardRes, componentRes] = await Promise.all([
           showFullResults ? getSurveyAssessmentOverview(surveyId) : getSurveyAssessments(surveyId),

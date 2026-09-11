@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import StandardForm from "../../components/forms/StandardForm";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
-import FrameworkFilters from "../../components/FrameworkFilters";
+import FrameworkFilters from "../../components/FrameworkFilters/FrameworkFilters";
 
 function StandardsPage() {
   const [standards, setStandards] = useState([]);
@@ -125,6 +125,12 @@ function StandardsPage() {
                 <td className="p-2">{s.standardTitle}</td>
                 <td className="p-2 text-justify">{s.standardSummary}</td>
                 <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap">
+                  <Link
+                    to={`/framework/standards/${s.standardId}`}
+                    className="rounded-md border border-[#b9d6d1] px-3 py-1.5 text-xs font-semibold text-[#087c77] hover:bg-teal-50"
+                  >
+                    Details
+                  </Link>
                   <button
                     onClick={() => handleEditClick(s)}
                     className="rounded-md border border-[#b9d6d1] px-3 py-1.5 text-xs font-semibold text-[#087c77] hover:bg-teal-50"

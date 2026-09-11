@@ -1,3 +1,4 @@
+import { canGenerateReports } from "../utils/surveyReports";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -16,7 +17,7 @@ function Navbar() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const displayName = [profile?.firstName, profile?.lastName].filter(Boolean).join(" ");
-  const navigationLinks = auth?.roleName === "Admin" ? [...links, { to: "/admin/users", label: "Admin" }] : links;
+  const navigationLinks = auth?.roleName === "Admin" ? [...links, { to: "/admin/users", label: "Admin" }] : auth?.roleName === "Viewer" ? links.filter((link) => link.to !== "/surveys") : links;
 
   const handleLogout = () => {
     logout();
@@ -32,7 +33,7 @@ function Navbar() {
         </NavLink>
         <button onClick={() => setMenuOpen((open) => !open)} className="ml-auto rounded-md p-2 text-[#087c77] sm:hidden" aria-expanded={menuOpen} aria-label="Toggle navigation">☰</button>
         <div className={`${menuOpen ? "flex" : "hidden"} absolute left-0 right-0 top-full flex-col gap-1 border-b border-[#dce9e7] bg-white p-3 shadow-lg sm:static sm:flex sm:min-w-0 sm:flex-row sm:items-center sm:overflow-x-auto sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none`}>
-          {navigationLinks.map((link) => (
+          {[...navigationLinks, ...(canGenerateReports(auth?.roleName) ? [{ to: "/reports", label: "Reports" }] : [])].map((link) => (
             <NavLink
               key={link.to}
               to={link.to}

@@ -1,0 +1,267 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\04 Environment\\Standard No. 16 Infection Prevention & Control.docx",
+  "functionNumber": "2",
+  "componentNumber": "4",
+  "standardNumber": "16",
+  "standardTitle": "Infection and prevention control (mandatory standard)",
+  "standardSummary": "The Healthcare Organisation should implement, monitor and report based on the National IPC guidelines and ensure strong, effective province-wide IPC programs with the ability to influence the quality of care, improve patient safety and protect all those providing care in the health system while keeping communities safe. Effective IPC practices are a key strategy for dealing with public health threats and a contributor to ensure safe, effective high-quality health service delivery, particularly those related to water, sanitation and hygiene (WASH) and quality and universal health coverage (UHC).",
+  "sourceReferences": "Standard 16, National Health Service Standards (NHSS) Vol. 2 (2nd Edition) (National Quality Standards)\nPNG National Infection Prevention and Control Guidelines 2025\nNational IPC Policy",
+  "criteria": [
+    {
+      "criterionNumber": "16.1",
+      "criterionTitle": "IPC policy and guidelines are available and implemented at all levels of the healthcare system including the community",
+      "compliances": [
+        {
+          "complianceNumber": "16.1.1",
+          "complianceSummary": "Preventing harm to patients, health workers and visitors due to infection in health care facilities is fundamental to achieving quality care, patient safety, health security and the reduction of healthcare associated infections (HAIs) and antimicrobial resistance (AMR).",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Copies of the National IPC Policy and National IPC Guidelines are available within the health facility"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is a multidisciplinary IPC subcommittee as part of the Clinical Governance Committees"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "An annual implementation plan is available for the IPC programme in the health facility."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "16.1.2",
+          "complianceSummary": "The IPC programme implementation is monitored, supported and properly resourced by the Organisation.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Reports on IPC activities is managed and monitored by the IPC subcommittee of the Clinical Governance Committee"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is budget allocated for the IPC Programme."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There is a designated IPC officer, with a ratio of one full-time officer for every 250 beds or an IPC link nurse at every primary health care facility."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "16.1.3",
+          "complianceSummary": "Key IPC strategies are being monitored by the health care organisation. This includes;\nHand hygiene and aseptic technique\nAntimicrobial stewardship\nNotifiable disease\nOutbreak management\nTransmission precautions\nOccupational exposure\nPrevention and management\nSterilisation and reprocessing of instruments and devices.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that key IPC Strategies are included in the IPC programme and are being monitored."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "16.1.4",
+          "complianceSummary": "The IPC programme addresses environmental factors such as;\nCleaning services\nFood safety and kitchen cleaning\nLinen handling and laundry services\nRelevant equipment.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that environmental factors are included in the IPC programme and are monitored."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "16.1.5",
+          "complianceSummary": "IPC education is part of health worker education and uses team and task-based strategies that are participatory, including bedside and simulation-based training to reduce the risk of hospital acquired infection and anti-microbial resistance.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "IPC education is part of new employee orientation."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There are separate IPC education sessions conducted for IPC specialists, health workers involved in health service delivery and support staff (administrative workers, cleaners)"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There is periodic evaluation of staff knowledge on IPC."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "16.1.6",
+          "complianceSummary": "Hospital Acquired Infection (HAI) surveillance is performed to guide IPC interventions and detect outbreaks, including Antimicrobial Resistance (AMR) surveillance with timely feedback of results to health workers and stakeholders (including integrated public health surveillance systems) and through national networks.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of adoption of standardised definitions for HAI and AMR surveillance"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of tracking of HAI and AMR patterns."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There is access to microbiology or laboratory support to guide HAI and AMR surveillance"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Evidence that AMR and HAI reports are sent quarterly to the IPC subcommittee and the Organisation’s Clinical Governance committee."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "AMR and HAI surveillance reports are disseminated to all unit managers on a regular basis."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "16.1.7",
+          "complianceSummary": "Measures are taken to reduce the risk of HAI and the spread of AMR;\n1.)  Bed occupancy doesn’t exceed the standard capacity of the facility \n2.) Health worker staffing levels are adequately assigned according to patient workload.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Standards for bed occupancy is one patient per bed with adequate spacing between patient beds."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence that the WISN method was used to estimate workload capacity."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence that if bed capacity exceeds staffing capacity, steps are taken to address additional workload."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "16.2",
+      "criterionTitle": "Infection prevention and control program",
+      "compliances": [
+        {
+          "complianceNumber": "16.2.1",
+          "complianceSummary": "There is evidence that health acquired infections are prevented and dealt with by measures such as:\nReadily available hand-washing facilities\nNon re-use of single use items\nCompliant equipment sterilising practices",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that these items and practices are available."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "16.2.2",
+          "complianceSummary": "All staff, patients and guardians within the organisation understand their role in the prevention of infection.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that IPC workflow standards has considered in each work area and developed in conjunction with the IPC team."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Patient’s guardians only care for their own patient"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There are clear instructions for ablutions (cleaning) and waste disposal for the patient and guardian"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "16.2.3",
+          "complianceSummary": "All health service operations minimise any infection risk in accordance with the infection control program",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is evidence of adequate supply of clean water."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The physical layout of CSSD and laundry facilities comply with IPC guidelines."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There are isolation and containment facilities within the facility."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "16.2.4",
+          "complianceSummary": "Cleaning, disinfecting, drying, packaging and sterilising of equipment and maintenance of associated equipment conforms to the National IPC policy and Guidelines.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Guidelines for cleaning equipment are available within the wards."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Sterilising is carried out in accordance with the National IPC guidelines."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "16.2.5",
+          "complianceSummary": "The Organisation has an approved policy or educational program to promote effective antimicrobial stewardship.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of an Organisational policy on who can prescribe antibiotics."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of tracking of Anti-microbial resistance trends."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "16.3",
+      "criterionTitle": "Environmental cleaning",
+      "compliances": [
+        {
+          "complianceNumber": "16.3.1",
+          "complianceSummary": "The Facility ensures that all areas of the physical environment are monitored and maintained to ensure that it meets current standards, codes and regulations, there is regular cleaning to remove visible dirt and dust; cleaning agents and disinfectants should be selected according to the task and functional risk factors. These include areas such as operating theatres, invasive procedure areas (catheter labs and endoscopy), ICU, special care nurseries, CSSD.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The staff in specific high-risk areas can demonstrate how to clean and monitor relevant areas."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Standard operating procedures (SOPs) on cleaning are available in these areas."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "16.3.2",
+          "complianceSummary": "The facility ensures that there are adequate cleaning staff and resources to maintain the cleanliness of the environment.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There are sufficient cleaning staff who have the right supplies for cleaning."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Cleaning products are stored and used as per manufacturer’s instructions and relevant work safety policies."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Frequency of cleaning of specific areas is related to its risk assessment."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Cleaning staff know how to manage spills of blood and body fluid."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "16.3.3",
+          "complianceSummary": "The Facility implements the National IPC Guidelines on food safety, linen and laundry handling.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that the Facility complies with the food safety guidelines during preparation, serving and storage."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

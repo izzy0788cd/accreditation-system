@@ -1,0 +1,163 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\01 Leadership & Governance\\Standard No. 11 Partnerships & Collaboration.docx",
+  "functionNumber": "2",
+  "componentNumber": "1",
+  "standardNumber": "11",
+  "standardTitle": "Partnerships and collaboration",
+  "standardSummary": "The Health Service Organisation deliver health services through effective collaboration with partners.",
+  "sourceReferences": "Standard 11 of the National Health Service Standards (NHSS) Vol. 2 (2nd Edition) National Quality Standard",
+  "criteria": [
+    {
+      "criterionNumber": "11.1",
+      "criterionTitle": "There is a functioning partnership committee",
+      "compliances": [
+        {
+          "complianceNumber": "11.1.1",
+          "complianceSummary": "The Board of Governance ensures there is a functioning Partnership Committee.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The Board has approved the Terms of Reference for a “Partnerships Committee”."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "11.1.2",
+          "complianceSummary": "The Partnerships Committee is chaired by an appointed member of the Board of Governance.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of the appointment of the Board of Governance representative has been minuted."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "11.1.3",
+          "complianceSummary": "The Partnerships Committee is meeting regularly.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that the Partnerships Committee meets on a quarterly basis, or more if required (meeting schedule or minutes)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "11.1.4",
+          "complianceSummary": "Reports from the Partnerships Committee are submitted to the Board of Governance with recommendations.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that the Board of Governance reviews papers and recommendations from the Partnerships Committee (meeting minutes)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "11.1.5",
+          "complianceSummary": "The Partnership Committee has equal representation of women.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that the PHA has women representation on the partnership committee."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "11.1.6",
+          "complianceSummary": "Provincial Administration and the District Development Authorities (DDAs) have representation on the Partnerships Committee.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that Provincial Administration and DDA CEOs attend meetings of the Partnerships Committee (reports, meeting minutes)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "11.1.7",
+          "complianceSummary": "Partnerships Committee provides all stakeholders with an opportunity to contribute to the planning and delivery of health services in the province.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that all partners, including Church Health Services, NGOs and Private Sector Partners participant in Annual Planning and budgeting meetings, and Provincial Reviews (meeting minutes or reports)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "11.2",
+      "criterionTitle": "There are agreements in place with selected partners to ensure quality health service delivery in the province",
+      "compliances": [
+        {
+          "complianceNumber": "11.2.1",
+          "complianceSummary": "There are agreements which the Health Service Organisations have with Partners, include specifications of the services to be provided and the Government funding that is to be allocated.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of details of planned activity with partners and funding source have been specified in the Service Agreement."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "11.2.2",
+          "complianceSummary": "The agreements with partners include a requirement for the partners to demonstrate their capacity to deliver the agreed health services.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that partners have the required qualifications and experience needed to deliver the specified services."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "11.2.3",
+          "complianceSummary": "The agreements include a requirement that partners shall comply with the “Free Primary Healthcare” and “Subsidised Specialist Healthcare Policy”.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that the agreement includes a clause on these policies."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "11.2.4",
+          "complianceSummary": "Partners delivering health services in the province must ensure that their activities are reported to the National Health Information System (e-NHIS).",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that partner activities are captured in the e-NHIS."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "11.2.5",
+          "complianceSummary": "Partners in receipt of funding from the PHA are required to provide reports to the PHA to enable compliance with Public Finance Management Act (PFMA) and any Financial Instructions issued by Department of Finance.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The Health Service Organisation must ensure that all partners are providing necessary reports to support compliance with PFMA requirements."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "11.2.6",
+          "complianceSummary": "Partners are required to ensure that all health staff are properly registered and licensed to practice.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that partners are submitting their updated annual registration information of their health practitioners to the Medical Board and Nursing Council of PNG."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "11.2.7",
+          "complianceSummary": "The Health Service Organisation is responsible for ensuring that all health services delivered, including services delivered by non-government providers are delivered in accordance with these National Health Service Standards (2021-2030).",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that the Health Service Organisation monitor quality of service delivery for all health services, across the province."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

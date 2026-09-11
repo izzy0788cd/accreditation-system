@@ -1,0 +1,223 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\02 Human Resource\\Standard No.4_version0.1.052026.docx",
+  "functionNumber": "1",
+  "componentId": 2,
+  "standardNumber": "4",
+  "standardTitle": "HEALTH WORKFORCE CAPACITY AND PERFORMANCE",
+  "standardSummary": "All the Healthcare Organisation has aligned staff capability to the strategic business needs of the organization and helps all health staff to build their individual capacity and overall performance, through a range of human resource (HR) functions including job design, recruitment and selection, performance management and development, ongoing career and succession planning.",
+  "sourceReferences": "Function 1, Standard 4, National Health Service Standards Volume 2, 2nd edition 2021-2030.\nHuman Resource Management, National Quality Standards for Health Services in PNG, Accreditation Survey Workbook for L5-7 Hospital, February 2014",
+  "criteria": [
+    {
+      "criterionNumber": "4.1",
+      "criterionTitle": "HEALTH WORKFORCE GOVERNANCE",
+      "compliances": [
+        {
+          "complianceNumber": "4.1.1",
+          "complianceSummary": "The Organisation has initiated leadership and management, at all levels, who are responsible to ensure that all health staff have the required educational qualifications, experience, skills, knowledge and capacities to deliver high-quality and sustainable health care services and support.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of a Board approved 5- year Health Workforce Plan aligned with the Corporate Plan and relevant to the health service and needs."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of an Integrated Organisational Structure with clear reporting lines (both clinical and non-clinical)."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of coordination with other partners that support and compliment health resource needs in the Organisation."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "4.1.2",
+          "complianceSummary": "The Organisation appoints staff through recruitment, selection and appointment procedures that are consistent with Human Resource policies.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that staff recruitment is based on merit and in accordance with policy."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence that all managers have qualifications and experience appropriate to their area of work."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of gender equality in the appointment of staff positions."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Staff have dated job descriptions which are available at the workplace."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Staff have acknowledged receipt of their job descriptions."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "There is a probationary period usually three months with documented appraisals."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "There are personal files for each employee which are up to date and confidentially stored."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "4.2",
+      "criterionTitle": "HEALTH WORKFORCE PLANNING AND DEVELOPMENT",
+      "compliances": [
+        {
+          "complianceNumber": "4.2.1",
+          "complianceSummary": "The Organisation has an established health services development plan which outlines clearly the health staffing supply and demand requirements for both clinical and non-clinical health workers, and which is monitored and reported on to the governing Board on a quarterly basis.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of an annually reviewed Health Workforce Plan with recommendations for the Governing Board."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "4.2.2",
+          "complianceSummary": "There is a 5-year Health Workforce Training Plan to support the 5-year strategic health services development plan, that identifies the required training, upskilling and professional development requirements for both clinical and non-clinical health workers which is monitored and reported to the governing Board on a quarterly basis.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of an annually reviewed Health Workforce Training Plan being implemented within the PHA."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence that there are guidelines for staff who have undergone training to Implement their knowledge and skills."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "4.3",
+      "criterionTitle": "HEALTH WORKFORCE SKILLS MIX",
+      "compliances": [
+        {
+          "complianceNumber": "4.3.1",
+          "complianceSummary": "The Organisation has the appropriate “Staffing Skills Mix” needs for both clinical and non-clinical health workers, as determined by application of the Workforce Indicator Staffing Needs (WISN) methodology within the National Health Service Standards (NHSS).",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of the use of the WISN tool to determine the correct numbers and skill mix for health workers."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence that the Organisation has collaborated with the NDOH in the orientation and implementation of the WISN methodology for their officers."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "4.3.2",
+          "complianceSummary": "The Organisation ensures that the minimum “Hospital Health Specialist” as determined by the NHSS for Levels of Care and Essential health services.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of Organisation having minimum “Hospital Health Specialists” which is reflected in the Integrated Organisation structure."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of copies of Board of Governance approvals for “Hospital Health Specialist” positions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "4.4",
+      "criterionTitle": "HEALTH WORKFORCE RISKS MANAGEMENT",
+      "compliances": [
+        {
+          "complianceNumber": "4.4.1",
+          "complianceSummary": "The Organisation has established a ‘Health Workforce Risk Management Plan’ and process, which identifies, assesses and addresses any risks to health workforce.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of a functioning ‘Health Workforce Risk Management plan’ and guidelines for tracking the process, being monitored on a quarterly basis by CEO and Board of Governance."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of an industrial relation policy with mechanisms of addressing staff concerns."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "4.5",
+      "criterionTitle": "HEALTH WORKFORCE OCCUPATIONAL HEALTH, SAFETY AND SECURITY",
+      "compliances": [
+        {
+          "complianceNumber": "4.5.1",
+          "complianceSummary": "The Organisation has a Board of Governance approved policy and procedures covering ‘Occupational Health, Safety and Security (OHS&S) of all health workers within the province, including with health partner organisations/agencies.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of a Board approved OHS&S Policy and procedure."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "4.6",
+      "criterionTitle": "HEALTH WORKFORCE PERFORMANCE MANAGEMENT",
+      "compliances": [
+        {
+          "complianceNumber": "4.6.1",
+          "complianceSummary": "The Organisation has established systems to set, monitor and continually improve the performance of the health workforce (clinical and non-clinical) at all levels of the organisation in compliance to General Order.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of performance appraisals being conducted on an annual basis for all individual health staff (clinical and non-clinical) against their job descriptions."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence that there are relevant training and upskilling courses and that there is a system of continuous professional development in place which is monitored by the Training Unit and reported to the Board of Governance"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "4.6.2",
+          "complianceSummary": "The Organisation sets policies and systems to strengthen the capacity and productivity of all health workers to improve health care and deliver positive health outcome results.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of Health Workforce Productivity and Performance policies and systems with reporting mechanisms to the Board."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is evidence of productivity management of all health staff by managers, reviewed on a regular quarterly basis with proposed recommendations to the Board of Governance."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "4.7",
+      "criterionTitle": "HEALTH WORKFORCE CAREER AND SUCCESSION PLANS",
+      "compliances": [
+        {
+          "complianceNumber": "4.7.1",
+          "complianceSummary": "The Organisation has an established career progression and succession planning system with clear procedures that ensure staff with the requisite skills and capabilities are available in the organisation.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of approved “career paths and succession planning” processes implemented within the Organisation."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of regular collaborative monitoring and reporting to the Board of all potential health staff available for undertaking the most critical roles within the organisation (eg: CEO position, Executive Director positions, CFO, HRM, HRD and DHM positions, etc)."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

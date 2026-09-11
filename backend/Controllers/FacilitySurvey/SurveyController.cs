@@ -90,7 +90,7 @@ namespace backend.Controllers.FacilitySurvey
 
         // GET: api/Survey
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
         public async Task<ActionResult<IEnumerable<SurveyDTO>>> GetSurveys()
         {
             var surveys = await _context
@@ -105,6 +105,10 @@ namespace backend.Controllers.FacilitySurvey
                     surveyorName = $"{s.surveyor!.user!.firstName} {s.surveyor!.user!.lastName}",
                     startDate = s.startDate,
                     endDate = s.endDate,
+                    isCancelled = s.isCancelled,
+                    cancellationReason = s.cancellationReason,
+                    cancelledAt = s.cancelledAt,
+                    cancelledByUsername = s.cancelledByUsername,
                 })
                 .ToListAsync();
 
@@ -113,7 +117,7 @@ namespace backend.Controllers.FacilitySurvey
 
         // GET: api/Survey/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
         public async Task<ActionResult<SurveyDTO>> GetSurvey(int id)
         {
             var survey = await _context
@@ -129,6 +133,10 @@ namespace backend.Controllers.FacilitySurvey
                     surveyorName = $"{s.surveyor!.user!.firstName} {s.surveyor!.user!.lastName}",
                     startDate = s.startDate,
                     endDate = s.endDate,
+                    isCancelled = s.isCancelled,
+                    cancellationReason = s.cancellationReason,
+                    cancelledAt = s.cancelledAt,
+                    cancelledByUsername = s.cancelledByUsername,
                 })
                 .FirstOrDefaultAsync();
 
@@ -153,6 +161,8 @@ namespace backend.Controllers.FacilitySurvey
             {
                 return NotFound();
             }
+            if (survey.isCancelled)
+                return BadRequest("A cancelled survey cannot be edited.");
 
             var surveyTypeExists = await _context.surveyTypes.AnyAsync(type =>
                 type.surveyTypeId == dto.surveyTypeId
@@ -218,6 +228,8 @@ namespace backend.Controllers.FacilitySurvey
             {
                 return NotFound();
             }
+            if (survey.isCancelled)
+                return BadRequest("A cancelled survey cannot be edited.");
 
             var surveyorExists = await _context.surveyors.AnyAsync(s =>
                 s.surveyorId == dto.surveyorId
@@ -329,13 +341,17 @@ namespace backend.Controllers.FacilitySurvey
                     $"{surveyModel.surveyor!.user!.firstName} {surveyModel.surveyor!.user!.lastName}",
                 startDate = surveyModel.startDate,
                 endDate = surveyModel.endDate,
+                isCancelled = surveyModel.isCancelled,
+                cancellationReason = surveyModel.cancellationReason,
+                cancelledAt = surveyModel.cancelledAt,
+                cancelledByUsername = surveyModel.cancelledByUsername,
             };
 
             return CreatedAtAction(nameof(GetSurvey), new { id = surveyDto.surveyId }, surveyDto);
         }
 
         [HttpGet("{id}/progress")]
-        [Authorize]
+        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
         public async Task<ActionResult<SurveyProgressDTO>> GetSurveyProgress(int id)
         {
             var totalCompliances = await _context.complianceAssessments.CountAsync(ca =>
@@ -369,7 +385,7 @@ namespace backend.Controllers.FacilitySurvey
         }
 
         [HttpGet("{surveyId}/standards/{standardId}/progress")]
-        [Authorize]
+        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
         public async Task<ActionResult<StandardProgressDTO>> GetStandardProgress(
             int surveyId,
             int standardId
@@ -415,9 +431,11 @@ namespace backend.Controllers.FacilitySurvey
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ResetSurvey(int id)
         {
-            var surveyExists = await _context.surveys.AnyAsync(s => s.surveyId == id);
-            if (!surveyExists)
+            var survey = await _context.surveys.FindAsync(id);
+            if (survey == null)
                 return NotFound();
+            if (survey.isCancelled)
+                return BadRequest("A cancelled survey cannot be reset.");
 
             var assessments = await _context
                 .complianceAssessments.Where(ca => ca.surveyId == id)
@@ -443,6 +461,91 @@ namespace backend.Controllers.FacilitySurvey
             foreach (var check in evidenceChecks)
                 check.isChecked = false;
 
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        // Adds framework requirements introduced after the survey was created. Existing
+        // findings are never changed, and newly added requirements follow the current
+        // standard-to-surveyor assignments.
+        [HttpPost("{id}/sync-framework")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SyncFramework(int id)
+        {
+            var survey = await _context.surveys.FindAsync(id);
+            if (survey == null)
+                return NotFound();
+            if (survey.isCancelled)
+                return BadRequest("A cancelled survey cannot be synchronised.");
+
+            var existingComplianceIds = await _context.complianceAssessments
+                .Where(assessment => assessment.surveyId == id)
+                .Select(assessment => assessment.complianceId)
+                .ToListAsync();
+            var assignmentByStandard = await _context.surveyStandardAssignments
+                .Where(assignment => assignment.surveyId == id)
+                .ToDictionaryAsync(assignment => assignment.standardId, assignment => assignment.surveyorId);
+            var missingCompliances = await _context.compliances
+                .Where(compliance => compliance.isApplicable && !existingComplianceIds.Contains(compliance.complianceId))
+                .Include(compliance => compliance.criterion)
+                .Include(compliance => compliance.evidence)
+                .ToListAsync();
+
+            var additions = missingCompliances.Select(compliance => new
+            {
+                compliance,
+                assessment = new ComplianceAssessment
+                {
+                    surveyId = id,
+                    complianceId = compliance.complianceId,
+                    surveyorId = assignmentByStandard.TryGetValue(compliance.criterion!.standardId, out var assignedSurveyorId)
+                        ? assignedSurveyorId
+                        : survey.surveyorId,
+                },
+            }).ToList();
+
+            _context.complianceAssessments.AddRange(additions.Select(addition => addition.assessment));
+            await _context.SaveChangesAsync();
+
+            var checks = additions.SelectMany(addition => addition.compliance.evidence!
+                .Where(evidence => evidence.isApplicable)
+                .Select(evidence => new ComplianceEvidenceCheck
+                {
+                    complianceAssessmentId = addition.assessment.complianceAssessmentId,
+                    evidenceId = evidence.evidenceId,
+                    isChecked = false,
+                }))
+                .ToList();
+            _context.complianceEvidenceChecks.AddRange(checks);
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                addedCompliances = additions.Count,
+                addedEvidenceChecks = checks.Count,
+                message = additions.Count == 0
+                    ? "This survey already contains every applicable framework requirement."
+                    : $"Added {additions.Count} newly applicable requirement(s) and {checks.Count} evidence check(s).",
+            });
+        }
+
+        [HttpPost("{id}/cancel")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CancelSurvey(int id, SurveyCancelDTO dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.cancellationReason))
+                return BadRequest("A cancellation reason is required.");
+
+            var survey = await _context.surveys.FindAsync(id);
+            if (survey == null)
+                return NotFound();
+            if (survey.isCancelled)
+                return BadRequest("This survey has already been cancelled.");
+
+            survey.isCancelled = true;
+            survey.cancellationReason = dto.cancellationReason.Trim();
+            survey.cancelledAt = DateTime.UtcNow;
+            survey.cancelledByUsername = User.Identity?.Name;
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -480,6 +583,8 @@ namespace backend.Controllers.FacilitySurvey
             var survey = await _context.surveys.FindAsync(id);
             if (survey == null)
                 return NotFound();
+            if (survey.isCancelled)
+                return BadRequest("A cancelled survey cannot be edited.");
 
             if (dto.GroupBy(assignment => assignment.standardId).Any(group => group.Count() > 1))
                 return BadRequest("Each standard can be assigned to only one surveyor per survey.");
@@ -539,6 +644,11 @@ namespace backend.Controllers.FacilitySurvey
             if (survey == null)
             {
                 return NotFound();
+            }
+
+            if (await _context.surveyReportVersions.AnyAsync(version => version.surveyId == id))
+            {
+                return Conflict("This survey has saved report versions and cannot be deleted. Cancel the survey instead to preserve its reporting history.");
             }
 
             _context.surveys.Remove(survey);

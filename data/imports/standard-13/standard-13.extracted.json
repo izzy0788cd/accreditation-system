@@ -1,0 +1,151 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\01 Leadership & Governance\\Standard No. 13 Preparedness - Disease Outbreaks & Emeging Population Threats.docx",
+  "functionNumber": "2",
+  "componentNumber": "1",
+  "standardNumber": "13",
+  "standardTitle": "Imroving preparedness for disease outbreaks inclucing pandemics and other population threats (mandatory standard)",
+  "standardSummary": "The Health Facility should have the capacity to conduct disease outbreak surveillance of any emerging population health threats, including pandemics, and to share information quickly to stop the spread of the disease. A disaster preparedness plan is also essential to manage external and internal disasters.",
+  "sourceReferences": "National Clinical and Public Health Framework Vol. 2 NQS\nNational Health Service Standards (NHSS) Vol. 2 (2nd Edition)",
+  "criteria": [
+    {
+      "criterionNumber": "13.1",
+      "criterionTitle": "Responsive planning to outbreaks",
+      "compliances": [
+        {
+          "complianceNumber": "13.1.1",
+          "complianceSummary": "The facility has an approved 5-year “Disease Outbreaks Surveillance Plan” in place to ensure any diseases or population health threats (including pandemics) are continually being observed and dealt with.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of an approved Disease Outbreak Surveillance Plan which is regularly reviewed and updated."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Public Health unit managers/health facility OICs are aware of the Disease Outbreak Surveillance Plan Plan and the Outbreak Manual for Papua New Guinea 2012."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence that the CEO and SEM evaluate responses to emerging health threats (meeting minutes)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "13.1.2",
+          "complianceSummary": "The Facility preparedness plan to manage a disease outbreak includes emergency response, business continuity, crisis management, and crisis communications.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of active reporting on notifiable diseases."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Public health officers are aware of syndromic surveillance processes."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of processes in place with critical suppliers/vendors for support during disease outbreak."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Evidence of an effective communication strategy during outbreaks with communities and NGOs."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "13.1.3",
+          "complianceSummary": "The importance of strengthening public health surveillance is to provide early warning: early detection, surveillance and reporting.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that public health officers are aware of the steps in urgent public health events (verify-assess-respond)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence that public health officers are able to control a public health event (field team,plan,mobilise, treat patients,look for cases, prevent infection, monitor)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "13.1.4",
+          "complianceSummary": "Emergency and disaster planning involve a coordinated, cooperative process of preparing to match urgent needs with available resources. \nThis would include internal disasters such as bomb threats, building collapse, fire, failure of vital services such as electricity medical gases and communication networks, AND External disasters or multiple casualty events such as landslides, earthquakes and major crash.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is a Emergency and Disaster Preparedness Plan addressing external and internal disasters."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The Emergency and Disaster Preparedness Plan addresses increased human resource needs for service continuity and  availability of medical supplies."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence that the Disaster Plan addresses resources to: \nReceive and triage\nAssess, resuscitate and stabilize \nProvide definitive care for and facilitate transfer of patients to the most appropriate level of health facility"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "13.1.5",
+          "complianceSummary": "The health facility undertakes emergency planning with other sectors including provincial government, education and private industry as part of the larger Provincial Disaster and Emergency Preparedness Response  Plan.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that the health facility has a Disaster or Emergency sub-committee responsible for preparedness planning and management of disasters."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence that the facility’s plans are part of the Provincial and District Government Disaster and Emergency Plan."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "13.2",
+      "criterionTitle": "Emergency and disaster management for environmental management",
+      "compliances": [
+        {
+          "complianceNumber": "13.2.1",
+          "complianceSummary": "There are flowcharts for Emergencies and Response evacuation plans and instructions are prominently displayed.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Emergency response flowcharts are prominently displayed within the facility."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Health care workers are aware of the location of the Emergency Response flowcharts and Standard Operating Procedures (SOP)s for emergency responses."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Key health care workers are aware of their roles in the Emergency Response flowchart."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "13.3",
+      "criterionTitle": "Health worker education",
+      "compliances": [
+        {
+          "complianceNumber": "13.3.1",
+          "complianceSummary": "There is evidence that the Hospital Departments/Unit Managers /OICs and teams are aware of, trained and practiced in the procedures, at least annually, in the event of internal and external disasters",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that health workers are trained in emergency and disaster preparedness with mock exercises and simulations."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence that staff are aware of procedures for safe evacuation in a disaster of vulnerable patients  including the disabled, patients from critical care areas and other immobile patients."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Staff are aware of trained procedures in the event of personal threat at the workplace including armed hold-ups."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

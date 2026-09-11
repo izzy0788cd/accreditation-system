@@ -43,7 +43,7 @@ function CriterionForm({ initialData, onSubmit, onCancel, lockedStandardId }) {
         if (numberInputRef.current) {
             numberInputRef.current.focus();
         }
-    })
+    }, [])
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value});

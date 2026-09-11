@@ -1,0 +1,247 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\03 Information Technology\\Standard No.9_version0.1.052026.docx",
+  "functionNumber": "1",
+  "componentNumber": "3",
+  "standardNumber": "9",
+  "standardTitle": "Health information and information communication technology (ICT)",
+  "standardSummary": "All Healthcare Organisations continuously improve patient safety and quality of care through the effective delivery of Information and Communications Technology.",
+  "sourceReferences": "Standard 9 of the National Health Service Standards 2021-2030, Volume 2, 2nd edition\nNHSS Quality Standards for Health Services in PNG: Accreditation Survey Workbook for L5-7 hospitals, February 2014",
+  "criteria": [
+    {
+      "criterionNumber": "9.1",
+      "criterionTitle": "ICT and information management",
+      "compliances": [
+        {
+          "complianceNumber": "9.1.1",
+          "complianceSummary": "The Organisation has developed and implemented a “5-year Information and Communications Technology (ICT) Plan” which is aligned with the Organisation’s Strategic Development  Plan, to ensure relevant infrastructure (hardware, software, networks, systems, etc) are enabled in all health facilities, to fully support health services delivery operations and delivery of key health program & project outcomes.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of a Board approved 5-year Information and Communications Technology (ICT) Plan aligning to the Strategic Development Plan."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of copies of relevant ICT plans and processes in all health facilities within the Organisation which are regularly reviewed (1-2 years)."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of copies of relevant ICT reports are made available to the CEO and the Board on a regular basis."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Evidence of audits to confirm the integrity of data systems through data security measures and reliability of computer hardware."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Data stored in computers are backed up regularly and stored in a secure location."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "9.2",
+      "criterionTitle": "Records and knowledge management",
+      "compliances": [
+        {
+          "complianceNumber": "9.2.1",
+          "complianceSummary": "The Organisation has implemented appropriate policies and procedures for the keeping, accessing, storage, archiving and disposal of records and their security, in line with all relevant legislations, regulations and by-laws.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of Board approved “Record Management “policies related to the keeping, accessing, storage, archiving, security and disposal” of all records within the Organisation."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Copies of relevant policies, processes and procedures are available within all health facilities within the Organisation."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of regular data audits to confirm the accuracy of data entry."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Medical records are filed appropriately and easy to retrieve."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Medical Records Department area is secure and access is limited."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "9.2.2",
+          "complianceSummary": "Every patient has a medical record which is sufficiently detailed to enable continuity of care, education and research and to facilitate clinical coding.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of inpatient record with an identification page, diagnostic reports, drug prescription sheet, nursing sheet, medical notes, consent forms, etc. with a final diagnosis and code."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "If a ‘Helt Buk” is used as the primary record, evidence of supplementary records which identifies minimally the date of presentation, patient’s name, treating clinician and the presenting condition must be maintained by the facility."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Every patient has a “unique patient identifier” to identify their records."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Medical staff record details of orders and treatment in the notes with sign and date. Writing must be legible."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Original of letters to the health service, X-ray and pathology reports etc. are filed in the records as soon as they are available."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Procedure for obtaining patient’s records during readmission is available in the medical record department during and after office hours."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "The final diagnosis is completed in 7 days."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "9.2.3",
+          "complianceSummary": "Information is made available to staff in a user-friendly format to assist with patient care and management of services.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Collected information (statistics on type and number of patients) is available to staff to assist with patient care."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Wards and departments collect information about their patients (e.g. numbers admitted, number of deaths, number of positive STDs in Pathology dept)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "9.3",
+      "criterionTitle": "Governance and leadership",
+      "compliances": [
+        {
+          "complianceNumber": "9.3.1",
+          "complianceSummary": "The Organisation has embedded effective and transparent governance, which prioritises ICT investment, ensures decisions consider outcomes across health, manages risk, enables clinical leadership and provides accountability. Medico-legal requirements for information are met.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There are Board-approved policies on patient confidentiality and staff are aware where they are."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Access to patient information is limited to the “people who need to know” e.g. doctors, nurses, allied staff."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of policies on the production and reproduction of medical records (no copies of records are provided to legal/insurance/other medical practitioners without patient/guardian consent)."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "In computerised health services, patient’s records systems have restricted access (e.g. password protected)."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Statutory notifications (e.g. infectious diseases) are reported to the Department of Health within required times."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "9.4",
+      "criterionTitle": "Hospital patient electronic health record system",
+      "compliances": [
+        {
+          "complianceNumber": "9.4.1",
+          "complianceSummary": "The Organisation has adopted a policy to fund the implementation of a common hospital patient electronic health record system across all provincial hospitals linked to a National Master Index (ICD 10) or the e-National Health Information System (e-NHIS).",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that a common hospital patient information management system is being considered by the Organisation or has been implemented."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "9.5",
+      "criterionTitle": "E-health and telehealth",
+      "compliances": [
+        {
+          "complianceNumber": "9.5.1",
+          "complianceSummary": "Develop strategy to encourage and support the implementing of non-urgent telehealth outpatient care service to achieve both expenditure savings and service efficiencies because of reduced travel and associated costs for patients.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of technology supporting secure transmission of voice and data between two or more health care locations using digital telecommunications."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "9.6",
+      "criterionTitle": "Stabilising infrastructure and systems",
+      "compliances": [
+        {
+          "complianceNumber": "9.6.1",
+          "complianceSummary": "There is a need to stabilise existing ICT infrastructure, implement ICT systems at new L5 health facilities, consolidate duplicate systems and build the foundations for the future.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of review of existing computer operating systems and applications, including those that are nearing the end of their license periods or which are no longer supported. (both clinical and corporate systems)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "9.7",
+      "criterionTitle": "Information sharing and management",
+      "compliances": [
+        {
+          "complianceNumber": "9.7.1",
+          "complianceSummary": "Improve information management, including secure sharing of patient information to improve patient safety, quality of care and care coordination.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The Organisation’s Health Information Officer plays a role in compiling and disseminating essential data to the Management and relevant units."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of sharing of information via technology between departments and clinicians (e.g. between ward clinicians and radiology or pathology, between rural and provincial health facility)."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Easily accessible clinical information is available to identify trends, including studying the impact of interventions and informing research (e.g. dashboards)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "9.8",
+      "criterionTitle": "Capacity and capability",
+      "compliances": [
+        {
+          "complianceNumber": "9.8.1",
+          "complianceSummary": "Build organisational capacity, capability and credibility to deliver and use ICT systems.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is ongoing education and training of staff to use electronic systems (including e-NHIS and other applications)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of staff training in ICD coding."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

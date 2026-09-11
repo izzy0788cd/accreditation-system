@@ -1,3 +1,5 @@
+import ReportsRoute from "./components/ReportsRoute";
+import SurveyReportsPage from "./pages/reports/SurveyReportsPage";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ErrorDialog from "./components/ErrorDialog";
@@ -49,6 +51,7 @@ function App() {
         <Navbar />
         <ErrorDialog message={saveError} onClose={() => setSaveError("")} />
         <Routes>
+          <Route path="/reports" element={<ProtectedRoute><ReportsRoute><SurveyReportsPage /></ReportsRoute></ProtectedRoute>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
           <Route path="/complete-profile" element={<ProtectedRoute><CompleteProfilePage /></ProtectedRoute>} />

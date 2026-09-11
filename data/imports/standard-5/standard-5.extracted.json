@@ -1,0 +1,123 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\02 Human Resource\\Standard No.5_version0.1.052026.docx",
+  "functionNumber": "1",
+  "componentId": 2,
+  "standardNumber": "5",
+  "standardTitle": "Health workforce training, upskilling and ongoing professional development",
+  "standardSummary": "All Healthcare Organisations provide a wide range of practical, innovative, and evidence-informed education, training, upskilling and continuous professional development for all health staff (clinical and non-clinical), through activities and resources designed to support ongoing individual and organisational capacity and capability enhancements.",
+  "sourceReferences": "Function 1, Standard 5, National Health Service Standards Volume 2, 2nd edition 2021-2030.",
+  "criteria": [
+    {
+      "criterionNumber": "5.1",
+      "criterionTitle": "Training and development analysis and planning",
+      "compliances": [
+        {
+          "complianceNumber": "5.1.1",
+          "complianceSummary": "Organisations have a 5-year “Training & Development Plan” approved by the Board covering the whole health workforce (clinical and non-clinical) within the province, including those health workers within health partner organisations.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of a Training Policy approved by the Board of Governance."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of the approved Policy stating that the Organisation accords each health worker a minimum of 3 working days of training per year."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of a 5 year “Training and Development Plan” approved by the Board."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "5.2",
+      "criterionTitle": "Health workforce training, upskilling and continuos professional development",
+      "compliances": [
+        {
+          "complianceNumber": "5.2.1",
+          "complianceSummary": "The Organisation has determined mandatory training accredited by regulatory boards for all health workers as described in the Training Policy for both clinical and non-clinical staff. These include: fire safety, Occupational Health and Safety, hand hygiene, use of protective personal equipment (PPE), environmental cleaning, medication safety for HEOs, Nos and CHWs, cardiopulmonary resuscitation for all health clinicians.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of a standard “induction” or orientation programme for all new employees about the organisation’s mission, vision and general expectations."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of mandatory training programmes with registers of staff who have attended the training."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "5.2.2",
+          "complianceSummary": "The Organisation has an established and fully equipped “Training and Resource Centre” to support the implementation of the 5- year health workforce training plan, which provides regular training and upskilling courses, and has resources available to assist with ongoing professional development for both clinical and non-clinical health workers.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of a functioning training and resource centre offering upskilling and continuous professional development activities."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of staff training reports being circulated to the CEO and Board."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of an agreed and funded training calender for clinical and non-clinical in- service training on an annual basis."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "5.2.3",
+          "complianceSummary": "The Organisation has established a regular process of evaluating the training programmes conducted for all the health workers and reporting to the Board of Governance with recommendations on an annual basis.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of “Training Needs Analysis conducted on an annual basis on an annual basis, in conjunction with individual health workers’ performance appraisals."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "5.3",
+      "criterionTitle": "Training and curriculums and regular reviews",
+      "compliances": [
+        {
+          "complianceNumber": "5.3.1",
+          "complianceSummary": "The organisation has an established a process for the regular annual review of all clinical and non-clinical training curricula delivered by internal and external providers with a view to ensuring curricula are current and meet existing work environment conditions at all levels.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of the annual review of all clinical and non-clinical training curricula to ensure currency with work requirements at all health staff levels of the organisation."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence that copies of the training curriculum review reports are sighted by the CEO and Board."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "5.4",
+      "criterionTitle": "Training and development stakeholders",
+      "compliances": [
+        {
+          "complianceNumber": "5.4.1",
+          "complianceSummary": "The organisation maintains effective stakeholder relationships with training and development service providers (e.g., Schools of Nursing & CHWs, Universities, Private Training Providers, NGO Training Providers, etc.) as a means of engaging with collaboration on training programs.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of stakeholder engagement with training and development partners within and external to the province."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence that the CEO and Board have sighted the stakeholder engagement reports."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
