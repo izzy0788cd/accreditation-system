@@ -198,8 +198,8 @@
 }
 
 /* Framework reference data can be maintained by administrators only. */
-[data-framework-admin="false"] button[class*="bg-[#087c77]"],
+[data-framework-admin="false"] button[class*="bg-[#16803a]"],
 [data-framework-admin="false"] button[class*="border-red-200"],
-[data-framework-admin="false"] button[class*="border-[#b9d6d1]"][class*="text-[#087c77]"] {
+[data-framework-admin="false"] button[class*="border-[#c5d5e8]"][class*="text-[#16803a]"] {
   display: none;
 }

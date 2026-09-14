@@ -104,9 +104,11 @@ namespace backend.Controllers.Accounts
             var username = dto.username.Trim();
             if (string.IsNullOrWhiteSpace(username))
                 return BadRequest("Username is required.");
-            if (await _context.userAccounts.AnyAsync(account =>
-                account.username == username && account.userAccountId != id
-            ))
+            if (
+                await _context.userAccounts.AnyAsync(account =>
+                    account.username == username && account.userAccountId != id
+                )
+            )
                 return BadRequest("That username is already in use.");
 
             var currentUserAccountId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
@@ -125,8 +127,8 @@ namespace backend.Controllers.Accounts
 
                 var hasher = new PasswordHasher<UserAccount>();
                 userAccount.passwordHash = hasher.HashPassword(userAccount, dto.newPassword);
-                var activeSessions = await _context.refreshTokens
-                    .Where(token => token.userAccountId == userAccount.userAccountId)
+                var activeSessions = await _context
+                    .refreshTokens.Where(token => token.userAccountId == userAccount.userAccountId)
                     .ToListAsync();
                 _context.refreshTokens.RemoveRange(activeSessions);
             }

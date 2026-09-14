@@ -151,23 +151,23 @@ function CriterionWizardForm({ onDone, onCancel, lockedStandardId }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="border-b border-[#dce9e7] pb-5 pr-8"><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">Framework builder</p><h2 className="mt-1 text-xl font-bold text-[#143c42]">Build a criterion and its assessment checklist</h2><p className="mt-2 text-sm leading-6 text-[#668187]">Create the criterion first, then add the compliance requirements and their evidence in one guided flow.</p><div className="mt-4 grid gap-2 sm:grid-cols-3"><Step label="1. Criterion" detail="Parent standard and title" active /><Step label="2. Compliance" detail={`${compliances.length} added`} active={compliances.length > 0} /><Step label="3. Evidence" detail={`${evidenceCount} added`} active={evidenceCount > 0} /></div></div>
+      <div className="border-b border-[#dbe5ef] pb-5 pr-8"><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Framework builder</p><h2 className="mt-1 text-xl font-bold text-[#092a5a]">Build a criterion and its assessment checklist</h2><p className="mt-2 text-sm leading-6 text-[#68778c]">Create the criterion first, then add the compliance requirements and their evidence in one guided flow.</p><div className="mt-4 grid gap-2 sm:grid-cols-3"><Step label="1. Criterion" detail="Parent standard and title" active /><Step label="2. Compliance" detail={`${compliances.length} added`} active={compliances.length > 0} /><Step label="3. Evidence" detail={`${evidenceCount} added`} active={evidenceCount > 0} /></div></div>
 
       {error && <div role="alert" className="rounded-lg border border-red-100 bg-red-50 px-4 py-3 text-sm leading-6 text-red-800">{error}</div>}
 
       {/* Criterion section */}
-      <div className="space-y-4 rounded-xl border border-[#cde5e0] bg-[#f5faf9] p-4 sm:p-5">
-        <div><p className="text-xs font-bold uppercase tracking-[.14em] text-teal-700">Step 1</p><h3 className="mt-1 text-base font-bold text-[#143c42]">Criterion details</h3></div>
+      <div className="space-y-4 rounded-xl border border-[#c9dded] bg-[#f6f9fc] p-4 sm:p-5">
+        <div><p className="text-xs font-bold uppercase tracking-[.14em] text-[#16803a]">Step 1</p><h3 className="mt-1 text-base font-bold text-[#092a5a]">Criterion details</h3></div>
         {!lockedStandardId && (
           <div>
-            <label className="mb-1 block text-sm font-semibold text-[#143c42]">Parent standard</label>
+            <label className="mb-1 block text-sm font-semibold text-[#092a5a]">Parent standard</label>
             <select
               name="standardId"
               value={criterion.standardId}
               onChange={handleCriterionChange}
               required
               disabled={loadingStandards}
-              className="w-full rounded-lg border border-[#b9d6d1] bg-white px-3 py-2.5 text-sm focus:border-[#087c77] focus:outline-none focus:ring-2 focus:ring-teal-100 disabled:bg-slate-50"
+              className="w-full rounded-lg border border-[#c5d5e8] bg-white px-3 py-2.5 text-sm focus:border-[#16803a] focus:outline-none focus:ring-2 focus:ring-[#bbf7d0] disabled:bg-slate-50"
             >
               <option value="">{loadingStandards ? "Loading standards…" : "Select a standard"}</option>
               {standards.map((s) => (
@@ -175,11 +175,11 @@ function CriterionWizardForm({ onDone, onCancel, lockedStandardId }) {
                   {s.standardNumber} — {s.standardTitle}
                 </option>
               ))}
-            </select><p className="mt-1.5 text-xs text-[#668187]">The criterion will be grouped under this NHSS standard.</p>
+            </select><p className="mt-1.5 text-xs text-[#68778c]">The criterion will be grouped under this NHSS standard.</p>
           </div>
         )}
         <div className="grid gap-4 sm:grid-cols-[10rem_minmax(0,1fr)]"><div>
-          <label className="mb-1 block text-sm font-semibold text-[#143c42]">Criterion number</label>
+          <label className="mb-1 block text-sm font-semibold text-[#092a5a]">Criterion number</label>
           <input
             type="text"
             name="criterionNumber"
@@ -188,10 +188,10 @@ function CriterionWizardForm({ onDone, onCancel, lockedStandardId }) {
             required
             maxLength={10}
             placeholder="e.g. 3.1"
-            className="w-full rounded-lg border border-[#b9d6d1] bg-white px-3 py-2.5 text-sm focus:border-[#087c77] focus:outline-none focus:ring-2 focus:ring-teal-100"
+            className="w-full rounded-lg border border-[#c5d5e8] bg-white px-3 py-2.5 text-sm focus:border-[#16803a] focus:outline-none focus:ring-2 focus:ring-[#bbf7d0]"
           />
         </div><div>
-          <label className="mb-1 block text-sm font-semibold text-[#143c42]">Criterion title</label>
+          <label className="mb-1 block text-sm font-semibold text-[#092a5a]">Criterion title</label>
           <input
             type="text"
             name="criterionTitle"
@@ -200,29 +200,29 @@ function CriterionWizardForm({ onDone, onCancel, lockedStandardId }) {
             required
             maxLength={500}
             placeholder="Describe the measurable requirement"
-            className="w-full rounded-lg border border-[#b9d6d1] bg-white px-3 py-2.5 text-sm focus:border-[#087c77] focus:outline-none focus:ring-2 focus:ring-teal-100"
+            className="w-full rounded-lg border border-[#c5d5e8] bg-white px-3 py-2.5 text-sm focus:border-[#16803a] focus:outline-none focus:ring-2 focus:ring-[#bbf7d0]"
           />
         </div></div>
       </div>
 
       {/* Compliances section */}
       <div className="space-y-4">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-[.14em] text-teal-700">Step 2</p><h3 className="mt-1 text-base font-bold text-[#143c42]">Compliance requirements</h3><p className="mt-1 text-sm text-[#668187]">Add every requirement that will receive a score in this criterion.</p></div>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-[.14em] text-[#16803a]">Step 2</p><h3 className="mt-1 text-base font-bold text-[#092a5a]">Compliance requirements</h3><p className="mt-1 text-sm text-[#68778c]">Add every requirement that will receive a score in this criterion.</p></div>
           <button
             type="button"
             onClick={addCompliance}
-            className="rounded-md border border-[#b9d6d1] px-3 py-1.5 text-xs font-semibold text-[#087c77] hover:bg-teal-50"
+            className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]"
           >
             + Add Compliance
           </button>
         </div>
 
-        {compliances.length === 0 && <div className="rounded-xl border border-dashed border-[#b9d6d1] bg-[#f8fbfa] px-5 py-7 text-center"><p className="font-semibold text-[#143c42]">No compliance requirements added yet</p><p className="mt-1 text-sm text-[#668187]">You can create the criterion alone, or add its first requirement now.</p><button type="button" onClick={addCompliance} className="mt-4 rounded-lg border border-[#b9d6d1] bg-white px-4 py-2.5 text-sm font-semibold text-[#087c77] hover:bg-teal-50">Add first compliance</button></div>}
+        {compliances.length === 0 && <div className="rounded-xl border border-dashed border-[#c5d5e8] bg-[#f8fafc] px-5 py-7 text-center"><p className="font-semibold text-[#092a5a]">No compliance requirements added yet</p><p className="mt-1 text-sm text-[#68778c]">You can create the criterion alone, or add its first requirement now.</p><button type="button" onClick={addCompliance} className="mt-4 rounded-lg border border-[#c5d5e8] bg-white px-4 py-2.5 text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]">Add first compliance</button></div>}
 
         {compliances.map((c, cIndex) => (
-          <div key={cIndex} className="space-y-4 rounded-xl border border-[#dce9e7] bg-white p-4 shadow-sm sm:p-5">
+          <div key={cIndex} className="space-y-4 rounded-xl border border-[#dbe5ef] bg-white p-4 shadow-sm sm:p-5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-[#527076]">Compliance #{cIndex + 1}</span>
+              <span className="text-xs font-semibold text-[#4b5f7a]">Compliance #{cIndex + 1}</span>
               <button
                 type="button"
                 onClick={() => removeCompliance(cIndex)}
@@ -232,7 +232,7 @@ function CriterionWizardForm({ onDone, onCancel, lockedStandardId }) {
               </button>
             </div>
             <div className="grid gap-3 sm:grid-cols-[10rem_minmax(0,1fr)]"><div>
-              <label className="mb-1 block text-sm font-semibold text-[#143c42]">Number</label>
+              <label className="mb-1 block text-sm font-semibold text-[#092a5a]">Number</label>
               <input
                 type="text"
                 value={c.complianceNumber}
@@ -240,17 +240,17 @@ function CriterionWizardForm({ onDone, onCancel, lockedStandardId }) {
                 required
                 maxLength={10}
                 placeholder="e.g. 3.1.1"
-                className="w-full rounded-lg border border-[#b9d6d1] px-3 py-2.5 text-sm focus:border-[#087c77] focus:outline-none focus:ring-2 focus:ring-teal-100"
+                className="w-full rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm focus:border-[#16803a] focus:outline-none focus:ring-2 focus:ring-[#bbf7d0]"
               />
             </div><div>
-              <label className="mb-1 block text-sm font-semibold text-[#143c42]">Compliance summary</label>
+              <label className="mb-1 block text-sm font-semibold text-[#092a5a]">Compliance summary</label>
               <textarea
                 value={c.complianceSummary}
                 onChange={(e) => updateCompliance(cIndex, "complianceSummary", e.target.value)}
                 required
                 rows={3}
                 placeholder="Describe what the facility must demonstrate."
-                className="w-full resize-y rounded-lg border border-[#b9d6d1] px-3 py-2.5 text-sm focus:border-[#087c77] focus:outline-none focus:ring-2 focus:ring-teal-100"
+                className="w-full resize-y rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm focus:border-[#16803a] focus:outline-none focus:ring-2 focus:ring-[#bbf7d0]"
               />
             </div></div>
 
@@ -261,7 +261,7 @@ function CriterionWizardForm({ onDone, onCancel, lockedStandardId }) {
                 <button
                   type="button"
                   onClick={() => addEvidence(cIndex)}
-                  className="rounded-md border border-[#b9d6d1] px-2.5 py-1 text-xs font-semibold text-[#087c77] hover:bg-teal-50"
+                  className="rounded-md border border-[#c5d5e8] px-2.5 py-1 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]"
                 >
                   + Add Evidence
                 </button>
@@ -270,7 +270,7 @@ function CriterionWizardForm({ onDone, onCancel, lockedStandardId }) {
               {c.evidenceList.map((ev, eIndex) => (
                 <div key={eIndex} className="space-y-3 rounded-lg border border-[#eadfbd] bg-[#fffbf0] p-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-[#527076]">Evidence #{eIndex + 1}</span>
+                    <span className="text-xs text-[#4b5f7a]">Evidence #{eIndex + 1}</span>
                     <button
                       type="button"
                       onClick={() => removeEvidence(cIndex, eIndex)}
@@ -286,7 +286,7 @@ function CriterionWizardForm({ onDone, onCancel, lockedStandardId }) {
                     onChange={(e) => updateEvidence(cIndex, eIndex, "evidenceNumber", e.target.value)}
                     required
                     maxLength={10}
-                    className="w-full rounded-lg border border-[#c9ddd9] bg-white px-3 py-2.5 text-sm focus:border-[#087c77] focus:outline-none focus:ring-2 focus:ring-teal-100"
+                    className="w-full rounded-lg border border-[#c5d4e6] bg-white px-3 py-2.5 text-sm focus:border-[#16803a] focus:outline-none focus:ring-2 focus:ring-[#bbf7d0]"
                   />
                   <textarea
                     placeholder="Evidence summary"
@@ -294,7 +294,7 @@ function CriterionWizardForm({ onDone, onCancel, lockedStandardId }) {
                     onChange={(e) => updateEvidence(cIndex, eIndex, "evidenceSummary", e.target.value)}
                     required
                     rows={2}
-                    className="w-full resize-y rounded-lg border border-[#c9ddd9] bg-white px-3 py-2.5 text-sm focus:border-[#087c77] focus:outline-none focus:ring-2 focus:ring-teal-100"
+                    className="w-full resize-y rounded-lg border border-[#c5d4e6] bg-white px-3 py-2.5 text-sm focus:border-[#16803a] focus:outline-none focus:ring-2 focus:ring-[#bbf7d0]"
                   />
                   </div>
                 </div>
@@ -304,18 +304,18 @@ function CriterionWizardForm({ onDone, onCancel, lockedStandardId }) {
         ))}
       </div>
 
-      <div className="sticky bottom-0 flex flex-col gap-2 border-t border-[#dce9e7] bg-white pt-4 sm:flex-row sm:justify-end">
+      <div className="sticky bottom-0 flex flex-col gap-2 border-t border-[#dbe5ef] bg-white pt-4 sm:flex-row sm:justify-end">
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-lg bg-[#087c77] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#05635f] disabled:opacity-60"
+          className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531] disabled:opacity-60"
         >
           {isSubmitting ? "Creating checklist…" : `Create criterion${compliances.length ? ` + ${compliances.length} compliance${compliances.length === 1 ? "" : "s"}` : ""}`}
         </button>
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-lg px-4 py-2.5 text-sm font-semibold text-[#527076] hover:bg-slate-100"
+          className="rounded-lg px-4 py-2.5 text-sm font-semibold text-[#4b5f7a] hover:bg-slate-100"
         >
           Cancel
         </button>
@@ -325,7 +325,7 @@ function CriterionWizardForm({ onDone, onCancel, lockedStandardId }) {
 }
 
 function Step({ label, detail, active }) {
-  return <div className={`rounded-lg border px-3 py-2 ${active ? "border-[#b9d6d1] bg-white text-[#143c42]" : "border-[#e1ecea] bg-white/60 text-[#668187]"}`}><p className="text-xs font-bold">{label}</p><p className="mt-0.5 text-xs">{detail}</p></div>;
+  return <div className={`rounded-lg border px-3 py-2 ${active ? "border-[#c5d5e8] bg-white text-[#092a5a]" : "border-[#e3eaf2] bg-white/60 text-[#68778c]"}`}><p className="text-xs font-bold">{label}</p><p className="mt-0.5 text-xs">{detail}</p></div>;
 }
 
 export default CriterionWizardForm;

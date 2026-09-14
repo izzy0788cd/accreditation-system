@@ -5,7 +5,7 @@ const percentage = (value) => value == null ? "Not scored" : `${value}%`;
 function Summary({ items }) {
   const stats = summariseReport(items);
   const categories = [
-    ["Compliant", "#087c77"], ["Partially compliant", "#bc861e"],
+    ["Compliant", "#16803a"], ["Partially compliant", "#bc861e"],
     ["Non-compliant", "#b34b44"], ["Unassessed", "#87979d"], ["Not applicable", "#d5dfdf"],
   ].map(([label, color]) => ({ label, color, count: items.filter((item) => assessmentStatus(item) === label).length }));
   let offset = 0;

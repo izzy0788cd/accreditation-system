@@ -68,12 +68,12 @@ function EvidenceForm({ initialData, onSubmit, onCancel, lockedComplianceId }) {
     );
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-5"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">Framework</p><h2 className="mt-1 text-xl font-bold text-[#143c42]">{initialData ? "Edit evidence" : "Add evidence"}</h2></div>
+        <form onSubmit={handleSubmit} className="space-y-5"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Framework</p><h2 className="mt-1 text-xl font-bold text-[#092a5a]">{initialData ? "Edit evidence" : "Add evidence"}</h2></div>
 
             {!lockedComplianceId && (
                 <div>
                     <label className="block text-sm font-medium mb-1">Compliance</label>
-                    <select name="complianceId" value={formData.complianceId} onChange={handleChange} required className="w-full rounded-lg border border-[#b9d6d1] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#087c77] focus:ring-2 focus:ring-teal-100">
+                    <select name="complianceId" value={formData.complianceId} onChange={handleChange} required className="w-full rounded-lg border border-[#c5d5e8] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]">
                         <option value="">Select Compliance</option>
                         {sortedCompliances.map((co) => (
                             <option key={co.complianceId} value={co.complianceId}>{co.complianceNumber}</option>
@@ -84,16 +84,16 @@ function EvidenceForm({ initialData, onSubmit, onCancel, lockedComplianceId }) {
 
             <div>
                 <label className="block text-sm font-medium mb-1">Number</label>
-                <input ref={numberInputRef} type="text" name="evidenceNumber" value={formData.evidenceNumber} onChange={handleChange} required className="w-full rounded-lg border border-[#b9d6d1] px-3 py-2.5 text-sm outline-none focus:border-[#087c77] focus:ring-2 focus:ring-teal-100" />
+                <input ref={numberInputRef} type="text" name="evidenceNumber" value={formData.evidenceNumber} onChange={handleChange} required className="w-full rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]" />
             </div>
 
             <div>
                 <label className="block text-sm font-medium mb-1">Evidence</label>
-                <textarea name="evidenceSummary" value={formData.evidenceSummary} onChange={handleChange} required rows={4} className="w-full rounded-lg border border-[#b9d6d1] px-3 py-2.5 text-sm outline-none focus:border-[#087c77] focus:ring-2 focus:ring-teal-100" />
+                <textarea name="evidenceSummary" value={formData.evidenceSummary} onChange={handleChange} required rows={4} className="w-full rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]" />
             </div>
 
             <div className="flex gap-2">
-                <button type="submit" className="rounded-lg bg-[#087c77] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#05635f]">{initialData ? "Save changes" : "Add evidence"}</button><button type="button" className="rounded-lg px-4 py-2.5 text-sm font-semibold text-[#527076] hover:bg-slate-100" onClick={onCancel}>Cancel</button>
+                <button type="submit" className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">{initialData ? "Save changes" : "Add evidence"}</button><button type="button" className="rounded-lg px-4 py-2.5 text-sm font-semibold text-[#4b5f7a] hover:bg-slate-100" onClick={onCancel}>Cancel</button>
             </div>
         </form>
     );

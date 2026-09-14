@@ -1,15 +1,15 @@
 import ReportsRoute from "./components/ReportsRoute";
-import SurveyReportsPage from "./pages/reports/SurveyReportsPage";
-import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import ErrorDialog from "./components/ErrorDialog";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
+import RoleRoute from "./components/RoleRoute";
 import LoginPage from "./pages/loginPage";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar";
 import HomePage from "./pages/homePage";
-import FrameworkPage from "./pages/FrameworkPage";
+import FrameworkPage from "./pages/frameworkPage";
 import FrameworkDashboard from "./pages/FrameworkDashboard";
 import ComponentsPage from "./pages/framework/ComponentsPage";
 import FunctionsPage from "./pages/framework/FunctionsPage";
@@ -34,13 +34,38 @@ import FacilitiesPage from "./pages/facilities/FacilitiesPage";
 import FacilityDetailPage from "./pages/facilities/FacilityDetailPage";
 import ReferenceDataPage from "./pages/facilities/ReferenceDataPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import AdminUsersPage from "./pages/admin/AdminUsersPage";
-import SurveysPage from "./pages/surveys/SurveysPage";
-import SurveyAssessmentPage from "./pages/surveys/SurveyAssessmentPage";
-import SurveySetupPage from "./pages/surveys/SurveySetupPage";
-import SurveyAdminPage from "./pages/surveys/SurveyAdminPage";
-import SurveyResultsPage from "./pages/surveys/SurveyResultsPage";
-import SurveyTeamLeadDashboardPage from "./pages/surveys/SurveyTeamLeadDashboardPage";
+
+const SurveyReportsPage = lazy(() => import("./pages/reports/SurveyReportsPage"));
+const AdminUsersPage = lazy(() => import("./pages/admin/AdminUsersPage"));
+const SurveysPage = lazy(() => import("./pages/surveys/SurveysPage"));
+const SurveyAssessmentPage = lazy(() => import("./pages/surveys/SurveyAssessmentPage"));
+const SurveySetupPage = lazy(() => import("./pages/surveys/SurveySetupPage"));
+const SurveyAdminPage = lazy(() => import("./pages/surveys/SurveyAdminPage"));
+const SurveyResultsPage = lazy(() => import("./pages/surveys/SurveyResultsPage"));
+const SurveyTeamLeadDashboardPage = lazy(() => import("./pages/surveys/SurveyTeamLeadDashboardPage"));
+
+const RouteLoading = () => <div className="flex min-h-[calc(100vh-57px)] items-center justify-center bg-[#f7f9fc] text-sm font-medium text-[#4b5f7a]">Loading workspace…</div>;
+
+const pageTitles = [
+  ["/login", "Sign in"],
+  ["/surveys/setup", "Survey setup"],
+  ["/surveys", "Surveys"],
+  ["/framework", "Standards framework"],
+  ["/location", "Location directory"],
+  ["/facilities", "Facility directory"],
+  ["/admin", "User administration"],
+  ["/profile", "My profile"],
+];
+
+function PageTitle() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    const match = pageTitles.find(([path]) => pathname === path || pathname.startsWith(`${path}/`));
+    const label = match?.[1] || "Accreditation dashboard";
+    document.title = `${label} | NHCA Programme`;
+  }, [pathname]);
+  return null;
+}
 
 function App() {
   const [saveError, setSaveError] = useState("");
@@ -48,8 +73,10 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <PageTitle />
         <Navbar />
         <ErrorDialog message={saveError} onClose={() => setSaveError("")} />
+        <Suspense fallback={<RouteLoading />}>
         <Routes>
           <Route path="/reports" element={<ProtectedRoute><ReportsRoute><SurveyReportsPage /></ReportsRoute></ProtectedRoute>} />
           <Route path="/login" element={<LoginPage />} />
@@ -57,12 +84,12 @@ function App() {
           <Route path="/complete-profile" element={<ProtectedRoute><CompleteProfilePage /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="/admin/users" element={<ProtectedRoute><AdminRoute><AdminUsersPage /></AdminRoute></ProtectedRoute>} />
-          <Route path="/surveys" element={<ProtectedRoute><SurveysPage /></ProtectedRoute>} />
+          <Route path="/surveys" element={<ProtectedRoute><RoleRoute allowedRoles={["Admin", "Surveyor", "Team Lead"]}><SurveysPage /></RoleRoute></ProtectedRoute>} />
           <Route path="/surveys/setup" element={<ProtectedRoute><AdminRoute><SurveySetupPage /></AdminRoute></ProtectedRoute>} />
           <Route path="/surveys/:surveyId/admin" element={<ProtectedRoute><AdminRoute><SurveyAdminPage /></AdminRoute></ProtectedRoute>} />
-          <Route path="/surveys/:surveyId/team-dashboard" element={<ProtectedRoute><SurveyTeamLeadDashboardPage /></ProtectedRoute>} />
-          <Route path="/surveys/:surveyId/results" element={<ProtectedRoute><SurveyResultsPage /></ProtectedRoute>} />
-          <Route path="/surveys/:surveyId" element={<ProtectedRoute><SurveyAssessmentPage /></ProtectedRoute>} />
+          <Route path="/surveys/:surveyId/team-dashboard" element={<ProtectedRoute><RoleRoute allowedRoles={["Admin", "Team Lead"]}><SurveyTeamLeadDashboardPage /></RoleRoute></ProtectedRoute>} />
+          <Route path="/surveys/:surveyId/results" element={<ProtectedRoute><RoleRoute allowedRoles={["Admin", "Surveyor", "Team Lead"]}><SurveyResultsPage /></RoleRoute></ProtectedRoute>} />
+          <Route path="/surveys/:surveyId" element={<ProtectedRoute><RoleRoute allowedRoles={["Admin", "Surveyor", "Team Lead"]}><SurveyAssessmentPage /></RoleRoute></ProtectedRoute>} />
 
           <Route path="/framework" element={<ProtectedRoute><FrameworkPage /></ProtectedRoute>}>
             <Route index element={<FrameworkDashboard />} />
@@ -91,6 +118,7 @@ function App() {
           </Route>
           <Route path="*" element={<ProtectedRoute><NotFoundPage /></ProtectedRoute>} />
         </Routes>
+        </Suspense>
       </BrowserRouter>
     </AuthProvider>
   );

@@ -106,18 +106,18 @@ function ComplianceDetailPage() {
 
     return (
         <div>
-            <Link to="/framework/compliance" className="text-sm font-semibold text-[#087c77] hover:underline">
+            <Link to="/framework/compliance" className="text-sm font-semibold text-[#16803a] hover:underline">
             ← Back to Compliance
             </Link>
             
-                <div className="mb-4 mt-3 rounded-xl border border-[#cde5e0] bg-[linear-gradient(125deg,#e8f5f3_0%,#f8fbfa_100%)] px-6 py-5"><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">Compliance requirement</p><h1 className="mt-1 text-2xl font-bold tracking-tight text-[#143c42] whitespace-pre-line">
+                <div className="mb-4 mt-3 rounded-xl border border-[#c9dded] bg-[linear-gradient(125deg,#eaf3fb_0%,#f8fafc_100%)] px-6 py-5"><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Compliance requirement</p><h1 className="mt-1 text-2xl font-bold tracking-tight text-[#092a5a] whitespace-pre-line">
                         {compliance.complianceNumber} - {compliance.complianceSummary}
                     </h1>
                 </div>
 
                 {error && <p className="text-red-600 mb-4">{error}</p>}
 
-                <div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-bold text-[#143c42]">Evidence</h2><button onClick={handleAddClick} className="rounded-lg bg-[#087c77] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#05635f]">
+                <div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-bold text-[#092a5a]">Evidence</h2><button onClick={handleAddClick} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">
                         + Add Evidence
                     </button>
                 </div>
@@ -125,7 +125,7 @@ function ComplianceDetailPage() {
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
-                    <div className="overflow-x-auto rounded-xl border border-[#e2ecea] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[700px] text-sm">
+                    <div className="overflow-x-auto rounded-xl border border-[#dfe7f0] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[700px] text-sm">
                         <thead>
                             <tr className="border-b text-left">
                                 <th className="p-2">No.</th>
@@ -149,7 +149,7 @@ function ComplianceDetailPage() {
                                                 {ev.isApplicable ? "Applicable" : "Not Applicable"}
                                         </button>
                                     </td>
-                                    <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap"><button onClick={() => handleEditClick(ev)} className="rounded-md border border-[#b9d6d1] px-3 py-1.5 text-xs font-semibold text-[#087c77] hover:bg-teal-50">
+                                    <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap"><button onClick={() => handleEditClick(ev)} className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]">
                                                 Edit
                                             </button>
                                             <button onClick={() => handleDeleteClick(ev)} className="rounded-md border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-50">

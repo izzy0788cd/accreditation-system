@@ -91,10 +91,10 @@ function StandardsPage() {
   return (
     <div>
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">Framework layer</p><h2 className="mt-1 text-2xl font-bold tracking-tight text-[#143c42]">Standards</h2></div>
+        <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Framework layer</p><h2 className="mt-1 text-2xl font-bold tracking-tight text-[#092a5a]">Standards</h2></div>
         <button
           onClick={handleAddClick}
-          className="rounded-lg bg-[#087c77] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#05635f]"
+          className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0d6531]"
         >
           + Add Standard
         </button>
@@ -107,7 +107,7 @@ function StandardsPage() {
       ) : (
         <>
         <FrameworkFilters search={search} onSearchChange={setSearch} searchPlaceholder="Search number, title, or summary" resultCount={filteredStandards.length} totalCount={standards.length} />
-        <div className="overflow-x-auto rounded-xl border border-[#e2ecea] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[800px] text-sm"><thead className="border-b border-[#dce9e7] bg-[#f5faf9] text-xs uppercase tracking-wider text-[#527076]"><tr className="text-left">
+        <div className="overflow-x-auto rounded-xl border border-[#dfe7f0] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[800px] text-sm"><thead className="border-b border-[#dbe5ef] bg-[#f6f9fc] text-xs uppercase tracking-wider text-[#4b5f7a]"><tr className="text-left">
               {/* <th className="p-2">Function</th> */}
               {/* <th className="p-2">Component</th> */}
               <th className="p-2">NHSS Standard</th>
@@ -116,9 +116,9 @@ function StandardsPage() {
               <th className="p-2 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#e7efed]">
+          <tbody className="divide-y divide-[#e7edf4]">
             {filteredStandards.map((s) => (
-              <tr key={s.standardId} className="hover:bg-[#f5fbfa]">
+              <tr key={s.standardId} className="hover:bg-[#f5f9fd]">
                 {/* <td className="p-2 text-center font-semibold">{s.functionNumber}</td> */}
                 {/* <td className="p-2 text-center font-semibold">{s.componentNumber}</td> */}
                 <td className="p-2 text-left font-semibold"><Link to={`/framework/standards/${s.standardId}`} className="text-blue-600 hover:underline">{s.standardNumber}</Link></td>
@@ -127,13 +127,13 @@ function StandardsPage() {
                 <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap">
                   <Link
                     to={`/framework/standards/${s.standardId}`}
-                    className="rounded-md border border-[#b9d6d1] px-3 py-1.5 text-xs font-semibold text-[#087c77] hover:bg-teal-50"
+                    className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]"
                   >
                     Details
                   </Link>
                   <button
                     onClick={() => handleEditClick(s)}
-                    className="rounded-md border border-[#b9d6d1] px-3 py-1.5 text-xs font-semibold text-[#087c77] hover:bg-teal-50"
+                    className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]"
                   >
                     Edit
                   </button>
@@ -148,7 +148,7 @@ function StandardsPage() {
             ))}
           </tbody>
         </table></div>
-        {filteredStandards.length === 0 && <p className="mt-4 rounded-lg border border-dashed border-[#c9ddd9] bg-white px-4 py-5 text-center text-sm text-[#527076]">No standards match these filters.</p>}
+        {filteredStandards.length === 0 && <p className="mt-4 rounded-lg border border-dashed border-[#c5d4e6] bg-white px-4 py-5 text-center text-sm text-[#4b5f7a]">No standards match these filters.</p>}
         </>
       )}
 

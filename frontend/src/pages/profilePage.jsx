@@ -68,10 +68,10 @@ function ProfilePage() {
   return (
     <main className="min-h-[calc(100vh-57px)] bg-[#f7fbfa] px-4 py-10">
       <div className="mx-auto w-full max-w-2xl">
-        <div className="overflow-hidden rounded-2xl border border-[#dce9e7] bg-white shadow-[0_12px_30px_rgba(20,60,66,0.08)]">
+        <div className="overflow-hidden rounded-2xl border border-[#dbe5ef] bg-white shadow-[0_12px_30px_rgba(20,60,66,0.08)]">
           {/* Identity header */}
-          <div className="flex items-center gap-4 border-b border-[#e1ecea] bg-[linear-gradient(125deg,#e8f5f3_0%,#f8fbfa_100%)] px-8 pb-6 pt-8">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#087c77] text-lg font-semibold text-white">
+          <div className="flex items-center gap-4 border-b border-[#e3eaf2] bg-[linear-gradient(125deg,#eaf3fb_0%,#f8fafc_100%)] px-8 pb-6 pt-8">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#16803a] text-lg font-semibold text-white">
               {getInitials(profile.firstName, profile.lastName)}
             </div>
             <div className="min-w-0">
@@ -86,7 +86,7 @@ function ProfilePage() {
             {!isEditing && (
               <button
                 onClick={() => setIsEditing(true)}
-                className="ml-auto shrink-0 rounded-md border border-[#b9d6d1] px-3 py-1.5 text-sm font-semibold text-[#087c77] hover:bg-teal-50"
+                className="ml-auto shrink-0 rounded-md border border-[#c5d5e8] px-3 py-1.5 text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]"
               >
                 Edit
               </button>
@@ -101,7 +101,7 @@ function ProfilePage() {
             )}
 
             {isEditing ? (
-              <form onSubmit={handleSubmit} className="space-y-4 [&_input]:rounded-lg [&_input]:border-[#b9d6d1] [&_input:focus]:border-[#087c77] [&_input:focus]:ring-teal-100 [&_select]:rounded-lg [&_select]:border-[#b9d6d1] [&_select:focus]:border-[#087c77] [&_select:focus]:ring-teal-100 [&_textarea]:rounded-lg [&_textarea]:border-[#b9d6d1] [&_textarea:focus]:border-[#087c77] [&_textarea:focus]:ring-teal-100">
+              <form onSubmit={handleSubmit} className="space-y-4 [&_input]:rounded-lg [&_input]:border-[#c5d5e8] [&_input:focus]:border-[#16803a] [&_input:focus]:ring-teal-100 [&_select]:rounded-lg [&_select]:border-[#c5d5e8] [&_select:focus]:border-[#16803a] [&_select:focus]:ring-teal-100 [&_textarea]:rounded-lg [&_textarea]:border-[#c5d5e8] [&_textarea:focus]:border-[#16803a] [&_textarea:focus]:ring-teal-100">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
@@ -217,7 +217,7 @@ function ProfilePage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex-1 rounded-lg bg-[#087c77] px-3 py-2.5 text-sm font-semibold text-white hover:bg-[#05635f] disabled:cursor-not-allowed disabled:opacity-60"
+                    className="flex-1 rounded-lg bg-[#16803a] px-3 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531] disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {isSubmitting ? "Saving…" : "Save changes"}
                   </button>
@@ -228,7 +228,7 @@ function ProfilePage() {
                       setIsEditing(false);
                       setError("");
                     }}
-                    className="flex-1 rounded-lg border border-[#b9d6d1] px-3 py-2.5 text-sm font-semibold text-[#527076] hover:bg-slate-50"
+                    className="flex-1 rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm font-semibold text-[#4b5f7a] hover:bg-slate-50"
                   >
                     Cancel
                   </button>

@@ -18,7 +18,8 @@ api.interceptors.response.use(
     const isAuthRequest = error.config?.url?.includes("/auth/login") || error.config?.url?.includes("/auth/refresh");
     if (error.response?.status === 401 && !isAuthRequest) {
       setAuthToken(null);
-      window.location.href = "/login";
+      const returnTo = `${window.location.pathname}${window.location.search}`;
+      window.location.href = `/login?returnTo=${encodeURIComponent(returnTo)}`;
     }
     if (error.config?.showErrorDialog) {
       const responseData = error.response?.data;

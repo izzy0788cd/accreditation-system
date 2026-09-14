@@ -49,9 +49,9 @@ function CompleteProfilePage() {
     };
 
   return (
-    <main className="flex min-h-[calc(100vh-57px)] items-center justify-center bg-[linear-gradient(135deg,#e8f5f3_0%,#f8fbfa_55%,#fdf7ea_100%)] px-4 py-8">
+    <main className="flex min-h-[calc(100vh-57px)] items-center justify-center bg-[linear-gradient(135deg,#eaf3fb_0%,#f8fafc_55%,#fdf7ea_100%)] px-4 py-8">
       <div className="w-full max-w-md">
-        <div className="rounded-2xl border border-[#cde5e0] bg-white p-8 shadow-[0_20px_50px_rgba(20,60,66,0.12)]"><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">One final step</p><h1 className="mt-2 text-2xl font-bold tracking-tight text-[#143c42]">Complete your profile</h1><p className="mt-2 text-sm text-[#668187]">This information identifies you when you work with accreditation data.</p>
+        <div className="rounded-2xl border border-[#c9dded] bg-white p-8 shadow-[0_20px_50px_rgba(20,60,66,0.12)]"><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">One final step</p><h1 className="mt-2 text-2xl font-bold tracking-tight text-[#092a5a]">Complete your profile</h1><p className="mt-2 text-sm text-[#68778c]">This information identifies you when you work with accreditation data.</p>
 
           {error && (
             <div className="mt-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
@@ -59,7 +59,7 @@ function CompleteProfilePage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-4 [&_input]:rounded-lg [&_input]:border-[#b9d6d1] [&_input:focus]:border-[#087c77] [&_input:focus]:ring-teal-100 [&_select]:rounded-lg [&_select]:border-[#b9d6d1] [&_select:focus]:border-[#087c77] [&_select:focus]:ring-teal-100 [&_textarea]:rounded-lg [&_textarea]:border-[#b9d6d1] [&_textarea:focus]:border-[#087c77] [&_textarea:focus]:ring-teal-100">
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4 [&_input]:rounded-lg [&_input]:border-[#c5d5e8] [&_input:focus]:border-[#16803a] [&_input:focus]:ring-teal-100 [&_select]:rounded-lg [&_select]:border-[#c5d5e8] [&_select:focus]:border-[#16803a] [&_select:focus]:ring-teal-100 [&_textarea]:rounded-lg [&_textarea]:border-[#c5d5e8] [&_textarea:focus]:border-[#16803a] [&_textarea:focus]:ring-teal-100">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
@@ -177,7 +177,7 @@ function CompleteProfilePage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full rounded-lg bg-[#087c77] px-3 py-2.5 text-sm font-semibold text-white hover:bg-[#05635f] disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-lg bg-[#16803a] px-3 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSubmitting ? "Saving…" : "Save and continue"}
             </button>

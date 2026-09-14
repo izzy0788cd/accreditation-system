@@ -159,10 +159,10 @@ function EvidencePage() {
     return (
         <div>
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">Framework layer</p><h2 className="mt-1 text-2xl font-bold tracking-tight text-[#143c42]">
+                <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Framework layer</p><h2 className="mt-1 text-2xl font-bold tracking-tight text-[#092a5a]">
                     Evidence
                 </h2></div>
-                <button onClick={handleAddClick} className="rounded-lg bg-[#087c77] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#05635f]">
+                <button onClick={handleAddClick} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0d6531]">
                     + Add Evidence
                 </button>
             </div>
@@ -174,7 +174,7 @@ function EvidencePage() {
             ) : (
                 <>
                 <FrameworkFilters search={search} onSearchChange={setSearch} searchPlaceholder="Search number, evidence, or compliance" filters={[{ label: "Standard", value: standardFilter, onChange: setStandardFilter, options: standardOptions }, { label: "Criterion", value: criterionFilter, onChange: setCriterionFilter, options: criterionOptions }]} parentLabel="Compliance" parentValue={complianceFilter} onParentChange={setComplianceFilter} parentOptions={complianceOptions} applicability={applicabilityFilter} onApplicabilityChange={setApplicabilityFilter} resultCount={filteredEvidence.length} totalCount={evidence.length} />
-                <div className="overflow-x-auto rounded-xl border border-[#e2ecea] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[820px] text-sm"><thead className="border-b border-[#dce9e7] bg-[#f5faf9] text-xs uppercase tracking-wider text-[#527076]"><tr className="text-left">
+                <div className="overflow-x-auto rounded-xl border border-[#dfe7f0] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[820px] text-sm"><thead className="border-b border-[#dbe5ef] bg-[#f6f9fc] text-xs uppercase tracking-wider text-[#4b5f7a]"><tr className="text-left">
                             <th className="p-2">Compliance</th>
                             <th className="p-2">No.</th>
                             <th className="p-2">Evidence</th>
@@ -182,10 +182,10 @@ function EvidencePage() {
                             <th className="p-2 text-right">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#e7efed]">
+                    <tbody className="divide-y divide-[#e7edf4]">
                         {evidenceByCompliance.flatMap((group) => group.map((ev, index) => (
-                            <tr key={ev.evidenceId} className={`hover:bg-[#f5fbfa] ${index === 0 ? "border-t-2 border-[#b9d6d1]" : ""}`}>
-                                {index === 0 && <td rowSpan={group.length} className="border-r border-[#e7efed] bg-[#f5faf9] p-3 align-top font-semibold"><Link to={`/framework/compliance/${ev.complianceId}`} className="text-[#087c77] hover:underline">{ev.complianceNumber}</Link></td>}
+                            <tr key={ev.evidenceId} className={`hover:bg-[#f5f9fd] ${index === 0 ? "border-t-2 border-[#c5d5e8]" : ""}`}>
+                                {index === 0 && <td rowSpan={group.length} className="border-r border-[#e7edf4] bg-[#f6f9fc] p-3 align-top font-semibold"><Link to={`/framework/compliance/${ev.complianceId}`} className="text-[#16803a] hover:underline">{ev.complianceNumber}</Link></td>}
                                 <td className="p-2 text-center">{ev.evidenceNumber}</td>
                                 <td className="p-2 text-justify whitespace-pre-line">{ev.evidenceSummary}</td>
                                 <td className="p-2">
@@ -199,7 +199,7 @@ function EvidencePage() {
                                     </button>
                                 </td>
                                 <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap">
-                                        <button onClick={() => handleEditClick(ev)} className="rounded-md border border-[#b9d6d1] px-3 py-1.5 text-xs font-semibold text-[#087c77] hover:bg-teal-50">
+                                        <button onClick={() => handleEditClick(ev)} className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]">
                                             Edit
                                         </button>
                                         <button onClick={() => handleDeleteClick(ev)} className="rounded-md border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-50">
@@ -211,7 +211,7 @@ function EvidencePage() {
                         ))) }
                     </tbody>
                 </table></div>
-                {filteredEvidence.length === 0 && <p className="mt-4 rounded-lg border border-dashed border-[#c9ddd9] bg-white px-4 py-5 text-center text-sm text-[#527076]">No evidence records match these filters.</p>}
+                {filteredEvidence.length === 0 && <p className="mt-4 rounded-lg border border-dashed border-[#c5d4e6] bg-white px-4 py-5 text-center text-sm text-[#4b5f7a]">No evidence records match these filters.</p>}
                 </>
             )}
 
