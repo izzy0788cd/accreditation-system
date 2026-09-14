@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { getOne } from "../api/api";
+import logo from "../assets/pictures/logo/accreditation-system-logo3.png";
 
 function LoginPage() {
   const [username, setUsername] = useState("");
@@ -10,27 +10,39 @@ function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const requestedPath = new URLSearchParams(location.search).get("returnTo");
+  const returnTo = requestedPath?.startsWith("/") && !requestedPath.startsWith("//") ? requestedPath : "/";
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setIsSubmitting(true);
     try {
-    const hasProfile = await login(username, password);
-    navigate(hasProfile ? "/framework" : "/complete-profile");
+      const hasProfile = await login(username, password);
+      navigate(hasProfile ? returnTo : "/complete-profile", { replace: true });
     } catch {
-    setError("Incorrect username or password.");
+      setError("Incorrect username or password.");
+    } finally {
+      setIsSubmitting(false);
     }
-  };
+};
 
   return (
-    <div className="min-h-[calc(100vh-57px)] bg-gray-50 flex items-center justify-center px-4">
-      <div className="w-full max-w-sm">
-        <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-8">
-          <h1 className="text-lg font-semibold text-gray-900">Sign in</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Accreditation System
-          </p>
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[linear-gradient(135deg,#eaf3fb_0%,#f8fafc_52%,#fdf7ea_100%)] px-4 py-10">
+      <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[#bbf7d0]/30 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-28 -right-16 h-80 w-80 rounded-full bg-amber-200/35 blur-3xl" />
+      <div className="relative grid w-full max-w-4xl overflow-hidden rounded-[1.75rem] border border-white/80 bg-white/90 shadow-[0_24px_70px_rgba(20,60,66,0.16)] backdrop-blur sm:grid-cols-[.9fr_1.1fr]">
+        <section className="flex flex-col items-center justify-center bg-[#092a5a] px-8 py-10 text-center text-white sm:px-10">
+          <img src={logo} alt="National Health Care Accreditation Programme" className="h-44 w-44 rounded-full bg-white object-contain p-1 shadow-[0_12px_30px_rgba(0,0,0,0.22)]" />
+          <p className="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-[#bbf7d0]">Papua New Guinea</p>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight">National Health Care Accreditation Programme</h1>
+          <p className="mt-3 max-w-xs text-sm leading-6 text-slate-200">A single workspace for accreditation surveys, evidence, standards, and improvement.</p>
+        </section>
+        <section className="p-7 sm:p-10">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Secure access</p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-[#092a5a]">Sign in</h2>
+          <p className="mt-2 text-sm leading-6 text-[#68778c]">Use your account to continue to the accreditation workspace.</p>
 
           {error && (
             <div className="mt-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
@@ -38,7 +50,7 @@ function LoginPage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          <form onSubmit={handleSubmit} className="mt-7 space-y-4">
             <div>
               <label
                 htmlFor="username"
@@ -53,7 +65,7 @@ function LoginPage() {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 autoFocus
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
+                className="mt-1.5 w-full rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm text-[#092a5a] outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]"
               />
             </div>
 
@@ -70,21 +82,21 @@ function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
+                className="mt-1.5 w-full rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm text-[#092a5a] outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full rounded-lg bg-[#16803a] px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0d6531] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSubmitting ? "Signing in…" : "Sign in"}
             </button>
           </form>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }
 

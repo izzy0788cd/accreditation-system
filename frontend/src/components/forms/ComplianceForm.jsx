@@ -44,7 +44,7 @@ function ComplianceForm({ initialData, onSubmit, onCancel, lockedCriterionId }) 
         if (numberInputRef.current) {
             numberInputRef.current.focus();
         }
-    });
+    }, []);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value});
@@ -68,13 +68,12 @@ function ComplianceForm({ initialData, onSubmit, onCancel, lockedCriterionId }) 
     );
 
     return (
-        <form onSubmit={handleSubmit} className="mb-8 space-y-3 border p-4 rounded">
-            <h2 className="text-lg font-semibold">{initialData ? "Edit Compliance" : "Add Compliance"}</h2>
+        <form onSubmit={handleSubmit} className="space-y-5"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Framework</p><h2 className="mt-1 text-xl font-bold text-[#092a5a]">{initialData ? "Edit compliance" : "Add compliance"}</h2></div>
 
             {!lockedCriterionId && (
                 <div>
                     <label className="block text-sm font-medium mb-1">Criterion</label>
-                    <select name="criterionId" value={formData.criterionId} onChange={handleChange} required className="border rounded px-3 py-2 w-full">
+                    <select name="criterionId" value={formData.criterionId} onChange={handleChange} required className="w-full rounded-lg border border-[#c5d5e8] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]">
                         <option value="">Select Compliance Criterion</option>
                         {sortedCriteria.map((cr) => (
                             <option key={cr.criterionId} value={cr.criterionId}>{cr.criterionNumber}</option>
@@ -85,17 +84,16 @@ function ComplianceForm({ initialData, onSubmit, onCancel, lockedCriterionId }) 
 
             <div>
                 <label className="block text-sm font-medium mb-1">Number</label>
-                <input ref={numberInputRef} type="text" name="complianceNumber" value={formData.complianceNumber} onChange={handleChange} required className="border rounded px-3 py-2 w-full" />
+                <input ref={numberInputRef} type="text" name="complianceNumber" value={formData.complianceNumber} onChange={handleChange} required className="w-full rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]" />
             </div>
                 
             <div>
                 <label className="block text-sm font-medium mb-1">Compliance</label>
-                <textarea name="complianceSummary" value={formData.complianceSummary} onChange={handleChange} required className="border rounded px-3 py-2 w-full h-auto" />
+                <textarea name="complianceSummary" value={formData.complianceSummary} onChange={handleChange} required rows={4} className="w-full rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]" />
             </div>
             
             <div className="flex gap-2">
-                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">{initialData ? "Update" : "Add"}</button>
-                <button type="button" className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400" onClick={onCancel}>Cancel</button>
+                <button type="submit" className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">{initialData ? "Save changes" : "Add compliance"}</button><button type="button" className="rounded-lg px-4 py-2.5 text-sm font-semibold text-[#4b5f7a] hover:bg-slate-100" onClick={onCancel}>Cancel</button>
             </div>
         </form>
     );

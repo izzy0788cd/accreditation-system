@@ -14,7 +14,7 @@ function ComplianceDetailPage() {
     const [deleteTarget, setDeleteTarget] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [successMessage, setSuccessMessage] = useState(null);
+    const [, setSuccessMessage] = useState(null);
 
     const loadData = async () => {
         try {
@@ -89,7 +89,7 @@ function ComplianceDetailPage() {
 
     const handleToggleApplicability = async (evidence) => {
         try {
-            await patchApplicability("evidence", evidence.evidenceId, !evidence.setCompliance);
+            await patchApplicability("evidence", evidence.evidenceId, !evidence.isApplicable);
             loadData();
         } catch (err) {
             setError("Failed to toggle applicability");
@@ -102,25 +102,22 @@ function ComplianceDetailPage() {
     );
 
     if (loading) return <p>Loading...</p>
-    if (!evidence) return <p>Evidence not found.</p>
+    if (!compliance) return <p>Compliance requirement not found.</p>
 
     return (
         <div>
-            <Link to="/framework/compliance" className="text-blue-600 hover:underline text-sm">
+            <Link to="/framework/compliance" className="text-sm font-semibold text-[#16803a] hover:underline">
             ← Back to Compliance
             </Link>
             
-                <div className="flex items-center justify-between mb-4">
-                    <h1 className="text-2x font-semibold whitespace-pre-line">
+                <div className="mb-4 mt-3 rounded-xl border border-[#c9dded] bg-[linear-gradient(125deg,#eaf3fb_0%,#f8fafc_100%)] px-6 py-5"><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Compliance requirement</p><h1 className="mt-1 text-2xl font-bold tracking-tight text-[#092a5a] whitespace-pre-line">
                         {compliance.complianceNumber} - {compliance.complianceSummary}
                     </h1>
                 </div>
 
                 {error && <p className="text-red-600 mb-4">{error}</p>}
 
-                <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-semibold">Evidence</h2>
-                    <button onClick={handleAddClick} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                <div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-bold text-[#092a5a]">Evidence</h2><button onClick={handleAddClick} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">
                         + Add Evidence
                     </button>
                 </div>
@@ -128,13 +125,13 @@ function ComplianceDetailPage() {
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
-                    <table className="w-full border-collapse">
+                    <div className="overflow-x-auto rounded-xl border border-[#dfe7f0] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[700px] text-sm">
                         <thead>
                             <tr className="border-b text-left">
                                 <th className="p-2">No.</th>
                                 <th className="p-2">Evidence</th>
                                 <th className="p-2">Applicable</th>
-                                <th className="p-2 text-center">Actions</th>
+                                <th className="p-2 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -152,12 +149,10 @@ function ComplianceDetailPage() {
                                                 {ev.isApplicable ? "Applicable" : "Not Applicable"}
                                         </button>
                                     </td>
-                                    <td className="p-2 space-x-2">
-                                        <div className="flex gap-2">
-                                            <button onClick={() => handleEditClick(ev)} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-20 mb-2">
+                                    <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap"><button onClick={() => handleEditClick(ev)} className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]">
                                                 Edit
                                             </button>
-                                            <button onClick={() => handleDeleteClick(ev)} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 w-20 mb-2">
+                                            <button onClick={() => handleDeleteClick(ev)} className="rounded-md border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-50">
                                                 Delete
                                             </button>
                                         </div>
@@ -165,7 +160,7 @@ function ComplianceDetailPage() {
                                 </tr>
                             ))}
                         </tbody>
-                    </table>
+                    </table></div>
                 )}
 
                 <FormModal open={showForm} onClose={handleCancel}>

@@ -1,0 +1,61 @@
+using Npgsql;
+using System.Text.Json;
+var cfg=JsonDocument.Parse(File.ReadAllText("backend/appsettings.json"));
+var source="data/imports/standard-16/standard-16.extracted.json";
+var data=JsonDocument.Parse(File.ReadAllText(source)).RootElement;
+await using var db=new NpgsqlConnection(cfg.RootElement.GetProperty("ConnectionStrings").GetProperty("AppDbContext").GetString());
+await db.OpenAsync();
+if(args.Contains("--inspect")) {
+ await using var cmd=new NpgsqlCommand("SELECT row_to_json(s)::text FROM standards s WHERE s.\"standardNumber\" IN ('16','17'); SELECT row_to_json(c)::text FROM criteria c JOIN standards s ON c.\"standardId\"=s.\"standardId\" WHERE s.\"standardNumber\"='16';",db);
+ await using var r=await cmd.ExecuteReaderAsync(); do {while(await r.ReadAsync())Console.WriteLine(r.GetString(0));}while(await r.NextResultAsync());return;
+}
+await using var tx=await db.BeginTransactionAsync();
+async Task<int> Scalar(string sql,params object[] values){await using var cmd=new NpgsqlCommand(sql,db,tx);foreach(var v in values)cmd.Parameters.AddWithValue(v);return Convert.ToInt32(await cmd.ExecuteScalarAsync());}
+var component=await Scalar("SELECT \"componentId\" FROM components WHERE \"componentNumber\"=$1","4");
+var function=await Scalar("SELECT \"functionId\" FROM functions WHERE \"functionNumber\"=$1","2");
+if(component==0||function==0)throw new Exception("Required parent missing");
+
+var expected=new List<(string table,string idField,int id,Dictionary<string,object> fields)>();
+async Task<int> Insert(string table,string idField,Dictionary<string,object> fields){
+
+ var key=table=="standards"?"standardNumber":table=="criteria"?"criterionNumber":table=="compliances"?"complianceNumber":"evidenceNumber";
+ var parent=table=="criteria"?"standardId":table=="compliances"?"criterionId":table=="evidence"?"complianceId":null;
+ var values=new List<object>{fields[key]};
+ var where=$"\"{key}\"=$1";
+ if(parent!=null){values.Add(fields[parent]);where+=$" AND \"{parent}\"=$2";}
+ var existing=await Scalar($"SELECT COALESCE(max(\"{idField}\"),0) FROM {table} WHERE {where}",values.ToArray());
+ if(existing!=0){
+  if(table=="standards"){
+   await using var update=new NpgsqlCommand("UPDATE standards SET \"functionId\"=$1, \"componentId\"=$2, \"standardTitle\"=$3 WHERE \"standardId\"=$4",db,tx);
+   update.Parameters.AddWithValue(fields["functionId"]);update.Parameters.AddWithValue(fields["componentId"]);update.Parameters.AddWithValue(fields["standardTitle"]);update.Parameters.AddWithValue(existing);await update.ExecuteNonQueryAsync();
+  }
+  await using var read=new NpgsqlCommand($"SELECT row_to_json(t)::text FROM {table} t WHERE \"{idField}\"=$1",db,tx);read.Parameters.AddWithValue(existing);
+  var saved=JsonDocument.Parse((string)(await read.ExecuteScalarAsync())!).RootElement;
+  foreach(var k in fields.Keys.ToArray())fields[k]=saved.GetProperty(k).ValueKind switch {JsonValueKind.String=>saved.GetProperty(k).GetString()!,JsonValueKind.Number=>saved.GetProperty(k).GetInt32(),_=>saved.GetProperty(k).GetBoolean()};
+  expected.Add((table,idField,existing,fields));return existing;
+ }
+ var sql=$"INSERT INTO {table} ({string.Join(",",fields.Keys.Select(k=>$"\"{k}\""))}) VALUES ({string.Join(",",Enumerable.Range(1,fields.Count).Select(i=>$"${i}"))}) RETURNING \"{idField}\"";
+ int id=await Scalar(sql,fields.Values.ToArray());expected.Add((table,idField,id,fields));return id;
+}
+string S(JsonElement e,string k)=>e.GetProperty(k).GetString()!;
+var sid=await Insert("standards","standardId",new(){["standardNumber"]="16",["standardTitle"]=S(data,"standardTitle"),["standardSummary"]=S(data,"standardSummary"),["componentId"]=component,["functionId"]=function});
+foreach(var c in data.GetProperty("criteria").EnumerateArray()){
+ var cid=await Insert("criteria","criterionId",new(){["criterionNumber"]=S(c,"criterionNumber"),["criterionTitle"]=S(c,"criterionTitle"),["standardId"]=sid,["isApplicable"]=true});
+ foreach(var co in c.GetProperty("compliances").EnumerateArray()){
+  var coid=await Insert("compliances","complianceId",new(){["complianceNumber"]=S(co,"complianceNumber"),["complianceSummary"]=S(co,"complianceSummary"),["criterionId"]=cid,["isApplicable"]=true});
+  foreach(var e in co.GetProperty("evidence").EnumerateArray())await Insert("evidence","evidenceId",new(){["evidenceNumber"]=S(e,"evidenceNumber"),["evidenceSummary"]=S(e,"evidenceSummary"),["complianceId"]=coid,["isApplicable"]=true});
+ }
+}
+foreach(var row in expected){
+ var filters=row.fields.Select((f,i)=>$"\"{f.Key}\"=${i+2}");
+ var count=await Scalar($"SELECT count(*) FROM {row.table} WHERE \"{row.idField}\"=$1 AND {string.Join(" AND ",filters)}",new object[]{row.id}.Concat(row.fields.Values).ToArray());
+ if(count!=1)throw new Exception("Verification failed: "+row.table);
+}
+if(expected.Count!=56)throw new Exception("Unexpected record count");
+await tx.CommitAsync();
+await using var check=new NpgsqlCommand("SELECT count(*) FROM evidence e JOIN compliances co ON e.\"complianceId\"=co.\"complianceId\" JOIN criteria c ON co.\"criterionId\"=c.\"criterionId\" WHERE c.\"standardId\"=$1",db);
+check.Parameters.AddWithValue(sid);
+if(Convert.ToInt32(await check.ExecuteScalarAsync())!=37)throw new Exception("Post-commit verification failed");
+var receipt=new{standardId=sid,componentId=component,functionId=function,criteria=3,compliances=15,evidence=37,verifiedRecords=expected.Count,importedAt=DateTimeOffset.UtcNow};
+File.WriteAllText("data/imports/standard-16/import-receipt.json",JsonSerializer.Serialize(receipt,new JsonSerializerOptions{WriteIndented=true}));
+Console.WriteLine(JsonSerializer.Serialize(receipt));

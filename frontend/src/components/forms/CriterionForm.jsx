@@ -43,7 +43,7 @@ function CriterionForm({ initialData, onSubmit, onCancel, lockedStandardId }) {
         if (numberInputRef.current) {
             numberInputRef.current.focus();
         }
-    })
+    }, [])
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value});
@@ -63,13 +63,12 @@ function CriterionForm({ initialData, onSubmit, onCancel, lockedStandardId }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="mb-8 space-y-3 border p-4 rounded">
-            <h2 className="text-lg font-semibold">{initialData ? "Edit Criterion" : "Add Criterion"}</h2>
+        <form onSubmit={handleSubmit} className="space-y-5"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Framework</p><h2 className="mt-1 text-xl font-bold text-[#092a5a]">{initialData ? "Edit criterion" : "Add a criterion"}</h2></div>
 
             {!lockedStandardId && (
                 <div>
                     <label className="block text-sm font-medium mb-1">Standard</label>
-                    <select name="standardId" value={formData.standardId} onChange={handleChange} required className="border rounded px-3 py-2 w-full" >
+                    <select name="standardId" value={formData.standardId} onChange={handleChange} required className="w-full rounded-lg border border-[#c5d5e8] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]" >
                         <option value="">Select a Standard</option>
                         {standards.map((s) => (
                             <option key={s.standardId} value={s.standardId}>{s.standardNumber} - {s.standardTitle}</option>
@@ -80,17 +79,16 @@ function CriterionForm({ initialData, onSubmit, onCancel, lockedStandardId }) {
 
             <div>
                 <label className="block text-sm font-medium mb-1">Number</label>
-                <input ref={numberInputRef} type="text" name="criterionNumber" value={formData.criterionNumber} onChange={handleChange} required maxLength={10} className="border rounded px-3 py-2 w-full" />
+                <input ref={numberInputRef} type="text" name="criterionNumber" value={formData.criterionNumber} onChange={handleChange} required maxLength={10} className="w-full rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]" />
             </div>
 
             <div>
                 <label className="block text-sm font-medium mb-1">Title</label>
-                <input type="text" name="criterionTitle" value={formData.criterionTitle} onChange={handleChange} required maxLength={500} className="border rounded px-3 py-2 w-full" />
+                <input type="text" name="criterionTitle" value={formData.criterionTitle} onChange={handleChange} required maxLength={500} className="w-full rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]" />
             </div>
 
             <div className="flex gap-2">
-                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">{initialData ? "Update" : "Add"}</button>
-                <button type="button" className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400" onClick={onCancel}>Cancel</button>
+                <button type="submit" className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">{initialData ? "Save changes" : "Add criterion"}</button><button type="button" className="rounded-lg px-4 py-2.5 text-sm font-semibold text-[#4b5f7a] hover:bg-slate-100" onClick={onCancel}>Cancel</button>
             </div>
         </form>
     );

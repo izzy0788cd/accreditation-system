@@ -14,7 +14,7 @@ function CriterionDetailPage() {
     const [deleteTarget, setDeleteTarget] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [successMessage, setSuccessMessage] = useState(null);
+    const [, setSuccessMessage] = useState(null);
 
     const loadData = async () => {
         try {
@@ -107,16 +107,14 @@ function CriterionDetailPage() {
 
     return (
         <div>
-            <Link to="/framework/criteria" className="text-blue-600 hover:underline text-sm">
+            <Link to="/framework/criteria" className="text-sm font-semibold text-[#16803a] hover:underline">
             ← Back to Criteria
             </Link>
             
             <div>
-                <div className="flex items-center justify-between mb-4">
-                    <h1 className="text-2xl font-semibold">
+                <div className="mb-4 mt-3 flex flex-col gap-4 rounded-xl border border-[#c9dded] bg-[linear-gradient(125deg,#eaf3fb_0%,#f8fafc_100%)] px-6 py-5 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Criterion</p><h1 className="mt-1 text-2xl font-bold tracking-tight text-[#092a5a]">
                         {criterion.criterionNumber} {criterion.criterionTitle}
-                    </h1>
-                    <button onClick={handleAddClick} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    </h1></div><button onClick={handleAddClick} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">
                         + Add Compliance
                     </button>
                 </div>
@@ -126,13 +124,13 @@ function CriterionDetailPage() {
                     {loading ? (
                         <p>Loading...</p>
                     ) : (
-                        <table className="w-full border-collapse">
+                        <div className="overflow-x-auto rounded-xl border border-[#dfe7f0] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[700px] text-sm">
                             <thead>
                                 <tr className="border-b text-left">
                                     <th className="p-2">No.</th>
                                     <th className="p-2">Compliance</th>
                                     <th className="p-2">Applicable</th>
-                                    <th className="p-2">Actions</th>
+                                    <th className="p-2 text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -150,12 +148,10 @@ function CriterionDetailPage() {
                                                 {c.isApplicable ? "Applicable" : "Not Applicable"}
                                             </button>
                                         </td>
-                                        <td className="p-2 space-x-2">
-                                            <div className="flex gap-2">
-                                                <button onClick={() => handleEditClick(c)} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-20 mb-2">
+                                        <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap"><button onClick={() => handleEditClick(c)} className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]">
                                                     Edit
                                                 </button>
-                                                <button onClick={() => handleDeleteClick(c)} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 w-20 mb-2">
+                                                <button onClick={() => handleDeleteClick(c)} className="rounded-md border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-50">
                                                     Delete
                                                 </button>
                                             </div>
@@ -163,7 +159,7 @@ function CriterionDetailPage() {
                                     </tr>
                                 ))}
                             </tbody>
-                        </table>
+                        </table></div>
                     )}
 
                     <FormModal open={showForm} onClose={handleCancel}>

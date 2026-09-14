@@ -19,5 +19,6 @@ namespace backend.Models.Accounts
         public bool isActive { get; set; }
         public DateOnly dateCreated { get; set; }
         public User? user { get; set; }
+        public ICollection<RefreshToken> refreshTokens { get; set; } = [];
     }
 }

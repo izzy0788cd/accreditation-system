@@ -20,6 +20,8 @@ namespace backend.Data
             
         }
         
+        public DbSet<backend.Models.Reports.SurveyReportVersion> surveyReportVersions { get; set; }
+
         //db sets for framework
         public DbSet<Function> functions { get; set; }
         public DbSet<Component> components { get; set; }
@@ -44,6 +46,7 @@ namespace backend.Data
         public DbSet<Role> roles { get; set; }
         public DbSet<UserAccount> userAccounts { get; set; }
         public DbSet<User> users { get; set; }
+        public DbSet<RefreshToken> refreshTokens { get; set; }
 
         //db sets for scores & risk rating
         public DbSet<Score> scores { get; set; }
@@ -55,6 +58,7 @@ namespace backend.Data
         public DbSet<Surveyors> surveyors { get; set; }
         public DbSet<SurveyType> surveyTypes { get; set; }
         public DbSet<Survey> surveys { get; set; }
+        public DbSet<SurveyStandardAssignment> surveyStandardAssignments { get; set; }
 
         //db sets for survey assessements
         public DbSet<ComplianceAssessment> complianceAssessments { get; set; }
@@ -65,6 +69,11 @@ namespace backend.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<backend.Models.Reports.SurveyReportVersion>()
+                .HasIndex(r => new { r.surveyId, r.versionNumber }).IsUnique();
+            modelBuilder.Entity<backend.Models.Reports.SurveyReportVersion>()
+                .HasOne(r => r.survey).WithMany().HasForeignKey(r => r.surveyId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             //Framework relationships
             modelBuilder.Entity<Component>().HasKey(c => c.componentId);
@@ -205,6 +214,8 @@ namespace backend.Data
                 .OnDelete(DeleteBehavior.Restrict);
             
             modelBuilder.Entity<UserAccount>().HasKey(ua => ua.userAccountId);
+            modelBuilder.Entity<RefreshToken>().HasIndex(rt => rt.tokenHash).IsUnique();
+            modelBuilder.Entity<RefreshToken>().HasOne(rt => rt.userAccount).WithMany(ua => ua.refreshTokens).HasForeignKey(rt => rt.userAccountId).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>().HasKey(u => u.userId);
             modelBuilder.Entity<User>()
@@ -259,6 +270,25 @@ namespace backend.Data
                 .OnDelete(DeleteBehavior.Restrict);
             
             modelBuilder.Entity<Survey>().HasKey(sv => sv.surveyId);
+            modelBuilder.Entity<SurveyStandardAssignment>().HasKey(assignment => assignment.surveyStandardAssignmentId);
+            modelBuilder.Entity<SurveyStandardAssignment>()
+                .HasIndex(assignment => new { assignment.surveyId, assignment.standardId })
+                .IsUnique();
+            modelBuilder.Entity<SurveyStandardAssignment>()
+                .HasOne(assignment => assignment.survey)
+                .WithMany(survey => survey.standardAssignments)
+                .HasForeignKey(assignment => assignment.surveyId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<SurveyStandardAssignment>()
+                .HasOne(assignment => assignment.standard)
+                .WithMany(standard => standard.surveyStandardAssignments)
+                .HasForeignKey(assignment => assignment.standardId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SurveyStandardAssignment>()
+                .HasOne(assignment => assignment.surveyor)
+                .WithMany(surveyor => surveyor.standardAssignments)
+                .HasForeignKey(assignment => assignment.surveyorId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             //survey assessment relationships
             modelBuilder.Entity<ComplianceAssessment>().HasKey(ca => ca.complianceAssessmentId);

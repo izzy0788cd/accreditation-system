@@ -31,6 +31,7 @@ namespace backend.Controllers_FacilitySurvey
             var specializations = await _context
                 .specializations.Select(sp => new SpecializationDTO
                 {
+                    specializationId = sp.specializationId,
                     specializationName = sp.specializationName,
                     description = sp.description,
                 })
@@ -48,6 +49,7 @@ namespace backend.Controllers_FacilitySurvey
                 .specializations.Where(sp => sp.specializationId == id)
                 .Select(sp => new SpecializationDTO
                 {
+                    specializationId = sp.specializationId,
                     specializationName = sp.specializationName,
                     description = sp.description,
                 })

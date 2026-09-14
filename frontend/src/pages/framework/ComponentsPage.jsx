@@ -77,12 +77,11 @@ const handleSubmit = async (formData) => {
   };
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">Components</h1>
+    <section>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Framework layer</p><h2 className="mt-1 text-2xl font-bold tracking-tight text-[#092a5a]">Components</h2></div>
         <button
           onClick={handleAddClick}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0d6531]"
         >
           + Add Component
         </button>
@@ -91,41 +90,31 @@ const handleSubmit = async (formData) => {
       {error && <p className="text-red-600 mb-4">{error}</p>}
 
       {loading ? (
-        <p>Loading...</p>
+        <div className="space-y-3 rounded-xl border border-[#dfe7f0] p-6">{[1, 2, 3].map((row) => <div key={row} className="h-10 animate-pulse rounded bg-slate-100" />)}</div>
       ) : (
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="border-b text-left">
-              <th className="p-2">Number</th>
-              <th className="p-2">Name</th>
-              <th className="p-2">Summary</th>
-              <th className="p-2">Actions</th>
+        <div className="overflow-x-auto rounded-xl border border-[#dfe7f0] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[720px] text-sm"><thead className="border-b border-[#dbe5ef] bg-[#f6f9fc] text-xs uppercase tracking-wider text-[#4b5f7a]"><tr className="text-left"><th className="px-6 py-3.5">Number</th><th className="px-6 py-3.5">Name</th><th className="px-6 py-3.5">Summary</th><th className="px-6 py-3.5 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-[#e7edf4]">
             {components.map((c) => (
-              <tr key={c.componentId} className="border-b">
-                <td className="p-2 text-right font-semibold">{c.componentNumber}</td>
-                <td className="p-2">{c.componentName}</td>
-                <td className="p-2 text-justify">{c.componentSummary}</td>
-                <td className="p-2 space-x-2">
+              <tr key={c.componentId} className="hover:bg-[#f5f9fd]"><td className="px-6 py-4 font-semibold text-[#16803a]">{c.componentNumber}</td><td className="px-6 py-4 font-semibold text-[#092a5a]">{c.componentName}</td><td className="px-6 py-4 text-justify leading-6 text-[#4b5f7a]">{c.componentSummary}</td><td className="px-6 py-4"><div className="flex justify-end gap-2 whitespace-nowrap">
                   <button
                     onClick={() => handleEditClick(c)}
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-2 w-20"
+                    className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDeleteClick(c)}
-                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mb-2 w-20"
+                    className="rounded-md border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-50"
                   >
                     Delete
-                  </button>
+                  </button></div>
                 </td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       )}
 
       <FormModal open={showForm} onClose={handleCancel}>
@@ -143,7 +132,7 @@ const handleSubmit = async (formData) => {
         onConfirm={handleConfirmDelete}
         onCancel={() => setDeleteTarget(null)}
       />
-    </div>
+    </section>
   );
 }
 

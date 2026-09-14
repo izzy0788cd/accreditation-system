@@ -114,6 +114,18 @@ namespace backend.Controllers.FacilitySurvey
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<SurveyorDTO>> PostSurveyors(SurveyorCreateDTO dto)
         {
+            if (!await _context.users.AnyAsync(user => user.userId == dto.userId))
+                return BadRequest("Select a user with a completed profile before registering them as a surveyor.");
+
+            if (await _context.surveyors.AnyAsync(surveyor => surveyor.userId == dto.userId))
+                return BadRequest("This user is already registered as a surveyor.");
+
+            if (!await _context.surveyorCertStatuses.AnyAsync(status => status.surveyorCertStatusId == dto.surveyorCertStatusId))
+                return BadRequest("Select a valid surveyor certification status.");
+
+            if (!await _context.specializations.AnyAsync(specialization => specialization.specializationId == dto.specializationId))
+                return BadRequest("Select a valid surveyor specialisation.");
+
             var surveyorModel = new Surveyors
             {
                 userId = dto.userId,

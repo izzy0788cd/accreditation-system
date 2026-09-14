@@ -1,0 +1,1 @@
+SELECT json_build_object('surveyId',1,'assessments',(SELECT json_agg(a) FROM "complianceAssessments" a WHERE "surveyId"=1),'evidenceChecks',(SELECT json_agg(e) FROM "complianceEvidenceChecks" e JOIN "complianceAssessments" a ON a."complianceAssessmentId"=e."complianceAssessmentId" WHERE a."surveyId"=1));

@@ -1,0 +1,105 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\04 Environment\\Standard No. 17 Waste Management.docx",
+  "functionNumber": "2",
+  "componentNumber": "4",
+  "standardNumber": "17",
+  "standardTitle": "Waste management (mandatory standard)",
+  "standardSummary": "The Health Facility has a hospital/healthcare facility waste management plan that complies to national and local policies",
+  "sourceReferences": "Standard 17 National Health Service Standards (NHSS) Vol. 2 (2nd Edition) National Quality Standard",
+  "criteria": [
+    {
+      "criterionNumber": "17.1",
+      "criterionTitle": "Healthcare waste management plan",
+      "compliances": [
+        {
+          "complianceNumber": "17.1.1",
+          "complianceSummary": "The Facility has a waste management plan which is known by clinical and non-clinical staff..",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of the facility waste management plan."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of waste management issues discussed through clinical governance committees."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "If waste management is oursourced, there is a current memorandum of understanding or contract with the external contracter."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "17.2",
+      "criterionTitle": "Waste and environmental management",
+      "compliances": [
+        {
+          "complianceNumber": "17.2.1",
+          "complianceSummary": "The Health Facility has approved Guidelines that direct the efficient and sustainable use of energy, water and other utilities.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of recycling, reducing waste and resource conservation."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "17.2.2",
+          "complianceSummary": "Clinical and other waste are being disposed of in accordance with legislation.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that there are adequate range and supply of bags and waste bins including sharp containers, biohazard bins, general waste bins, and cytotoxic bins."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence that waste is being segregated at the source of production."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Waste containers are colour- coded and labelled."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "There are appropriate PPE and equipment for waste management (heavy duty gloves, broom, shovels) in relevant areas."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Expired drugs are disposed according to guidelines."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Waste disposal area within the facility is fenced and clean."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "There is a functioning and fenced incinerator in bigger hospitals and other waste management methods in smaller health facilities."
+            },
+            {
+              "evidenceNumber": "8",
+              "evidenceSummary": "Facility clinical and non-clinical staff are aware of protecting against blood and body substances during handling of waste."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "17.3",
+      "criterionTitle": "Education on waste management",
+      "compliances": [
+        {
+          "complianceNumber": "17.3.1",
+          "complianceSummary": "Health Facility OICs promote, educate and regularly assess all relevant health workers competencies and compliance in management of healthcare waste and waste management is mandatory in training programs.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of waste management training for clinical and non-clinical staff."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

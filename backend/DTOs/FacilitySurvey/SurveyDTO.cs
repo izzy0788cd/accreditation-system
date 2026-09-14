@@ -17,5 +17,9 @@ namespace backend.DTOs.FacilitySurvey
         public string surveyorName { get; set; } = string.Empty;
         public DateOnly startDate { get; set; }
         public DateOnly endDate { get; set; }
+        public bool isCancelled { get; set; }
+        public string? cancellationReason { get; set; }
+        public DateTime? cancelledAt { get; set; }
+        public string? cancelledByUsername { get; set; }
     }
 }

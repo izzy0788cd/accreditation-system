@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models.Facilities;
 using backend.DTOs.Facilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers.Facilities
 {
     [Route("api/categories")]
     [ApiController]
+    [Authorize]
     public class CategoryController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -60,6 +62,7 @@ namespace backend.Controllers.Facilities
         // PUT: api/Category/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutCategory(int id, CategoryUpdateDTO dto)
         {
             var category = await _context.categories.FindAsync(id);
@@ -94,6 +97,7 @@ namespace backend.Controllers.Facilities
         // POST: api/Category
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<CategoryDTO>> PostCategory(CategoryCreateDTO dto)
         {
             var categoryModel = new Category
@@ -112,11 +116,12 @@ namespace backend.Controllers.Facilities
                 description = categoryModel.description ?? string.Empty
             };
 
-            return CreatedAtAction("GetCategory", new { id = categoryDto.categoryId }, categoryDto);
+            return CreatedAtAction(nameof(GetCategory), new { id = categoryDto.categoryId }, categoryDto);
         }
 
         // DELETE: api/Category/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var category = await _context.categories.FindAsync(id);

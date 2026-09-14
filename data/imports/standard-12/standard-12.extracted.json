@@ -1,0 +1,107 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\01 Leadership & Governance\\Standard No. 12 Universal Health Coverage (UHC).docx",
+  "functionNumber": "2",
+  "componentNumber": "1",
+  "standardNumber": "12",
+  "standardTitle": "Universal health care",
+  "standardSummary": "All Health Service Organisations (HSOs) develops services that are responsive to need and available to all based on the principles of universal health coverage (UHC); that all people can use the promotive, preventive, curative, rehabilitative and palliative health services they need and of sufficient quality to be effective.",
+  "sourceReferences": "National Health Service Standards 2021-2030 Volume 2 National Quality Standards",
+  "criteria": [
+    {
+      "criterionNumber": "12.1",
+      "criterionTitle": "Development of responsive health services",
+      "compliances": [
+        {
+          "complianceNumber": "12.1.1",
+          "complianceSummary": "The health sector of PNG fully commits to the agenda of Universal Health Coverage. When illness or disability besets an individual, it is a right of that individual to access affordable and quality health care.\nThis would include:\nVillage Health Assistants (VHAs) with clearly defined roles that are responsive to a specific community setting\nCommunity and home-based care are planned and delivered, supported by user friendly guidelines and tools\nMulti-skilled health workers in rural (including urban settlements) and hard to reach areas ensure integrated outreach services are provided to designated communities\nIntegrated health promotion and prevention programs in ALL levels of healthcare facilities including provincial and district hospitals",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that the Health Organisation has developed responsive health services based on the points above."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "12.1.2",
+          "complianceSummary": "The Health Service Organisation (HSO) has introduced Universal Health Coverage (UHC) comprising components of health service coverage on one hand and financial protection coverage on the other.\nThis would include:\nHSOs are providing care aligned to the NHSS Levels of Care and delivering Essential Health Services based on community needs and priorities\n“Free Primary Health Care (PHC) and Subsidised Specialised Health Services Policy” are implemented\nDistrict Health Services have developed supervised delivery hubs in each district as ‘Centres of Excellence’\nThere is evidence within community settings of Maternal Newborn Health (RMNH) services through community and facility-based incentives\nAcross districts, there are planned and outreach services being conducted to “hard to reach” areas, which are monitored in each level of care meetings and reviewed through eNHIS information\nUser-friendly incentive schemes for women and communities within PHAs are implemented to increase numbers of women accessing antenatal care, supervised delivery and postnatal care and family planning",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that health service is being provided complying with 12.1.2."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "12.2",
+      "criterionTitle": "Strengthened primary health care",
+      "compliances": [
+        {
+          "complianceNumber": "12.2.1",
+          "complianceSummary": "The Health Service Organisation (HSO) have strengthened PHC services within and across districts in partnership with churches, DDAs, LLG and communities.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that PHC is addressed in health partnership committees."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence that District Health Managers, with their public health teams and OICs of health facility services support Village Health Committees to ensure community and women have a voice in developing policies, planning and implementation of health services at the local level."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "12.2.2",
+          "complianceSummary": "The Health Service Organisation and Private health organisations have built capacity of workforce at the primary health care level.\nThis includes that following:\nVillage Health Assistants (VHAs) have completed the 6-week VHA curriculum program facilitated by a relevant Health Training and Resource Centre\nAcross Districts, OICs of health facilities and Public Health Officers actively support and supervise VHAs\nHealth Facility services at L1-L4 and across Districts, have a competent skilled workforce and ‘right’ skill mix’ to provide integrated health services",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "VHAs have completed training and are supervised."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is a Health Training and Resource Centre in-service training capability for L1-L4 health services."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "12.2.3",
+          "complianceSummary": "The Health Service Organisation (HSO) have increased capacity of collecting and use of Health information by 2030.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The Health Service Organisation is using the eNHIS to plan, and monitor PHC performance and provide feedback to their communities."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "12.2.4",
+          "complianceSummary": "The Health Service Organisation (HSO) ensure that vital, essential and necessary medical supplies and point of care packages are available at all levels.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that the HSO have access to essential medicines and manage their supply chain across districts; there are no out of stock nor expired drugs within PHC facilities."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "12.3",
+      "criterionTitle": "Improved quality and access to health services",
+      "compliances": [
+        {
+          "complianceNumber": "12.3.1",
+          "complianceSummary": "The Health Service Organisation (HSO) have planned, piloted and progressed health incentive schemes to attract service utilization. \nThey demonstrate innovation in community settings and across L1-L4 health services to attract human resource. This included incentive schemes for Village Health Assistants for ANC & supervised deliveries; delivery bundles, TB DOTs program; etc.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that the HSO is innovative in incentivising VHAs."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

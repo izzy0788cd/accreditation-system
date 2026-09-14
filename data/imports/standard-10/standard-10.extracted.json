@@ -1,0 +1,101 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\01 Leadership & Governance\\Standard No. 10 Population Health, Planning and Project Management.docx",
+  "functionNumber": "2",
+  "componentNumber": "1",
+  "standardNumber": "10",
+  "standardTitle": "Population health, health services planning and project management",
+  "standardSummary": "The Healthcare Organisation have planning systems which specifically aim to improve the health status of their given population while safeguarding equity, fairness of access and responsiveness of the health system to the perceived needs of their community aligning to the NHP and NHSS 2021-2030.",
+  "sourceReferences": "Standard 10 National Health Service Standard Volume 2 2021-2030, National Quality Standards",
+  "criteria": [
+    {
+      "criterionNumber": "10.1",
+      "criterionTitle": "Health service planning",
+      "compliances": [
+        {
+          "complianceNumber": "10.1.1",
+          "complianceSummary": "The Health Care Organisation, their partners and the communities engage in planning to meet the health needs of a geographic catchment for a defined population.\nThis planning should be integrated through vertical alignment (through levels of care) and horizontal alignment (through the integration of public health and clinical services) and is consistent with NHSS levels of care and delineated roles. \nThe following are taken into consideration:\nChanging population characteristics and population needs.\nEmerging clinical evidence and technologies \nProjection of future needs influenced by changes in populations, disease patterns and treatment technologies.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of stakeholder engagement in the development of the Organisation’s Health Services Plan (meeting minutes)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of a current 5- year Health Services Plan."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of a prioritisation of resource allocation identified through the health service planning process."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "10.2",
+      "criterionTitle": "Population health – public health planning",
+      "compliances": [
+        {
+          "complianceNumber": "10.2.1",
+          "complianceSummary": "Public health planning relating to planning for a public health issue (or issues) for a specific population cohort and targeting a particular geographical catchment. This should consider:\nCommunities are involved in planning for desired services closer to where people live\nA focus on health promotion, health protection and prevention\nIncrease focus on planning for emerging priorities and pandemics, and immunisation\nRoutine integrated outreach services to “hard to reach” areas\nIntegrated school health programs\nAll health facilities have access to clean water and improved sanitation\n Programmes to reduce stunting in communities.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of an approved public health services plan that addresses points a.) to g.)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "10.3",
+      "criterionTitle": "Clinical services planning",
+      "compliances": [
+        {
+          "complianceNumber": "10.3.1",
+          "complianceSummary": "There is ongoing planning for a specific service -streams (e.g. medicine, surgical, O&G, paediatrics cardiac, renal) to provide evidence based, safe, high quality and appropriate clinical services. This type of planning targets a population or geographical catchment as part of planning for the clinical service. The planning should consider;\nKey service areas which include prevention, promotion and protection, primary health care, ambulatory care, clinical - acute care, specialised care and mental health.\nA standard set of capability requirements for most acute, specialised and sub specialised services in line with NHSS.\nEncourages clinical risk management. \nArticulates credentialing, privileging, qualification and training requirements for staff.\nIdentifies the relationships and interdependencies between health services across the Organisation and other facilities.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of a discipline- specific approved clinical services plan that address point a) to b)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "10.3.2",
+          "complianceSummary": "The health needs in the Clinical Services Plan are reflected through the life course (birth to death) with continuity of care between public, private and other healthcare providers for the following:\nWell population who live independent lives\nAt risk population with a probability of developing a health condition or an adverse health outcome\nEasy identification and intervention of ill health and who, without intervention, may progress to acute or chronic consequences\nAcute consequences and conditions who require treatment.\nChronic conditions that are long-lasting and/or leave a residual disability\nEnd of life care with fatal conditions and those who are dying.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that the Clinical Services plan encompasses the point a) to b)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "10.4",
+      "criterionTitle": "Project management in healthcare",
+      "compliances": [
+        {
+          "complianceNumber": "10.4.1",
+          "complianceSummary": "The Health Service Organisation has adequate Healthcare Project Management services that impacts any projects that work to improve a healthcare-related function.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence that the health care Organisation has officers with project management skills to help control costs, manage risk, and improve project outcomes."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence that the Project Management Officer provide practical and pragmatic approaches for implementing project management within the Organisation."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence that the Health Service Organisation demonstrates sound project management practices (includes conception and initiation, planning, execution, performance/monitoring, and project closure. Key deliverables are achieved."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

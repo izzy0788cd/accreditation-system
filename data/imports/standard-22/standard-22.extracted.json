@@ -1,0 +1,919 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\06 Essential Clinical Care\\Standard No. 22 - Nursing Services.docx",
+  "standardNumber": "22",
+  "criteria": [
+    {
+      "criterionNumber": "22.2",
+      "criterionTitle": "Nursing services human resource development and management",
+      "sourceGuidance": "The Nursing Services shall be directed by a qualified and experience registered nurse, adequately staffed to achieve the goals and objectives of the National Clinical Public Health Services for Provincial Health Authorities.",
+      "compliances": [
+        {
+          "complianceNumber": "22.2.1",
+          "complianceSummary": "The Head (HoNS) and staff of the Nursing Services shall be individuals qualified by education, training, experience, certification and registration under the PNG Nursing Council Registration (Medical Act 1980, Chapter 398).",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Records on credentials of Head of Service and staff required to fill up the posts within the service (to match the complexity of the Facility and services) and certification/registration (Annual Practicing Certificate."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Overall statistics of staff, qualification and experience (updated nursing staff establishment)."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "List of nurses with post basic certification in various disciplines"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Training and competency records."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Deployment/assignment according to staff experience and specialty training."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.2",
+          "complianceSummary": "The Head of Nursing Services (HoNS) is a member of the Senior Executive Management Team (SEMT) and sits on relevant committees of the Governing Body",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "HoNS has Valid appointment letters and Terms of Reference as member of committees stipulated by the Governing Body."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Minutes of relevant committee meetings"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.3",
+          "complianceSummary": "Nurse leaders delegated responsibilities:\nThe HoNS shall designate a qualified registered nurse with delegated responsibility for the management of the Nursing Services of each unit, at all times.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Designated registered nurses are assigned to each unit with delegated responsibility for management of Nursing Services."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Dated and signed letters of appointments."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Dated and signed job descriptions specific to the units or clinics."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Name of the assigned nurse leader is shown in the duty roster."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.4",
+          "complianceSummary": "The assessment, planning, implementation and evaluation of nursing care is the responsibility and accountability of each and every registered nurse",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "A structured approach should be adopted to ensure nursing care with comprehensive personalized focus on each patient’s needs as stipulated in Standard 2.3"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.5",
+          "complianceSummary": "Nursing staff roster should reflect professional competency standards. HoNS and nurse leaders shall consider professional competency of each nurse when developing nursing services duty roster to provide safe and effective practice.\nPatient needs and patient acuity level of care\nStaffing profile to comply with relevant guidelines and regulatory requirements;\nNumbers\nCredentials and privileges\nExperience of the various categories of nursing staff\nContingency staffing plans (absenteeism, turnover, etc.)",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Full time staff (Infection Control Nurse) in accordance with national norm commensurate with bed occupancy rate."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Current assigned duty roster."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Nursing staff roster covers Patient acuity level of care."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Nursing staff duty roster shows balance in allocation of nurses according to qualification and experience."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "In experience nurse must not be rostered to work alone without supervision."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Written contingency plan for turnover and absenteeism."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "Written and signed instruction is issued by HoNS or Nurse Leader if a nurse is assigned to work in another area outside rostered Schedule."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.6",
+          "complianceSummary": "There are written and dated specific job descriptions for all nursing staff that includes;\nQualification, training, experience and certifications required for the job\nLines of authority\nAccountability, functions and responsibilities\nReview when required, and when there is a major change in any of the following;\nNature and scope of work\nDuties and responsibilities\nGeneral and specific accountabilities\nQualifications required and privileges granted\nStatutory Regulations\nAdministrative, teaching and clinical functions",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Updated specific job descriptions for different categories of nursing roles but not limited to those as listed from (a) to (e)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "General Nurse update Job descriptions"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Midwife Nurse updated Job description"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Paediatric Nurse updated Job description"
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Intensive care Nurse updated Job descriptions"
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Peri Operative Nurse updated Job description"
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "Mental Health Nurse updated Job description"
+            },
+            {
+              "evidenceNumber": "8",
+              "evidenceSummary": "Emergency Nurse updated Job descriptions"
+            },
+            {
+              "evidenceNumber": "8a",
+              "evidenceSummary": "Nurse job description issued to each nurse is dated and signed by the HoNS."
+            },
+            {
+              "evidenceNumber": "9",
+              "evidenceSummary": "Each nurse signed the job description to confirm that they understand the details of the job, accept their responsibility in their practice of caring for patients."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.7",
+          "complianceSummary": "Nursing Services Orientation Programme (MANDATORY)\nThere is a structured orientation programme for all newly appointed, contracted, and outsourced staff to the nursing services that covers the ‘General’, ‘Services’ and ‘Job-Specifics’ aspects of nursing services.\nGeneral\nVision and Mission of the facility\nOrganisation chart and reporting structure of the facility\nEnvironment and facility safety policies, procedures including sustainability practices\nInfection control policies and procedures\nPolicies for performance management, patient safety and risk management\nEthical practices and code of conduct including medicolegal awareness\nManagement of aggression, violence and harassment\nPatient and family rights\nServices\nGaols, objectives and organisational structure of Nursing Services\nPolicies and procedures relevant to Nursing Services\nworking instructions for patient care\nservice continuity plan for Nursing Services in response to internal and external disasters\nJob-Specific\nExplanation of particular duties and functions\nExplanation of the methods of assigning clinical care and the standards of clinical practice\nHandover communication\nTraining in basic, advanced life support techniques\nTechnology and equipment use including artificial intelligence (AI), as well as digital care if introduced.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Orientation Policy document requiring all new staff attendance at orientation programme."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Orientation program, and document, covers the ‘General’, ‘Services’ and ‘Job-Specific’ aspects."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Attendance record signed by the facilitator of orientation programme."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.8",
+          "complianceSummary": "Established formal nursing staff performance structure consistent that links with individual nurse job description (issued signed) and health facility or organization mission and objectives. \n\nPerformance appraisal conducted at the completion of the probationary period and annually. \n\nRecorded formal discussion on appraisal outcome held in confidential manner.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Approved Formal Nursing Staff Performance Appraisal Structure/ framework."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Performance appraisal conducted in confidential manner at end of Probation and Annually."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Formal discussion with nurse on appraisal outcome, weakness, strength, future development plan."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Overall Nursing staff Performance Appraisal Summary report including commendation and recommendation for further action;\nProbation nurse\nAnnual nursing services staff (all nursing)"
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Nursing Management action plan Information Performance Appraisal Summary report capturing required action."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.9",
+          "complianceSummary": "Nursing staff training needs and development plan. There is evidence of training needs assessment informed by the performance appraisal process and other needs. Training development plan is established to address knowledge and skills required for staff to maintain competency in their current positions and future advancement.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Training needs assessment is carried out and gaps identified. Staff development plan is done, supported and signed by CEO."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Training schedule/calendar is in place."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Required training is provided through any of these short-term activities, clinical supervision, in-house training and mentoring."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Required Performance & competency improvement is being monitored after training or capacity building activities in Point 3"
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Nursing staff performance report on skills and competency improvement achieved in their performance after the training."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.10",
+          "complianceSummary": "Continuing nursing education. There are continuing nursing education activities for the staff, to pursue professional interests and to prepare for current and future changes in nursing practice(s). \n A Nursing Services Study leave agreement policy address short term and long-term training away from duty.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Long term Nursing staff Training plan includes external courses/ workshop/ conferences."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Clear information on nature, objectives and learning outcome from required Training directly gives added value to Individual nurse and patient care."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Study Agreement signed between HoNS, CEO and Nurse identified for long term Training are kept and maintained for each staff."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Certificate of attendance/degree/post basic training."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.11",
+          "complianceSummary": "Nursing Staff Personnel records on training, staff development, leave and others are maintained for every staff at;\nHead of Nursing Services Office\nHuman Resource Department as per Facility policy\nStaff personnel file is kept at the Head of Nursing Services offices and HRM with records on the items below.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Records of nursing staff biodata."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Qualification and experience with primary source verification where applicable."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of current registration."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Training record(s)."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Competency record and privileging."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Leave records relates to any of these;\nRecreation\nSick\nCompassionate\nMaternity\nStudy and secondment"
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "Confidentiality agreement"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.12",
+          "complianceSummary": "In a Facility where nursing education programmes are conducted, the Nursing Services shall ensure that there are sufficient skilled clinical nursing staff with right credentials, experience, certification and privileged to provide clinical guidance and supervision of students",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Skilled Clinical Nursing Staff with Students ration are appropriately met (1:15)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Written evidence to prove that continuous efforts has been taken to ensure that sufficient skilled clinical nursing supervisors are available at all times"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "The Clinical nursing Supervisor have right credentials and privileged to supervised student nurses at that facility"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Signed Code of Conduct by Clinical Supervisor."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Minutes of Joint Meeting between Nursing Services and Nursing College."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.13",
+          "complianceSummary": "The nursing services shall ensure the establishment of a mechanism which includes requirements, methodology, and certification for credentialing and delineation of privileges for nurses in specialized areas for specific procedures. The mechanism taken by the nursing services adheres to the following;\nThe written policies and procedures document the criteria for privileging\nThe decisions made are objective, fair, and impartial and consistent with written policies, procedures and criteria\nThe granting of privileges for a specified period of time\nThe allocation of privileges in such a way that each staff functions within a specified area of competence\nThe granting of privileges is approved by the Credentialing and Privileging Committee and certified by the person in charge (PIC/Governing Body)",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Documented policies and procedures are established to govern the Credentialing and privileging process for Nursing services which Includes but not to item (a) to (e)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is a systematic validation process for each individual staff member of their credentials."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Skills competency is assessed regularly."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Formal Letters of assignment are or certificate of Privileging with time duration are issued and reviewed accordingly."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.14",
+          "complianceSummary": "The Nursing services shall be responsible for promoting and supporting Health -Promoting Environment Policy that address the Physical, Mental and Spiritual wellbeing of the nursing staff, ensuring a safe and healthy work environment.\nThe nursing services shall also have policies and procedures for the promotion of staff physical, mental and spiritual well-being;\nA health-promoting environment, e.g., stress management, burn out, staff engagement opportunities, workload monitoring, management of work life balance, healthy lifestyle programmes e.g. Workplace Wellness Programs, Community-Based Health Initiatives\nStaff shall be provided with appropriate nursing practice supervision, support, and advice e.g., mentor mentee program\nThere shall be clear procedures for the effective management of underperformance e.g., feedback on performance review or performance appraisal report",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Nursing Service health promoting environment policy relates workplace wellness programme."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Nursing services Christian Spiritual program."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Adequately Resource Nursing & general Staff Health Clinic."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Nursing Services physical and social health programmes."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Evidence of effective and functioning Nursing care practice supervision programme."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Evidence of staff appraisal programme with feedback on underperformance."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "Functioning, and effective, counselling service for nursing staff, such as;\nSocial and spiritual counselling."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.15",
+          "complianceSummary": "The nursing services shall establish a safe mechanism for management of patient and nursing staff to grievances reporting risk concerns or safety threats anonymously, with assurance of non-retaliation in accordance with the principles of psychological safety.\nNursing grievance means feeling of resentment, bitterness and hurt over a nursing care process, work relationships or personal matter which affects nurse mind sat and performance at work.\nIn PNG;\nPatient and professional conducts complaints received are investigated and managed internally.\nSerious misconduct cases are investigated, documents and reported to the PNG Nursing Council \nMisconduct of criminal nature are referred to Police.\nEmployment and payroll matters are referred HR & CEO",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Approved Patient and Professional Conducts Grievances reporting policy Document. Policy prescribes management process on patient and professional conduct complaints, violence, bullying, and harassment."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Nursing staff Grievances Policy awareness campaigns sessions including anonymous reporting channel."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Patient or Nurse professional conducts complaints received are investigated and managed internally."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Serious Patient Nursing professional conducts complaints reported to the PNG Nursing Council."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Misconduct of criminal nature are referred to Police."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Employment and payroll matters are referred to HR & CEO."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "Outcome of investigation on grievances or complaints received, managed and recorded are reported to CEO in Nursing performance report."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.2.16",
+          "complianceSummary": "Nursing Staff Feedback Management Policy prescribe a mechanism to gather and manage nursing staff feedback about their workplace experience such as burnout, roster, and work environment. Feedback shall be analysed and used to make improvements that enhance the work environment, nursing staff satisfaction and organisation culture.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Approved Nursing Staff Feedback Management Policy."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Nursing Staff Feedback Policy awareness campaigns sessions conducted."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Nursing Staff implement Feedback Policy freely to give their feelings   about their workplace experience through emails, mobile SMS text or letter."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Nursing Staff work environment satisfaction survey is being conducted twice in a year. Survey outcome and gaps identified for improvement communicated to nursing staff and SEMT."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "22.3",
+      "criterionTitle": "Nursing services policies and procredures",
+      "sourceGuidance": "There are written and dated policies and procedures for all activities of the Nursing Services. These policies and procedures reflect current standards of nursing services and practice, relevant regulations, statutory requirements, and the purposes of the services.",
+      "compliances": [
+        {
+          "complianceNumber": "22.3.1",
+          "complianceSummary": "There are written policies and procedures for the Nursing Services which are consistent with the overall policies of the Facility, regulatory requirements, current standard practices and Patients and Family Rights which include;\nPolicies and procedures, applicable laws and regulations that guide uniform nursing care of all patients\nEmergency patients\nUse of resuscitation services\nAdministration of blood and blood products\nPatients on life support/comatose\nPatients with communicable disease\nImmuno-compromised patients\nPatients on dialysis\nCare of patients on restraints\nCare of elderly patients\nDisabled individuals and children\nPatients receiving chemotherapy and other high-risk medications\nPolicies and procedures that guide the care of high-risk patients and high-risk services\nPolicies and procedures on recognition of early deterioration of patient’s condition (i.e., Early Warning Score, or EWS)\nPolicies and procedures on patient nutrition and hygiene. These policies and procedures are signed, authorized and dated. There is a mechanism for and evidence of a periodic review at least once in every 3-year\nDocumented Policies and Procedures, Protocols, Manuals and Guidelines are available dated and signed to guide nursing care for these patient conditions.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "General care of all patients."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Care of emergency patients."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Use of resuscitation procedures."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Administration of blood and blood products."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Patients on life support/comatose."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Care of elderly patients."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "Care of disable individuals, both adults and children."
+            },
+            {
+              "evidenceNumber": "8",
+              "evidenceSummary": "Patient receiving chemotherapy and other high-risk medications."
+            },
+            {
+              "evidenceNumber": "9",
+              "evidenceSummary": "Policies and procedures on patient nutrition, hygiene are consistent with regulatory requirement."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.3.2",
+          "complianceSummary": "Policies and Procedures Development Committee (PPCD) develop policies in collaboration with staff, medical practitioners, management and where required, with other external service providers and with reference to relevant sources involved.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Minutes of Committee Meetings on developments and revision on Policies and procedures."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Minutes of meeting with evidence   of Cross reference with other departments."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.3.3",
+          "complianceSummary": "Communicating current policies and procedures to all staff in nursing services.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Records of training and briefing on current policies and procedures to all staff. to all staff. to all staff."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The policies and procedures are communicated to all nursing staff and others through formal internal circular dated and co-signed by the medical officer and head of nursing."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.3.5",
+          "complianceSummary": "Copies of the policies and procedures, guidelines, relevant acts, regulations, by-laws, and statutory requirements are accessible to staff.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Nursing services staff have access to copies of Policies and procedures, guidelines, relevant Acts, Regulations, By Laws and Statutory requirements."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.3.6",
+          "complianceSummary": "The Head of Nursing Services (HoNS) is responsible for the nursing services documentation and implementation of all nursing policies and procedures.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The policies and procedures for nursing services are endorsed by the HoNS."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.3.7",
+          "complianceSummary": "The Nursing Services participate in planning, decision making and formulation of Policies of the Facility.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "List of Committees where the Head of the nursing servicers is involved and Minutes of Management Meetings."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.3.8",
+          "complianceSummary": "Patient Care Assessment Plan (MANDATORY)\nThe Nursing Services have an established initial assessment process for patients where their needs nursing needs are identified and followed by regular assessment as deemed necessary.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Initial assessment for all inpatient to be completed within 8 hours."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Nursing assessment should be done every shift and as when required."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Nursing plan documented after each patient’s assessment."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.3.9",
+          "complianceSummary": "Nursing Care Plan for Individual Patients (MANDATORY)\nNursing Practice is in accordance with current accepted standards based on evidences shall include in the nursing care plan;\nDocumented individualized patient -focused nursing care plan for each patient achieves appropriate outcomes of care.\nMonitoring of patients to assess the outcomes of the care of patient. \nReviewing of modifying of the care plan.\nCompleting the care plan and follow up to include discharge planning that that reflects continuity of care which is documented.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Implementation of Structured Nursing care Plan based on patients’ need as state (a) to (d)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Documented Nursing Care Plan signed and dated."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Continuity of patient care is mention at shift hand over report."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Patient discharge plan includes patient education."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "22.4",
+      "criterionTitle": "Facilities and medical equipment",
+      "sourceGuidance": "The Nursing Services Shall ensure facilities and medical equipment meet National Facility Quality Standards that are safe and appropriate, are available, accessible and maintained for staff to function effectively and to meet the goals and objectives of   Nursing service and Health Facility.",
+      "compliances": [
+        {
+          "complianceNumber": "22.4.1",
+          "complianceSummary": "Nursing services adequate facilities spacing, appropriate medical equipment with proper utilisation of space at each unit to allow staff to carry out nursing services safely and efficiently.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Adequate and proper utilization of Space with good ventilation."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Appropriated type of medical equipment to match the complexity or healthy facility level of services."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Easily Access and clear exit routes."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.4.2",
+          "complianceSummary": "Nursing services are provided with sufficient PPE (Personal Protective Equipment), hygiene sinks strictly for handwashing, are installed and easily accessible by nurses and medical staff.\nFunctional Basic & Critical medical equipment available, Oxygen Cylinder, Suction units, multiparameter patient monitor, Defibrillators & ECG machine where required.\nEmergency Trolley and Drawers are appropriately stock.\nDrawer 1. Airways & breathing items\nDrawer 2. Circulation & IV \nDrawer 3. Emergency Medications\nDrawer 4. Diagnostics and Sundries items.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Adequate supply of hygiene disinfectant soaps, protective items disposal gloves, hand wash basins, Alcohol-Based Hand Rub, paper hand towels."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Visible Functioning Hygiene Sinks with running water easily accessible for hand washing by nurses and medical staff and other carer."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Availability and easily accessible of functional basic and critical medical equipment are e.g., oxygen cylinder, suction unit and defibrillators and ECG unit where applicable."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Evidence of functioning Emergency Trolley and Drawers are appropriately stock.\nDrawer 1. Airways & breathing items\nDrawer 2. Circulation & IV \nDrawer 3. Emergency Medications\nDrawer 4. Diagnostics and Sundries items"
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Medical Equipment’s has valid planned Preventable Maintenance Plan (PMP)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.4.3",
+          "complianceSummary": "Where specialized medical equipment is used, there evidence that only staff who are trained and authorized by the facility operate such equipment.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "User Training Records."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Competency assessment records."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "List of trained staff and privileged to operate specialized equipment."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.4.4",
+          "complianceSummary": "There are sufficient change rooms, toilets for staff use and storage including safe keeping of staff personal items.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Provision of adequate staff toilets with personal lockers or equivalent to keep staff personal belongings with adequate security."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Change rooms with shower facilities at Operating theatre, maternity ward and isolation unit."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Dedicated room for tea and lunch breaks."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Nursing Conference room for handover report and mini clinical session at Nurse Station."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.4.5",
+          "complianceSummary": "Facilities which provide nursing training shall have specific areas for training and rooms for tutorial.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Availability of Training facility with lecture and tutorial rooms."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.4.6",
+          "complianceSummary": "The services shall practice responsible stewardship of the facilities and equipment and promote environmentally sustainable care.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of any initiative or change of Practice or policy that promote environmentally."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "22.5",
+      "criterionTitle": "Risk management",
+      "sourceGuidance": "The nursing services shall establish a risk management programme to foster high quality performance by engaging the nursing staff to prevent patients’ injury, minimize legal liabilities and maintain a high standard of clinical care for both patients and staff. The risk management programme established will align with PHA Health Services Facility Clinical Risk Management Plan. Management of risk management programme is assigned to a designated nurse who reports to the HoNS (Head of Nursing Services).",
+      "compliances": [
+        {
+          "complianceNumber": "22.5.1",
+          "complianceSummary": "A comprehensive nursing risk management programme integrates clinical governance to safe guard patient safety and elevates care standards, prevents adverse events, minimized medical errors, and other incidents identified in PHA Health Facility Clinical Risk Management Plan to protect   both patients and Organization.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The comprehensive Nursing Services Risk Management programme integrates clinical and public health governance structures is documented, dated and signed."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Letter of assignment for a designated Nurse   for coordination of Nursing Services RISK management Programme is dated and signed."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Letter of assignment has clear responsibilities and reporting requirement, understood, accepted and signed by designated nurse."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.5.2",
+          "complianceSummary": "Nursing Services Standard Risk Management Training Programme is conducted. Evidence of Application of Risk management procedures are implemented within nursing services division. Programme reviewed is conducted to reflect innovation initiative for improvement.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "A Risk Management Programme (RMP) \n Training Document is available, signed and document."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The RMP training plan covers periodical, planned and systematic safety and performance improvement activities to monitor and evaluate the performance of the Nursing Services. The process includes;\nPlanned activities\nData collection\nMonitoring and evaluation of the performance\nAction plan for improvement\nImplementation of action plan\nRe-evaluation for improvement \nInnovation"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Nursing staff adhere to point (a) to (g) implementing process complying with approved Nursing RMP."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Nursing Staff RMP Training attendance\nRecord."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Records, trending and analysis on performance improvement studies \nand activities."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Minutes of performance improvement    meetings."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "Records of performance improvement and remedial actions adoption into training needs, policy, guidelines and standard operating procedures."
+            },
+            {
+              "evidenceNumber": "8",
+              "evidenceSummary": "Records on Innovation, if available."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "22.6",
+      "criterionTitle": "Safety and performance improvement activities",
+      "sourceGuidance": "The HoNS shall foster high quality performance by involving staff in safety and continuous improvement initiatives, including systematic risk management, active nursing staff involvement and the use of performance data to drive service enhancements. A basic Business Continuity Management (BCM) programme shall also be developed and maintained to support the uninterrupted delivery of critical services. All activities shall align with applicable Acts, Regulations, By Laws and the Facility’s strategic priorities.",
+      "compliances": [
+        {
+          "complianceNumber": "22.6.1",
+          "complianceSummary": "Therea are periodical planned and systematic safety and performance improvement activities to monitor nursing and evaluate the performance of the nursing services. The process includes;\nPlanned activities \nData collection \nMonitoring and evaluation of the performance \nAction plan for improvement\nImplementation of Action Plan \nRe-evaluation for improvement \nInnovation",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Planned performance improvement activities include (b) to (f)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Records, trending and analysis on performance improvement studies and activities."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Minutes of performance improvement meetings."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Records of performance improvement and remedial actions adoption into training needs, policy, guidelines and standard operating procedures."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Records on innovation, if available."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.6.2",
+          "complianceSummary": "The Head of Services has assigned the responsibilities for planning, monitoring and managing safety and performance improvement activities to appropriate individuals/personnel within the respective services.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Minutes of meetings discussing progress on improvement activities."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Letter of assignment of responsibilities to appropriate individuals within respective services."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Job description prescribes required task for planning, monitoring and managing safety and performance improvement activities"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.6.3",
+          "complianceSummary": "The Head of Services shall ensure a basic Business Continuity Plan (BCP) is in place to maintain critical emergency functions during service disruptions. The plan shall be based on service priorities and potential risks, and include key actions, responsible staff, and alternative arrangements to continue care.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Documented and approved PCP for emergency services."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "List of key emergency functions and identified risks, documented in a department-level Risk Register. This Risk Register includes;\nLikelihood\nImpact\nAssigned ownership"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.6.4",
+          "complianceSummary": "There are periodical planned and systematic safety and performance improvement activities to monitor and evaluate the performance of the Nursing Services. The process includes;\nPlanned Activities\nData collection\nMonitoring and evaluation of the performance\nAction plan for improvement\nImplementation of action plan\nRe-evaluation for improvement\nInnovation",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "A system for incident reporting is in place and includes the following;\nTraining of staff\nPolicy on incident reporting\nRegister, records of incidents"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Completed incident reports;\nRoot cause analysis\nCorrective and preventive action plan\nRemedial measure(s)"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Clinical Audits including patient safety reviews (e.g. mortality and morbidity review etc."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Sentential event Investigation with appropriate corrective and preventive action and oversight by governing body."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Grievance Mechanism, both staff and public, including grievances reporting and processing mechanisms available."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Minutes of meeting."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "Acknowledgement by HoNS."
+            },
+            {
+              "evidenceNumber": "8",
+              "evidenceSummary": "Feedback and learning from incident reporting are shared with staff."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.6.5",
+          "complianceSummary": "There is tracking and trending of specific performance indicators for improvement of the services/patient care such as percentage of Intravenous (IV) line complications (needles out, redness skin, infection of sites, extravasation). Target: ≤ 0.5%.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Specific performance indicators monitored, verified and validated."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Records of tracking and trending analysis."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Remedial measures taken where appropriate"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Review any performance indicator over a one-year period.\nHave consistently met or exceeded target \nContinue to show persistency Performance"
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Where applicable, review the target or identify new indicators."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.6.6",
+          "complianceSummary": "The Services participates in the Facility’s safety culture assessment. The results are utilized by Service leadership to inform and guide efforts to improve the culture of safety within the Service.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Safety culture survey for the nursing staff"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.6.7",
+          "complianceSummary": "Feedback on the results of safety and performance improvement activities is regularly communicated to the staff to promote transparency, shared learning, and active engagement in improvement initiatives.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Results of safety and performance improvement activities are accessible to staff through education sessions, meetings and digital communications."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "22.6.8",
+          "complianceSummary": "Appropriate documentation of safety and performance improvement activities is kept and confidentiality of medical practitioners, staff and patients is preserved.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Documentation on performance improvement activities and performance indicators."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Policy statement on anonymity on patients and providers involved in performance improvement activities."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Only missing criteria 22.2–22.6 imported; existing 22.1 and standard fields preserved.",
+    "Repeated identical compliance 22.3.3 merged, with duplicate evidence 1 deduplicated and evidence 2 retained. Source has no 22.3.4; no new compliance invented.",
+    "Second distinct evidence numbered 8 under 22.2.6 assigned 8a; all source text retained.",
+    "Introductory criterion guidance retained in extraction only because database has no criterion description field."
+  ]
+}

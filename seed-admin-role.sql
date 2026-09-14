@@ -1,0 +1,1 @@
+INSERT INTO roles ("roleName", description) VALUES ('Admin', 'Full system access.');

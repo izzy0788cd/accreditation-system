@@ -33,6 +33,7 @@ namespace backend.Controllers.FacilitySurvey
             var surveyorCertStatuses = await _context
                 .surveyorCertStatuses.Select(sc => new SurveyorCertStatusDTO
                 {
+                    surveyorCertStatusId = sc.surveyorCertStatusId,
                     surveyorCertStatusName = sc.surveyorCertStatusName,
                     description = sc.description,
                 })
@@ -50,6 +51,7 @@ namespace backend.Controllers.FacilitySurvey
                 .surveyorCertStatuses.Where(sc => sc.surveyorCertStatusId == id)
                 .Select(sc => new SurveyorCertStatusDTO
                 {
+                    surveyorCertStatusId = sc.surveyorCertStatusId,
                     surveyorCertStatusName = sc.surveyorCertStatusName,
                     description = sc.description,
                 })

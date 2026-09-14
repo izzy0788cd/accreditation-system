@@ -1,0 +1,1 @@
+DELETE FROM "surveyReportVersions" WHERE "reportVersionId" IN (1,2) AND "createdBy"='report-version-verification';

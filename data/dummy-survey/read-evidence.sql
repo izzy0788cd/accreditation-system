@@ -1,0 +1,1 @@
+SELECT row_to_json(e) FROM evidence e JOIN compliances co ON co."complianceId"=e."complianceId" JOIN criteria c ON c."criterionId"=co."criterionId" JOIN standards s ON s."standardId"=c."standardId" WHERE s."standardNumber"='1' AND co."complianceNumber"='1.1.1' AND e."evidenceNumber"='4';
