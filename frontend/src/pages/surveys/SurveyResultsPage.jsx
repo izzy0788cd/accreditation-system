@@ -22,18 +22,25 @@ function Bar({ value, tone = "bg-[#16803a]" }) {
   return <div className="h-2.5 overflow-hidden rounded-full bg-[#dbe5ef]"><div className={`h-full rounded-full ${tone}`} style={{ width: `${value}%` }} /></div>;
 }
 
-const riskColours = ["#b42318", "#d97706", "#16803a", "#0079b8", "#7c3aed", "#64748b"];
+function riskColour(riskValue) {
+  const value = String(riskValue || "").trim().toUpperCase();
+  if (["E", "EXTREME", "CRITICAL", "SEVERE"].includes(value)) return "#991b1b";
+  if (["H", "HIGH"].includes(value)) return "#dc2626";
+  if (["M", "MEDIUM", "MODERATE"].includes(value)) return "#d97706";
+  if (["L", "LOW"].includes(value)) return "#16803a";
+  return "#64748b";
+}
 
 function RiskPieChart({ breakdown, compact = false }) {
   const total = breakdown.reduce((sum, item) => sum + item.count, 0);
   if (!total) return <p className="text-sm text-[#68778c]">No risk ratings recorded.</p>;
-  const slices = breakdown.reduce(({ position, values }, item, index) => {
+  const slices = breakdown.reduce(({ position, values }, item) => {
     const nextPosition = position + (item.count / total) * 100;
-    return { position: nextPosition, values: [...values, `${riskColours[index % riskColours.length]} ${position}% ${nextPosition}%`] };
+    return { position: nextPosition, values: [...values, `${riskColour(item.label)} ${position}% ${nextPosition}%`] };
   }, { position: 0, values: [] }).values.join(", ");
   return <div className={`flex items-center ${compact ? "gap-3" : "gap-4"}`}>
     <div role="img" aria-label={`Risk rating breakdown: ${breakdown.map((item) => `${item.label} ${item.count}`).join(", ")}`} className={`relative ${compact ? "h-16 w-16" : "h-24 w-24"} shrink-0 rounded-full`} style={{ background: `conic-gradient(${slices})` }}><div className={`absolute inset-0 m-auto flex ${compact ? "h-10 w-10 text-xs" : "h-16 w-16 text-sm"} items-center justify-center rounded-full bg-white font-bold text-[#092a5a]`}>{total}</div></div>
-    <ul className="min-w-0 space-y-1 text-xs text-[#4b5f7a]">{breakdown.map((item, index) => <li key={item.label} className="flex items-center gap-2"><span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: riskColours[index % riskColours.length] }} /><span className="truncate">{item.label}</span><strong className="ml-auto text-[#092a5a]">{item.count}</strong></li>)}</ul>
+    <ul className="min-w-0 space-y-1 text-xs text-[#4b5f7a]">{breakdown.map((item) => <li key={item.label} className="flex items-center gap-2"><span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: riskColour(item.label) }} /><span className="truncate">{item.label}</span><strong className="ml-auto text-[#092a5a]">{item.count}</strong></li>)}</ul>
   </div>;
 }
 
