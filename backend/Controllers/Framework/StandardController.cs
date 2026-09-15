@@ -33,6 +33,8 @@ namespace backend.Controllers.Framework
                 .standards.Select(s => new StandardDTO
                 {
                     standardId = s.standardId,
+                    functionId = s.functionId,
+                    componentId = s.componentId,
                     standardNumber = s.standardNumber,
                     standardTitle = s.standardTitle,
                     componentNumber = s.component!.componentNumber,
@@ -56,6 +58,8 @@ namespace backend.Controllers.Framework
                 .Select(s => new StandardDTO
                 {
                     standardId = s.standardId,
+                    functionId = s.functionId,
+                    componentId = s.componentId,
                     standardNumber = s.standardNumber,
                     standardTitle = s.standardTitle,
                     componentNumber = s.component!.componentNumber,
@@ -147,9 +151,13 @@ namespace backend.Controllers.Framework
             var standardDto = new StandardDTO
             {
                 standardId = standardModel.standardId,
+                functionId = standardModel.functionId,
+                componentId = standardModel.componentId,
                 standardNumber = standardModel.standardNumber,
                 standardTitle = standardModel.standardTitle,
+                componentNumber = standardModel.component.componentNumber,
                 componentName = standardModel.component!.componentName,
+                functionNumber = standardModel.function.functionNumber,
                 functionTitle = standardModel.function!.functionTitle,
                 standardSummary = standardModel.standardSummary,
             };

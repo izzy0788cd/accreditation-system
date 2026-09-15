@@ -43,7 +43,7 @@ namespace backend.Controllers.FacilitySurvey
             if (scoreValues.Count == 0)
                 return null;
 
-            const int maxPerItem = 2;
+            const int maxPerItem = 4;
             var totalScore = scoreValues.Sum();
             var maxPossible = scoreValues.Count * maxPerItem;
             return (double)totalScore / maxPossible * 100;

@@ -1,0 +1,592 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\06 Essential Clinical Care\\Standard No. 23D - Emergency Medicine.docx",
+  "sourceSha256": "2c7158a32339b62d19b6e73e92fb9969d70434aae342ce10f89366b947c69715",
+  "functionNumber": "4",
+  "componentNumber": "6",
+  "standardNumber": "23d",
+  "standardTitle": "Emergency medicine",
+  "standardSummary": "Standard 23: provision of and continuity of care (mandatory standard)\nThe Healthcare Organisation ensures patients are provided with safe, high- quality inpatient and outpatient care throughout the care delivery process. They should do this from the time that the patient enters the healthcare organisation or service through to when the patient is discharged or transferred to another health facility-service; and during any ongoing care they provide after discharge.\nThe Healthcare Organisation should implement evidence-based practice and a have a process for assessing the appropriateness and effectiveness of care and services, and the settings they are delivered in.\n\nSource references\nStandard 17 National Health Service Standards (NHSS) Vol. 2 (2nd Edition) National Quality Standard\n\nCriterion guidance\n23d.1 Organisation and management\nThe Emergency Services shall provide quality care which shall be organised, directed and coordinated with other services in the Facility according to the goals and objectives of the Facility to meet the needs of the patient population being served.\n\n23d.2 Human resources and development\nThe Emergency Services shall be directed by a qualified and competent medical practitioner, and staffed by suitably qualified and competent clinical staff to achieve the goals and objectives of the Emergency Services. There are sufficient staffing levels, a staff supervision structure, performance appraisals and ongoing commitment to continuing medical education.\n\n23d.3 Policies and procedures\nThere are written and dated policies for all activities of the Emergency Services. These policies reflect current standards of medical practice, relevant regulations and statutory requirements. These policies and procedures, terms of reference, by laws, rules and regulations state how the clinical staff regulate themselves and provide patient care.\n\n23d.4 Facilities and equipment\nThere are facilities and equipment that are safe and appropriate for the staff to function effectively and to meet the goals and objectives of the Emergency Services.\n\n23d.5 Safety and performance improvement activities\nThe Head of Emergency Services shall ensure the provision of quality performance with staff involvement in the continuous safety and performance improvement activities of the Emergency Services.",
+  "sourceReferences": "Standard 17 National Health Service Standards (NHSS) Vol. 2 (2nd Edition) National Quality Standard",
+  "criteria": [
+    {
+      "criterionNumber": "23d.1",
+      "criterionTitle": "Organisation and management",
+      "guidance": "The Emergency Services shall provide quality care which shall be organised, directed and coordinated with other services in the Facility according to the goals and objectives of the Facility to meet the needs of the patient population being served.",
+      "compliances": [
+        {
+          "complianceNumber": "23d.1.1",
+          "complianceSummary": "The Vision, Mission of the Facility are accessible to all visitors. The Goals of the Emergency Services suit its scope and are clearly documented. It should reflect the aspirations of the service and the needs of the community.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The Mission, Vision and Goals of the Organisation are visible, endorsed and dated."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is an endorsed and dated department organisational chart with lines of functions and reporting relationships."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Relevant policies and guidelines are available in the department, i.e., National Health Plan, National Health Service Standards, etc.)"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Evidence of submission of an Annual Implementation Plan and budget."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Evidence of fee structure (if fees are collected)."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Clinical processes are endorsed by the Head of Emergency Services."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.1.2",
+          "complianceSummary": "There is a mechanism to ensure effective interaction between the Head of the Services and the Organisation’s Governing Body and Senior Management.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Letter of appointment and terms of reference as the Head of Service."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Letter of appointment and terms of reference as a member of the facility’s Clinical Governance committee or subcommittees."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Letter of appointment and terms of reference in other hospital committees."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.1.3",
+          "complianceSummary": "Regular staff meetings are held between Head of Service and staff with sufficient regularity to discuss issues pertaining to the Emergency Services. These meetings are minuted and communicated to all staff.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Meeting minutes are available, disseminated and acknowledged by staff."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is sufficient attendance for the meetings with adequate representatives of the service."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Frequency of meetings are as scheduled."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Discussions and resolutions are implemented. (problems not solved are brought forward to the next meeting till resolved)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.1.4",
+          "complianceSummary": "Appropriate statistics and records are maintained in the department in and used for managing services and patient care.\nThe following (among others) are available:\na. workload/census for inpatients and outpatients\nb. quarterly and annual report\nc. incident reports and register\nd. staffing number and staff profile\ne. staff training records\nf. data on performance improvement",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The statistics and records from (a) to (f) are available."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23d.2",
+      "criterionTitle": "Human resources and development",
+      "guidance": "The Emergency Services shall be directed by a qualified and competent medical practitioner, and staffed by suitably qualified and competent clinical staff to achieve the goals and objectives of the Emergency Services. There are sufficient staffing levels, a staff supervision structure, performance appraisals and ongoing commitment to continuing medical education.",
+      "compliances": [
+        {
+          "complianceNumber": "23d.2.1",
+          "complianceSummary": "The are written and dated job descriptions for each category of staff that include;\na.) Qualification, training and experience for the position\nb.) Lines of authority\nc.) Accountability, functions and responsibilities\nd.) Reviewed when required if there is major change in job scope\ne.) Statutory regulations\nf.) Administrative and clinical job scope",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There are dated and specific job descriptions for each staff that include (a) to (f)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The job description is acknowledged by the staff and signed by the Head of Service and dated."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "The scope of work in the job description aligns with the training, skill and experience of the staff (credentialling)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.2.2",
+          "complianceSummary": "The staff holds current registration with the relevant professional body.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of current registration for all cadres of staff (annual practicing certificate)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.2.3",
+          "complianceSummary": "The staff works within their job description and job scope.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Observation that cadres of staff are working according to their job description and job scope."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.2.4",
+          "complianceSummary": "There are continuing education activities for staff to pursue professional interests and to prepare for current and future changes in practice.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Training calendar includes in-house/ external courses/ workshops/ conferences."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Training for each staff including training in life support is kept in the Department."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There are ongoing Continuous Professional Activities in the Department."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.2.5",
+          "complianceSummary": "The educational needs of staff are addressed following findings from incidents reports, mortality audits and performance improvement studies.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of staff training because of recommendations made from incident reports or mortality and morbidity reviews."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.2.6",
+          "complianceSummary": "In a Facility where undergraduate medical, nursing and allied health training programmes are conducted, the Facility shall ensure there are sufficient skilled trained staff to provide clinical supervision of students.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of sufficient skilled trained staff to provide clinical supervision as per terms of Memorandum of Understanding."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.2.7",
+          "complianceSummary": "Staff including medical practitioners receive evaluation of their performance at the completion of the probationary period and annually thereafter, or as defined by the Organisation.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Performance appraisal for staff including medical practitioners is completed upon probationary period and as an annual exercise."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.2.8",
+          "complianceSummary": "Where appropriate the Facility shall endeavour to undertake clinical research using available resources.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Documented evidence of research activities in the Department."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.2.9",
+          "complianceSummary": "Staffing levels are based on the following;\na.) The number of persons deployed is proportional to the number of patients being cared for as per regulatory requirements and for the intensity of care provided\nb.) The categories of service providers reflect the complexity of clinical problems being managed\nc.) Staffing needs shall take into consideration absences due to leave or illness; double shift duties by clinical staff shall be documented and monitored\nd.) Adequate staffing levels of appropriate competency shall be maintained throughout the hours the services are in operation.\ne.) Where it is not possible to have service providers on duty on site, e.g. after working hours, provision is made for relevant medical practitioner to be available on call.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Planning of staff allocation and movement within the Department includes the following;\na.) Deployment based on staff to patient ratio, bed occupancy rate and complexity of cases.\nb.) Special skills/training of staff.\nc.) Contingency plan for acute shortage.\nd.) Duty roster.\ne.) Evidence that all clinicians re not made to work more than the stipulated hours."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.2.10",
+          "complianceSummary": "There is a structured orientation programme for all newly appointed staff to the Medical Services including medical practitioners and for those new to specific areas that include the following;\na.) Explanation of the goals, objectives, policies and procedures of the Facility and those of the Medical Services\nb.) Lines of authority and areas of responsibility\nc.) Explanation of duties and functions\nd.) Explanation of the methods of assigning clinical care and the standards of clinical practice\ne.) Handover communication\nf.) Processes for resolving practice/ethical dilemmas in a timely manner\ng.) Information about safety procedures\nh.) Training in basic/advanced life support techniques\ni.) Methods of obtaining appropriate resource materials\nj.) Staff appraisal procedures for the Medical Services\nk.) Education on Patient and Family Rights",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of policy stating that all staff have to attend a structured orientation programme."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Attendance list of those having attended the orientation programme."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23d.3",
+      "criterionTitle": "Policies and procedures",
+      "guidance": "There are written and dated policies for all activities of the Emergency Services. These policies reflect current standards of medical practice, relevant regulations and statutory requirements. These policies and procedures, terms of reference, by laws, rules and regulations state how the clinical staff regulate themselves and provide patient care.",
+      "compliances": [
+        {
+          "complianceNumber": "23d.3.1",
+          "complianceSummary": "There are written policies and procedures for the Emergency Services which are consistent with the overall policies of the Facility, regulatory requirements and current standard practices.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of documented policies and procedures for the service."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The policies and procedures are endorsed and dated."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There is a periodic review at least once in three years."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Copies of policies, by laws, regulations and relevant acts are accessible on site for staff reference."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.3.2",
+          "complianceSummary": "Policies and procedures are developed by a committee in collaboration with staff and with other departments if needed.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Minutes of committee meetings on development and revision on policies and procedures."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.3.3",
+          "complianceSummary": "The policies and procedures documentation shall address at least the following topics;\na.) Description of the organisational structure of the Medical Services\nb.) The use of updated Standard Treatment Guidelines.\nc.) Handover communication\nd.) Drug prescription, dispensing and administration\ne.) Blood transfusion\nf.) Continuing of care including regular review of patient and review of investigation results\ng.) Admission and Discharge (planned or “At Own Risk”)\nh.) Referrals and Repatriations\ni.) Guardians for patients\nj.) Management of cases with an infectious disease including notification of notifiable diseases\nk.) Internal and External Disaster\nl.) Incident reports\nm.) Management of deaths",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Documented policies and procedures that address (a) to (s)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Staff are briefed on the policies and procedures (meeting minutes or circulation acknowledgement)."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There is evidence of compliance to the policies and procedures (staff interview, observation, review of patient complaints, results of audits)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.3.4",
+          "complianceSummary": "The service shall operate on a 24- hour basis providing level of care appropriate the facility.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Operational policy on 24-hour service."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Staffing level reflects a good mix of senior and junior staff."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "On call roster is dated and authorised."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.3.5",
+          "complianceSummary": "Close working and formal arrangements shall exist between the Emergency Services and appropriate parties:\na.) Internally with:\n• Other clinical services of the Facility\n• Support services including cleaning and security\n• Non-clinical functions of the Emergency Services, i.e. reception, registration/ payment/billing and clerical services.\nb.) Externally with other local healthcare agencies operating within the Facility's catchment area including feeder clinics or facilities.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of cross-departmental policy, SOP and key processes addressing (a) and (b)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Minutes of meetings and discussions."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Relevant documents on coordination, policy MOUs or agreements"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23d.4",
+      "criterionTitle": "Facilities and equipment",
+      "guidance": "There are facilities and equipment that are safe and appropriate for the staff to function effectively and to meet the goals and objectives of the Emergency Services.",
+      "compliances": [
+        {
+          "complianceNumber": "23d.4.1",
+          "complianceSummary": "The Emergency Services shall have dedicated treatment zones based on urgency of illness. The zone shall be clearly visible with directional signage which is well posted. Access to each area shall be determine its function and maybe restricted from public based on needs. There should be a;\na.) Patient drop zone and triage area\nb.) Reception, registration and waiting area\nc.) Resuscitation and critical care area\nd.) Semi-critical area\ne.) Non-critical area\nf.) Procedural and specialty care area for example: plaster room, minor operation theatre etc.\ng.) Patient isolation and decontamination area\nh.) Others (when applicable)\n• Ambulance Communication Centre\n• Ambulance drop-off zone and access\ni.) Storage (consumables, equipment)",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The design and layout of the emergency department address (a) to (i)"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.4.2",
+          "complianceSummary": "There are adequate and appropriate facilities and equipment with proper utilisation of space to enable staff to carry out their professional, teaching and administrative functions.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is a department action plan when the clinical areas exceed its patient capacity limit (e.g. due to access block)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Easy access and clear exit routes."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Absence of overcrowding."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Availability of an isolation area."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Design and layout of the unit, e.g. wards, treatment rooms, dirty and clean utility rooms, access, lighting, signage, etc. address the safety aspects of patients and staff."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Equipment should have scheduled planned preventive maintenance (PPM)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.4.3",
+          "complianceSummary": "The following medications are deemed necessary to optimally meet the goals and objectives of the Emergency Services. There should be floor stock of the following (among others);\na.) Antihypertensives\nb.) Activated charcoal\nc.) Antihistamines\nd.) Antiplatelets\ne.) Bronchodilators\nf.) Corticosteroids\ng.) Inotropic drugs\nh.) Analgesics\ni.) Anti-convulsant",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Onsite observation on the availability of items (a) to (i)"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.4.4",
+          "complianceSummary": "A list of the minimum requirements for equipment and drugs, both for emergency and non-emergency usage, shall be available in the Emergency Department appropriate to the level of care.\nThe emergency trolley should include the following drugs;\n• Antianginal (Sublingual Glyceral Trinitrate (GTN)\n• Antiarrythmics (Adenosine, Amiodarone, Lignocaine, Digoxine)\n• Antidotes (Flumazenil, Atopine, Glucose 50%, MgSO4, Calcium gluconate or Calcium chloride)\n• Sodium bicarbonate\n• Adrenaline\n• Water for Injection",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Onsite observation on availability of the drugs listed above in the emergency trolley."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Scheduled checking of items in emergency trolley."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.4.5",
+          "complianceSummary": "The Emergency Services are equipped with essential equipment depending on scope of service. The following equipment should be present;\na.) Airway Management devices such as:\ni. Adjuncts- oropharyngeal airway, nasopharyngeal airway;\nii. Endotracheal Intubation Equipment:\niii. Rescue airway devices for Difficult and failed airway situation- supraglottic airway, Video Assisted Laryngoscope and devices.\nb.) Oxygen Delivery Equipment such as:\ni. various size oxygen mask, simple face mask, venturi mask, high flow rebreathing mask\nc.) Respiratory and ventilation support such as:\ni. Ventilator invasive and non-invasive\nd.) Vascular Access Devices and Circulatory Support including:\ni. Intravascular access devices including intraosseous set (manual/ mechanical)\nii. Intravenous fluid delivery devices inclusive volumetric pump and rapid infusions\niii. Various intravenous fluids solution for resuscitation and volume replacement.\ne.) Defibrillator and Emergency Cardiac Care Equipment including:\ni. 12 Lead ECG machine and Transcutaneous pacing depending on the level of care provided.\nii. Defibrillator with Automated External Defibrillator (AED) capabilities.\nf.) Patient Body Thermal Control Equipment\ng.) Fluid Warmers, Storage for Blood products (depending on level of care; within easy access)\nh.) Limb, Neck and Spine Immobilization and Protection Equipment\ni.) Patient Vital Parameters Monitor including Blood Pressure, Pulse Rate, Respiratory Rate, Pulse oximetry, Cardiac Monitoring and temperature.\nj.) Wounds, Soft tissue and Burns Care Sets\nk.) Point of Care or Bedside (Rapid) Diagnostic Tests or Support including:\ni. Blood sugar analyser;\nii. Urine analyser.\niii. Full blood count\niv. Arterial blood gas\nl.) Imaging Devices or Support\ni. Access to X-ray;\nii.  Access to Ultrasound / portable ultrasound / point of care ultrasound\nm.) Emergency Care Equipment for paediatric including length- based chart/tape for equipment sizing and emergency drug dosing (Broselow Tape)\nn.) Obstetric Delivery Equipment\no.) Emergency Patient Care Beds",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Onsite observation of (a) to (o)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Training records for staff in the use of equipment (a) to (o)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.4.6",
+          "complianceSummary": "Existing facilities shall consider the safety and comfort of staff and patients.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There are adequate patient transfer trolleys, wheelchairs, mobility aids and a dedicated drug fridge."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is a dedicated cabinet for dangerous drugs which can be locked."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There is access to hand washing facilities"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "There is an adequate waiting area for patients."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "The Emergency Department is well ventilated."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.4.7",
+          "complianceSummary": "Suitable forms of communication systems and equipment are provided to enable clinical staff to communicate among themselves and with the other members of the healthcare team.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Appropriate telecommunication modalities available for daily operation and during emergencies."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.4.8",
+          "complianceSummary": "Facilities are suitably located to facilitate easy access and to provide an atmosphere of user, environmental and ‘disabled' friendly.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Floor plan indicates accessibility and patient and user friendly."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Feedback from patient satisfaction survey"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Incident reporting relating to facilities if any."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.4.9",
+          "complianceSummary": "There is evidence that the facility has a comprehensive maintenance programme such as predictive maintenance, planned preventive maintenance and calibration activities, to ensure the facilities and equipment are in good working order.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Planned Preventive Maintenance records such as schedule, stickers, etc."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Planned Replacement Programme where applicable."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Complaint records."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Asset inventory"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.4.10",
+          "complianceSummary": "Where specialised equipment is used, there is evidence that only staff who are trained and authorised by the Facility operate such equipment.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "User training records"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "List of staff trained and authorised to operate specialised equipment."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.4.11",
+          "complianceSummary": "Adequate numbers of rooms are provided to ensure patient privacy and confidentiality for various patient care activities including:\na.) Consultation (not more than one patient in a room at any time)\nb.) Conduct of minor procedures and nursing procedures)\nc.) Performance of various tests",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of facilities with patient privacy ensured."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Procedure room appropriately equipped."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Patient monitoring device is available where required"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "List of procedures performed is recorded."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23d.5",
+      "criterionTitle": "Safety and performance improvement activities",
+      "guidance": "The Head of Emergency Services shall ensure the provision of quality performance with staff involvement in the continuous safety and performance improvement activities of the Emergency Services.",
+      "compliances": [
+        {
+          "complianceNumber": "23d.5.1",
+          "complianceSummary": "There are planned activities for performance and quality improvement.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is a designated person who monitors safety and performance improvement activities within the Medical Services."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There are records/registers on performance improvement activities."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There are meeting minutes for performance improvement meetings."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "There are records on innovation (if any)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.5.2",
+          "complianceSummary": "The Head of Emergency Services shall ensure that the staff are trained and complete incident reports which are promptly reported, investigated, discussed by the staff and forwarded to the Officer in Charge (OIC) of the Facility. Selected incidents have Root Cause Analysis (RCA) done in an agreed time frame to prevent recurrence.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "System for incident reporting is in place with the following;\na.) Training of staff in incident reporting\nb.) Policy on incident reporting\nc.) Method/SOP on Incident reporting\nd.) Register of incidents"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Completed incident reports"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Corrective and preventive action plans"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Minutes of meeting"
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Involved staff given feedback about the incident report"
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Acknowledgment by Head of Emergency Service and Director of Curative Services."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23d.5.3",
+          "complianceSummary": "Specific performance indicators are tracked for e.g.;\na.) Average waiting time between presentation and treatment\nb.) Average waiting time for different triage categories\nc.) Average waiting time for inpatient beds (access block rate)",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Specific performance indicators are monitored."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Remedial action is taken when appropriate"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Corrected source numbering 23c.2.1 to 23d.2.1 under its printed criterion heading (table row 33)."
+  ]
+}

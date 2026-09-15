@@ -1,0 +1,450 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\06 Essential Clinical Care\\Standard No. 23L - CSSD.docx",
+  "sourceSha256": "9ca341e72996fa598542b60a8b63bf9395d579bd278a6f2255b9604c1e55219c",
+  "functionNumber": "4",
+  "componentNumber": "6",
+  "standardNumber": "23l",
+  "standardTitle": "Central supply sterilising department (CSSD)",
+  "standardSummary": "Standard 23: provision of and continuity of care (mandatory standard)\nThe Healthcare Organisation ensures patients are provided with safe, high- quality inpatient and outpatient care throughout the care delivery process. They should do this from the time that the patient enters the healthcare organisation or service through to when the patient is discharged or transferred to another health facility-service; and during any ongoing care they provide after discharge.\nThe Healthcare Organisation should implement evidence-based practice and a have a process for assessing the appropriateness and effectiveness of care and services, and the settings they are delivered in.\n\nService scope\nThe Central Sterilising Supply Department (CSSD) provide sterilising services for all areas within the Facility. It shall comprise all activities relating to disinfection and sterilisation processes in the Facility.\n\nSource references\nStandard 17 National Health Service Standards (NHSS) Vol. 2 (2nd Edition) National Quality Standard\n\nCriterion guidance\n23l.1 Organisation and management\n\n\n23l.2 Human resources and development\nThe CSSD Services shall be directed by a qualified and competent medical practitioner, and staffed by suitably qualified and competent clinical staff to achieve the goals and objectives of the CSSD Services. There are sufficient staffing levels, a staff supervision structure, performance appraisals and ongoing commitment to continuing medical education.\n\n23l.3 Policies and procedures\nThere are documented policies and procedures that reflect current principles of disinfection and sterilising practices and processes of CSSD. These policies and procedures shall be consistent with relevant regulations, statutory requirements and goals and objectives of the CSSD.\n\n23l.4 Facilities and equipment\nThere are adequate facilities and equipment to enable the CSSD to meet its goals and objectives in accordance with regulatory requirements.\n\n23l.5 Safety and performance improvement activities\nThe Head of CSSD Services shall ensure the provision of quality performance with staff involvement in the continuous safety and performance improvement activities of the CSSD Services.",
+  "sourceReferences": "Standard 17 National Health Service Standards (NHSS) Vol. 2 (2nd Edition) National Quality Standard",
+  "criteria": [
+    {
+      "criterionNumber": "23l.1",
+      "criterionTitle": "Organisation and management",
+      "guidance": "",
+      "compliances": [
+        {
+          "complianceNumber": "23l.1.1",
+          "complianceSummary": "The Vision, Mission of the Facility are accessible. The Goals of the CSSD Services suit its scope and are clearly documented. It should reflect the aspirations of the service and the needs of the Facility.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The Mission, Vision and Goals of the Organisation are visible, endorsed and dated."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is an endorsed and dated department organisational chart with lines of functions and reporting relationships."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Relevant policies and guidelines are available in the department. (National Health Plan, National Health Service Standards, Occupational Health and Safety, Infection prevention and Control etc.)."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Evidence of submission of an Annual Implementation Plan and budget."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.1.2",
+          "complianceSummary": "There is a mechanism to ensure effective interaction between the Head of the Services and the Organisation’s Governing Body and Senior Management.\nThe Head of Services shall also be involved for the following aspects of\nmanagement of the services:\na.) Preparation of budget and ensuring that expenditure remains within the budget allocated\nb.) Human resource\nc.) Facility and equipment management\nd.) Safety and performance improvement activities and risk management",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Letter of appointment and terms of reference as the Head of Service."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Letter of appointment and terms of reference in other hospital committees."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of (a) to (d) in meeting minutes/correspondence of the CSSD Services indicating the involvement of the Head of Service."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Request for allocation for budget and staffing."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.1.3",
+          "complianceSummary": "Regular staff meetings are held between Head of Service and staff with sufficient regularity to discuss issues pertaining to the CSSD Services. These meetings are minuted and communicated to all staff.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Meeting minutes are available, disseminated and acknowledged by staff."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is sufficient attendance for the meetings with adequate representatives of the service."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Frequency of meetings are as scheduled."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Discussions and resolutions are implemented. (problems not solved are brought forward to the next meeting till resolved)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.1.4",
+          "complianceSummary": "Appropriate statistics and records are maintained in the department in and used for managing services and patient care.\nThe following (among others) are available:\na.) Workload/census\nb.) Quarterly and annual report\nc.) Incident reports and register\nd.) Staffing number and staff profile\ne.) Staff training records\nf.) Data on performance improvement",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The statistics and records from (a) to (f) are available."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The NHSS Toolkit Assessment (checklist) for the relevant level has been completed in the past 6 months."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.1.5",
+          "complianceSummary": "There is a list of services provided to other Units in the Facility.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Documented list of services provided to other Units in the Facility by the CSSD Services."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23l.2",
+      "criterionTitle": "Human resources and development",
+      "guidance": "The CSSD Services shall be directed by a qualified and competent medical practitioner, and staffed by suitably qualified and competent clinical staff to achieve the goals and objectives of the CSSD Services. There are sufficient staffing levels, a staff supervision structure, performance appraisals and ongoing commitment to continuing medical education.",
+      "compliances": [
+        {
+          "complianceNumber": "23l.2.1",
+          "complianceSummary": "The Head and staff of CSSD shall be a healthcare professional with training and experience and shall be responsible to coordinate all (on-site or off-site) disinfection and sterilisation processes in the Facility. He/she should minimally have training in perioperative care with CSSD modules.\nThere are written and dated job descriptions for each category of staff that include;\na.) Qualification, training and experience for the position.\nb.) Lines of authority\nc.) Accountability, functions and responsibilities",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There are records of credentials of Head of Services."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There are dated and specific job descriptions for each staff that include (a) to (c)."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "The job description is acknowledged by the staff and signed by the Head of Service and dated."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Staff have training records for infection prevention and required certification (e.g. for autoclave operator)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.2.2",
+          "complianceSummary": "The staff holds current registration with the relevant professional body.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of current registration for all cadres of staff (annual practicing certificate)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.2.3",
+          "complianceSummary": "The staff works within their job description and job scope.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Observation that cadres of staff are working according to their job description and job scope."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.2.4",
+          "complianceSummary": "There are continuing education activities for staff to pursue professional interests and to prepare for current and future changes in practice.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Training calendar includes in-house/ external courses/ workshops/ conferences."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Training for each staff including training in life support is kept in the Department."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There are ongoing Continuous Professional Activities in the Department."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.2.5",
+          "complianceSummary": "The educational needs of staff are addressed following findings from incidents reports, mortality audits and performance improvement studies.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of staff training because of recommendations made from incident reports or mortality and morbidity reviews."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.2.6",
+          "complianceSummary": "In a Facility where undergraduate medical, nursing and allied health training programmes are conducted, the Facility shall ensure there are sufficient skilled trained staff to provide clinical supervision of students.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of sufficient skilled trained staff to provide clinical supervision as per terms of Memorandum of Understanding."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.2.7",
+          "complianceSummary": "Staff including medical practitioners receive evaluation of their performance at the completion of the probationary period and annually thereafter, or as defined by the Organisation.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Performance appraisal for staff including medical practitioners is completed upon probationary period and as an annual exercise."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.2.8",
+          "complianceSummary": "Where appropriate, the Facility shall endeavour to undertake clinical research using available resources.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Documented evidence of research activities in the Department."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.2.9",
+          "complianceSummary": "Enough personnel and support staff with appropriate qualifications are employed to meet the need of the services.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Number of staff should match the workload."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Staffing pattern and duty roster."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.2.10",
+          "complianceSummary": "There is a structured orientation programme for all newly appointed staff to the CSSD Services including medical practitioners and for those new to specific areas that include the following;\na.) Explanation of the goals, objectives, policies and procedures of the Facility and those of the CSSD Services\nb.) Lines of authority and areas of responsibility\nc.) Explanation of duties and functions\nd.) Explanation of the methods of assigning clinical care and the standards of clinical practice\ne.) Handover communication\nf.) Processes for resolving practice/ethical dilemmas in a timely manner\ng.) Information about safety procedures\nh.) Training in basic/advanced life support techniques\ni.) Methods of obtaining appropriate resource materials\nj.) Staff appraisal procedures for the CSSD Services",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of policy stating that all staff have to attend a structured orientation programme."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Attendance list of those having attended the orientation programme."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.2.11",
+          "complianceSummary": "There is a vaccination programmes for all staff exposed to sharps injury and biological hazards.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of vaccination programme and records."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23l.3",
+      "criterionTitle": "Policies and procedures",
+      "guidance": "There are documented policies and procedures that reflect current principles of disinfection and sterilising practices and processes of CSSD. These policies and procedures shall be consistent with relevant regulations, statutory requirements and goals and objectives of the CSSD.",
+      "compliances": [
+        {
+          "complianceNumber": "23l.3.1",
+          "complianceSummary": "There are written policies and procedures for the CSSD Services which are consistent with the overall policies of the Facility, regulatory requirements and current standard practices.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of documented policies and procedures for the service."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The policies and procedures are endorsed and dated."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There is a periodic review at least once in three years."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Copies of policies, by laws, regulations and relevant acts are accessible on site for staff reference"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.3.2",
+          "complianceSummary": "Policies and procedures are developed by a committee in collaboration with staff and with other departments if needed.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Minutes of committee meetings on development and revision on policies and procedures."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.3.3",
+          "complianceSummary": "The policies and procedures documentation shall address at least the following topics;\na.) Receiving and decontamination processes (disassembling, washing, cleaning and disinfection);\nb.) Packaging process (inspection, functionality check and packing)\nc.) Sterilisation process\nd.) Validation processes\ne.) Sterile storage and distribution\nf.) Traceability and product recall\ng.) Services provided to other healthcare facilities\nh.) Environmental control (storage condition, effective maintenance of sterility)\ni.) Management of sterile items (event related or shelf life)\nj.) Safety practices in CSSD\nk.) Utilisation of autoclave",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Documented policies and procedures that address (a) to (k)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Staff are briefed on the policies and procedures (meeting minutes or circulation acknowledgement)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.3.4",
+          "complianceSummary": "Disinfection and sterilising processes in other services, e.g. Dental Services, Operating Theatre Endoscopy, Cardiovascular Invasive Laboratory, etc should be consistent with the requirements of policies and procedures of the CSSD.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Specific policies addressing CSSD in other services are sighted."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.3.5",
+          "complianceSummary": "Records for all activities in the processing of sterile items shall be maintained for a period as per policy of the healthcare facility.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Daily production statistics to assess stock (e.g. medical-surgical instruments, equipment or supplies) level for safe, continuous service, efficient stock and cost control."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Steriliser records (e.g. number of records)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23l.4",
+      "criterionTitle": "Facilities and equipment",
+      "guidance": "There are adequate facilities and equipment to enable the CSSD to meet its goals and objectives in accordance with regulatory requirements.",
+      "compliances": [
+        {
+          "complianceNumber": "23l.4.1",
+          "complianceSummary": "The design and set up of the CSSD allows for;\na.) The CSSD to be equipped and arranged to provide proper separation of clean and dirty routes and processes with clear demarcation of the different zones. The airflow is from clean to soiled areas.\nb.) Areas within CSSD shall be adequate to provide for;\ni. Receiving of unsterile supplies\n• Handling of supplies and equipment in accordance with planned stores and supply system and parking of carts.\n• Facilities for receiving, disassembling and cleaning of supplies and equipment shall be appropriately located avoiding non-sterile items passing through sterile areas of the CSSS.\nii. Assembling and Packaging\n• Facilities for assembling, packaging supplies and equipment shall have hand hygiene facilities, work counter or its equivalent as required by types and volume of items.\niii. Sterilising\n• Facilities for sterilising shall be located between packaging area and sterile storage area.\n• An exhaust is installed over the back room of sterilisers to prevent condensation and heat building up.\n• A designated cooling area with good ventilation to allow cooling of sterilised items.\niv. Storage Facilities\n• Dedicated store for storage and issue of sterile instruments and supplies\n• Facilities for storage and issues of unsterilised linen for sterilisation.\n• Facilities for storage and issue of unsterile instruments,\n• Facilities for storage and issue of chemical detergents and disinfectants\n• Facilities for storage of soft goods\n• Facilities for storage (sterilisation wrapping paper, autoclave tape etc.\nc.) Hand washing facilities\nd.) Staff changing room are readily available\ne.) Suitably planned layout of work benches and equipment",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The design of the CSSD addresses (a) to (e)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.4.2",
+          "complianceSummary": "Where specialised equipment is used, there is evidence that only staff who are trained and authorised by the Facility operate such equipment, e.g. autoclave.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "List of staff trained and authorised to operate specialised equipment."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.4.3",
+          "complianceSummary": "There is evidence that the Facility has a comprehensive maintenance programme such as predictive maintenance, planned preventive maintenance and calibration activities, to ensure the facilities and equipment are in good working order.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Equipment should have scheduled planned preventive maintenance (PPM)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There should be an asset inventory."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There should be a record of complaints."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23l.5",
+      "criterionTitle": "Safety and performance improvement activities",
+      "guidance": "The Head of CSSD Services shall ensure the provision of quality performance with staff involvement in the continuous safety and performance improvement activities of the CSSD Services.",
+      "compliances": [
+        {
+          "complianceNumber": "23l.5.1",
+          "complianceSummary": "There are planned activities for performance and quality improvement.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is a designated person who monitors safety and performance improvement activities within the CSSD Services."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is a risk register."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There are meeting minutes for performance improvement meetings."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "There are records on innovation (if any)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.5.2",
+          "complianceSummary": "The Head of CSSD Services shall ensure that the staff are trained and complete incident reports which are promptly reported, investigated, discussed by the staff and forwarded to the Officer in Charge (OIC) of the Facility. Selected incidents have Root Cause Analysis (RCA) done in an agreed time frame to prevent recurrence.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "System for incident reporting is in place with the following;\na.) Training of staff in incident reporting\nb.) Policy on incident reporting\nc.) Method/SOP on Incident reporting\nd.) Register of incidents"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Completed incident reports."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Corrective and preventive action plans."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Minutes of meeting."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Involved staff given feedback about the incident report."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Acknowledgment by Head of CSSD Service and Director of Curative Services."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23l.5.3",
+          "complianceSummary": "Specific performance indicators (among others) are tracked e.g.\na.) Percentage of sterile equipment rejected\nb.) Percentage of incident reports with RCA done",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Specific performance indicators are monitored."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Remedial action is taken when appropriate."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "notes": []
+}

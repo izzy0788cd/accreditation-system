@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getAll, getOne, getSurveyAssessmentOverview, getSurveyEvidenceChecks, getSurveyProgress } from "../../api/api";
 import { useAuth } from "../../context/AuthContext";
+import { MAX_SCORE_VALUE } from "../../utils/scoring";
 
 const numberSort = (first, second) => String(first ?? "").localeCompare(String(second ?? ""), undefined, { numeric: true });
 const percentage = (complete, total) => total ? Math.round((complete / total) * 100) : 0;
@@ -58,7 +59,7 @@ function SurveyTeamLeadDashboardPage() {
       const entries = rows.filter((row) => row.standard?.standardId === standard.standardId);
       const evidence = checks.filter((check) => entries.some((row) => row.complianceAssessmentId === check.complianceAssessmentId));
       const scored = entries.filter((row) => row.scoreId && row.scoreValue != null);
-      return { ...standard, entries, score: scored.length ? percentage(scored.reduce((sum, row) => sum + row.scoreValue, 0), scored.length * 2) : null, scored: entries.filter((row) => row.scoreId).length, evidenceComplete: evidence.filter((check) => check.isChecked).length, evidenceTotal: evidence.length, risks: entries.filter((row) => row.riskRatingId).length, surveyors: [...new Set(entries.map((row) => row.surveyorName).filter(Boolean))] };
+      return { ...standard, entries, score: scored.length ? percentage(scored.reduce((sum, row) => sum + row.scoreValue, 0), scored.length * MAX_SCORE_VALUE) : null, scored: entries.filter((row) => row.scoreId).length, evidenceComplete: evidence.filter((check) => check.isChecked).length, evidenceTotal: evidence.length, risks: entries.filter((row) => row.riskRatingId).length, surveyors: [...new Set(entries.map((row) => row.surveyorName).filter(Boolean))] };
     }).sort((first, second) => numberSort(first.standardNumber, second.standardNumber));
     const componentRows = components.map((component) => {
       const componentStandards = standardRows.filter((standard) => standard.componentNumber === component.componentNumber);

@@ -152,7 +152,7 @@ function StandardsPage() {
         </>
       )}
 
-      <FormModal open={showForm} onClose={handleCancel}>
+      <FormModal open={showForm} onClose={handleCancel} wide>
         <StandardForm
           initialData={editingStandard}
           onSubmit={handleSubmit}

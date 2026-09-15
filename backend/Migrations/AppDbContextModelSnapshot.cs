@@ -857,6 +857,9 @@ namespace backend.Migrations
                     b.Property<string>("description")
                         .HasColumnType("text");
 
+                    b.Property<string>("guidance")
+                        .HasColumnType("text");
+
                     b.Property<string>("scoreLabel")
                         .IsRequired()
                         .HasColumnType("text");

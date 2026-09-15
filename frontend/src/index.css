@@ -16,6 +16,19 @@ body {
   color: #092a5a;
 }
 
+@media (min-width: 768px) {
+  .survey-summary-sheet table { table-layout: fixed; }
+  .survey-summary-sheet--internal th:nth-child(1) { width: 5%; }
+  .survey-summary-sheet--internal th:nth-child(2) { width: 27%; }
+  .survey-summary-sheet--internal th:nth-child(3) { width: 9%; }
+  .survey-summary-sheet--internal th:nth-child(4) { width: 11%; }
+  .survey-summary-sheet--internal th:nth-child(5) { width: 48%; }
+  .survey-summary-sheet--external th:nth-child(1) { width: 6%; }
+  .survey-summary-sheet--external th:nth-child(2), .survey-summary-sheet--external th:nth-child(5) { width: 8%; }
+  .survey-summary-sheet--external th:nth-child(3), .survey-summary-sheet--external th:nth-child(6) { width: 10%; }
+  .survey-summary-sheet--external th:nth-child(4), .survey-summary-sheet--external th:nth-child(7) { width: 29%; }
+}
+
 @media print {
   @page { size: A4 landscape; margin: 12mm 13mm 14mm; }
 
@@ -56,10 +69,10 @@ body {
   .survey-print-standard-summary .survey-print-table td { padding: 5px 6px; text-align: justify; }
   .survey-print-standard-summary .survey-print-table th { background: #315c88; font-size: 6.8pt; }
   .survey-print-internal .survey-print-standard-summary .survey-print-table th:nth-child(1) { width: 5%; }
-  .survey-print-internal .survey-print-standard-summary .survey-print-table th:nth-child(2) { width: 35%; }
+  .survey-print-internal .survey-print-standard-summary .survey-print-table th:nth-child(2) { width: 27%; }
   .survey-print-internal .survey-print-standard-summary .survey-print-table th:nth-child(3) { width: 9%; }
   .survey-print-internal .survey-print-standard-summary .survey-print-table th:nth-child(4) { width: 11%; }
-  .survey-print-internal .survey-print-standard-summary .survey-print-table th:nth-child(5) { width: 40%; }
+  .survey-print-internal .survey-print-standard-summary .survey-print-table th:nth-child(5) { width: 48%; }
   .survey-print-external .survey-print-standard-summary .survey-print-table th:nth-child(1) { width: 6%; }
   .survey-print-external .survey-print-standard-summary .survey-print-table th:nth-child(2), .survey-print-external .survey-print-standard-summary .survey-print-table th:nth-child(5) { width: 8%; }
   .survey-print-external .survey-print-standard-summary .survey-print-table th:nth-child(3), .survey-print-external .survey-print-standard-summary .survey-print-table th:nth-child(6) { width: 10%; }

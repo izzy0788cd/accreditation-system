@@ -1,10 +1,12 @@
+import { MAX_SCORE_VALUE, isPriorityScore, scoreOutcomeLabel } from "./scoring.js";
+
 // Extend this permission alongside the API's GenerateSurveyReports policy when Preceptor is introduced.
 export const canGenerateReports = (roleName) => roleName === "Admin";
 
 export function assessmentStatus(item) {
   if (!item.isApplicable || (item.scoreId != null && item.scoreValue == null)) return "Not applicable";
   if (item.scoreId == null) return "Unassessed";
-  return ({ 0: "Non-compliant", 1: "Partially compliant", 2: "Compliant" })[item.scoreValue] ?? "Unknown score";
+  return item.scoreLabel || scoreOutcomeLabel(item.scoreValue);
 }
 
 export function summariseReport(items) {
@@ -15,14 +17,14 @@ export function summariseReport(items) {
     unassessed: applicable.length - scored.length,
     notApplicable: items.length - applicable.length,
     scored: scored.length,
-    score: scored.length ? Math.round(scored.reduce((sum, item) => sum + item.scoreValue, 0) / (scored.length * 2) * 100) : null,
+    score: scored.length ? Math.round(scored.reduce((sum, item) => sum + item.scoreValue, 0) / (scored.length * MAX_SCORE_VALUE) * 100) : null,
     dummy: items.some((item) => /dummy survey|synthetic data/i.test(item.complianceComments || "")),
   };
 }
 
 export function isPriorityFinding(item) {
   return assessmentStatus(item) !== "Not applicable" &&
-    (["Non-compliant", "Partially compliant"].includes(assessmentStatus(item)) || isHighRisk(item));
+    (isPriorityScore(item.scoreValue) || isHighRisk(item));
 }
 
 export function isHighRisk(item) {
@@ -52,6 +54,6 @@ export function compareScope(items, internalItems) {
   return {
     compared: comparable.length,
     differing: comparable.filter(({ comparison }) => comparison.delta !== 0).length,
-    delta: comparable.length ? Math.round(comparable.reduce((sum, { comparison }) => sum + comparison.delta, 0) / (comparable.length * 2) * 100) : null,
+    delta: comparable.length ? Math.round(comparable.reduce((sum, { comparison }) => sum + comparison.delta, 0) / (comparable.length * MAX_SCORE_VALUE) * 100) : null,
   };
 }
