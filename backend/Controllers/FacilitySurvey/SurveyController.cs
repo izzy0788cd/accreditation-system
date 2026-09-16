@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace backend.Controllers.FacilitySurvey
 {
@@ -24,6 +25,18 @@ namespace backend.Controllers.FacilitySurvey
         {
             _context = context;
             _config = config;
+        }
+
+        private async Task<int?> GetCurrentSurveyorIdAsync()
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!int.TryParse(accountId, out var userAccountId))
+                return null;
+
+            return await _context.surveyors
+                .Where(surveyor => surveyor.user!.userAccountId == userAccountId)
+                .Select(surveyor => (int?)surveyor.surveyorId)
+                .FirstOrDefaultAsync();
         }
 
         private async Task<double?> CalculateSurveyGradeAsync(int surveyId)
@@ -109,6 +122,46 @@ namespace backend.Controllers.FacilitySurvey
                     cancellationReason = s.cancellationReason,
                     cancelledAt = s.cancelledAt,
                     cancelledByUsername = s.cancelledByUsername,
+                    scopeType = s.toolkitSnapshot != null ? s.toolkitSnapshot.scopeType : "Full",
+                    toolkitSummary = s.toolkitSnapshot != null ? s.toolkitSnapshot.templateSummary : "Full NHSS survey",
+                })
+                .ToListAsync();
+
+            return Ok(surveys);
+        }
+
+        // Scopes a user with a surveyor profile to their own fieldwork. An Admin
+        // can still use the regular endpoint when working administratively.
+        [HttpGet("mine")]
+        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        public async Task<ActionResult<IEnumerable<SurveyDTO>>> GetMySurveys()
+        {
+            var surveyorId = await GetCurrentSurveyorIdAsync();
+            if (!surveyorId.HasValue)
+                return Forbid();
+
+            var surveys = await _context.surveys
+                .Where(survey => survey.surveyorId == surveyorId.Value
+                    || _context.complianceAssessments.Any(assessment =>
+                        assessment.surveyId == survey.surveyId
+                        && assessment.surveyorId == surveyorId.Value))
+                .Select(s => new SurveyDTO
+                {
+                    surveyId = s.surveyId,
+                    facilityId = s.facilityId,
+                    facilityName = s.facility!.facilityName,
+                    surveyTypeId = s.surveyTypeId,
+                    surveyTypeName = s.surveyType!.surveyTypeName,
+                    surveyorId = s.surveyorId,
+                    surveyorName = $"{s.surveyor!.user!.firstName} {s.surveyor!.user!.lastName}",
+                    startDate = s.startDate,
+                    endDate = s.endDate,
+                    isCancelled = s.isCancelled,
+                    cancellationReason = s.cancellationReason,
+                    cancelledAt = s.cancelledAt,
+                    cancelledByUsername = s.cancelledByUsername,
+                    scopeType = s.toolkitSnapshot != null ? s.toolkitSnapshot.scopeType : "Full",
+                    toolkitSummary = s.toolkitSnapshot != null ? s.toolkitSnapshot.templateSummary : "Full NHSS survey",
                 })
                 .ToListAsync();
 
@@ -137,6 +190,8 @@ namespace backend.Controllers.FacilitySurvey
                     cancellationReason = s.cancellationReason,
                     cancelledAt = s.cancelledAt,
                     cancelledByUsername = s.cancelledByUsername,
+                    scopeType = s.toolkitSnapshot != null ? s.toolkitSnapshot.scopeType : "Full",
+                    toolkitSummary = s.toolkitSnapshot != null ? s.toolkitSnapshot.templateSummary : "Full NHSS survey",
                 })
                 .FirstOrDefaultAsync();
 
@@ -274,6 +329,48 @@ namespace backend.Controllers.FacilitySurvey
             if (gateError != null)
                 return BadRequest(gateError);
 
+            var facility = await _context.facilities.AsNoTracking().FirstOrDefaultAsync(item => item.facilityId == dto.facilityId);
+            if (facility == null)
+                return BadRequest("facilityId does not exist.");
+
+            var scopeType = string.IsNullOrWhiteSpace(dto.scopeType) ? "Full" : dto.scopeType.Trim();
+            if (!new[] { "Full", "Template", "Custom" }.Contains(scopeType, StringComparer.OrdinalIgnoreCase))
+                return BadRequest("scopeType must be Full, Template, or Custom.");
+
+            List<int>? scopedComplianceIds = null;
+            string scopeSummary = "Full NHSS survey";
+            if (scopeType.Equals("Template", StringComparison.OrdinalIgnoreCase))
+            {
+                var templateIds = dto.toolkitTemplateIds?.Distinct().ToList() ?? [];
+                if (templateIds.Count == 0) return BadRequest("Select at least one toolkit template.");
+                var templates = await _context.surveyToolkitTemplates.Include(template => template.standards).Include(template => template.compliances)
+                    .Where(template => templateIds.Contains(template.surveyToolkitTemplateId) && template.isActive).ToListAsync();
+                if (templates.Count != templateIds.Count) return BadRequest("One or more toolkit templates do not exist or are inactive.");
+                if (templates.Any(template => template.levelId != null && template.levelId != facility.levelId)) return BadRequest("A selected toolkit template does not match this facility's level.");
+                scopedComplianceIds = templates.SelectMany(template => template.compliances!).Select(item => item.complianceId).Distinct().ToList();
+                // Templates created before compliance-level scoping are retained as a safe
+                // fallback and converted to their applicable requirements at survey creation.
+                var legacyStandardIds = templates.Where(template => !(template.compliances?.Any() ?? false)).SelectMany(template => template.standards!).Select(item => item.standardId).Distinct().ToList();
+                if (legacyStandardIds.Count > 0)
+                    scopedComplianceIds.AddRange(await _context.compliances.Where(compliance => compliance.isApplicable && legacyStandardIds.Contains(compliance.criterion!.standardId)).Select(compliance => compliance.complianceId).ToListAsync());
+                scopedComplianceIds = scopedComplianceIds.Distinct().ToList();
+                if (scopedComplianceIds.Count == 0) return BadRequest("The selected toolkit templates contain no compliance requirements.");
+                scopeSummary = string.Join(" + ", templates.Select(template => $"{template.templateName} v{template.templateVersion}"));
+                scopeType = "Template";
+            }
+            else if (scopeType.Equals("Custom", StringComparison.OrdinalIgnoreCase))
+            {
+                scopedComplianceIds = dto.selectedComplianceIds?.Distinct().ToList() ?? [];
+                if (scopedComplianceIds.Count == 0 && dto.selectedStandardIds?.Any() == true)
+                    scopedComplianceIds = await _context.compliances.Where(compliance => dto.selectedStandardIds.Contains(compliance.criterion!.standardId)).Select(compliance => compliance.complianceId).ToListAsync();
+                if (scopedComplianceIds.Count == 0) return BadRequest("Select at least one compliance requirement for a customised survey.");
+                if (string.IsNullOrWhiteSpace(dto.customisationReason)) return BadRequest("A reason is required for a customised survey.");
+                if (await _context.compliances.CountAsync(compliance => scopedComplianceIds.Contains(compliance.complianceId)) != scopedComplianceIds.Count) return BadRequest("One or more selected compliance requirements do not exist.");
+                scopeSummary = $"Customised toolkit — {scopedComplianceIds.Count} selected requirement(s)";
+                scopeType = "Custom";
+            }
+            else scopeType = "Full";
+
             var surveyModel = new Survey
             {
                 facilityId = dto.facilityId,
@@ -286,6 +383,15 @@ namespace backend.Controllers.FacilitySurvey
             _context.surveys.Add(surveyModel);
             await _context.SaveChangesAsync();
 
+            var snapshot = new SurveyToolkitSnapshot
+            {
+                surveyId = surveyModel.surveyId,
+                scopeType = scopeType,
+                templateSummary = scopeSummary,
+                customisationReason = scopeType == "Custom" ? dto.customisationReason?.Trim() : null,
+            };
+            _context.surveyToolkitSnapshots.Add(snapshot);
+            await _context.SaveChangesAsync();
             surveyModel = await _context
                 .surveys.Include(s => s.facility)
                 .Include(s => s.surveyType)
@@ -299,33 +405,22 @@ namespace backend.Controllers.FacilitySurvey
             }
 
             var compliances = await _context
-                .compliances.Where(c => c.isApplicable)
+                .compliances.Where(c => c.isApplicable && (scopedComplianceIds == null || scopedComplianceIds.Contains(c.complianceId)))
                 .Include(c => c.evidence)
+                .Include(c => c.criterion)
                 .ToListAsync();
 
-            foreach (var compliance in compliances)
+            if (scopedComplianceIds != null)
             {
-                var assessment = new ComplianceAssessment
-                {
-                    surveyId = surveyModel.surveyId,
-                    complianceId = compliance.complianceId,
-                    surveyorId = surveyModel.surveyorId,
-                };
-
-                _context.complianceAssessments.Add(assessment);
-                await _context.SaveChangesAsync();
-
-                var checks = compliance
-                    .evidence!.Where(e => e.isApplicable)
-                    .Select(e => new ComplianceEvidenceCheck
-                    {
-                        complianceAssessmentId = assessment.complianceAssessmentId,
-                        evidenceId = e.evidenceId,
-                        isChecked = false,
-                    });
-
-                _context.complianceEvidenceChecks.AddRange(checks);
+                _context.surveyToolkitSnapshotCompliances.AddRange(compliances.Select(compliance => new SurveyToolkitSnapshotCompliance { surveyToolkitSnapshotId = snapshot.surveyToolkitSnapshotId, complianceId = compliance.complianceId }));
+                _context.surveyToolkitSnapshotStandards.AddRange(compliances.Select(compliance => compliance.criterion!.standardId).Distinct().Select(standardId => new SurveyToolkitSnapshotStandard { surveyToolkitSnapshotId = snapshot.surveyToolkitSnapshotId, standardId = standardId }));
             }
+
+            var assessments = compliances.Select(compliance => new ComplianceAssessment { surveyId = surveyModel.surveyId, complianceId = compliance.complianceId, surveyorId = surveyModel.surveyorId }).ToList();
+            _context.complianceAssessments.AddRange(assessments);
+            await _context.SaveChangesAsync();
+            var assessmentByCompliance = assessments.ToDictionary(assessment => assessment.complianceId);
+            _context.complianceEvidenceChecks.AddRange(compliances.SelectMany(compliance => compliance.evidence!.Where(evidence => evidence.isApplicable).Select(evidence => new ComplianceEvidenceCheck { complianceAssessmentId = assessmentByCompliance[compliance.complianceId].complianceAssessmentId, evidenceId = evidence.evidenceId, isChecked = false })));
 
             await _context.SaveChangesAsync();
 
@@ -345,6 +440,8 @@ namespace backend.Controllers.FacilitySurvey
                 cancellationReason = surveyModel.cancellationReason,
                 cancelledAt = surveyModel.cancelledAt,
                 cancelledByUsername = surveyModel.cancelledByUsername,
+                scopeType = scopeType,
+                toolkitSummary = scopeSummary,
             };
 
             return CreatedAtAction(nameof(GetSurvey), new { id = surveyDto.surveyId }, surveyDto);
@@ -382,6 +479,39 @@ namespace backend.Controllers.FacilitySurvey
                     uncheckedEvidenceCount = totalEvidenceChecks - checkedEvidenceCount,
                 }
             );
+        }
+
+        [HttpGet("{id}/my-progress")]
+        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        public async Task<ActionResult<SurveyProgressDTO>> GetMySurveyProgress(int id)
+        {
+            var surveyorId = await GetCurrentSurveyorIdAsync();
+            if (!surveyorId.HasValue)
+                return Forbid();
+
+            var assessments = _context.complianceAssessments.Where(assessment =>
+                assessment.surveyId == id && assessment.surveyorId == surveyorId.Value);
+            var totalCompliances = await assessments.CountAsync();
+            if (totalCompliances == 0)
+                return NotFound("No assessments are assigned to you for this survey.");
+
+            var unscoredCount = await assessments.CountAsync(assessment => assessment.scoreId == null);
+            var assessmentIds = assessments.Select(assessment => assessment.complianceAssessmentId);
+            var totalEvidenceChecks = await _context.complianceEvidenceChecks.CountAsync(check =>
+                assessmentIds.Contains(check.complianceAssessmentId));
+            var checkedEvidenceCount = await _context.complianceEvidenceChecks.CountAsync(check =>
+                assessmentIds.Contains(check.complianceAssessmentId) && check.isChecked);
+
+            return Ok(new SurveyProgressDTO
+            {
+                surveyId = id,
+                totalCompliances = totalCompliances,
+                scoredCount = totalCompliances - unscoredCount,
+                unscoredCount = unscoredCount,
+                totalEvidenceChecks = totalEvidenceChecks,
+                checkedEvidenceCount = checkedEvidenceCount,
+                uncheckedEvidenceCount = totalEvidenceChecks - checkedEvidenceCount,
+            });
         }
 
         [HttpGet("{surveyId}/standards/{standardId}/progress")]
@@ -485,8 +615,12 @@ namespace backend.Controllers.FacilitySurvey
             var assignmentByStandard = await _context.surveyStandardAssignments
                 .Where(assignment => assignment.surveyId == id)
                 .ToDictionaryAsync(assignment => assignment.standardId, assignment => assignment.surveyorId);
+            var snapshot = await _context.surveyToolkitSnapshots.AsNoTracking().FirstOrDefaultAsync(item => item.surveyId == id);
+            var snapshotComplianceIds = await _context.surveyToolkitSnapshotCompliances
+                .Where(item => item.surveyToolkitSnapshot!.surveyId == id).Select(item => item.complianceId).ToListAsync();
             var missingCompliances = await _context.compliances
-                .Where(compliance => compliance.isApplicable && !existingComplianceIds.Contains(compliance.complianceId))
+                .Where(compliance => compliance.isApplicable && !existingComplianceIds.Contains(compliance.complianceId)
+                    && (snapshot == null || snapshot.scopeType == "Full" || snapshotComplianceIds.Contains(compliance.complianceId)))
                 .Include(compliance => compliance.criterion)
                 .Include(compliance => compliance.evidence)
                 .ToListAsync();

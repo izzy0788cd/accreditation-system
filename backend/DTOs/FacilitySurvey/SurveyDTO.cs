@@ -21,5 +21,7 @@ namespace backend.DTOs.FacilitySurvey
         public string? cancellationReason { get; set; }
         public DateTime? cancelledAt { get; set; }
         public string? cancelledByUsername { get; set; }
+        public string scopeType { get; set; } = "Full";
+        public string? toolkitSummary { get; set; }
     }
 }

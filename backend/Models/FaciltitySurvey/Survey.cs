@@ -31,5 +31,6 @@ namespace backend.Models.FaciltitySurvey
         public string? cancelledByUsername { get; set; }
         public ICollection<ComplianceAssessment>? complianceAssessments { get; set; }
         public ICollection<SurveyStandardAssignment>? standardAssignments { get; set; }
+        public SurveyToolkitSnapshot? toolkitSnapshot { get; set; }
     }
 }

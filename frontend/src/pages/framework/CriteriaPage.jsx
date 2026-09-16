@@ -7,9 +7,14 @@ import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
 import { groupBy } from "../../utils/groupBy";
 import FrameworkFilters from "../../components/FrameworkFilters/FrameworkFilters";
+import { useAuth } from "../../context/AuthContext";
+import { canManageReferenceData } from "../../utils/access";
 
 
 function CriteriaPage() {
+    const { auth } = useAuth();
+    const canManage = canManageReferenceData(auth?.roleName);
+    const canToggleApplicability = canManage || auth?.roleName === "Surveyor";
     const [criteria, setCriteria] = useState([]);
     const [editingCriterion, setEditingCriterion] = useState(null);
     const [showForm, setShowForm] = useState(false);
@@ -104,7 +109,7 @@ const handleSubmit = async (formData) => {
     const handleToggleApplicability = async (criterion) => {
         try {
         await patchApplicability("criteria", criterion.criterionId, !criterion.isApplicable);
-        loadData();
+        setCriteria((current) => current.map((item) => item.criterionId === criterion.criterionId ? { ...item, isApplicable: !item.isApplicable } : item));
         } catch (err) {
         setError("Failed to update Applicability.");
         console.error(err);
@@ -131,7 +136,7 @@ const handleSubmit = async (formData) => {
     <div>
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Framework layer</p><h2 className="mt-1 text-2xl font-bold tracking-tight text-[#092a5a]">Criteria</h2></div>
-        <div className="flex gap-2">
+        {canManage && <div className="flex gap-2">
           <button
             onClick={handleAddClick}
             className="rounded-lg border border-[#c5d5e8] px-4 py-2.5 text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]"
@@ -144,7 +149,7 @@ const handleSubmit = async (formData) => {
           >
             + Add Criterion with Compliance &amp; Evidence
           </button>
-        </div>
+        </div>}
       </div>
 
       {error && <p className="text-red-600 mb-4">{error}</p>}
@@ -159,7 +164,7 @@ const handleSubmit = async (formData) => {
               <th className="p-2">Criteria</th>
               <th className="p-2">Title</th>
               <th className="p-2">Applicable</th>
-              <th className="p-2 text-right">Actions</th>
+              {canManage && <th className="p-2 text-right">Actions</th>}
             </tr>
           </thead>
           <tbody className="divide-y divide-[#e7edf4]">
@@ -169,7 +174,7 @@ const handleSubmit = async (formData) => {
                 <td className="p-2 text-left font-semibold"><Link to={`/framework/criteria/${c.criterionId}`} className="text-blue-600 hover:underline">{c.criterionNumber}</Link></td>
                 <td className="p-2">{c.criterionTitle}</td>
                 <td className="p-2">
-                  <button
+                  {canToggleApplicability ? <button
                     onClick={() => handleToggleApplicability(c)}
                     className={`px-3 py-1 rounded text-sm font-medium ${
                       c.isApplicable
@@ -178,9 +183,9 @@ const handleSubmit = async (formData) => {
                     }`}
                   >
                     {c.isApplicable ? "Applicable" : "Not Applicable"}
-                  </button>
+                  </button> : <span className={`inline-block rounded px-3 py-1 text-sm font-medium ${c.isApplicable ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-600"}`}>{c.isApplicable ? "Applicable" : "Not Applicable"}</span>}
                 </td>
-                <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap">
+                {canManage && <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap">
                     <button
                     onClick={() => handleEditClick(c)}
                     className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]"
@@ -194,7 +199,7 @@ const handleSubmit = async (formData) => {
                     Delete
                   </button>
                   </div>
-                </td>
+                </td>}
               </tr>
             ))) }
           </tbody>

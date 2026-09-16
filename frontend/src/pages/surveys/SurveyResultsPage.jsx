@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { getAll, getInternalAssessmentReferences, getOne, getSurveyAssessments, getSurveyAssessmentOverview, getSurveyEvidenceChecks } from "../../api/api";
 import { useAuth } from "../../context/AuthContext";
 import { MAX_SCORE_VALUE, isPriorityScore, scoreOutcomeLabel, scoreTone } from "../../utils/scoring";
+import { countDashboardStandards } from "../../utils/standardFamilies";
 
 const numberSort = (first, second) => String(first ?? "").localeCompare(String(second ?? ""), undefined, { numeric: true });
 const percent = (value, total) => total ? Math.round((value / total) * 100) : 0;
@@ -262,11 +263,11 @@ function PrintSurveyReport({ survey, result, assessments, filteredComponents, is
     </tbody></table>
     <section className="survey-print-section">
       <h2>Completion summary</h2>
-      <table className="survey-print-table survey-print-metrics"><thead><tr><th>Requirements scored</th><th>Evidence checks completed</th><th>Standards covered</th></tr></thead><tbody><tr><td>{result.completed} / {assessments.length}</td><td>{result.evidenceComplete} / {result.evidenceTotal}</td><td>{result.standardRows.length}</td></tr></tbody></table>
+      <table className="survey-print-table survey-print-metrics"><thead><tr><th>Requirements scored</th><th>Evidence checks completed</th><th>Standards covered</th></tr></thead><tbody><tr><td>{result.completed} / {assessments.length}</td><td>{result.evidenceComplete} / {result.evidenceTotal}</td><td>{countDashboardStandards(result.standardRows)}</td></tr></tbody></table>
     </section>
     <section className="survey-print-section">
       <h2>Component summary</h2>
-      <table className="survey-print-table"><thead><tr><th>Component</th><th>Standards assessed</th><th>Average score</th></tr></thead><tbody>{result.componentRows.map((component) => <tr key={component.componentId}><td>{component.componentNumber}. {component.componentName}</td><td>{component.standards.length}</td><td>{component.score == null ? "N/A" : `${component.score}%`}</td></tr>)}</tbody></table>
+      <table className="survey-print-table"><thead><tr><th>Component</th><th>Standards assessed</th><th>Average score</th></tr></thead><tbody>{result.componentRows.map((component) => <tr key={component.componentId}><td>{component.componentNumber}. {component.componentName}</td><td>{countDashboardStandards(component.standards)}</td><td>{component.score == null ? "N/A" : `${component.score}%`}</td></tr>)}</tbody></table>
     </section>
     <section className="survey-print-section">
       <h2>Component performance graph</h2>

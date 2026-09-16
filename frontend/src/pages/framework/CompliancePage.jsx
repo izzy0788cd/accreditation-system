@@ -6,8 +6,13 @@ import FormModal from "../../components/FormModal";
 import ComplianceForm from "../../components/forms/ComplianceForm";
 import { groupBy } from "../../utils/groupBy";
 import FrameworkFilters from "../../components/FrameworkFilters/FrameworkFilters";
+import { useAuth } from "../../context/AuthContext";
+import { canManageReferenceData } from "../../utils/access";
 
 function CompliancePage() {
+    const { auth } = useAuth();
+    const canManage = canManageReferenceData(auth?.roleName);
+    const canToggleApplicability = canManage || auth?.roleName === "Surveyor";
     const [compliance, setCompliance] = useState([]);
     const [criteria, setCriteria] = useState([]);
     const [editingCompliance, setEditingCompliance] = useState(null);
@@ -95,7 +100,7 @@ function CompliancePage() {
     const handleToggleApplicability = async (compliance) => {
         try {
             await patchApplicability("compliances", compliance.complianceId, !compliance.isApplicable);
-            loadData();
+            setCompliance((current) => current.map((item) => item.complianceId === compliance.complianceId ? { ...item, isApplicable: !item.isApplicable } : item));
         } catch (err) {
             setError("Failed to change applicability.")
             console.error(err);
@@ -136,9 +141,9 @@ function CompliancePage() {
                 <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Framework layer</p><h2 className="mt-1 text-2xl font-bold tracking-tight text-[#092a5a]">
                     Compliance
                 </h2></div>
-                <button onClick={handleAddClick} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0d6531]">
+                {canManage && <button onClick={handleAddClick} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0d6531]">
                     + Add Compliance
-                </button>
+                </button>}
             </div>
 
             {error && <p className="text-red-600 mb-4">{error}</p>}
@@ -153,7 +158,7 @@ function CompliancePage() {
                             <th className="p-2">No.</th>
                             <th className="p-2">Compliance</th>
                             <th className="p-2">Applicable</th>
-                            <th className="p-2 text-right">Actions</th>
+                            {canManage && <th className="p-2 text-right">Actions</th>}
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#e7edf4]">
@@ -163,16 +168,16 @@ function CompliancePage() {
                                 <td className="p-2 text-left font-semibold"><Link to={`/framework/compliance/${c.complianceId}`} className="text-blue-600 hover:underline">{c.complianceNumber}</Link></td>
                                 <td className="p-2 whitespace-pre-line text-justify">{c.complianceSummary}</td>
                                 <td className="p-2">
-                                    <button onClick={() => handleToggleApplicability(c)}
+                                    {canToggleApplicability ? <button onClick={() => handleToggleApplicability(c)}
                                         className={`px-3 py-1 rounded text-sm font-medium ${
                                             c.isApplicable 
                                             ? "bg-green-100 text-green-700 hover:bg-green-200"
                                             : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                                         }`}>
                                         {c.isApplicable ? "Applicable" : "Not Applicable"}
-                                    </button>
+                                    </button> : <span className={`inline-block rounded px-3 py-1 text-sm font-medium ${c.isApplicable ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-600"}`}>{c.isApplicable ? "Applicable" : "Not Applicable"}</span>}
                                 </td>
-                                <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap">
+                                {canManage && <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap">
                                         <button onClick={() => handleEditClick(c)} className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]">
                                         Edit
                                         </button>
@@ -180,7 +185,7 @@ function CompliancePage() {
                                         Delete
                                         </button>
                                     </div>
-                                </td>
+                                </td>}
                             </tr>
                         ))) }
                     </tbody>

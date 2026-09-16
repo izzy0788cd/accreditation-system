@@ -1,10 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDialogFocus } from "./useDialogFocus";
 
 function FormModal({ open, onClose, children, successMessage, wide = false }) {
     const closeButtonRef = useRef(null);
     const dialogRef = useRef(null);
     const [saving, setSaving] = useState(false);
+    const onCloseRef = useRef(onClose);
+    const savingRef = useRef(saving);
+
+    useEffect(() => {
+        onCloseRef.current = onClose;
+        savingRef.current = saving;
+    }, [onClose, saving]);
 
     useEffect(() => {
         const onSaveState = (event) => setSaving(Boolean(event.detail));
@@ -12,7 +19,11 @@ function FormModal({ open, onClose, children, successMessage, wide = false }) {
         return () => window.removeEventListener("api-save-state", onSaveState);
     }, []);
 
-    useDialogFocus(open, dialogRef, closeButtonRef, () => { if (!saving) onClose(); });
+    const closeOnEscape = useCallback(() => {
+        if (!savingRef.current) onCloseRef.current?.();
+    }, []);
+
+    useDialogFocus(open, dialogRef, closeButtonRef, closeOnEscape);
 
     if (!open) return null;
 

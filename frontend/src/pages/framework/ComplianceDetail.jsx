@@ -4,8 +4,13 @@ import { getOne, getAll, create, update, remove, patchApplicability } from "../.
 import EvidenceForm from "../../components/forms/EvidenceForm";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
+import { useAuth } from "../../context/AuthContext";
+import { canManageReferenceData } from "../../utils/access";
 
 function ComplianceDetailPage() {
+    const { auth } = useAuth();
+    const canManage = canManageReferenceData(auth?.roleName);
+    const canToggleApplicability = canManage || auth?.roleName === "Surveyor";
     const { complianceId } = useParams();
     const [compliance, setCompliance] = useState(null);
     const [evidence, setEvidence] = useState([]);
@@ -90,7 +95,7 @@ function ComplianceDetailPage() {
     const handleToggleApplicability = async (evidence) => {
         try {
             await patchApplicability("evidence", evidence.evidenceId, !evidence.isApplicable);
-            loadData();
+            setEvidence((current) => current.map((item) => item.evidenceId === evidence.evidenceId ? { ...item, isApplicable: !item.isApplicable } : item));
         } catch (err) {
             setError("Failed to toggle applicability");
             console.error(err);
@@ -117,9 +122,9 @@ function ComplianceDetailPage() {
 
                 {error && <p className="text-red-600 mb-4">{error}</p>}
 
-                <div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-bold text-[#092a5a]">Evidence</h2><button onClick={handleAddClick} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">
+                <div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-bold text-[#092a5a]">Evidence</h2>{canManage && <button onClick={handleAddClick} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">
                         + Add Evidence
-                    </button>
+                    </button>}
                 </div>
 
                 {loading ? (
@@ -131,7 +136,7 @@ function ComplianceDetailPage() {
                                 <th className="p-2">No.</th>
                                 <th className="p-2">Evidence</th>
                                 <th className="p-2">Applicable</th>
-                                <th className="p-2 text-right">Actions</th>
+                                {canManage && <th className="p-2 text-right">Actions</th>}
                             </tr>
                         </thead>
                         <tbody>
@@ -140,23 +145,23 @@ function ComplianceDetailPage() {
                                     <td className="p-2 text-left font-semibold">{ev.evidenceNumber}</td>
                                     <td className="p-2 whitespace-pre-line text-justify">{ev.evidenceSummary}</td>
                                     <td className="p-2">
-                                        <button onClick={() => handleToggleApplicability(ev)}
+                                        {canToggleApplicability ? <button onClick={() => handleToggleApplicability(ev)}
                                             className={`px-3 py-1 rounded text-sm font-medium ${
                                                 ev.isApplicable
                                                 ? "bg-green-100 text-green-700 hover:bg-green-200"
                                                 : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                                             }`}>
                                                 {ev.isApplicable ? "Applicable" : "Not Applicable"}
-                                        </button>
+                                        </button> : <span className={`inline-block rounded px-3 py-1 text-sm font-medium ${ev.isApplicable ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-600"}`}>{ev.isApplicable ? "Applicable" : "Not Applicable"}</span>}
                                     </td>
-                                    <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap"><button onClick={() => handleEditClick(ev)} className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]">
+                                    {canManage && <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap"><button onClick={() => handleEditClick(ev)} className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]">
                                                 Edit
                                             </button>
                                             <button onClick={() => handleDeleteClick(ev)} className="rounded-md border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-50">
                                                 Delete
                                             </button>
                                         </div>
-                                    </td>
+                                    </td>}
                                 </tr>
                             ))}
                         </tbody>

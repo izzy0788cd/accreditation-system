@@ -82,6 +82,24 @@ namespace backend.Controllers.Assessment
             return Ok(assessments);
         }
 
+        // Used when an Admin is intentionally working as a surveyor. This keeps
+        // the fieldwork view constrained even though the account retains Admin rights.
+        [HttpGet("survey/{surveyId}/mine")]
+        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        public async Task<ActionResult<IEnumerable<ComplianceAssessmentDTO>>> GetMyForSurvey(int surveyId)
+        {
+            var surveyorId = await GetCurrentSurveyorIdAsync();
+            if (!surveyorId.HasValue)
+                return Forbid();
+
+            var assessments = await ProjectAssessments(
+                _context.complianceAssessments.Where(assessment =>
+                    assessment.surveyId == surveyId && assessment.surveyorId == surveyorId.Value)
+            ).ToListAsync();
+
+            return Ok(assessments);
+        }
+
         [HttpGet("survey/{surveyId}/overview")]
         [Authorize(Roles = "Admin,Surveyor,Team Lead")]
         public async Task<ActionResult<IEnumerable<ComplianceAssessmentDTO>>> GetSurveyOverview(int surveyId)
@@ -149,6 +167,13 @@ namespace backend.Controllers.Assessment
 
             if (!await CanUpdateAsync(assessment))
                 return Forbid();
+
+            var reportSubmitted = await _context.surveyorReports.AnyAsync(report =>
+                report.surveyId == assessment.surveyId
+                && report.surveyorId == assessment.surveyorId
+                && report.isSubmitted);
+            if (reportSubmitted)
+                return BadRequest("Your surveyor report has been submitted. Ask the Team Lead or an Administrator to reopen it before changing this assessment.");
 
             if (dto.surveyorId.HasValue)
             {

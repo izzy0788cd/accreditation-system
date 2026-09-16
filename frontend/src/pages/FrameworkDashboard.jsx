@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getAll } from "../api/api";
 import AnimatedNumber from "../components/AnimatedNumber";
 import Reveal from "../components/Reveal";
+import { STANDARD_23_FAMILY, countDashboardStandards, isStandard23Child } from "../utils/standardFamilies";
 
 const entities = [
   { resource: "functions", label: "Functions", path: "/framework/functions", hasApplicability: false, marker: "01", description: "Highest-level responsibilities", tone: "bg-[#edf8f0] text-[#16803a]", accent: "border-t-[#16803a]" },
@@ -52,7 +53,7 @@ function FrameworkDashboard() {
         const statsResult = {};
         entities.forEach((e) => {
           const data = dataByResource[e.resource];
-          const total = data.length;
+          const total = e.resource === "standards" ? countDashboardStandards(data) : data.length;
           const applicable = e.hasApplicability
             ? data.filter((item) => item.isApplicable).length
             : null;
@@ -66,7 +67,7 @@ function FrameworkDashboard() {
         const compliances = dataByResource.compliances;
         const evidence = dataByResource.evidence;
 
-        const breakdownResult = standards.map((s) => {
+        const detailedBreakdown = standards.map((s) => {
           const criteriaUnderStandard = criteria.filter((c) => c.standardId === s.standardId);
           const criterionIds = criteriaUnderStandard.map((c) => c.criterionId);
 
@@ -88,6 +89,20 @@ function FrameworkDashboard() {
             evidenceCount: evidenceUnderStandard.length,
           };
         });
+
+        const specialtyRows = detailedBreakdown.filter((row) => isStandard23Child(row.standardNumber));
+        const breakdownResult = [
+          ...detailedBreakdown.filter((row) => !isStandard23Child(row.standardNumber)),
+          ...(specialtyRows.length ? [{
+            standardId: "standard-family-23",
+            standardNumber: STANDARD_23_FAMILY.number,
+            standardTitle: STANDARD_23_FAMILY.title,
+            criteriaCount: specialtyRows.reduce((sum, row) => sum + row.criteriaCount, 0),
+            complianceCount: specialtyRows.reduce((sum, row) => sum + row.complianceCount, 0),
+            evidenceCount: specialtyRows.reduce((sum, row) => sum + row.evidenceCount, 0),
+            childStandards: specialtyRows,
+          }] : []),
+        ];
 
         breakdownResult.sort((a, b) =>
           a.standardNumber.localeCompare(b.standardNumber, undefined, { numeric: true })
@@ -150,7 +165,7 @@ function FrameworkDashboard() {
           );
         })}
       </div></div>
-      <div className="overflow-hidden rounded-xl border border-[#dfe7f0] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><div className="border-b border-[#e3eaf2] px-5 py-5 sm:px-6"><h2 className="text-lg font-bold text-[#092a5a]">Standards breakdown</h2><p className="mt-1 text-sm text-[#68778c]">Criteria, compliance requirements, and evidence grouped by standard.</p></div>
+      <div className="overflow-hidden rounded-xl border border-[#dfe7f0] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><div className="border-b border-[#e3eaf2] px-5 py-5 sm:px-6"><h2 className="text-lg font-bold text-[#092a5a]">Standards breakdown</h2><p className="mt-1 text-sm text-[#68778c]">Criteria, compliance requirements, and evidence grouped by standard. Lettered specialty sections are combined under Standard 23.</p></div>
       {loading ? <div className="space-y-3 p-6">{[1, 2, 3].map((row) => <div key={row} className="h-10 animate-pulse rounded bg-slate-100" />)}</div> : <div className="overflow-x-auto"><table className="w-full min-w-[680px] text-sm">
           <thead>
             <tr className="border-b border-[#dbe5ef] bg-[#f6f9fc] text-left text-xs uppercase tracking-wider text-[#4b5f7a]">
@@ -161,12 +176,7 @@ function FrameworkDashboard() {
             {breakdown.map((row) => (
               <tr key={row.standardId} className="hover:bg-[#f5f9fd]">
                 <td className="px-6 py-4 font-semibold">
-                  <Link
-                    to={`/framework/standards/${row.standardId}`}
-                    className="text-[#16803a] hover:underline"
-                  >
-                    {row.standardNumber} — {row.standardTitle}
-                  </Link>
+                  {row.childStandards ? <><span className="text-[#092a5a]">{row.standardNumber} — {row.standardTitle}</span><span className="mt-1 block text-xs font-normal text-[#68778c]">{row.childStandards.length} lettered specialty sections</span></> : <Link to={`/framework/standards/${row.standardId}`} className="text-[#16803a] hover:underline">{row.standardNumber} — {row.standardTitle}</Link>}
                 </td>
                 <td className="px-6 py-4 text-right font-medium text-[#4b5f7a]">{row.criteriaCount}</td><td className="px-6 py-4 text-right font-medium text-[#4b5f7a]">{row.complianceCount}</td><td className="px-6 py-4 text-right font-medium text-[#4b5f7a]">{row.evidenceCount}</td>
               </tr>

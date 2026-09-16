@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import Reveal from "../components/Reveal";
 import MetricCard from "../components/MetricCard";
 import logo from "../assets/pictures/logo/accreditation-system-logo3.png";
+import { countDashboardStandards } from "../utils/standardFamilies";
 
 const summaryCards = [
   { resource: "surveys", marker: "01", label: "Surveys", description: "Assessment workspaces created for health facilities.", path: "/surveys", tone: "bg-[#edf8f0] text-[#16803a]", accent: "border-t-[#16803a]", detail: "Open assessment workspace", footer: "Open surveys" },
@@ -13,19 +14,8 @@ const summaryCards = [
   { resource: "districts", marker: "04", label: "Districts", description: "PNG districts ready to organise health facilities.", path: "/location/districts", tone: "bg-[#edf8f0] text-[#16803a]", accent: "border-t-[#16803a]", detail: "PNG geographic structure", footer: "Open locations" },
 ];
 
-const chartColours = ["#16803a", "#d6aa45", "#e06c75", "#6e92b2"];
-
 function EmptyChart() {
   return <div className="flex h-44 items-center justify-center rounded-lg border border-dashed border-[#c5d4e6] bg-[#f8fafc] px-5 text-center text-sm leading-6 text-[#68778c]">Charts will appear once survey activity is recorded.</div>;
-}
-
-function DonutChart({ segments, total }) {
-  if (!total) return <EmptyChart />;
-  return <div className="flex items-center gap-5"><svg viewBox="0 0 42 42" className="h-36 w-36 shrink-0 -rotate-90" role="img" aria-label="Survey type distribution"><circle cx="21" cy="21" r="15.915" fill="none" stroke="#e8eef5" strokeWidth="6" />{segments.map((segment, index) => {
-    const length = (segment.value / total) * 100;
-    const offset = segments.slice(0, index).reduce((sum, previous) => sum + (previous.value / total) * 100, 0);
-    return <circle key={segment.label} cx="21" cy="21" r="15.915" fill="none" stroke={chartColours[index]} strokeWidth="6" strokeDasharray={`${length} ${100 - length}`} strokeDashoffset={-offset} />;
-  })}</svg><div className="min-w-0 space-y-2">{segments.map((segment, index) => <div key={segment.label} className="flex items-center gap-2 text-sm text-[#4b5f7a]"><span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: chartColours[index] }} /><span className="truncate">{segment.label}</span><strong className="ml-auto text-[#092a5a]">{segment.value}</strong></div>)}</div></div>;
 }
 
 function SurveyProgressChart({ surveys, progressBySurvey }) {
@@ -38,6 +28,15 @@ function SurveyProgressChart({ surveys, progressBySurvey }) {
     const tone = scoreProgress >= 70 ? "bg-[#16803a]" : scoreProgress >= 40 ? "bg-[#d6aa45]" : "bg-red-500";
     return <div key={survey.surveyId}><div className="mb-1.5 flex items-center justify-between gap-3"><div className="min-w-0"><p className="truncate text-sm font-semibold text-[#092a5a]">{survey.facilityName}</p><p className="text-xs text-[#68778c]">{progress ? `${progress.scoredCount} of ${progress.totalCompliances} requirements scored` : "Progress not available"}</p></div><strong className="shrink-0 text-sm text-[#092a5a]">{scoreProgress}%</strong></div><div className="h-3 overflow-hidden rounded-full bg-[#e8eef5]"><div className={`h-full rounded-full transition-all duration-700 ${tone}`} style={{ width: `${scoreProgress}%` }} /></div><div className="mt-1.5 flex justify-between text-[11px] font-medium text-[#68778c]"><span>Scoring progress</span><span>Evidence {evidenceProgress}%</span></div></div>;
   })}</div>;
+}
+
+function SurveyWorkflowCard({ roleName }) {
+  const lead = roleName === "Team Lead";
+  const admin = roleName === "Admin";
+  const steps = admin
+    ? [["1", "Prepare", "Create the survey and assign the survey team."], ["2", "Monitor", "Track scores, findings, and surveyor handovers."], ["3", "Consolidate", "Review results and prepare the final report."]]
+    : [["1", "Review", "Open the standards assigned to you and review the evidence."], ["2", "Assess", "Record the score, risk rating, and surveyor finding."], ["3", lead ? "Lead" : "Handover", lead ? "Monitor the team and consolidate their submitted reports." : "Complete one surveyor report after your assigned work is scored."]];
+  return <article className="rounded-xl border border-[#b8d9d3] bg-[#f3faf8] p-5 shadow-[0_8px_24px_rgba(20,60,66,0.06)] sm:p-6"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#16803a]">{admin ? "Survey administration" : "Trainee survey workflow"}</p><h2 className="mt-1 text-lg font-bold text-[#092a5a]">{admin ? "Keep the survey team moving" : "A clear path through each survey"}</h2><ol className="mt-5 space-y-4">{steps.map(([number, title, detail]) => <li key={number} className="flex gap-3"><span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#16803a] text-xs font-bold text-white">{number}</span><div><p className="text-sm font-bold text-[#092a5a]">{title}</p><p className="mt-0.5 text-sm leading-5 text-[#4b5f7a]">{detail}</p></div></li>)}</ol><Link to="/surveys" className="mt-6 inline-block text-sm font-semibold text-[#16803a] hover:underline">Open survey workspace →</Link></article>;
 }
 
 function HomePage() {
@@ -54,7 +53,7 @@ function HomePage() {
       try {
         const accessibleCards = canAccessSurveys ? summaryCards : summaryCards.filter((card) => card.resource !== "surveys");
         const responses = await Promise.all(accessibleCards.map((card) => getAll(card.resource)));
-        const loadedCounts = Object.fromEntries(accessibleCards.map((card, index) => [card.resource, responses[index].data.length]));
+        const loadedCounts = Object.fromEntries(accessibleCards.map((card, index) => [card.resource, card.resource === "standards" ? countDashboardStandards(responses[index].data) : responses[index].data.length]));
         const surveyData = canAccessSurveys ? responses[0].data : [];
         setCounts(loadedCounts);
         setSurveys(surveyData);
@@ -78,9 +77,7 @@ function HomePage() {
   const isSurveyor = ["Surveyor", "Team Lead"].includes(auth?.roleName);
   const recentSurveys = [...surveys].sort((first, second) => String(second.startDate).localeCompare(String(first.startDate))).slice(0, 3);
   const dashboard = useMemo(() => {
-    const types = surveys.reduce((result, survey) => ({ ...result, [survey.surveyTypeName || "Other"]: (result[survey.surveyTypeName || "Other"] || 0) + 1 }), {});
     return {
-      typeSegments: Object.entries(types).map(([label, value]) => ({ label, value })),
       active: surveys.filter((survey) => !survey.isCancelled).length,
       cancelled: surveys.filter((survey) => survey.isCancelled).length,
     };
@@ -93,8 +90,8 @@ function HomePage() {
       </section>
       {summaryError && <p role="alert" className="mt-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">{summaryError}</p>}
       {canAccessSurveys && <section className="mt-6 grid gap-4 xl:grid-cols-[1fr_1fr_.72fr]" aria-label="Survey activity dashboard">
-        <Reveal><article className="rounded-xl border border-[#d8e4f0] bg-white p-5 shadow-[0_8px_24px_rgba(20,60,66,0.06)] sm:p-6"><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Portfolio mix</p><h2 className="mt-1 text-lg font-bold text-[#092a5a]">Survey type distribution</h2><div className="mt-4">{loading ? <div className="h-36 animate-pulse rounded-lg bg-slate-100" /> : <DonutChart segments={dashboard.typeSegments} total={surveys.length} />}</div></article></Reveal>
-        <Reveal delay={80}><article className="rounded-xl border border-[#d8e4f0] bg-white p-5 shadow-[0_8px_24px_rgba(20,60,66,0.06)] sm:p-6"><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Survey progress</p><h2 className="mt-1 text-lg font-bold text-[#092a5a]">Where attention is needed</h2><div className="mt-4">{loading ? <div className="h-36 animate-pulse rounded-lg bg-slate-100" /> : <SurveyProgressChart surveys={surveys} progressBySurvey={surveyProgress} />}</div></article></Reveal>
+        <Reveal><SurveyWorkflowCard roleName={auth?.roleName} /></Reveal>
+        <Reveal delay={80}><article className="rounded-xl border border-[#d8e4f0] bg-white p-5 shadow-[0_8px_24px_rgba(20,60,66,0.06)] sm:p-6"><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Active assessment work</p><h2 className="mt-1 text-lg font-bold text-[#092a5a]">Survey scoring progress</h2><p className="mt-1 text-sm text-[#68778c]">A quick view of the survey workspaces currently underway.</p><div className="mt-4">{loading ? <div className="h-36 animate-pulse rounded-lg bg-slate-100" /> : <SurveyProgressChart surveys={surveys} progressBySurvey={surveyProgress} />}</div></article></Reveal>
         <Reveal delay={160}><article className="rounded-xl border border-[#d8e4f0] bg-[#092a5a] p-5 text-white shadow-[0_8px_24px_rgba(20,60,66,0.12)] sm:p-6"><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#bbf7d0]">Survey status</p><h2 className="mt-1 text-lg font-bold">Portfolio snapshot</h2><dl className="mt-6 space-y-4"><div className="flex items-end justify-between border-b border-white/15 pb-3"><dt className="text-sm text-slate-200">Active surveys</dt><dd className="text-3xl font-bold">{loading ? "…" : dashboard.active}</dd></div><div className="flex items-end justify-between border-b border-white/15 pb-3"><dt className="text-sm text-slate-200">Cancelled surveys</dt><dd className="text-3xl font-bold text-[#f4d58d]">{loading ? "…" : dashboard.cancelled}</dd></div></dl><Link to="/surveys" className="mt-5 inline-block text-sm font-semibold text-[#bbf7d0] hover:text-white hover:underline">Open the survey workspace →</Link></article></Reveal>
       </section>}
       {canAccessSurveys && <section className="mt-6 overflow-hidden rounded-xl border border-[#d8e4f0] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]" aria-labelledby="survey-centre-title"><div className="flex flex-col gap-4 border-b border-[#dbe5ef] bg-[#f6f9fc] px-5 py-5 sm:flex-row sm:items-end sm:justify-between sm:px-6"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Your survey control centre</p><h2 id="survey-centre-title" className="mt-1 text-2xl font-bold tracking-tight text-[#092a5a]">Recent survey work</h2><p className="mt-1 text-sm text-[#68778c]">{isAdmin ? "Set up survey teams, monitor activity, and open assessment records." : "Open a survey to continue your assigned standards, evidence, and scores."}</p></div><Link to="/surveys" className="rounded-lg bg-[#16803a] px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-[#0d6531]">View all surveys</Link></div>{loading ? <div className="space-y-3 p-6">{[1, 2, 3].map((item) => <div key={item} className="h-16 animate-pulse rounded-lg bg-slate-100" />)}</div> : recentSurveys.length === 0 ? <div className="p-8 text-center"><p className="font-semibold text-[#092a5a]">No surveys have been created yet.</p><p className="mt-1 text-sm text-[#68778c]">{isAdmin ? "Create a survey when a facility is ready for assessment." : "An Administrator will assign you to a survey when work is ready."}</p>{isAdmin && <Link to="/surveys" className="mt-4 inline-block text-sm font-semibold text-[#16803a] hover:underline">Create or manage surveys →</Link>}</div> : <div className="divide-y divide-[#e7edf4]">{recentSurveys.map((survey) => <div key={survey.surveyId} className="flex flex-col gap-3 px-5 py-4 transition hover:bg-[#f8fafc] sm:flex-row sm:items-center sm:justify-between sm:px-6"><div><div className="flex flex-wrap items-center gap-2"><p className="font-bold text-[#092a5a]">{survey.facilityName}</p><span className="rounded-full bg-[#edf8f0] px-2.5 py-1 text-xs font-semibold text-[#16803a]">{survey.surveyTypeName}</span></div><p className="mt-1 text-sm text-[#68778c]">Team lead: {survey.surveyorName} <span className="mx-1">·</span> {survey.startDate} — {survey.endDate}</p></div><Link to={`/surveys/${survey.surveyId}`} className="rounded-lg border border-[#c5d5e8] px-3.5 py-2 text-center text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]">Open survey</Link></div>)}</div>}</section>}

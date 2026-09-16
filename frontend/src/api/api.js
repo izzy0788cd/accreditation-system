@@ -52,6 +52,7 @@ export const patchApplicability = (resource, id, isApplicable) =>
   saveRequest(api.patch(`/${resource}/${id}/applicability`, JSON.stringify(isApplicable), { headers: { "Content-Type": "application/json" }, showErrorDialog: true }));
 
 export const getSurveyProgress = (surveyId) => api.get(`/surveys/${surveyId}/progress`);
+export const getMySurveyProgress = (surveyId) => api.get(`/surveys/${surveyId}/my-progress`);
 export const getStandardProgress = (surveyId, standardId) => api.get(`/surveys/${surveyId}/standards/${standardId}/progress`);
 export const resetSurvey = (surveyId) => saveRequest(api.post(`/surveys/${surveyId}/reset`, null, { showErrorDialog: true }));
 export const syncSurveyFramework = (surveyId) => saveRequest(api.post(`/surveys/${surveyId}/sync-framework`, null, { showErrorDialog: true }));
@@ -59,9 +60,12 @@ export const cancelSurvey = (surveyId, cancellationReason) => saveRequest(api.po
 export const getSurveyStandardAssignments = (surveyId) => api.get(`/surveys/${surveyId}/standard-assignments`);
 export const updateSurveyStandardAssignments = (surveyId, assignments) => saveRequest(api.put(`/surveys/${surveyId}/standard-assignments`, assignments, { showErrorDialog: true }));
 export const getSurveyAssessments = (surveyId) => api.get(`/complianceAssessments/survey/${surveyId}`);
+export const getMySurveyAssessments = (surveyId) => api.get(`/complianceAssessments/survey/${surveyId}/mine`);
 export const getSurveyAssessmentOverview = (surveyId) => api.get(`/complianceAssessments/survey/${surveyId}/overview`);
 export const getInternalAssessmentReferences = (surveyId) => api.get(`/complianceAssessments/survey/${surveyId}/internal-reference`);
 export const getSurveyEvidenceChecks = (surveyId) => api.get(`/complianceEvidenceChecks/survey/${surveyId}`);
+export const getMySurveyEvidenceChecks = (surveyId) => api.get(`/complianceEvidenceChecks/survey/${surveyId}/mine`);
+export const getMySurveys = () => api.get("/surveys/mine");
 export const getAssessmentEvidenceChecks = (assessmentId) => api.get(`/complianceEvidenceChecks/assessment/${assessmentId}`);
 export const updateAssessment = (assessmentId, data) => saveRequest(api.put(`/complianceAssessments/${assessmentId}`, data, { showErrorDialog: true }));
 export const patchEvidenceCheck = (checkId, isChecked) => saveRequest(api.patch(`/complianceEvidenceChecks/${checkId}/checked`, JSON.stringify(isChecked), { headers: { "Content-Type": "application/json" }, showErrorDialog: true }));
@@ -71,3 +75,7 @@ export const getSurveyReport = (surveyId) => api.get(`/reports/surveys/${surveyI
 export const getReportVersions = (surveyId) => api.get(`/reports/surveys/${surveyId}/versions`);
 export const getReportVersion = (surveyId, versionId) => api.get(`/reports/surveys/${surveyId}/versions/${versionId}`);
 export const saveReportVersion = (surveyId, options) => api.post(`/reports/surveys/${surveyId}/versions`, options);
+export const getSurveyorReports = (surveyId) => api.get(`/surveyor-reports/survey/${surveyId}`);
+export const saveMySurveyorReport = (surveyId, data) => saveRequest(api.put(`/surveyor-reports/survey/${surveyId}/mine`, data, { showErrorDialog: true }));
+export const reopenSurveyorReport = (surveyorReportId, reason) => saveRequest(api.post(`/surveyor-reports/${surveyorReportId}/reopen`, { reason }, { showErrorDialog: true }));
+export const getMySurveyorReportWorkspace = (surveyId) => api.get(`/surveyor-reports/survey/${surveyId}/mine/workspace`);

@@ -16,6 +16,168 @@ body {
   color: #092a5a;
 }
 
+/* Slightly stronger supporting copy improves readability while preserving the
+   established light clinical design. */
+:where([class*="text-[#68778c]"]) {
+  color: #52657c !important;
+}
+
+html.dark,
+html.dark body {
+  background: #101a2b;
+  color: #e7eef8;
+  color-scheme: dark;
+}
+
+html.dark [class*="bg-white"],
+html.dark [class*="bg-[linear-gradient"],
+html.dark [class*="bg-[#f3"],
+html.dark [class*="bg-slate-50"],
+html.dark [class*="bg-slate-100"],
+html.dark [class*="bg-[#f7"],
+html.dark [class*="bg-[#f8"],
+html.dark [class*="bg-[#f6"],
+html.dark [class*="bg-[#fb"],
+html.dark [class*="bg-[#fc"],
+html.dark [class*="bg-[#ed"],
+html.dark [class*="bg-[#ea"] {
+  background-color: #17263a !important;
+  background-image: none !important;
+}
+
+html.dark [class*="text-[#092a5a]"],
+html.dark [class*="text-[#153a70]"],
+html.dark [class*="text-[#385273]"] {
+  color: #e7eef8 !important;
+}
+
+html.dark [class*="text-[#4b5f7a]"],
+html.dark [class*="text-[#68778c]"],
+html.dark [class*="text-[#8ba3a0]"] {
+  color: #b9c8da !important;
+}
+
+html.dark [class*="text-[#16803a]"],
+html.dark [class*="text-[#0d6531]"] {
+  color: #74d9a4 !important;
+}
+
+html.dark [class*="text-[#876318]"] {
+  color: #f0ca72 !important;
+}
+
+html.dark [class*="text-[#9a5b13]"] {
+  color: #f2b34c !important;
+}
+
+html.dark [class*="border-[#c5"],
+html.dark [class*="border-[#c9"],
+html.dark [class*="border-[#d3"],
+html.dark [class*="border-[#db"],
+html.dark [class*="border-[#df"],
+html.dark [class*="border-[#e1"],
+html.dark [class*="border-[#e3"],
+html.dark [class*="border-[#e7"] {
+  border-color: #3a516a !important;
+}
+
+/* Preserve meaningful surface hierarchy in dark mode instead of flattening
+   selected navigation, information, and assessment states into one colour. */
+html.dark [class*="bg-[#edf8f0]"] {
+  background-color: #173f37 !important;
+}
+
+html.dark [class*="bg-[#edf5fc]"] {
+  background-color: #1b314b !important;
+}
+
+/* Evidence of compliance is a distinct review surface in the survey. The
+   warm charcoal/ochre treatment keeps it recognisable without glare. */
+html.dark [class*="bg-[#fffbf0]"] {
+  background-color: #302b1b !important;
+}
+
+html.dark [class*="bg-[#fffbf4]"] {
+  background-color: #352819 !important;
+}
+
+html.dark [class*="border-[#eadfbd]"] {
+  border-color: #7c6931 !important;
+}
+
+html.dark [class*="border-[#f1d7b6]"],
+html.dark [class*="border-[#f5e4cf]"] {
+  border-color: #7a5b31 !important;
+}
+
+html.dark [class*="divide-[#eadfbd]"] > * + * {
+  border-color: #65562b !important;
+}
+
+html.dark [class*="accent-[#16803a]"] {
+  accent-color: #5ed393;
+}
+
+/* Tailwind hover utilities otherwise retain their light-mode pale fills. */
+html.dark [class*="hover:bg-slate-50"]:hover,
+html.dark [class*="hover:bg-slate-100"]:hover,
+html.dark [class*="hover:bg-[#edf5fc]"]:hover {
+  background-color: #29405d !important;
+}
+
+html.dark [class*="hover:bg-[#f5f9fd]"]:hover,
+html.dark [class*="hover:bg-[#f8fafc]"]:hover,
+html.dark [class*="hover:bg-white"]:hover {
+  background-color: #263b54 !important;
+}
+
+html.dark [class*="hover:bg-[#edf8f0]"]:hover,
+html.dark [class*="hover:bg-[#ddf3e4]"]:hover {
+  background-color: #24584b !important;
+}
+
+html.dark [class*="hover:bg-[#fffbf0]"]:hover,
+html.dark [class*="hover:bg-[#fffaf2]"]:hover {
+  background-color: #453b1e !important;
+}
+
+html.dark [class*="hover:bg-red-50"]:hover {
+  background-color: #4a2028 !important;
+}
+
+html.dark [class*="hover:bg-green-200"]:hover,
+html.dark [class*="hover:bg-teal-100"]:hover {
+  background-color: #245b45 !important;
+}
+
+html.dark [class*="hover:bg-gray-300"]:hover {
+  background-color: #415268 !important;
+}
+
+html.dark [class*="hover:bg-amber-100"]:hover {
+  background-color: #4b3b1d !important;
+}
+
+html.dark [class*="hover:bg-[#0d6531]"]:hover {
+  background-color: #0d5130 !important;
+}
+
+html.dark [class*="text-green-700"] { color: #7ce3a8 !important; }
+html.dark [class*="text-gray-600"] { color: #c5d2e1 !important; }
+
+html.dark input,
+html.dark select,
+html.dark textarea {
+  background: #0f1d2e !important;
+  border-color: #46617d !important;
+  color: #e7eef8 !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #9caec3;
+}
+
 @media (min-width: 768px) {
   .survey-summary-sheet table { table-layout: fixed; }
   .survey-summary-sheet--internal th:nth-child(1) { width: 5%; }

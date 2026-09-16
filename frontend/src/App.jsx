@@ -40,15 +40,18 @@ const AdminUsersPage = lazy(() => import("./pages/admin/AdminUsersPage"));
 const SurveysPage = lazy(() => import("./pages/surveys/SurveysPage"));
 const SurveyAssessmentPage = lazy(() => import("./pages/surveys/SurveyAssessmentPage"));
 const SurveySetupPage = lazy(() => import("./pages/surveys/SurveySetupPage"));
+const ToolkitBuilderPage = lazy(() => import("./pages/surveys/ToolkitBuilderPage"));
 const SurveyAdminPage = lazy(() => import("./pages/surveys/SurveyAdminPage"));
 const SurveyResultsPage = lazy(() => import("./pages/surveys/SurveyResultsPage"));
 const SurveyTeamLeadDashboardPage = lazy(() => import("./pages/surveys/SurveyTeamLeadDashboardPage"));
+const SurveyorReportPage = lazy(() => import("./pages/surveys/SurveyorReportPage"));
 
 const RouteLoading = () => <div className="flex min-h-[calc(100vh-57px)] items-center justify-center bg-[#f7f9fc] text-sm font-medium text-[#4b5f7a]">Loading workspace…</div>;
 
 const pageTitles = [
   ["/login", "Sign in"],
   ["/surveys/setup", "Survey setup"],
+  ["/surveys/toolkits", "Toolkit builder"],
   ["/surveys", "Surveys"],
   ["/framework", "Standards framework"],
   ["/location", "Location directory"],
@@ -86,9 +89,11 @@ function App() {
           <Route path="/admin/users" element={<ProtectedRoute><AdminRoute><AdminUsersPage /></AdminRoute></ProtectedRoute>} />
           <Route path="/surveys" element={<ProtectedRoute><RoleRoute allowedRoles={["Admin", "Surveyor", "Team Lead"]}><SurveysPage /></RoleRoute></ProtectedRoute>} />
           <Route path="/surveys/setup" element={<ProtectedRoute><AdminRoute><SurveySetupPage /></AdminRoute></ProtectedRoute>} />
+          <Route path="/surveys/toolkits" element={<ProtectedRoute><AdminRoute><ToolkitBuilderPage /></AdminRoute></ProtectedRoute>} />
           <Route path="/surveys/:surveyId/admin" element={<ProtectedRoute><AdminRoute><SurveyAdminPage /></AdminRoute></ProtectedRoute>} />
           <Route path="/surveys/:surveyId/team-dashboard" element={<ProtectedRoute><RoleRoute allowedRoles={["Admin", "Team Lead"]}><SurveyTeamLeadDashboardPage /></RoleRoute></ProtectedRoute>} />
           <Route path="/surveys/:surveyId/results" element={<ProtectedRoute><RoleRoute allowedRoles={["Admin", "Surveyor", "Team Lead"]}><SurveyResultsPage /></RoleRoute></ProtectedRoute>} />
+          <Route path="/surveys/:surveyId/report" element={<ProtectedRoute><RoleRoute allowedRoles={["Admin", "Surveyor", "Team Lead"]}><SurveyorReportPage /></RoleRoute></ProtectedRoute>} />
           <Route path="/surveys/:surveyId" element={<ProtectedRoute><RoleRoute allowedRoles={["Admin", "Surveyor", "Team Lead"]}><SurveyAssessmentPage /></RoleRoute></ProtectedRoute>} />
 
           <Route path="/framework" element={<ProtectedRoute><FrameworkPage /></ProtectedRoute>}>
