@@ -21,6 +21,9 @@ namespace backend.Data
         }
         
         public DbSet<backend.Models.Reports.SurveyReportVersion> surveyReportVersions { get; set; }
+        public DbSet<backend.Models.Reports.SurveyorReport> surveyorReports { get; set; }
+        public DbSet<backend.Models.Reports.SurveyorReportReopen> surveyorReportReopens { get; set; }
+        public DbSet<backend.Models.Reports.SurveyActionItem> surveyActionItems { get; set; }
 
         //db sets for framework
         public DbSet<Function> functions { get; set; }
@@ -59,6 +62,12 @@ namespace backend.Data
         public DbSet<SurveyType> surveyTypes { get; set; }
         public DbSet<Survey> surveys { get; set; }
         public DbSet<SurveyStandardAssignment> surveyStandardAssignments { get; set; }
+        public DbSet<SurveyToolkitTemplate> surveyToolkitTemplates { get; set; }
+        public DbSet<SurveyToolkitTemplateStandard> surveyToolkitTemplateStandards { get; set; }
+        public DbSet<SurveyToolkitSnapshot> surveyToolkitSnapshots { get; set; }
+        public DbSet<SurveyToolkitSnapshotStandard> surveyToolkitSnapshotStandards { get; set; }
+        public DbSet<SurveyToolkitTemplateCompliance> surveyToolkitTemplateCompliances { get; set; }
+        public DbSet<SurveyToolkitSnapshotCompliance> surveyToolkitSnapshotCompliances { get; set; }
 
         //db sets for survey assessements
         public DbSet<ComplianceAssessment> complianceAssessments { get; set; }
@@ -270,6 +279,65 @@ namespace backend.Data
                 .OnDelete(DeleteBehavior.Restrict);
             
             modelBuilder.Entity<Survey>().HasKey(sv => sv.surveyId);
+            modelBuilder.Entity<backend.Models.Reports.SurveyorReport>().HasKey(report => report.surveyorReportId);
+            modelBuilder.Entity<backend.Models.Reports.SurveyorReport>().HasIndex(report => new { report.surveyId, report.surveyorId }).IsUnique();
+            modelBuilder.Entity<backend.Models.Reports.SurveyorReport>().HasOne(report => report.survey).WithMany().HasForeignKey(report => report.surveyId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<backend.Models.Reports.SurveyorReport>().HasOne(report => report.surveyor).WithMany().HasForeignKey(report => report.surveyorId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<backend.Models.Reports.SurveyorReportReopen>().HasKey(reopen => reopen.surveyorReportReopenId);
+            modelBuilder.Entity<backend.Models.Reports.SurveyorReportReopen>().HasOne(reopen => reopen.surveyorReport).WithMany().HasForeignKey(reopen => reopen.surveyorReportId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<backend.Models.Reports.SurveyActionItem>().HasKey(item => item.surveyActionItemId);
+            modelBuilder.Entity<backend.Models.Reports.SurveyActionItem>().HasOne(item => item.survey).WithMany()
+                .HasForeignKey(item => item.surveyId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<backend.Models.Reports.SurveyActionItem>().HasOne(item => item.complianceAssessment).WithMany()
+                .HasForeignKey(item => item.complianceAssessmentId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SurveyToolkitTemplate>().HasKey(template => template.surveyToolkitTemplateId);
+            modelBuilder.Entity<SurveyToolkitTemplate>()
+                .HasOne(template => template.level)
+                .WithMany()
+                .HasForeignKey(template => template.levelId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SurveyToolkitTemplateStandard>().HasKey(item => item.surveyToolkitTemplateStandardId);
+            modelBuilder.Entity<SurveyToolkitTemplateStandard>()
+                .HasIndex(item => new { item.surveyToolkitTemplateId, item.standardId }).IsUnique();
+            modelBuilder.Entity<SurveyToolkitTemplateStandard>()
+                .HasOne(item => item.surveyToolkitTemplate).WithMany(template => template.standards)
+                .HasForeignKey(item => item.surveyToolkitTemplateId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<SurveyToolkitTemplateStandard>()
+                .HasOne(item => item.standard).WithMany().HasForeignKey(item => item.standardId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SurveyToolkitTemplateCompliance>().HasKey(item => item.surveyToolkitTemplateComplianceId);
+            modelBuilder.Entity<SurveyToolkitTemplateCompliance>()
+                .HasIndex(item => new { item.surveyToolkitTemplateId, item.complianceId }).IsUnique();
+            modelBuilder.Entity<SurveyToolkitTemplateCompliance>()
+                .HasOne(item => item.surveyToolkitTemplate).WithMany(template => template.compliances)
+                .HasForeignKey(item => item.surveyToolkitTemplateId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<SurveyToolkitTemplateCompliance>()
+                .HasOne(item => item.compliance).WithMany().HasForeignKey(item => item.complianceId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SurveyToolkitSnapshot>().HasKey(snapshot => snapshot.surveyToolkitSnapshotId);
+            modelBuilder.Entity<SurveyToolkitSnapshot>()
+                .HasIndex(snapshot => snapshot.surveyId).IsUnique();
+            modelBuilder.Entity<SurveyToolkitSnapshot>()
+                .HasOne(snapshot => snapshot.survey).WithOne(survey => survey.toolkitSnapshot)
+                .HasForeignKey<SurveyToolkitSnapshot>(snapshot => snapshot.surveyId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<SurveyToolkitSnapshotStandard>().HasKey(item => item.surveyToolkitSnapshotStandardId);
+            modelBuilder.Entity<SurveyToolkitSnapshotStandard>()
+                .HasIndex(item => new { item.surveyToolkitSnapshotId, item.standardId }).IsUnique();
+            modelBuilder.Entity<SurveyToolkitSnapshotStandard>()
+                .HasOne(item => item.surveyToolkitSnapshot).WithMany(snapshot => snapshot.standards)
+                .HasForeignKey(item => item.surveyToolkitSnapshotId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<SurveyToolkitSnapshotStandard>()
+                .HasOne(item => item.standard).WithMany().HasForeignKey(item => item.standardId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SurveyToolkitSnapshotCompliance>().HasKey(item => item.surveyToolkitSnapshotComplianceId);
+            modelBuilder.Entity<SurveyToolkitSnapshotCompliance>()
+                .HasIndex(item => new { item.surveyToolkitSnapshotId, item.complianceId }).IsUnique();
+            modelBuilder.Entity<SurveyToolkitSnapshotCompliance>()
+                .HasOne(item => item.surveyToolkitSnapshot).WithMany(snapshot => snapshot.compliances)
+                .HasForeignKey(item => item.surveyToolkitSnapshotId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<SurveyToolkitSnapshotCompliance>()
+                .HasOne(item => item.compliance).WithMany().HasForeignKey(item => item.complianceId)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<SurveyStandardAssignment>().HasKey(assignment => assignment.surveyStandardAssignmentId);
             modelBuilder.Entity<SurveyStandardAssignment>()
                 .HasIndex(assignment => new { assignment.surveyId, assignment.standardId })

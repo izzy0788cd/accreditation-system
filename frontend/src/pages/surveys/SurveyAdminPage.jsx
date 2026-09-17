@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { cancelSurvey, getAll, getOne, getSurveyAssessments, getSurveyStandardAssignments, syncSurveyFramework, update, updateSurveyStandardAssignments } from "../../api/api";
 import ConfirmDialog from "../../components/ConfirmDialog";
+import SurveyContextNav from "../../components/SurveyContextNav";
+import useUnsavedChanges from "../../hooks/useUnsavedChanges";
 
 const dateValue = (value) => value?.slice?.(0, 10) || value || "";
 
@@ -13,6 +15,7 @@ function SurveyAdminPage() {
   const [surveyors, setSurveyors] = useState([]);
   const [standards, setStandards] = useState([]);
   const [assignments, setAssignments] = useState({});
+  const [baseline, setBaseline] = useState(null);
   const [form, setForm] = useState({ surveyTypeId: "", surveyorId: "", startDate: "", endDate: "" });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -49,7 +52,9 @@ function SurveyAdminPage() {
           { numeric: true, sensitivity: "base" },
         )));
       setAssignments(assignmentMap);
-      setForm({ surveyTypeId: String(currentSurvey.surveyTypeId), surveyorId: String(currentSurvey.surveyorId), startDate: dateValue(currentSurvey.startDate), endDate: dateValue(currentSurvey.endDate) });
+      const initialForm = { surveyTypeId: String(currentSurvey.surveyTypeId), surveyorId: String(currentSurvey.surveyorId), startDate: dateValue(currentSurvey.startDate), endDate: dateValue(currentSurvey.endDate) };
+      setForm(initialForm);
+      setBaseline({ form: initialForm, assignments: assignmentMap });
       setError("");
     } catch (loadError) {
       console.error(loadError);
@@ -58,6 +63,7 @@ function SurveyAdminPage() {
   };
 
   useEffect(() => { load(); }, [surveyId]);
+  useUnsavedChanges(Boolean(baseline) && !survey?.isCancelled && JSON.stringify({ form, assignments }) !== JSON.stringify(baseline));
   const unassignedCount = useMemo(() => standards.filter((standard) => !assignments[standard.standardId]).length, [standards, assignments]);
 
   const save = async (event) => {
@@ -99,10 +105,11 @@ function SurveyAdminPage() {
 
   return <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:py-8">
     <Link to="/surveys" className="text-sm font-semibold text-[#16803a] hover:underline">← Back to surveys</Link>
+    <SurveyContextNav surveyId={surveyId} />
     <header className="mt-5 rounded-2xl border border-[#c9dded] bg-[linear-gradient(125deg,#eaf3fb_0%,#f8fafc_60%,#fdf7ea_100%)] p-6 sm:p-8">
-      <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Survey administration</p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Survey administration</p>
       <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#092a5a]">{survey.facilityName}</h1>
-      <p className="mt-2 max-w-2xl text-sm leading-6 text-[#4b5f7a]">Update the survey details, nominate the team lead, and allocate each included standard to the surveyor responsible for it.</p>
+      <p className="mt-2 max-w-2xl text-sm leading-6 text-[#4b5f7a]">Update the survey details, nominate the team lead, and allocate each included standard to the surveyor responsible for it.</p></div><Link to={`/surveys/${surveyId}/team-dashboard`} className="shrink-0 rounded-lg bg-[#16803a] px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0d6531]">Survey team dashboard</Link></div>
     </header>
     {survey.isCancelled && <section className="mt-5 rounded-xl border border-red-200 bg-red-50 p-5 text-sm text-red-900"><p className="font-bold">Cancelled survey</p><p className="mt-1 leading-6">{survey.cancellationReason}</p><p className="mt-2 text-xs text-red-700">Cancelled {survey.cancelledAt ? new Date(survey.cancelledAt).toLocaleString() : ""}{survey.cancelledByUsername ? ` by ${survey.cancelledByUsername}` : ""}. Existing findings remain available, but cannot be changed.</p></section>}
     {error && <p className="mt-5 rounded-lg border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</p>}

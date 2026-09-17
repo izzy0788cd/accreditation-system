@@ -16,6 +16,18 @@ namespace backend.Controllers.Assessment
 
         public ComplianceEvidenceCheckController(AppDbContext context) => _context = context;
 
+        private async Task<int?> GetCurrentSurveyorIdAsync()
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!int.TryParse(accountId, out var userAccountId))
+                return null;
+
+            return await _context.surveyors
+                .Where(surveyor => surveyor.user!.userAccountId == userAccountId)
+                .Select(surveyor => (int?)surveyor.surveyorId)
+                .FirstOrDefaultAsync();
+        }
+
         // A survey snapshots the evidence list when it is created. Framework evidence can
         // subsequently be added (for example, evidence for compliance 1.4.8), so bring an
         // existing survey checklist up to date before returning it. Existing check states
@@ -69,19 +81,28 @@ namespace backend.Controllers.Assessment
         }
 
         [HttpGet("assessment/{complianceAssessmentId}")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<IEnumerable<ComplianceEvidenceCheckDTO>>> GetForAssessment(
             int complianceAssessmentId
         )
         {
-            var surveyId = await _context.complianceAssessments
+            var assessment = await _context.complianceAssessments
                 .Where(assessment => assessment.complianceAssessmentId == complianceAssessmentId)
-                .Select(assessment => (int?)assessment.surveyId)
+                .Select(assessment => new { assessment.surveyId, assessment.surveyorId })
                 .FirstOrDefaultAsync();
-            if (!surveyId.HasValue)
+            if (assessment == null)
                 return NotFound();
 
-            await EnsureCurrentEvidenceChecksAsync(surveyId.Value);
+            if (!User.IsInRole("Admin"))
+            {
+                var surveyorId = await GetCurrentSurveyorIdAsync();
+                var isTeamLead = User.IsInRole("Team Lead") && surveyorId.HasValue && await _context.surveys.AnyAsync(survey =>
+                    survey.surveyId == assessment.surveyId && survey.surveyorId == surveyorId.Value);
+                if (!isTeamLead && (!surveyorId.HasValue || assessment.surveyorId != surveyorId.Value))
+                    return Forbid();
+            }
+
+            await EnsureCurrentEvidenceChecksAsync(assessment.surveyId);
 
             var checks = await _context
                 .complianceEvidenceChecks.Where(ce =>
@@ -102,7 +123,7 @@ namespace backend.Controllers.Assessment
         }
 
         [HttpGet("survey/{surveyId}")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<IEnumerable<ComplianceEvidenceCheckDTO>>> GetForSurvey(int surveyId)
         {
             if (!await _context.surveys.AnyAsync(survey => survey.surveyId == surveyId))
@@ -110,9 +131,17 @@ namespace backend.Controllers.Assessment
 
             await EnsureCurrentEvidenceChecksAsync(surveyId);
 
+            var currentSurveyorId = await GetCurrentSurveyorIdAsync();
+            var teamLeadCanReview = !User.IsInRole("Admin") && User.IsInRole("Team Lead") && currentSurveyorId.HasValue
+                && await _context.surveys.AnyAsync(survey => survey.surveyId == surveyId && survey.surveyorId == currentSurveyorId.Value);
+            var canReviewAll = User.IsInRole("Admin") || teamLeadCanReview;
+            if (!canReviewAll && !currentSurveyorId.HasValue)
+                return Forbid();
+
             var checks = await _context
                 .complianceEvidenceChecks.Where(check =>
                     check.complianceAssessment!.surveyId == surveyId
+                    && (canReviewAll || check.complianceAssessment.surveyorId == currentSurveyorId!.Value)
                 )
                 .Select(check => new ComplianceEvidenceCheckDTO
                 {
@@ -128,8 +157,37 @@ namespace backend.Controllers.Assessment
             return Ok(checks);
         }
 
+        [HttpGet("survey/{surveyId}/mine")]
+        [Authorize(Policy = "Survey.Work")]
+        public async Task<ActionResult<IEnumerable<ComplianceEvidenceCheckDTO>>> GetMyForSurvey(int surveyId)
+        {
+            var surveyorId = await GetCurrentSurveyorIdAsync();
+            if (!surveyorId.HasValue)
+                return Forbid();
+            if (!await _context.surveys.AnyAsync(survey => survey.surveyId == surveyId))
+                return NotFound();
+
+            await EnsureCurrentEvidenceChecksAsync(surveyId);
+
+            var checks = await _context.complianceEvidenceChecks
+                .Where(check => check.complianceAssessment!.surveyId == surveyId
+                    && check.complianceAssessment.surveyorId == surveyorId.Value)
+                .Select(check => new ComplianceEvidenceCheckDTO
+                {
+                    complianceEvidenceCheckId = check.complianceEvidenceCheckId,
+                    complianceAssessmentId = check.complianceAssessmentId,
+                    evidenceId = check.evidenceId,
+                    evidenceNumber = check.evidence!.evidenceNumber,
+                    evidenceSummary = check.evidence.evidenceSummary,
+                    isChecked = check.isChecked,
+                })
+                .ToListAsync();
+
+            return Ok(checks);
+        }
+
         [HttpPatch("{id}/checked")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<IActionResult> PatchChecked(int id, [FromBody] bool isChecked)
         {
             var check = await _context.complianceEvidenceChecks
@@ -140,6 +198,13 @@ namespace backend.Controllers.Assessment
                 return NotFound();
             if (check.complianceAssessment!.survey!.isCancelled)
                 return BadRequest("This survey has been cancelled and evidence checks can no longer be changed.");
+
+            var reportSubmitted = await _context.surveyorReports.AnyAsync(report =>
+                report.surveyId == check.complianceAssessment.surveyId
+                && report.surveyorId == check.complianceAssessment.surveyorId
+                && report.isSubmitted);
+            if (reportSubmitted)
+                return BadRequest("Your surveyor report has been submitted. Ask the Team Lead or an Administrator to reopen it before changing evidence checks.");
 
             if (!User.IsInRole("Admin"))
             {

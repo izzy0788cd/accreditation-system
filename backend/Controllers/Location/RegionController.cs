@@ -25,7 +25,7 @@ namespace backend.Controllers_Location
 
         // GET: api/Region
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<RegionDTO>>> GetRegions()
         {
             return await _context
@@ -39,7 +39,7 @@ namespace backend.Controllers_Location
 
         // GET: api/Region/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<RegionDTO>> GetRegion(int id)
         {
             var region = await _context
@@ -58,7 +58,7 @@ namespace backend.Controllers_Location
         // PUT: api/Region/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutRegion(int id, RegionUpdateDTO dto)
         {
             var region = await _context.regions.FindAsync(id);
@@ -92,7 +92,7 @@ namespace backend.Controllers_Location
         // POST: api/Region
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<RegionDTO>> PostRegion(RegionCreateDTO region)
         {
             var regionModel = new Region { regionName = region.regionName };
@@ -107,7 +107,7 @@ namespace backend.Controllers_Location
 
         // DELETE: api/Region/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteRegion(int id)
         {
             var region = await _context.regions.FindAsync(id);

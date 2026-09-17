@@ -1,0 +1,554 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\06 Essential Clinical Care\\Standard No. 23Q - Mortuary.docx",
+  "sourceSha256": "173577d4252a7936078c81e7b9d1d8305e746738146c1c28f60947b59a2c3ccc",
+  "functionNumber": "4",
+  "componentNumber": "6",
+  "standardNumber": "23q",
+  "standardTitle": "Mortuary services",
+  "standardSummary": "Standard 23: provision of and continuity of care (mandatory standard)\nThe Healthcare Organisation ensures patients are provided with safe, high- quality inpatient and outpatient care throughout the care delivery process. They should do this from the time that the patient enters the healthcare organisation or service through to when the patient is discharged or transferred to another health facility-service; and during any ongoing care they provide after discharge.\nThe Healthcare Organisation should implement evidence-based practice and a have a process for assessing the appropriateness and effectiveness of care and services, and the settings they are delivered in.\n\nService scope\nMortuary services shall be provided within the Facility. The Mortuary Services shall include but are not limited to the provision of;\na.) Body reception\nb.) Body services\nc.) Body preparation/release area\nd.) Body Area for body viewing\ne.) Bereavement /Counselling room\nf.) Post-mortem suite (where available)\n\nSource references\nStandard 17 National Health Service Standards (NHSS) Vol. 2 (2nd Edition) National Quality Standard\n\nCriterion guidance\n23q.1 Organisation and management\nThe Mortuary Services are organised and administered to provide quality services appropriate to the level of mortuary services provided by the Facility.\n\n23q.2 Human resources and development\nThe Mortuary Services shall be supervised by a suitably qualified, trained and competent practitioner and assisted by relevant categories of staff.\n\n23q.3 Policies and procedures\nThere are written and dated policies for all activities of the Mortuary Services. These policies reflect current standards, relevant regulations and statutory requirements. These policies and procedures, terms of reference, by laws, rules and regulations state how the Mortuary Services staff regulate themselves and their operational practice.\n\n23q.4 Facilities and equipment\nThe Officer in Charge of Mortuary Services shall ensure adequate facilities and equipment for the safe and efficient provision of Mortuary Services taking into consideration the scope of services and potentially hazardous circumstances of the Mortuary Services. This shall comply with relevant regulations and statutory requirements.\n\n23q.5 Safety and performance improvement activities\nThe Head of Mortuary Services shall ensure the provision of quality performance with staff involvement in the continuous safety and performance improvement activities of the Mortuary Services.",
+  "sourceReferences": "Standard 17 National Health Service Standards (NHSS) Vol. 2 (2nd Edition) National Quality Standard",
+  "criteria": [
+    {
+      "criterionNumber": "23q.1",
+      "criterionTitle": "Organisation and management",
+      "guidance": "The Mortuary Services are organised and administered to provide quality services appropriate to the level of mortuary services provided by the Facility.",
+      "compliances": [
+        {
+          "complianceNumber": "23q.1.1",
+          "complianceSummary": "The Vision, Mission of the Facility are accessible. The Goals of the Mortuary Services suit its scope and are clearly documented. It should reflect the aspirations of the service and the needs of the community.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The Mission, Vision and Goals of the Organisation are visible, endorsed and dated."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is an endorsed and dated department organisational chart with lines of functions and reporting relationships."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Relevant policies and guidelines are available in the department, i.e., National Health Plan, National Health Service Standards, etc.)"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Evidence of submission of an Annual Implementation Plan and budget."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Evidence of fee structure (if fees are collected)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.1.2",
+          "complianceSummary": "There is a mechanism to ensure effective interaction between the Officer in Charge (OIC) and the Organisation’s Governing Body and Senior Management.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Letter of appointment and terms of reference as the Officer in Charge"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Letter of appointment and terms of reference in other hospital committees."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.1.3",
+          "complianceSummary": "Regular staff meetings are held between the Officer Head of Service and staff with sufficient regularity to discuss issues pertaining to the Mortuary Services. These meetings are minuted and communicated to all staff.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Meeting minutes are available, disseminated and acknowledged by staff."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is sufficient attendance for the meetings with adequate representatives of the service."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Frequency of meetings are as scheduled."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Discussions and resolutions are implemented. (problems not solved are brought forward to the next meeting till resolved)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.1.4",
+          "complianceSummary": "Appropriate statistics and records are maintained in the department in and used for managing services and patient care.\nThe following (among others) are available:\na.) workload\nb.) quarterly and annual report\nc.) incident reports and register\nd.) staffing number and staff profile\ne.) staff training records\nf.) data on performance improvement",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The statistics and records from (a) to (f) are available."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23q.2",
+      "criterionTitle": "Human resources and development",
+      "guidance": "The Mortuary Services shall be supervised by a suitably qualified, trained and competent practitioner and assisted by relevant categories of staff.",
+      "compliances": [
+        {
+          "complianceNumber": "23q.2.1",
+          "complianceSummary": "The Officer in Charge and staff of the Mortuary Services shall be individuals qualified by education, training, experience and certification to meet the demands of the various positions and to achieve the objectives of the services.\nThere is evidence that the staff have some training or experience in the processes governing the mortuary.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Appointment letter."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Training records."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Certifications."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.2.2",
+          "complianceSummary": "The are written and dated job descriptions for each category of staff that include:\na.) Qualification, training and experience for the position\nb.) Lines of authority\nc.) Accountability, functions and responsibilities\nd.) Administrative and clinical job scope",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There are dated and specific job descriptions for each staff that include (a) to (d)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The job description is acknowledged by the staff and signed by the OIC and dated."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "The scope of work in the job description aligns with the training, skill and experience of the staff (credentialling)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.2.3",
+          "complianceSummary": "The staff holds current registration with the relevant professional body (for relevant staff).",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of current registration for all cadres of staff (annual practicing certificate)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.2.4",
+          "complianceSummary": "The staff works within their job description and job scope.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Observation that cadres of staff are working according to their job description and job scope."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.2.5",
+          "complianceSummary": "There are continuing education activities for staff to maintain competency in their current positions.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Training calendar includes in-house/ external courses/ workshops/ conferences."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There are ongoing Continuous Professional Activities in the Department."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.2.6",
+          "complianceSummary": "The educational needs of staff are addressed following findings from incidents reports and performance improvement studies.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Staff receive evaluation of their performance at the completion of the probationary period and annually thereafter, or as defined by the Organisation."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.2.7",
+          "complianceSummary": "Staff receive evaluation of their performance at the completion of the probationary period and annually thereafter, or as defined by the Organisation.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Performance appraisal for staff including medical practitioners is completed upon probationary period and as an annual exercise."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.2.8",
+          "complianceSummary": "Staffing levels are based on the following;\na.) Number of staff proportional to the workload.\nb.) Adequate staffing levels of appropriate competency shall be maintained throughout the hours the services are in operation.\nc.) There is an on-call roster if applicable.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is adequate number of staff based on the workload."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is an on-call roster."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.2.9",
+          "complianceSummary": "There is a structured orientation programme for all Mortuary Services staff;\na.) Explanation of the goals, objectives, policies and procedures of the Facility.\nb.) Lines of authority and areas of responsibility.\nc.) Explanation of duties and functions.\nd.) Processes for resolving practice/ethical dilemmas in a timely manner\ne.) Relevant information about occupational hazards and safety procedures including handling of specimens and Infection Prevention and Control.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of policy stating that all staff have to attend a structured orientation programme."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Attendance list of those having attended the orientation programme."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23q.3",
+      "criterionTitle": "Policies and procedures",
+      "guidance": "There are written and dated policies for all activities of the Mortuary Services. These policies reflect current standards, relevant regulations and statutory requirements. These policies and procedures, terms of reference, by laws, rules and regulations state how the Mortuary Services staff regulate themselves and their operational practice.",
+      "compliances": [
+        {
+          "complianceNumber": "23q.3.1",
+          "complianceSummary": "There are written policies and procedures for the Mortuary Services which are consistent with the overall policies of the Facility, regulatory requirements and current standard practices.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of documented policies and procedures for the service."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The policies and procedures are endorsed and dated."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There is a periodic review at least once in three years."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Copies of policies, by laws, regulations and relevant acts are accessible on site for staff reference."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.3.2",
+          "complianceSummary": "Policies and procedures are developed by a committee in collaboration with staff and with other departments if needed.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Minutes of committee meetings on development and revision on policies and procedures."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The policies and procedures are communicated to all Mortuary staff (Signed acknowledgement of having read the policy)"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.3.3",
+          "complianceSummary": "There are policies and procedures relating to all post-mortem examinations (coroner’s cases);\na.) Persons who are authorised to order for a post-mortem examination;\nb.) Written orders for a medico-legal post-mortem examination\nc.) Identification of body part or the deceased by full name*/identification document number/passport/police report number/post-mortem number and/or medical record number;\nd.) Name and rank of the officer ordering the forensic post-mortem examination;\ne.) Retention of records and specimens;\nf.) Types of specimens collected at post-mortem which are to be submitted for histopathological, microbiological/virological, toxicological and other relevant investigation.\nPapua New Guinea’s Coroners Act 1953 (Chapter 32)",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Documented policies and procedures that address (a) to (m)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Staff are briefed on the policies and procedures (meeting minutes or circulation acknowledgement)."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There is evidence of compliance to the policies and procedures (staff interview, observation, review of patient complaints, results of audits)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.3.4",
+          "complianceSummary": "There are written instructions for the proper handling of the specimens as required by law which include collection, labelling, sealing, packaging, transport of specimens, dispatch/handing over to relevant authority.\nThese instructions are readily accessible to the staff. The preservation of chain of evidence shall be maintained throughout the process of specimen handling.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There are Standard Operating Procedures /work instructions on how to handle specimens."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Specimen dispatch book."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Specimen handling form"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.3.5",
+          "complianceSummary": "Complete records and documentation of body management shall be maintained where applicable;\na.) Registration of bodies received.\nb.) Records on specimens forwarded to other laboratories.\nc.) All specimens and evidences taken from the deceased.\nd.) All relevant forensic medicine reports (e.g. post-mortem reports, laboratory results) are filed appropriately\ne.) All movement of records or reports out of the forensic services.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Complete records and documentation of body management including (a) to (e)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.3.6",
+          "complianceSummary": "There is evidence of compliance with policies and procedures. These include but not limited top;\na.) Preparation of the dead body in the ward before transfer to mortuary\nb.) Tagging of the deceased for proper identification\nc.) Method of transportation to the mortuary\nd.) Record of receiving the deceased in the mortuary\ne.) Viewing of the deceased by relatives\nf.) Procedures for releasing the deceased to the next of kin\ng.) Procedures of burial of unclaimed bodies.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Compliance to policies and procedures through interview(s) with staff, observations."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.3.7",
+          "complianceSummary": "There are written safety procedures and manuals on hazards and safety precautions specific to the Mortuary Services. All staff shall practice Standard Precautions and Safety Guidelines.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Standard Operating Procedures and manuals on safety procedures are available."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Verification on practices through observation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23q.4",
+      "criterionTitle": "Facilities and equipment",
+      "guidance": "The Officer in Charge of Mortuary Services shall ensure adequate facilities and equipment for the safe and efficient provision of Mortuary Services taking into consideration the scope of services and potentially hazardous circumstances of the Mortuary Services. This shall comply with relevant regulations and statutory requirements.",
+      "compliances": [
+        {
+          "complianceNumber": "23q.4.1",
+          "complianceSummary": "The mortuary shall be accessible from an outside entrance and following a designated route of the Facility. Appropriate transport for transferring bodies to the mortuary that to ensure dignity and respect is accorded to the deceased.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Mortuary is accessible from an outside entrance to the Facility."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Conveyance of body to the Mortuary is via a designated route and entrance."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Proper covered body trolley and appropriate transport are available to transfer the body"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.4.2",
+          "complianceSummary": "There are appropriate areas for the following;\na.) Body receiving area shall be of a suitable size and design to facilitate incoming and outgoing of bodies;\nb.) Clean and dirty areas are clearly designated;\nc.) There is sufficient space and refrigeration for storage of bodies with provision for accurate identification of bodies;\nd.) The temperature of the body freezer (2-8⁰C ± 2) shall be maintained, monitored and documented;\ne.) There are adequate space, facilities and equipment for the administrative, professional, and technical functions of the Mortuary Services.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There are designated areas for (a) to (e)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.4.3",
+          "complianceSummary": "There are appropriate areas for the post-mortem room (where applicable), which include;\na.) Access to the post-mortem room shall be controlled\nb.) The post-mortem room is clean and has adequate space, ventilation and lighting;\nc.) There are adequate facilities for performing post-mortem examination, recording of findings, specimen handling and storage;\nd.) The post-mortem equipment is appropriate, adequate and is properly maintained;\ne.) Post-mortem table is of a suitable design with proper facilities for the disposal of effluent into the sewage system to ensure safety;\nf.) There is adequate ventilation with extraction for fumes and odours in the work area where appropriate",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Appropriate areas for post- mortem which include (a) to (f)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.4.4",
+          "complianceSummary": "There is suitable, adequate and safe provision for;\na.) Lighting, power, water, and drainage, appropriate to the scope of services provided which include;\nb.) Power supply, which shall be adequate, and there are sufficient power sockets which are suitably located.\nc.) Adequate and appropriate lighting.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Adequate lighting"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Adequate power supply"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Adequate water supply"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Adequate effluent drainage."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.4.5",
+          "complianceSummary": "There are designated areas for reception and the handling of decomposed bodies and high- risk cases (for infection) where appropriate.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Designated area for high-risk cases."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.4.6",
+          "complianceSummary": "There are designated areas for body cleansing/preparation, body viewing, bereavement, performing cultural rites and release of bodies.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Designated area for;\na.) Body preparation\nb.) Body viewing\nc.) Bereavement\nd.) Performing cultural rites\ne.) Release of bodies"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.4.7",
+          "complianceSummary": "Where appropriate, there are staff facilities with changing room, shower, locker facilities, and storage for protective clothing/gear and they are suitably located.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Staff facilities are available;\na.) Changing rooms\nb.) Shower\nc.) Locker facilities\nd.) Storage area for personal protective equipment (PPE)"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.4.8",
+          "complianceSummary": "There are adequate and appropriate data processing, retrieval, and communication facilities.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Documentation on death registration"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Communication facilities"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.4.9",
+          "complianceSummary": "Where specialised equipment such as autopsy saw and chemicals, e.g. 10% formaldehyde and other hazardous chemicals are used, there is evidence that only staff who are trained and authorised operate such equipment/chemicals.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "List of staff trained to use the specialised equipment."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.4.10",
+          "complianceSummary": "There are adequate and designated storage area for consumables and chemicals.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Storage area for consumables and chemicals."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Inventory list for consumables and chemicals."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.4.11",
+          "complianceSummary": "There is evidence of general cleanliness in the Mortuary Services. Biohazardous materials are appropriately disposed.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is evidence of general cleanliness in the Mortuary services."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is proper disposal of biohazardous material."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23q.5",
+      "criterionTitle": "Safety and performance improvement activities",
+      "guidance": "The Head of Mortuary Services shall ensure the provision of quality performance with staff involvement in the continuous safety and performance improvement activities of the Mortuary Services.",
+      "compliances": [
+        {
+          "complianceNumber": "23q.5.1",
+          "complianceSummary": "There are planned activities for performance and quality improvement.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is a designated person who monitors safety and performance improvement activities within the Medical Services."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There are records/registers on performance improvement activities."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There are meeting minutes for performance improvement meetings."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "There are records on innovation (if any)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.5.2",
+          "complianceSummary": "The Head of the Mortuary Services shall ensure that the staff are trained and complete incident reports which are promptly reported, investigated, discussed by the staff with learning objectives.\nIncidents reported have had Root Cause Analysis done and action taken within the agreed time frame to prevent recurrence.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "System for incident reporting is in place with the following;\na.) Training of staff in incident reporting\nb.) Policy on incident reporting\nc.) Method/SOP on Incident reporting\nd.) Register of incidents"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Completed incident reports"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Corrective and preventive action plans"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Minutes of meeting"
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Involved staff given feedback about the incident report"
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Acknowledgment by Head of Mortuary Service and Director of Curative Services."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23q.5.3",
+          "complianceSummary": "Specific performance indicators are tracked for e.g.;\na.) Turnaround time for release of bodies to the next of kin (non-police) cases is less than 3 hours\nb.) Post mortems reports are completed within 12 weeks of the post mortem.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Specific performance indicators are monitored."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Remedial action is taken when appropriate"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Corrected source numbering 23q.4.4 to 23q.4.11 under its printed criterion heading (table row 136)."
+  ]
+}

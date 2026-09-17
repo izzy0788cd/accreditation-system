@@ -56,7 +56,7 @@ namespace backend.Controllers.Accounts
         }
 
         [HttpGet("{userId}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Accounts.Manage")]
         public async Task<ActionResult<UserResponseDTO>> GetUserById(int userId)
         {
             var userAccount = await _context
@@ -89,7 +89,7 @@ namespace backend.Controllers.Accounts
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Accounts.Manage")]
         public async Task<ActionResult<List<UserResponseDTO>>> GetAll()
         {
             var users = await _context
@@ -116,7 +116,7 @@ namespace backend.Controllers.Accounts
         }
 
         [HttpPost("admin-create")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Accounts.Manage")]
         public async Task<ActionResult<UserSummaryDTO>> AdminCreate(UserAdminCreateDTO dto)
         {
             var accountExists = await _context.userAccounts.AnyAsync(ua =>
@@ -151,7 +151,7 @@ namespace backend.Controllers.Accounts
         }
 
         [HttpPut("{userId}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Accounts.Manage")]
         public async Task<ActionResult<UserSummaryDTO>> AdminUpdate(int userId, UserUpdateDTO dto)
         {
             var user = await _context.users.FindAsync(userId);

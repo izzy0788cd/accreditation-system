@@ -14,7 +14,7 @@ namespace backend.Controllers.Facilities
 {
     [Route("api/creditationstatuses")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = "ReferenceData.Read")]
     public class CreditationStatusController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -64,7 +64,7 @@ namespace backend.Controllers.Facilities
         // PUT: api/CreditationStatus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutCreditationStatus(int id, CreditationStatusUpdateDTO dto)
         {
             var creditationStatus = await _context.creditationStatuses.FindAsync(id);
@@ -100,7 +100,7 @@ namespace backend.Controllers.Facilities
         // POST: api/CreditationStatus
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<CreditationStatusDTO>> PostCreditationStatus(CreditationStatusCreateDTO dto)
         {
             var creditationStatusModel = new CreditationStatus
@@ -126,7 +126,7 @@ namespace backend.Controllers.Facilities
 
         // DELETE: api/CreditationStatus/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteCreditationStatus(int id)
         {
             var creditationStatus = await _context.creditationStatuses.FindAsync(id);

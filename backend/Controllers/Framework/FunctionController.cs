@@ -26,7 +26,7 @@ namespace backend.Controllers_Framework
 
         // GET: api/Function
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<FunctionDTO>>> Getfunctions()
         {
             return await _context
@@ -42,7 +42,7 @@ namespace backend.Controllers_Framework
 
         // GET: api/Function/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<FunctionDTO>> GetFunction(int id)
         {
             var function = await _context
@@ -67,7 +67,7 @@ namespace backend.Controllers_Framework
         // PUT: api/Function/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutFunction(int id, FunctionUpdateDTO dto)
         {
             var function = await _context.functions.FindAsync(id);
@@ -103,7 +103,7 @@ namespace backend.Controllers_Framework
         // POST: api/Function
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<FunctionDTO>> PostFunction(FunctionCreateDTO function)
         {
             var functionModel = new Function
@@ -130,7 +130,7 @@ namespace backend.Controllers_Framework
 
         // DELETE: api/Function/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteFunction(int id)
         {
             var function = await _context.functions.FindAsync(id);

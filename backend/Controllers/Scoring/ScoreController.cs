@@ -25,7 +25,7 @@ namespace backend.Controllers.Scoring
 
         // GET: api/Score
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<ScoresDTO>>> GetScores()
         {
             var scores = await _context
@@ -35,6 +35,7 @@ namespace backend.Controllers.Scoring
                     scoreValue = s.scoreValue,
                     scoreLabel = s.scoreLabel,
                     description = s.description,
+                    guidance = s.guidance,
                 })
                 .ToListAsync();
 
@@ -43,7 +44,7 @@ namespace backend.Controllers.Scoring
 
         // GET: api/Score/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<ScoresDTO>> GetScore(int id)
         {
             var score = await _context
@@ -54,6 +55,7 @@ namespace backend.Controllers.Scoring
                     scoreValue = s.scoreValue,
                     scoreLabel = s.scoreLabel,
                     description = s.description,
+                    guidance = s.guidance,
                 })
                 .FirstOrDefaultAsync();
 
@@ -68,9 +70,12 @@ namespace backend.Controllers.Scoring
         // PUT: api/Score/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutScore(int id, ScoreUpdateDTO dto)
         {
+            if (!IsValidScoreValue(dto.scoreValue))
+                return BadRequest("scoreValue must be 1, 2, 3, or 4. Leave it empty for N/A.");
+
             var score = await _context.scores.FindAsync(id);
 
             if (score == null)
@@ -81,6 +86,7 @@ namespace backend.Controllers.Scoring
             score.scoreValue = dto.scoreValue;
             score.scoreLabel = dto.scoreLabel;
             score.description = dto.description;
+            score.guidance = dto.guidance;
 
             try
             {
@@ -104,14 +110,18 @@ namespace backend.Controllers.Scoring
         // POST: api/Score
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<ScoresDTO>> PostScore(ScoreCreateDTO dto)
         {
+            if (!IsValidScoreValue(dto.scoreValue))
+                return BadRequest("scoreValue must be 1, 2, 3, or 4. Leave it empty for N/A.");
+
             var scoreModel = new Score
             {
                 scoreValue = dto.scoreValue,
                 scoreLabel = dto.scoreLabel,
                 description = dto.description,
+                guidance = dto.guidance,
             };
 
             _context.scores.Add(scoreModel);
@@ -123,6 +133,7 @@ namespace backend.Controllers.Scoring
                 scoreValue = scoreModel.scoreValue,
                 scoreLabel = scoreModel.scoreLabel,
                 description = scoreModel.description,
+                guidance = scoreModel.guidance,
             };
 
             return CreatedAtAction("GetScore", new { id = scoreDto.scoreId }, scoreDto);
@@ -130,7 +141,7 @@ namespace backend.Controllers.Scoring
 
         // DELETE: api/Score/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteScore(int id)
         {
             var score = await _context.scores.FindAsync(id);
@@ -148,6 +159,11 @@ namespace backend.Controllers.Scoring
         private bool ScoreExists(int id)
         {
             return _context.scores.Any(e => e.scoreId == id);
+        }
+
+        private static bool IsValidScoreValue(int? scoreValue)
+        {
+            return scoreValue is null or >= 1 and <= 4;
         }
     }
 }

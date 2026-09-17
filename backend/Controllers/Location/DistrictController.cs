@@ -25,7 +25,7 @@ namespace backend.Controllers_Location
 
         // GET: api/District
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<DistrictDTO>>> Getdistricts()
         {
             var districts = await _context
@@ -43,7 +43,7 @@ namespace backend.Controllers_Location
 
         // GET: api/District/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<DistrictDTO>> GetDistrict(int id)
         {
             var district = await _context
@@ -68,7 +68,7 @@ namespace backend.Controllers_Location
         // PUT: api/District/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutDistrict(int id, DistrictUpdateDTO dto)
         {
             var district = await _context.districts.FindAsync(id);
@@ -103,7 +103,7 @@ namespace backend.Controllers_Location
         // POST: api/District
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<DistrictDTO>> PostDistrict(DistrictCreateDTO dto)
         {
             var districtModel = new District
@@ -137,7 +137,7 @@ namespace backend.Controllers_Location
 
         // DELETE: api/District/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteDistrict(int id)
         {
             var district = await _context.districts.FindAsync(id);

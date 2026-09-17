@@ -5,8 +5,13 @@ import CriterionForm from "../../components/forms/CriterionForm";
 import CriterionWizardForm from "../../components/forms/CriterionWizardPage";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
+import { useAuth } from "../../context/AuthContext";
+import { canManageReferenceData } from "../../utils/access";
 
 function StandardDetailPage() {
+  const { auth } = useAuth();
+  const canManage = canManageReferenceData(auth?.roleName);
+  const canToggleApplicability = canManage || auth?.roleName === "Surveyor";
   const { standardId } = useParams();
   const [standard, setStandard] = useState(null);
   const [criteria, setCriteria] = useState([]);
@@ -94,7 +99,7 @@ function StandardDetailPage() {
   const handleToggleApplicability = async (criterion) => {
     try {
       await patchApplicability("criteria", criterion.criterionId, !criterion.isApplicable);
-      loadData();
+      setCriteria((current) => current.map((item) => item.criterionId === criterion.criterionId ? { ...item, isApplicable: !item.isApplicable } : item));
     } catch (err) {
       setError("Failed to update applicability.");
       console.error(err);
@@ -127,12 +132,12 @@ function StandardDetailPage() {
       {error && <p className="text-red-600 mb-4">{error}</p>}
 
       <div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-bold text-[#092a5a]">Criteria</h2>
-        <button
+        {canManage && <button
           onClick={handleAddWizardClick}
           className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]"
         >
           + Add Criterion
-        </button>
+        </button>}
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-[#dfe7f0] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[700px] text-sm">
@@ -141,7 +146,7 @@ function StandardDetailPage() {
             <th className="p-2">Number</th>
             <th className="p-2">Title</th>
             <th className="p-2">Applicable</th>
-            <th className="p-2 text-right">Actions</th>
+            {canManage && <th className="p-2 text-right">Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -150,7 +155,7 @@ function StandardDetailPage() {
               <td className="p-2 text-left font-semibold"><Link to={`/framework/criteria/${c.criterionId}`} className="text-blue-600 hover:underline">{c.criterionNumber}</Link></td>
               <td className="p-2">{c.criterionTitle}</td>
               <td className="p-2">
-                <button
+                {canToggleApplicability ? <button
                   onClick={() => handleToggleApplicability(c)}
                   className={`px-3 py-1 rounded text-sm font-medium ${
                     c.isApplicable
@@ -159,9 +164,9 @@ function StandardDetailPage() {
                   }`}
                 >
                   {c.isApplicable ? "Applicable" : "Not Applicable"}
-                </button>
+                </button> : <span className={`inline-block rounded px-3 py-1 text-sm font-medium ${c.isApplicable ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-600"}`}>{c.isApplicable ? "Applicable" : "Not Applicable"}</span>}
               </td>
-              <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap"><button
+              {canManage && <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap"><button
                   onClick={() => handleEditClick(c)}
                   className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]"
                 >
@@ -173,7 +178,7 @@ function StandardDetailPage() {
                 >
                   Delete
                 </button></div>
-              </td>
+              </td>}
             </tr>
           ))}
         </tbody>

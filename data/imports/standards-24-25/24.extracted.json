@@ -1,0 +1,680 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\06 Essential Clinical Care\\Standard No. 24 - Medication Management.docx",
+  "sourceSha256": "b9bccd0a058a1067db35d86010b3881a3662530649daae37881a56e58682c036",
+  "functionNumber": "4",
+  "componentNumber": "6",
+  "standardNumber": "24",
+  "standardTitle": "Medication management",
+  "standardSummary": "Standard 24: medication management\nThe Healthcare Organisation focuses on medication management systems to support the safe and effective use of medicines.\n\nSource references\nStandard 24 National Health Service Standards (NHSS) Vol. 2 (2nd Edition) National Quality Standards\nNHSS Toolkit Assessment for Level 5 and 6 Facilities in Papua New Guinea 2021-2030\n\nCriterion guidance\n24.1 Organisation and management\nThe Pharmacy Services shall be organised and administered to provide efficient pharmaceutical care services including the purchase, distribution, and control of pharmaceutical products; and to disseminate appropriate drug information to the healthcare team and patients of the Facility in accordance with prevailing standards of pharmacy practice.\n\n24.2 Human resource and development\nThe Pharmacy Services shall be managed by a suitably qualified, experienced and registered pharmacist; and supported by other registered pharmacists, pharmacy assistants and other supporting staff to achieve the objectives of the services.\n\n24.3 Policies and procedures\nThere are written and dated policies for all activities of the Pharmacy Services. These policies reflect current standards of pharmaceutical practice, relevant regulations and statutory requirements. These policies and procedures, terms of reference, by laws, rules and regulations state how the clinical staff regulate themselves and provide patient care.\n\n24.4 Facilities and equipment\nThe Head of Pharmacy Services shall ensure adequate facilities and equipment are safe and appropriate are available for the staff to function effectively and to meet the goals and objectives of the Pharmacy Services.\n\n24.5 Safety and performance improvement activities\nThe Head of Pharmacy Department shall ensure the provision of quality performance with staff involvement in the continuous safety and performance improvement activities of the Services.",
+  "sourceReferences": "Standard 24 National Health Service Standards (NHSS) Vol. 2 (2nd Edition) National Quality Standards\nNHSS Toolkit Assessment for Level 5 and 6 Facilities in Papua New Guinea 2021-2030",
+  "criteria": [
+    {
+      "criterionNumber": "24.1",
+      "criterionTitle": "Organisation and management",
+      "guidance": "The Pharmacy Services shall be organised and administered to provide efficient pharmaceutical care services including the purchase, distribution, and control of pharmaceutical products; and to disseminate appropriate drug information to the healthcare team and patients of the Facility in accordance with prevailing standards of pharmacy practice.",
+      "compliances": [
+        {
+          "complianceNumber": "24.1.1",
+          "complianceSummary": "The Vision, Mission of the Facility are visible. The Goals of the Pharmacy Services suit its scope and are clearly documented. It should reflect the aspirations of the service and the needs of the community.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The Mission, Vision and Goals of the Organisation are visible, endorsed and dated."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is an endorsed and dated department Organisational chart with lines of functions and reporting relationships."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Relevant policies and acts are available in the department (National Health Plan, National Health Service Standards, Service Improvement Plan, Medicines Cosmetics Act 1999 and Regulations 2001, etc.)."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Evidence of submission of an Annual Implementation Plan and budget."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Evidence of fee structure (if fees are collected)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.1.2",
+          "complianceSummary": "There is a mechanism to ensure effective interaction between the Head of the Services and the Organisation’s Governing Body and Senior Management.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Letter of appointment and terms of reference as the Head of Service"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Letter of appointment and terms of reference as a member of the Clinical Governance Advisory Committee."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Letter of appointment and terms of reference in other hospital committees (including the Medicine and Therapeutics Committee)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.1.3",
+          "complianceSummary": "Regular staff meetings are held between Head of Service and staff with sufficient regularity to discuss issues pertaining to the Pharmacy Services. These meetings are minuted and communicated to all staff.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Meeting minutes are available, disseminated and acknowledged by staff (see initialing)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is sufficient attendance for the meetings with adequate representatives of the service (see attendance sheets)"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Frequency of meetings are as scheduled (minutes or meeting reports)"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Discussions and resolutions are implemented. (problems not solved are brought forward to the next meeting till resolved)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.1.4",
+          "complianceSummary": "Appropriate statistics and records are maintained in the department in and used for managing services and patient care.\nThe following (among others) are available:\na.) workload/census for inpatients and outpatients\nb.) quarterly and annual report\nc.) incident reports and register\nd.) staffing number and staff profile\ne.) staff training records\nf.) data on performance improvement",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The statistics and records from (a) to (f) are available."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "24.2",
+      "criterionTitle": "Human resource and development",
+      "guidance": "The Pharmacy Services shall be managed by a suitably qualified, experienced and registered pharmacist; and supported by other registered pharmacists, pharmacy assistants and other supporting staff to achieve the objectives of the services.",
+      "compliances": [
+        {
+          "complianceNumber": "24.2.1",
+          "complianceSummary": "The are written and dated job descriptions for each category of staff that include:\na.) Qualification, training and experience for the position\nb.) Lines of authority\nc.) Accountability, functions and responsibilities\nd.) Reviewed when required if there is major change in job scope\ne.) Statutory regulations\nf.) Administrative and clinical job scope",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There are dated and specific job descriptions for each staff that include (a) to (f)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The job description is acknowledged by the staff and signed by the Head of Service and dated."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "The scope of work in the job description aligns with the training, skill and experience of the staff (including specialisation)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.2.2",
+          "complianceSummary": "The staff holds current registration with the relevant professional body (Pharmacy Board of PNG).",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of current registration for all cadres of staff (annual practicing certificate) with the Pharmacy Board."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.2.3",
+          "complianceSummary": "The staff works within their job description and job scope.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Observation that cadres of staff are working according to their job description and job scope."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.2.4",
+          "complianceSummary": "There is a structured orientation programme where new staff are briefed on their services, operational policies and relevant aspects of the Facility to prepare them for their roles and responsibilities.\n\nThe Orientation Programme should include:\na) Goals, objectives, policies and procedures of the Facility and those of Pharmacy Services including the National Competency Standards Framework for Pharmacists in PNG 2017\na.) Lines of authority and areas of responsibility\nb.) Explanation of duties and functions\nc.) Handover communication\nd.) Information about safety procedures\ne.) Methods of obtaining appropriate resource materials\nf.) Staff appraisal procedures for the Pharmacy Services\ng.) Education on Patient and Family Rights",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is a policy requiring new staff to attend an orientation programme."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Records of staff attendance to orientation programme."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.2.5",
+          "complianceSummary": "The Pharmacy staff are attired appropriately.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The staff wear neat apron/coats."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The staff have a badge displaying their names and the word “Pharmacist”"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.2.6",
+          "complianceSummary": "There are continuing education activities for staff to pursue professional interests and to prepare for current and future changes in practice.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Training calendar includes in-house/ external courses/ workshops/ conferences"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Training for each staff is kept in the Department (see list)."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There are ongoing Continuous Professional Activities in the Department (see training reports, minutes)"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.2.7",
+          "complianceSummary": "The educational needs of staff are addressed following findings from incidents reports, mortality audits and performance improvement studies.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of staff training because of recommendations made from incident reports or mortality and morbidity reviews (see audits and remedial action)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.2.8",
+          "complianceSummary": "In a Facility where undergraduate or postgraduate Pharmacy training programmes are conducted, the Facility shall ensure there are sufficient skilled trained staff to provide clinical supervision of students.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of sufficient skilled trained staff to provide clinical supervision as per terms of Memorandum of Understanding."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is Memorandum of Understanding with the relevant training institutions."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.2.9",
+          "complianceSummary": "Pharmacy practitioners receive evaluation of their performance at the completion of the probationary period and annually thereafter, or as defined by the Organisation.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Performance appraisal for staff including Pharmacy practitioners is completed upon probationary period and as an annual exercise."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.2.10",
+          "complianceSummary": "Where appropriate the Facility shall endeavour to undertake clinical research using available resources.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Documented evidence of research activities in the Department."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.2.11",
+          "complianceSummary": "Staffing levels should be adequate with appropriate qualification and training.\na.) The number of persons deployed is proportional to the number of cases handled.\nb.) There are different cadres of staff with appropriate qualification: pharmacists, pharmacy technicians, pharmacy technicians, storeman, cleaners.\nc.) Staffing needs shall take into consideration absences due to leave or illness.\nd.) Adequate staffing levels of appropriate competency shall be maintained throughout the hours the services are in operation.\ne.) Where it is not possible to have service providers on duty on site, e.g. after working hours, provision is made for relevant Pharmacy practitioner to be available on call.\nPlanning of staff allocation and movement within the Department includes the following;",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of staff allocation in the Pharmacy Services is based on workload (see workload and staff figures)"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Evidence of contingency plan for acute shortage"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of duty roster and on-call roster"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Evidence that there is a gazetted pharmaceutical inspector"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "24.3",
+      "criterionTitle": "Policies and procedures",
+      "guidance": "There are written and dated policies for all activities of the Pharmacy Services. These policies reflect current standards of pharmaceutical practice, relevant regulations and statutory requirements. These policies and procedures, terms of reference, by laws, rules and regulations state how the clinical staff regulate themselves and provide patient care.",
+      "compliances": [
+        {
+          "complianceNumber": "24.3.1",
+          "complianceSummary": "There are written policies and procedures for the Pharmacy Services which are consistent with the overall policies of the Facility, regulatory requirements and current standard practices.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of documented policies and procedures for the service."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The policies and procedures are endorsed and dated."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There is a periodic review at least once in three years."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Copies of policies, by laws, regulations and relevant acts are accessible on site for staff reference"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.3.2",
+          "complianceSummary": "Policies and procedures are developed by a committee in collaboration with staff and with other departments if needed.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Minutes of committee meetings on development and revision on policies and procedures."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.3.3",
+          "complianceSummary": "The Pharmacy service has a Quality Management System (QMS).",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is a Quality Management System (QMS) manual."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "All QMS activities are documented."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "The Quality manual is reviewed and updated."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "There are written SOPs for receipt of stocks including vaccines."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "There are SOPs for effective stock rotation (FEFO/FIFO)"
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "There are written procedures for disposal of expired, contaminated or damaged stock."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "There is evidence that staff have been trained in the procedures (training attendance or staff initials after reading SOP."
+            },
+            {
+              "evidenceNumber": "8",
+              "evidenceSummary": "There is an SOP on recall of medicines."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.3.4",
+          "complianceSummary": "There are standard operating procedures on medicines and supplies control and record keeping.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is a computerised programme for drug dispensing (sight)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is an effective stock control system in place that records all medicines and supplies (see online system or stock cards)."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There is a computerised system or prescription book for medicines records and number of prescriptions dispensed."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "There is lock and key cupboard with a register for dangerous drugs."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "There are copies maintained of records and registers."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.3.5",
+          "complianceSummary": "There are standard operating procedures on the dispensing of prescriptions.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is a SOP for prescription handling."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Dispensed medicine are labelled according to Medicines and Cosmetics Regulation requirements."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Every prescription dispensed is checked and signed off by a pharmacist."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "There is a Good Pharmacy Practice Standard Guideline available in the Facility."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "There is evidence that the pharmacist provides appropriate counselling during dispensing. (interview/observation)"
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "The pharmacy promotes rational drug use to the public and medical profession (interview, observation, medical records)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.3.6",
+          "complianceSummary": "The pharmacy has SOPs for storage, distribution and disposal of medicines.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is a SOP for medicines storage."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There are SOPs for distribution of medicines."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "The pharmacy does ward impress rounds (interview, observe, see documentation)."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "There are Good Storage Practice Standards (GSPS) guidelines available in the Pharmacy."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Storage areas are secured and locked when required."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Medicines are stored at stipulated temperature, protected from light, dust, humidity (observe, interview)."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "There is regular stock rotation done."
+            },
+            {
+              "evidenceNumber": "8",
+              "evidenceSummary": "There is a list of expired drugs."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.3.7",
+          "complianceSummary": "The Pharmacy has good clinical governance systems in place.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is an SOP to handle patient complaints."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is a system to document all events in the pharmacy."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Copies of meeting minutes of the Medicine and Therapeutics committee are available in the pharmacy and is read by staff (sight copy and see staff initials)."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "There is a SOP on reporting and monitoring of adverse events (see SOP)"
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Adverse Drug Reaction (ADR) forms are filled appropriately and conform to SOP (see ADR form and compliance to reporting pathway)."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "There is an established drug information system established and in use in the Pharmacy Department."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "The Pharmacy Department has a collection of reference books."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "24.4",
+      "criterionTitle": "Facilities and equipment",
+      "guidance": "The Head of Pharmacy Services shall ensure adequate facilities and equipment are safe and appropriate are available for the staff to function effectively and to meet the goals and objectives of the Pharmacy Services.",
+      "compliances": [
+        {
+          "complianceNumber": "24.4.1",
+          "complianceSummary": "There are adequate and appropriate facilities and equipment with proper utilisation of space to enable staff to carry out their professional, teaching and administrative functions.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The building is sound and there is adequate space to match the services (medicine holding shelves, display counter, counselling area, compounding and dispensing)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The environment around the pharmacy is neat and tidy."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There is signage to the Pharmacy department."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "There is a “Pharmacy” sign in front of the pharmacy."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Pharmacy services and hours are clearly demonstrated in English and Pidgin."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "The pharmacist is easily accessible to public for counselling and information (observe and interview)."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "There is constant supply of electricity particularly for the refrigerators."
+            },
+            {
+              "evidenceNumber": "8",
+              "evidenceSummary": "There is good ventilation within the pharmacy"
+            },
+            {
+              "evidenceNumber": "9",
+              "evidenceSummary": "There is running water in the facility"
+            },
+            {
+              "evidenceNumber": "10",
+              "evidenceSummary": "There is a record of pest control measures taken."
+            },
+            {
+              "evidenceNumber": "11",
+              "evidenceSummary": "The pharmacy has adequate lighting."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.4.2",
+          "complianceSummary": "Existing facilities shall consider the safety and comfort of staff and patients.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is provision of drinking water for patients to take their medication and for staff."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is access to hand washing facilities."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There are sharp bins for disposal of sharps."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "There is adequate PPE (observe and interview)."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "There are separate rubbish bins for patients and pharmacy personnel."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "There is detergent for cleaning."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.4.3",
+          "complianceSummary": "Suitable forms of communication systems and equipment are provided to enable Pharmacy staff to communicate among themselves and with the other members of the healthcare team.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Appropriate telecommunication modalities available for daily operation and during emergencies."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.4.4",
+          "complianceSummary": "There is adequate equipment in the Pharmacy Department.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is a working refrigerator or cool room for medicines and vaccines storage."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There are adequate tablet counting trays, spatulas, dispensing bags and bottles and containers."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There are a range of graduated, stamped glassware measures."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "The pharmacy has a mortar and pestle and an area to prepare topical preparations."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "There is evidence of cautionary and advisory labels or clear warning indications on labels."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "There is a suitable, validated laminar airflow cabinet for preparation of oncology drugs."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "Computers and printers are available for the labelling and dispensing of medicines."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.4.5",
+          "complianceSummary": "Facilities are suitably located to facilitate easy access and to provide an atmosphere of user, environmental and ‘disabled’ friendly.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The Pharmacy is accessible to people living with disabilities (PLWD)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Feedback from patient satisfaction surveys on the facilities."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Incident reporting relating to facilities if any."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "24.5",
+      "criterionTitle": "Safety and performance improvement activities",
+      "guidance": "The Head of Pharmacy Department shall ensure the provision of quality performance with staff involvement in the continuous safety and performance improvement activities of the Services.",
+      "compliances": [
+        {
+          "complianceNumber": "24.5.1",
+          "complianceSummary": "There are planned activities for performance and quality improvement.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is a designated person who monitors safety and performance improvement activities within the Pharmacy Services."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There are records/registers on performance improvement activities."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There are meeting minutes for performance improvement meetings"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "There are records on innovation (if any)"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.5.2",
+          "complianceSummary": "The Head of Pharmacy Services shall ensure that the staff are trained and complete incident reports which are promptly reported, investigated, discussed by the staff and forwarded to the Officer in Charge (OIC) of the Facility. Selected incidents have Root Cause Analysis (RCA) done in an agreed time frame to prevent recurrence.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "System for incident reporting is in place with the following;\na.) Training of staff in incident reporting\nb.) Policy on incident reporting\nc.) Method/SOP on Incident reporting\nd.) Register of incidents"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Completed incident reports"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Corrective and preventive action plans"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Minutes of meeting"
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Involved staff given feedback about the incident report"
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Acknowledgment by Head of Pharmacy Service and Director of Curative Services."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "24.5.3",
+          "complianceSummary": "Specific performance indicators are tracked. (e.g. percentage of prescription error, percentage of dispensing error, average time taken for prescription to be dispensed from time received at counter, number, value of expired drugs for a specific period).",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Specific performance indicators are monitored."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Remedial action is taken when appropriate"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "notes": []
+}

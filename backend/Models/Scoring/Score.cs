@@ -12,9 +12,10 @@ namespace backend.Models.Scoring
     {
         [Key]
         public int scoreId { get; set; }
-        public int? scoreValue { get; set; } //nullable int: 0, 1, 2 — null represents "Not Applicable"
-        public required string scoreLabel { get; set; } //e.g. "Non-Compliant", "Partially Compliant", "Compliant", "Not Applicable"
-        public string? description { get; set; }
+        public int? scoreValue { get; set; } //1–4; null represents "Not Applicable"
+        public required string scoreLabel { get; set; }
+        public string? description { get; set; } //Rating rationale
+        public string? guidance { get; set; } //Surveyor guidance for the rating
         public ICollection<ComplianceAssessment>? complianceAssessments { get; set; }
     }
 }

@@ -2,12 +2,16 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getAll, getInternalAssessmentReferences, getOne, getSurveyAssessments, getSurveyAssessmentOverview, getSurveyEvidenceChecks } from "../../api/api";
 import { useAuth } from "../../context/AuthContext";
+import { MAX_SCORE_VALUE, isPriorityScore, scoreOutcomeLabel, scoreTone } from "../../utils/scoring";
+import { countDashboardStandards } from "../../utils/standardFamilies";
+import SurveyContextNav from "../../components/SurveyContextNav";
 
 const numberSort = (first, second) => String(first ?? "").localeCompare(String(second ?? ""), undefined, { numeric: true });
 const percent = (value, total) => total ? Math.round((value / total) * 100) : 0;
+const isPriorityRisk = (riskValue) => ["H", "E", "HIGH", "EXTREME", "CRITICAL", "SEVERE"].includes(String(riskValue || "").trim().toUpperCase());
 function OutcomeValue({ assessment }) {
-  const label = assessment.scoreValue === 0 ? "Non-compliant" : assessment.scoreValue === 1 ? "Partially compliant" : assessment.scoreValue === 2 ? "Compliant" : assessment.scoreId ? "N/A" : "Not scored";
-  const tone = assessment.scoreValue === 0 ? "bg-red-50 text-red-700 ring-red-200" : assessment.scoreValue === 1 ? "bg-amber-50 text-amber-800 ring-amber-200" : assessment.scoreValue === 2 ? "bg-[#edf8f0] text-[#16803a] ring-[#bbf7d0]" : "bg-slate-100 text-slate-600 ring-slate-200";
+  const label = assessment.scoreValue != null ? (assessment.scoreLabel || scoreOutcomeLabel(assessment.scoreValue)) : assessment.scoreId ? "N/A" : "Not scored";
+  const tone = assessment.scoreValue != null ? scoreTone(assessment.scoreValue) : "bg-slate-100 text-slate-600 ring-slate-200";
   return <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-bold ring-1 ring-inset ${tone}`}>{label}</span>;
 }
 
@@ -20,19 +24,31 @@ function Bar({ value, tone = "bg-[#16803a]" }) {
   return <div className="h-2.5 overflow-hidden rounded-full bg-[#dbe5ef]"><div className={`h-full rounded-full ${tone}`} style={{ width: `${value}%` }} /></div>;
 }
 
-const riskColours = ["#b42318", "#d97706", "#16803a", "#0079b8", "#7c3aed", "#64748b"];
+function riskColour(riskValue) {
+  const value = String(riskValue || "").trim().toUpperCase();
+  if (["E", "EXTREME", "CRITICAL", "SEVERE"].includes(value)) return "#991b1b";
+  if (["H", "HIGH"].includes(value)) return "#dc2626";
+  if (["M", "MEDIUM", "MODERATE"].includes(value)) return "#d97706";
+  if (["L", "LOW"].includes(value)) return "#16803a";
+  return "#64748b";
+}
 
 function RiskPieChart({ breakdown, compact = false }) {
   const total = breakdown.reduce((sum, item) => sum + item.count, 0);
   if (!total) return <p className="text-sm text-[#68778c]">No risk ratings recorded.</p>;
-  const slices = breakdown.reduce(({ position, values }, item, index) => {
+  const slices = breakdown.reduce(({ position, values }, item) => {
     const nextPosition = position + (item.count / total) * 100;
-    return { position: nextPosition, values: [...values, `${riskColours[index % riskColours.length]} ${position}% ${nextPosition}%`] };
+    return { position: nextPosition, values: [...values, `${riskColour(item.label)} ${position}% ${nextPosition}%`] };
   }, { position: 0, values: [] }).values.join(", ");
   return <div className={`flex items-center ${compact ? "gap-3" : "gap-4"}`}>
     <div role="img" aria-label={`Risk rating breakdown: ${breakdown.map((item) => `${item.label} ${item.count}`).join(", ")}`} className={`relative ${compact ? "h-16 w-16" : "h-24 w-24"} shrink-0 rounded-full`} style={{ background: `conic-gradient(${slices})` }}><div className={`absolute inset-0 m-auto flex ${compact ? "h-10 w-10 text-xs" : "h-16 w-16 text-sm"} items-center justify-center rounded-full bg-white font-bold text-[#092a5a]`}>{total}</div></div>
-    <ul className="min-w-0 space-y-1 text-xs text-[#4b5f7a]">{breakdown.map((item, index) => <li key={item.label} className="flex items-center gap-2"><span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: riskColours[index % riskColours.length] }} /><span className="truncate">{item.label}</span><strong className="ml-auto text-[#092a5a]">{item.count}</strong></li>)}</ul>
+    <ul className="min-w-0 space-y-1 text-xs text-[#4b5f7a]">{breakdown.map((item) => <li key={item.label} className="flex items-center gap-2"><span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: riskColour(item.label) }} /><span className="truncate">{item.label}</span><strong className="ml-auto text-[#092a5a]">{item.count}</strong></li>)}</ul>
   </div>;
+}
+
+function FindingsQueue({ findings, onSelect }) {
+  const visible = findings.slice(0, 6);
+  return <section className="mt-6 overflow-hidden rounded-xl border border-[#f1d7b6] bg-white shadow-sm"><div className="flex flex-col gap-3 border-b border-[#f5e4cf] bg-[#fffbf4] px-5 py-4 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-[#9a5b13]">Priority review</p><h2 className="mt-1 text-lg font-bold text-[#092a5a]">Findings queue</h2><p className="mt-1 text-sm text-[#68778c]">Poor or fair achievement ratings with High or Extreme risk.</p></div><span className="w-fit rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800">{findings.length} priority finding{findings.length === 1 ? "" : "s"}</span></div>{visible.length === 0 ? <p className="px-5 py-8 text-sm text-[#68778c]">No high- or extreme-risk compliance gaps have been recorded.</p> : <div className="divide-y divide-[#f5e4cf]">{visible.map((detail) => <button key={detail.complianceAssessmentId} onClick={() => onSelect(detail.standard)} className="flex w-full items-start gap-4 px-5 py-4 text-left transition hover:bg-[#fffaf2]"><span className="min-w-0 flex-1"><span className="text-xs font-bold uppercase tracking-wider text-[#9a5b13]">Standard {detail.standard.standardNumber} · {detail.compliance?.complianceNumber}</span><span className="mt-1 block text-justify text-sm font-semibold leading-6 text-[#092a5a]">{detail.compliance?.complianceSummary}</span><span className="mt-1 block text-sm text-[#4b5f7a]">Risk: {detail.riskValue}</span></span><span className="w-36 shrink-0 pt-1 text-right"><OutcomeValue assessment={detail} /></span></button>)}</div>}{findings.length > visible.length && <p className="border-t border-[#f5e4cf] px-5 py-3 text-sm text-[#68778c]">Showing the first {visible.length} priority findings. Use the Results Workspace filters to review the rest.</p>}</section>;
 }
 
 function SurveyResultsPage() {
@@ -116,7 +132,7 @@ function SurveyResultsPage() {
         || numberSort(first.compliance?.complianceNumber, second.compliance?.complianceNumber));
       const completed = rows.filter((row) => row.scoreId);
       const scored = completed.filter((row) => row.scoreValue != null);
-      const score = scored.length ? percent(scored.reduce((sum, row) => sum + row.scoreValue, 0), scored.length * 2) : null;
+      const score = scored.length ? percent(scored.reduce((sum, row) => sum + row.scoreValue, 0), scored.length * MAX_SCORE_VALUE) : null;
       const evidence = visibleChecks.filter((check) => rows.some((row) => row.complianceAssessmentId === check.complianceAssessmentId));
       const status = completed.length === 0 ? "Not started" : completed.length < rows.length ? "In progress" : score == null ? "N/A" : "Completed";
       const criteriaSummary = [...new Map(details.map((detail) => [detail.criterion?.criterionId, detail.criterion])).entries()]
@@ -127,7 +143,7 @@ function SurveyResultsPage() {
           const summarise = (items) => {
             const completedItems = items.filter((item) => item.scoreId);
             const numeric = completedItems.filter((item) => item.scoreValue != null);
-            const score = numeric.length ? percent(numeric.reduce((sum, item) => sum + item.scoreValue, 0), numeric.length * 2) : null;
+            const score = numeric.length ? percent(numeric.reduce((sum, item) => sum + item.scoreValue, 0), numeric.length * MAX_SCORE_VALUE) : null;
             return {
               score: numeric.length ? `${score}%` : completedItems.length ? "N/A" : "Not scored",
               risk: [...new Set(items.map((item) => item.riskValue).filter(Boolean))].join(", ") || "Not rated",
@@ -166,6 +182,8 @@ function SurveyResultsPage() {
       completed: assessments.filter((assessment) => assessment.scoreId).length,
       evidenceComplete: visibleChecks.filter((check) => check.isChecked).length,
       evidenceTotal: visibleChecks.length,
+      overallScore: (() => { const scored = assessments.filter((assessment) => assessment.scoreValue != null); return scored.length ? percent(scored.reduce((sum, assessment) => sum + assessment.scoreValue, 0), scored.length * MAX_SCORE_VALUE) : null; })(),
+      findings: standardRows.flatMap((standard) => standard.details.filter((detail) => isPriorityScore(detail.scoreValue) && isPriorityRisk(detail.riskValue)).map((detail) => ({ ...detail, standard }))),
     };
   }, [assessments, checks, criteria, compliances, standards, components, internalReferences]);
 
@@ -177,7 +195,7 @@ function SurveyResultsPage() {
         if (standardFilter && String(standard.standardId) !== standardFilter) return false;
         if (surveyorFilter && !standard.surveyors.includes(surveyorFilter)) return false;
         const matchingDetails = standard.details.filter((detail) => {
-          const isFinding = detail.statusKey === "0" || detail.statusKey === "1" || Boolean(detail.riskRatingId);
+          const isFinding = isPriorityScore(detail.scoreValue) || Boolean(detail.riskRatingId);
           return (viewMode !== "findings" || isFinding)
             && (statusFilter === "all" || detail.statusKey === statusFilter);
         });
@@ -195,13 +213,14 @@ function SurveyResultsPage() {
 
   return <><main className="print:hidden mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:py-8">
     <div className="print:hidden"><Link to={`/surveys/${surveyId}`} className="text-sm font-semibold text-[#16803a] hover:underline">← Back to survey</Link></div>
+    <SurveyContextNav surveyId={surveyId} />
     <header className="mt-5 rounded-2xl border border-[#c9dded] bg-[linear-gradient(125deg,#eaf3fb_0%,#f8fafc_65%,#fdf7ea_100%)] p-6 sm:p-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"><div><p className={`text-xs font-bold uppercase tracking-[.16em] ${survey.surveyTypeName === "External" ? "text-violet-700" : "text-sky-800"}`}>{canViewFullResults ? "Survey results summary" : "My assigned standards results"}</p><h1 className="mt-2 text-3xl font-bold text-[#092a5a]">{survey.facilityName}</h1><p className="mt-2 text-sm text-[#4b5f7a]">{survey.startDate} — {survey.endDate}</p><SurveyTypeBadge surveyTypeName={survey.surveyTypeName} /></div><button onClick={() => window.print()} className="print:hidden rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">{viewMode !== "overview" || componentFilter || standardFilter || surveyorFilter || statusFilter !== "all" ? "Print / Save filtered PDF" : "Print / Save PDF"}</button></div>
     </header>
-    <section className="mt-6 grid gap-4 sm:grid-cols-3"><Metric label="Requirements scored" value={`${result.completed} / ${assessments.length}`} /><Metric label="Evidence complete" value={`${result.evidenceComplete} / ${result.evidenceTotal}`} /><Metric label="Standards" value={result.standardRows.length} /></section>
-    <ResultExplorer controls={{ viewMode, setViewMode, componentFilter, setComponentFilter, standardFilter, setStandardFilter, surveyorFilter, setSurveyorFilter, statusFilter, setStatusFilter }} components={explorerComponents} allComponents={result.componentRows} allStandards={result.standardRows} allSurveyors={allSurveyors} canViewFullResults={canViewFullResults} isExternal={survey.surveyTypeName === "External"} expandedStandards={expandedStandards} onToggleStandard={toggleStandard} />
+    <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"><Metric label="Requirements scored" value={`${result.completed} / ${assessments.length}`} /><Metric label="Overall score" value={result.overallScore == null ? "N/A" : `${result.overallScore}%`} /><Metric label="Evidence complete" value={`${result.evidenceComplete} / ${result.evidenceTotal}`} /><Metric label="Priority findings" value={result.findings.length} /></section>
     <section className="mt-6 rounded-xl border border-[#dbe5ef] bg-white p-5 shadow-sm sm:p-6"><div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between"><div><h2 className="text-lg font-bold text-[#092a5a]">Component results</h2><p className="mt-1 text-sm text-[#68778c]">Performance and risk-rating distribution across each component.</p></div></div><div className="mt-5 grid gap-5 lg:grid-cols-2">{result.componentRows.map((component) => <article key={component.componentId} className="rounded-xl border border-[#e1ebf4] bg-[#f8fafc] p-4"><p className="font-semibold text-[#092a5a]">{component.componentNumber} · {component.componentName}</p><div className="mt-4 grid gap-5 sm:grid-cols-[minmax(0,1fr)_12rem]"><div><div className="mb-2 flex justify-between gap-4 text-sm"><span className="font-semibold text-[#4b5f7a]">Average score</span><span className="font-bold text-[#16803a]">{component.score == null ? "N/A" : `${component.score}%`}</span></div><Bar value={component.score || 0} /></div><div><p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#68778c]">Risk findings</p><RiskPieChart breakdown={component.riskBreakdown} compact /></div></div></article>)}</div></section>
-    <section className="mt-6 space-y-6">{result.componentRows.map((component) => <div key={component.componentId} className="overflow-hidden rounded-xl border border-[#dbe5ef] bg-white shadow-sm"><div className="bg-[#0f6b3c] px-5 py-4 text-white"><p className="text-xs font-bold uppercase tracking-wider">Component {component.componentNumber}</p><h2 className="mt-1 font-semibold">{component.componentName}</h2></div><div className="divide-y divide-[#e7edf4]">{component.standards.map((standard) => <div key={standard.standardId} className="grid gap-4 p-5 lg:grid-cols-[minmax(0,1fr)_12rem_11rem_10rem]"><div><p className="font-bold text-[#092a5a]">Standard {standard.standardNumber} · {standard.standardTitle}</p>{canViewFullResults && <p className="mt-1 text-xs text-[#68778c]">Assigned: {standard.surveyors.join(", ")}</p>}</div><div><p className="mb-1 text-xs font-bold uppercase tracking-wider text-[#68778c]">Score</p><p className="font-bold text-[#16803a]">{standard.score == null ? (standard.status === "Not started" ? "—" : "N/A") : `${standard.score}%`}</p><Bar value={standard.score || 0} /><p className="mt-1 text-xs text-[#68778c]">{standard.status}</p></div><div><p className="text-xs font-bold uppercase tracking-wider text-[#68778c]">Evidence</p><p className="mt-1 text-sm text-[#092a5a]">{standard.evidenceComplete} / {standard.evidenceTotal} complete</p></div><div><p className="text-xs font-bold uppercase tracking-wider text-[#68778c]">Risk findings</p><p className="mt-1 text-sm font-semibold text-[#092a5a]">{standard.risks || "None"}</p><Link to={`/surveys/${surveyId}`} className="mt-2 inline-block text-xs font-semibold text-[#16803a] print:hidden">Open scores →</Link></div></div>)}</div></div>)}</section>
+    <FindingsQueue findings={result.findings} onSelect={(standard) => { const component = result.componentRows.find((item) => item.componentNumber === standard.componentNumber); setComponentFilter(component ? String(component.componentId) : ""); setStandardFilter(String(standard.standardId)); setViewMode("findings"); setExpandedStandards((current) => current.includes(standard.standardId) ? current : [...current, standard.standardId]); document.getElementById("results-workspace")?.scrollIntoView({ behavior: "smooth", block: "start" }); }} />
+    <div id="results-workspace"><ResultExplorer controls={{ viewMode, setViewMode, componentFilter, setComponentFilter, standardFilter, setStandardFilter, surveyorFilter, setSurveyorFilter, statusFilter, setStatusFilter }} components={explorerComponents} allComponents={result.componentRows} allStandards={result.standardRows} allSurveyors={allSurveyors} canViewFullResults={canViewFullResults} isExternal={survey.surveyTypeName === "External"} expandedStandards={expandedStandards} onToggleStandard={toggleStandard} /></div>
   </main><PrintSurveyReport survey={survey} result={result} assessments={assessments} filteredComponents={explorerComponents} isFiltered={viewMode !== "overview" || Boolean(componentFilter || standardFilter || surveyorFilter || statusFilter !== "all")} canViewFullResults={canViewFullResults} generatedBy={[profile?.firstName, profile?.lastName].filter(Boolean).join(" ") || auth?.username || "System user"} /></>;
 }
 
@@ -209,7 +228,7 @@ function CriterionSummarySheet({ standard, isExternal }) {
   const columns = isExternal
     ? ["Criterion", "Internal score", "Internal risk", "Internal comments", "External score", "External risk", "External comments"]
     : ["No.", "Criteria for compliance & annotation", "Score", "Risk rating", "Summary of recommendations / comments"];
-  return <section className="mb-5 overflow-hidden rounded-md border border-[#8fa9c4] bg-white shadow-sm">
+  return <section className={`survey-summary-sheet survey-summary-sheet--${isExternal ? "external" : "internal"} mb-5 overflow-hidden rounded-md border border-[#8fa9c4] bg-white shadow-sm`}>
     <div className="grid border-b border-[#8fa9c4] sm:grid-cols-[10rem_minmax(0,1fr)]"><div className="bg-[#092a5a] px-4 py-4 text-white"><p className="text-xs font-bold uppercase tracking-[0.16em]">Summary sheet</p><p className="mt-2 text-xs leading-5 text-[#dbeafe]">Standard results and surveyor findings</p></div><div className="bg-[#edf5fc] px-4 py-4"><p className="text-xs font-bold uppercase tracking-[0.12em] text-[#16803a]">National Health Service Standards</p><h4 className="mt-1 font-bold leading-6 text-[#092a5a]">Standard {standard.standardNumber}: {standard.standardTitle}</h4><p className="mt-1 text-xs leading-5 text-[#4b5f7a]">Criterion score, risk rating, and summary recommendations/comments.</p></div></div>
     <div className="hidden overflow-x-auto md:block"><table className="w-full min-w-[760px] border-collapse text-left text-sm"><thead className="bg-[#315c88] text-xs uppercase tracking-wider text-white"><tr>{columns.map((column) => <th key={column} className="border border-[#8fa9c4] px-3 py-3 align-bottom">{column}</th>)}</tr></thead><tbody>{standard.criteriaSummary.map(({ criterion, current, internal }) => <tr key={criterion.criterionId} className="align-top even:bg-[#f8fafc]"><td className="border border-[#c9d8e6] px-3 py-3 font-bold text-[#092a5a]">{criterion.criterionNumber}</td>{isExternal ? <><td className="border border-[#c9d8e6] px-3 py-3 font-semibold text-sky-800">{internal?.score || "Not recorded"}</td><td className="border border-[#c9d8e6] px-3 py-3 text-[#4b5f7a]">{internal?.risk || "Not recorded"}</td><td className="max-w-56 border border-[#c9d8e6] px-3 py-3 text-justify leading-5 text-[#4b5f7a]">{internal?.comments || "No internal assessment recorded."}</td><td className="border border-[#c9d8e6] px-3 py-3 font-semibold text-[#16803a]">{current.score}</td><td className="border border-[#c9d8e6] px-3 py-3 text-[#4b5f7a]">{current.risk}</td><td className="max-w-56 border border-[#c9d8e6] px-3 py-3 text-justify leading-5 text-[#4b5f7a]">{current.comments}</td></> : <><td className="min-w-72 border border-[#c9d8e6] px-3 py-3"><p className="text-justify font-semibold leading-5 text-[#092a5a]">{criterion.criterionTitle}</p></td><td className="border border-[#c9d8e6] px-3 py-3 font-semibold text-[#16803a]">{current.score}</td><td className="border border-[#c9d8e6] px-3 py-3 text-[#4b5f7a]">{current.risk}</td><td className="max-w-72 border border-[#c9d8e6] px-3 py-3 text-justify leading-5 text-[#4b5f7a]">{current.comments}</td></>}</tr>)}<tr className="bg-[#eaf3fb]"><td colSpan={isExternal ? 4 : 2} className="border border-[#8fa9c4] px-3 py-3 text-xs font-bold uppercase tracking-wider text-[#092a5a]">Totals</td><td colSpan={isExternal ? 3 : 3} className="border border-[#8fa9c4] px-3 py-3 font-bold text-[#16803a]">{standard.score == null ? (standard.status === "Not started" ? "Not scored" : "N/A") : `${standard.score}%`}</td></tr></tbody></table></div>
     <div className="divide-y divide-[#e7edf4] md:hidden">{standard.criteriaSummary.map(({ criterion, current, internal }) => <article key={criterion.criterionId} className="p-4"><p className="text-xs font-bold uppercase tracking-wider text-[#16803a]">Criterion {criterion.criterionNumber}</p><h5 className="mt-1 font-semibold leading-6 text-[#092a5a]">{criterion.criterionTitle}</h5>{isExternal && <div className="mt-3 rounded-md bg-sky-50 p-3 text-sm"><p className="font-bold text-sky-800">Internal self-assessment</p><p className="mt-1 text-[#385273]">Score: {internal?.score || "Not recorded"} · Risk: {internal?.risk || "Not recorded"}</p><p className="mt-1 leading-5 text-[#385273]">{internal?.comments || "No internal assessment recorded."}</p></div>}<div className="mt-3 text-sm"><p className="font-semibold text-[#16803a]">{isExternal ? "External survey" : "Score"}: {current.score}</p><p className="mt-1 text-[#4b5f7a]">Risk: {current.risk}</p><p className="mt-1 leading-5 text-[#4b5f7a]">{current.comments}</p></div></article>)}<p className="bg-[#f6f9fc] px-4 py-3 text-sm font-bold text-[#092a5a]">Standard total: <span className="text-[#16803a]">{standard.score == null ? (standard.status === "Not started" ? "Not scored" : "N/A") : `${standard.score}%`}</span></p></div>
@@ -219,7 +238,7 @@ function CriterionSummarySheet({ standard, isExternal }) {
 function ResultExplorer({ controls, components, allComponents, allStandards, allSurveyors, canViewFullResults, isExternal, expandedStandards, onToggleStandard }) {
   const { viewMode, setViewMode, componentFilter, setComponentFilter, standardFilter, setStandardFilter, surveyorFilter, setSurveyorFilter, statusFilter, setStatusFilter } = controls;
   const modeLabel = { overview: "Overview", findings: "Findings", full: "Full detail" };
-  const statusLabel = { unscored: "Not scored", na: "N/A", 0: "Non-compliant", 1: "Partially compliant", 2: "Compliant" };
+  const statusLabel = { unscored: "Not scored", na: "N/A", 1: "Poor achievement", 2: "Fair achievement", 3: "Good achievement", 4: "Full achievement" };
   const availableStandards = componentFilter
     ? allComponents.find((component) => String(component.componentId) === componentFilter)?.standards || []
     : allStandards;
@@ -246,11 +265,11 @@ function PrintSurveyReport({ survey, result, assessments, filteredComponents, is
     </tbody></table>
     <section className="survey-print-section">
       <h2>Completion summary</h2>
-      <table className="survey-print-table survey-print-metrics"><thead><tr><th>Requirements scored</th><th>Evidence checks completed</th><th>Standards covered</th></tr></thead><tbody><tr><td>{result.completed} / {assessments.length}</td><td>{result.evidenceComplete} / {result.evidenceTotal}</td><td>{result.standardRows.length}</td></tr></tbody></table>
+      <table className="survey-print-table survey-print-metrics"><thead><tr><th>Requirements scored</th><th>Evidence checks completed</th><th>Standards covered</th></tr></thead><tbody><tr><td>{result.completed} / {assessments.length}</td><td>{result.evidenceComplete} / {result.evidenceTotal}</td><td>{countDashboardStandards(result.standardRows)}</td></tr></tbody></table>
     </section>
     <section className="survey-print-section">
       <h2>Component summary</h2>
-      <table className="survey-print-table"><thead><tr><th>Component</th><th>Standards assessed</th><th>Average score</th></tr></thead><tbody>{result.componentRows.map((component) => <tr key={component.componentId}><td>{component.componentNumber}. {component.componentName}</td><td>{component.standards.length}</td><td>{component.score == null ? "N/A" : `${component.score}%`}</td></tr>)}</tbody></table>
+      <table className="survey-print-table"><thead><tr><th>Component</th><th>Standards assessed</th><th>Average score</th></tr></thead><tbody>{result.componentRows.map((component) => <tr key={component.componentId}><td>{component.componentNumber}. {component.componentName}</td><td>{countDashboardStandards(component.standards)}</td><td>{component.score == null ? "N/A" : `${component.score}%`}</td></tr>)}</tbody></table>
     </section>
     <section className="survey-print-section">
       <h2>Component performance graph</h2>

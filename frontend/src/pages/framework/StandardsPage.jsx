@@ -1,12 +1,17 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { getAll, create, update, remove } from "../../api/api";
 import { Link } from "react-router-dom";
 import StandardForm from "../../components/forms/StandardForm";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
 import FrameworkFilters from "../../components/FrameworkFilters/FrameworkFilters";
+import { STANDARD_23_FAMILY, isStandard23Child } from "../../utils/standardFamilies";
+import { useAuth } from "../../context/AuthContext";
+import { canManageReferenceData } from "../../utils/access";
 
 function StandardsPage() {
+  const { auth } = useAuth();
+  const canManage = canManageReferenceData(auth?.roleName);
   const [standards, setStandards] = useState([]);
   const [editingStandard, setEditingStandard] = useState(null);
   const [showForm, setShowForm] = useState(false);
@@ -92,12 +97,12 @@ function StandardsPage() {
     <div>
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Framework layer</p><h2 className="mt-1 text-2xl font-bold tracking-tight text-[#092a5a]">Standards</h2></div>
-        <button
+        {canManage && <button
           onClick={handleAddClick}
           className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0d6531]"
         >
           + Add Standard
-        </button>
+        </button>}
       </div>
 
       {error && <p className="text-red-600 mb-4">{error}</p>}
@@ -113,18 +118,20 @@ function StandardsPage() {
               <th className="p-2">NHSS Standard</th>
               <th className="p-2">Title</th>
               <th className="p-2">Summary</th>
-              <th className="p-2 text-right">Actions</th>
+              {canManage && <th className="p-2 text-right">Actions</th>}
             </tr>
           </thead>
           <tbody className="divide-y divide-[#e7edf4]">
-            {filteredStandards.map((s) => (
-              <tr key={s.standardId} className="hover:bg-[#f5f9fd]">
+            {filteredStandards.map((s, index) => (
+              <Fragment key={s.standardId}>
+              {isStandard23Child(s.standardNumber) && !filteredStandards.slice(0, index).some((item) => isStandard23Child(item.standardNumber)) && <tr key="standard-23-family" className="bg-[#edf8f0]"><td colSpan={canManage ? 4 : 3} className="px-3 py-4"><p className="font-bold text-[#092a5a]">Standard {STANDARD_23_FAMILY.number} — {STANDARD_23_FAMILY.title}</p><p className="mt-1 max-w-5xl whitespace-pre-line text-justify text-sm leading-6 text-[#4b5f7a]">{STANDARD_23_FAMILY.summary}</p><p className="mt-2 text-xs font-semibold text-[#16803a]">Each lettered specialty remains separate for assessment, assignment, and reporting.</p></td></tr>}
+              <tr className="hover:bg-[#f5f9fd]">
                 {/* <td className="p-2 text-center font-semibold">{s.functionNumber}</td> */}
                 {/* <td className="p-2 text-center font-semibold">{s.componentNumber}</td> */}
                 <td className="p-2 text-left font-semibold"><Link to={`/framework/standards/${s.standardId}`} className="text-blue-600 hover:underline">{s.standardNumber}</Link></td>
                 <td className="p-2">{s.standardTitle}</td>
                 <td className="p-2 text-justify">{s.standardSummary}</td>
-                <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap">
+                {canManage && <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap">
                   <Link
                     to={`/framework/standards/${s.standardId}`}
                     className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]"
@@ -143,8 +150,9 @@ function StandardsPage() {
                   >
                     Delete
                   </button></div>
-                </td>
+                </td>}
               </tr>
+              </Fragment>
             ))}
           </tbody>
         </table></div>
@@ -152,7 +160,7 @@ function StandardsPage() {
         </>
       )}
 
-      <FormModal open={showForm} onClose={handleCancel}>
+      <FormModal open={showForm} onClose={handleCancel} wide>
         <StandardForm
           initialData={editingStandard}
           onSubmit={handleSubmit}

@@ -1,16 +1,22 @@
 import SurveyReportDocument from "./SurveyReportDocument";
 import ReportActionsEditor from "./ReportActionsEditor";
+import { Link, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getReportSurveys, getSurveyReport, getReportVersions, getReportVersion, saveReportVersion } from "../../api/api";
 import "./surveyReports.css";
+import { compareReferenceNumber } from "../../utils/numberSort";
 
 const sections = { summary: "Survey summary", standards: "Scores by standard", findings: "Findings, risks and comments", evidence: "Evidence checklist", actions: "Recommendations and sign-off" };
-const sortNumber = (a, b) => String(a).localeCompare(String(b), undefined, { numeric: true });
+const sortNumber = compareReferenceNumber;
+const surveyTypeClass = (type) => String(type).toLowerCase() === "external"
+  ? "report-survey-type report-survey-type-external"
+  : "report-survey-type report-survey-type-internal";
 
 export default function SurveyReportsPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [surveys, setSurveys] = useState([]);
-  const [type, setType] = useState("");
-  const [surveyId, setSurveyId] = useState("");
+  const [type, setType] = useState(() => searchParams.get("type") || localStorage.getItem("report-survey-type") || "");
+  const [surveyId, setSurveyId] = useState(() => searchParams.get("survey") || "");
   const [data, setData] = useState(null);
   const [selected, setSelected] = useState([]);
   const [included, setIncluded] = useState(["summary", "standards", "findings", "actions"]);
@@ -31,6 +37,13 @@ export default function SurveyReportsPage() {
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, []);
+  useEffect(() => { localStorage.setItem("report-survey-type", type); }, [type]);
+  useEffect(() => {
+    const next = new URLSearchParams();
+    if (type) next.set("type", type);
+    if (surveyId) next.set("survey", surveyId);
+    setSearchParams(next, { replace: true });
+  }, [type, surveyId, setSearchParams]);
   useEffect(() => {
     if (!surveyId) return;
     let active = true;
@@ -44,6 +57,8 @@ export default function SurveyReportsPage() {
     return () => { active = false; };
   }, [surveyId]);
   const standards = [...new Map((data?.items || []).map((item) => [item.standardId, { id: item.standardId, number: item.standardNumber, title: item.standardTitle }])).values()].sort((a, b) => sortNumber(a.number, b.number));
+  const availableSurveys = surveys.filter((survey) => !type || survey.surveyType === type);
+  const selectedSurvey = surveys.find((survey) => String(survey.surveyId) === String(surveyId));
   const selectSurvey = (id) => { setSurveyId(id); setData(null); setPreview(null); setSelected([]); setVersions([]); setActions([]); setReviewerName(""); setReviewNotes(""); setNotice(""); setError(""); setLoading(Boolean(id)); };
   const toggle = (set, current, value) => { set(current.includes(value) ? current.filter((item) => item !== value) : [...current, value]); setPreview(null); };
   const generate = () => {
@@ -75,12 +90,14 @@ export default function SurveyReportsPage() {
   };
   return <main className="reports-page">
     <fieldset className="report-controls report-control-fieldset" disabled={busy}>
-      <header><p className="report-eyebrow">Survey reporting</p><h1>Build a survey report</h1><p>Choose a survey, select standards and decide what to include.</p></header>
+      <header><p className="report-eyebrow">Reports centre</p><div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"><div><h1>Build a survey report</h1><p>Choose a survey, select standards and decide what to include.</p></div><div className="print:hidden flex flex-wrap gap-2"><Link to="/reports" className="shrink-0 rounded-lg border border-[#c5d5e8] bg-white px-4 py-2.5 text-center text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]">Reports Centre</Link><Link to="/reports/actions" className="shrink-0 rounded-lg border border-[#c5d5e8] bg-white px-4 py-2.5 text-center text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]">Corrective action register</Link></div></div></header>
       {error && <p role="alert" className="report-warning">{error}</p>}{notice && <p role="status" className="report-notice">{notice}</p>}
       <div className="report-settings">
         <section className="report-card"><h2>1. Choose a survey</h2>
           <label>Survey type<select value={type} onChange={(event) => { setType(event.target.value); selectSurvey(""); }}><option value="">All types</option>{[...new Set(surveys.map((s) => s.surveyType))].map((name) => <option key={name}>{name}</option>)}</select></label>
-          <label>Survey<select value={surveyId} onChange={(event) => selectSurvey(event.target.value)}><option value="">Select a survey</option>{surveys.filter((s) => !type || s.surveyType === type).map((s) => <option key={s.surveyId} value={s.surveyId}>{s.facilityName} — {s.surveyType} · {s.startDate} · #{s.surveyId}{s.isCancelled ? " (cancelled)" : ""}</option>)}</select></label>
+          <label>Survey<select value={surveyId} onChange={(event) => selectSurvey(event.target.value)}><option value="">Select a survey</option>{availableSurveys.map((s) => <option key={s.surveyId} value={s.surveyId}>{String(s.surveyType).toUpperCase()} · {s.facilityName} · {s.startDate} · #{s.surveyId}{s.isCancelled ? " (cancelled)" : ""}</option>)}</select></label>
+          {selectedSurvey && <div className="report-scope-summary" aria-label="Selected report scope"><span className={surveyTypeClass(selectedSurvey.surveyType)}>{selectedSurvey.surveyType}</span><div><strong>{selectedSurvey.facilityName}</strong><span>Survey #{selectedSurvey.surveyId} · {selectedSurvey.startDate}{selectedSurvey.endDate ? ` — ${selectedSurvey.endDate}` : ""}</span></div></div>}
+          {!selectedSurvey && availableSurveys.length > 0 && <div className="report-available-surveys" aria-label="Available surveys"><p>Available surveys</p><div>{availableSurveys.map((survey) => <button type="button" key={survey.surveyId} onClick={() => selectSurvey(String(survey.surveyId))}><span className={surveyTypeClass(survey.surveyType)}>{survey.surveyType}</span><span>{survey.facilityName} · #{survey.surveyId}</span></button>)}</div></div>}
           {loading && <p role="status">Loading…</p>}
           {!loading && !surveys.length && !error && <p>No surveys are available yet.</p>}
           {data && !data.items.length && <p>This survey has no assessment items.</p>}

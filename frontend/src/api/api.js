@@ -39,6 +39,9 @@ export const getOwnProfile = () => api.get("/users/me");
 export const updateOwnProfile = (data) => api.put("/users/me", data);
 
 export const getAll = (resource) => api.get(`/${resource}`);
+// Paginated endpoints preserve getAll's array response when no paging query is
+// supplied; use this helper whenever a page needs a server-side result set.
+export const getPage = (resource, params = {}) => api.get(`/${resource}`, { params: { page: 1, pageSize: 25, ...params } });
 export const getOne = (resource, id) => api.get(`/${resource}/${id}`);
 const saveRequest = (request) => {
   window.dispatchEvent(new CustomEvent("api-save-state", { detail: true }));
@@ -52,6 +55,7 @@ export const patchApplicability = (resource, id, isApplicable) =>
   saveRequest(api.patch(`/${resource}/${id}/applicability`, JSON.stringify(isApplicable), { headers: { "Content-Type": "application/json" }, showErrorDialog: true }));
 
 export const getSurveyProgress = (surveyId) => api.get(`/surveys/${surveyId}/progress`);
+export const getMySurveyProgress = (surveyId) => api.get(`/surveys/${surveyId}/my-progress`);
 export const getStandardProgress = (surveyId, standardId) => api.get(`/surveys/${surveyId}/standards/${standardId}/progress`);
 export const resetSurvey = (surveyId) => saveRequest(api.post(`/surveys/${surveyId}/reset`, null, { showErrorDialog: true }));
 export const syncSurveyFramework = (surveyId) => saveRequest(api.post(`/surveys/${surveyId}/sync-framework`, null, { showErrorDialog: true }));
@@ -59,9 +63,12 @@ export const cancelSurvey = (surveyId, cancellationReason) => saveRequest(api.po
 export const getSurveyStandardAssignments = (surveyId) => api.get(`/surveys/${surveyId}/standard-assignments`);
 export const updateSurveyStandardAssignments = (surveyId, assignments) => saveRequest(api.put(`/surveys/${surveyId}/standard-assignments`, assignments, { showErrorDialog: true }));
 export const getSurveyAssessments = (surveyId) => api.get(`/complianceAssessments/survey/${surveyId}`);
+export const getMySurveyAssessments = (surveyId) => api.get(`/complianceAssessments/survey/${surveyId}/mine`);
 export const getSurveyAssessmentOverview = (surveyId) => api.get(`/complianceAssessments/survey/${surveyId}/overview`);
 export const getInternalAssessmentReferences = (surveyId) => api.get(`/complianceAssessments/survey/${surveyId}/internal-reference`);
 export const getSurveyEvidenceChecks = (surveyId) => api.get(`/complianceEvidenceChecks/survey/${surveyId}`);
+export const getMySurveyEvidenceChecks = (surveyId) => api.get(`/complianceEvidenceChecks/survey/${surveyId}/mine`);
+export const getMySurveys = () => api.get("/surveys/mine");
 export const getAssessmentEvidenceChecks = (assessmentId) => api.get(`/complianceEvidenceChecks/assessment/${assessmentId}`);
 export const updateAssessment = (assessmentId, data) => saveRequest(api.put(`/complianceAssessments/${assessmentId}`, data, { showErrorDialog: true }));
 export const patchEvidenceCheck = (checkId, isChecked) => saveRequest(api.patch(`/complianceEvidenceChecks/${checkId}/checked`, JSON.stringify(isChecked), { headers: { "Content-Type": "application/json" }, showErrorDialog: true }));
@@ -71,3 +78,13 @@ export const getSurveyReport = (surveyId) => api.get(`/reports/surveys/${surveyI
 export const getReportVersions = (surveyId) => api.get(`/reports/surveys/${surveyId}/versions`);
 export const getReportVersion = (surveyId, versionId) => api.get(`/reports/surveys/${surveyId}/versions/${versionId}`);
 export const saveReportVersion = (surveyId, options) => api.post(`/reports/surveys/${surveyId}/versions`, options);
+export const getSurveyActions = (params = {}) => api.get("/survey-actions", { params });
+export const getSurveyActionSummary = (params = {}) => api.get("/survey-actions/summary", { params });
+export const createSurveyAction = (data) => saveRequest(api.post("/survey-actions", data, { showErrorDialog: true }));
+export const updateSurveyAction = (id, data) => saveRequest(api.put(`/survey-actions/${id}`, data, { showErrorDialog: true }));
+export const getSurveyorReports = (surveyId) => api.get(`/surveyor-reports/survey/${surveyId}`);
+export const getSubmittedSurveyorReports = () => api.get("/surveyor-reports/submitted");
+export const getSurveyorReportReview = (surveyorReportId) => api.get(`/surveyor-reports/${surveyorReportId}/review`);
+export const saveMySurveyorReport = (surveyId, data) => saveRequest(api.put(`/surveyor-reports/survey/${surveyId}/mine`, data, { showErrorDialog: true }));
+export const reopenSurveyorReport = (surveyorReportId, reason) => saveRequest(api.post(`/surveyor-reports/${surveyorReportId}/reopen`, { reason }, { showErrorDialog: true }));
+export const getMySurveyorReportWorkspace = (surveyId) => api.get(`/surveyor-reports/survey/${surveyId}/mine/workspace`);

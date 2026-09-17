@@ -25,7 +25,7 @@ namespace backend.Controllers.FacilitySurvey
 
         // GET: api/SurveyType
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<SurveyTypeDTO>>> GetSurveyTypes()
         {
             var surveyTypes = await _context
@@ -42,7 +42,7 @@ namespace backend.Controllers.FacilitySurvey
 
         // GET: api/SurveyType/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<SurveyTypeDTO>> GetSurveyType(int id)
         {
             var surveyType = await _context
@@ -66,7 +66,7 @@ namespace backend.Controllers.FacilitySurvey
         // PUT: api/SurveyType/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutSurveyType(int id, SurveyTypeUpdateDTO dto)
         {
             var surveyType = await _context.surveyTypes.FindAsync(id);
@@ -101,7 +101,7 @@ namespace backend.Controllers.FacilitySurvey
         // POST: api/SurveyType
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<SurveyTypeDTO>> PostSurveyType(SurveyTypeCreateDTO dto)
         {
             var surveyTypeModel = new SurveyType
@@ -129,7 +129,7 @@ namespace backend.Controllers.FacilitySurvey
 
         // DELETE: api/SurveyType/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteSurveyType(int id)
         {
             var surveyType = await _context.surveyTypes.FindAsync(id);

@@ -17,6 +17,7 @@ namespace backend.DTOs.Assessment
         public string complianceSummary { get; set; } = string.Empty;
         public int? scoreId { get; set; }
         public int? scoreValue { get; set; }
+        public string? scoreLabel { get; set; }
         public int? riskRatingId { get; set; }
         public string? riskValue { get; set; }
         public string? complianceComments { get; set; }

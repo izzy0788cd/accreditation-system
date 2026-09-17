@@ -5,8 +5,9 @@ const percentage = (value) => value == null ? "Not scored" : `${value}%`;
 function Summary({ items }) {
   const stats = summariseReport(items);
   const categories = [
-    ["Compliant", "#16803a"], ["Partially compliant", "#bc861e"],
-    ["Non-compliant", "#b34b44"], ["Unassessed", "#87979d"], ["Not applicable", "#d5dfdf"],
+    ["Full achievement", "#16803a"], ["Good achievement", "#0079b8"],
+    ["Fair achievement", "#bc861e"], ["Poor achievement", "#b34b44"],
+    ["Unassessed", "#87979d"], ["Not applicable", "#d5dfdf"],
   ].map(([label, color]) => ({ label, color, count: items.filter((item) => assessmentStatus(item) === label).length }));
   let offset = 0;
   const segments = categories.map((category) => {
@@ -34,10 +35,10 @@ export default function SurveyReportDocument({ report: source }) {
       {summariseReport([...report.items, ...(report.internalItems || []).filter((item) => report.items.some((current) => current.complianceId === item.complianceId))]).dummy && <p className="report-warning"><strong>DUMMY SURVEY — not actual findings.</strong> This report contains synthetic test results.</p>}
       {report.survey.isCancelled && <p className="report-warning">Cancelled survey: {report.survey.cancellationReason || "No reason recorded"}</p>}
       {report.survey.surveyType === "External" && <p className="report-method">{report.internalSurvey ? `Internal comparison: survey #${report.internalSurvey.surveyId}, ${report.internalSurvey.startDate} to ${report.internalSurvey.endDate}. Surveyors: ${[...new Set((report.internalItems || []).filter((item) => report.items.some((current) => current.complianceId === item.complianceId) && (item.scoreId != null || item.complianceComments)).map((item) => item.surveyorName))].join(", ") || "No assessments recorded"}. Latest non-cancelled internal survey starting on or before this external survey.` : "No eligible internal survey is available for comparison."}</p>}
-      <p className="report-method">Scores use assessed, applicable requirements only (maximum 2 points each). Unassessed and not-applicable items are excluded from the score; incomplete results are provisional. This report is not an accreditation decision. Evidence checks represent recorded selections, not independent verification. Framework wording and applicability reflect records at generation time; saved versions preserve that content.</p>
+      <p className="report-method">Scores use assessed, applicable requirements only (maximum 4 points each). Unassessed and not-applicable items are excluded from the score; incomplete results are provisional. This report is not an accreditation decision. Evidence checks represent recorded selections, not independent verification. Framework wording and applicability reflect records at generation time; saved versions preserve that content.</p>
       {report.included.includes("summary") && <><ExecutiveSummary report={report} /><section><h2>Assessment distribution</h2><Summary items={report.items} /></section></>}
       <ReportContents report={report} standards={detailStandards} />
-      {report.mode === "findings" && <p className="report-notice">Findings-only detail: {shownItems.length} of {report.items.length} requirements. Summaries and scores cover the full selected scope. Only non-compliant, partially compliant, and high/extreme-risk requirements appear below.</p>}
+      {report.mode === "findings" && <p className="report-notice">Findings-only detail: {shownItems.length} of {report.items.length} requirements. Summaries and scores cover the full selected scope. Only poor-achievement, fair-achievement, and high/extreme-risk requirements appear below.</p>}
       {report.included.includes("standards") && <section id="report-standard-scores"><h2>Scores by standard</h2><table><thead><tr><th>Standard</th><th>Scored</th><th>Unassessed</th><th>N/A</th><th>Score</th>{report.survey.surveyType === "External" && <th>External − internal</th>}</tr></thead><tbody>{report.standards.map((s) => { const stats = summariseReport(report.items.filter((item) => item.standardId === s.id)); const comparison = compareScope(report.items.filter((item) => item.standardId === s.id), report.internalItems || []); return <tr key={s.id}><td>{s.number} · {s.title}</td><td>{stats.scored}</td><td>{stats.unassessed}</td><td>{stats.notApplicable}</td><td>{percentage(stats.score)}</td>{report.survey.surveyType === "External" && <td>{comparison.delta == null ? "Not comparable" : `${comparison.delta > 0 ? "+" : ""}${comparison.delta} pp (${comparison.compared} matched)`}</td>}</tr>; })}</tbody></table></section>}
       {(report.included.includes("findings") || report.included.includes("evidence")) && <ReportDetails report={{ ...report, items: shownItems, standards: detailStandards }} />}
       {report.mode === "findings" && !shownItems.length && <p>No findings match this report filter.</p>}

@@ -25,7 +25,7 @@ namespace backend.Controllers_Framework
 
         // GET: api/Criterion
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<CriterionDTO>>> GetCriteria()
         {
             var criteria = await _context
@@ -46,7 +46,7 @@ namespace backend.Controllers_Framework
 
         // GET: api/Criterion/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<CriterionDTO>> GetCriterion(int id)
         {
             var criterion = await _context
@@ -74,7 +74,7 @@ namespace backend.Controllers_Framework
         // PUT: api/Criterion/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutCriterion(int id, CriterionUpdateDTO dto)
         {
             var criterion = await _context.criteria.FindAsync(id);
@@ -110,7 +110,7 @@ namespace backend.Controllers_Framework
 
         // PATCH: api/Criterion/1/applicability
         [HttpPatch("{id}/applicability")]
-        [Authorize(Roles = "Admin,Surveyor")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<IActionResult> PatchCriterionApplicability(
             int id,
             [FromBody] bool isApplicable
@@ -166,7 +166,7 @@ namespace backend.Controllers_Framework
         // POST: api/Criterion
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<CriterionDTO>> PostCriterion(CriterionCreateDTO dto)
         {
             var criterionModel = new Criterion
@@ -209,7 +209,7 @@ namespace backend.Controllers_Framework
 
         // DELETE: api/Criterion/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteCriterion(int id)
         {
             var criterion = await _context.criteria.FindAsync(id);

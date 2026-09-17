@@ -4,8 +4,13 @@ import { getOne, getAll, create, update, remove, patchApplicability } from "../.
 import ComplianceForm from "../../components/forms/ComplianceForm";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
+import { useAuth } from "../../context/AuthContext";
+import { canManageReferenceData } from "../../utils/access";
 
 function CriterionDetailPage() {
+    const { auth } = useAuth();
+    const canManage = canManageReferenceData(auth?.roleName);
+    const canToggleApplicability = canManage || auth?.roleName === "Surveyor";
     const { criterionId } = useParams();
     const [criterion, setCriterion] = useState(null);
     const [compliances, setCompliances] = useState([]);
@@ -91,7 +96,7 @@ function CriterionDetailPage() {
     const handleToggleApplicability = async (compliance) => {
         try {
             await patchApplicability("compliances", compliance.complianceId, !compliance.isApplicable);
-            loadData();
+            setCompliances((current) => current.map((item) => item.complianceId === compliance.complianceId ? { ...item, isApplicable: !item.isApplicable } : item));
         } catch (err) {
             setError("Failed to toggle applicability.")
             console.error(err);
@@ -114,9 +119,9 @@ function CriterionDetailPage() {
             <div>
                 <div className="mb-4 mt-3 flex flex-col gap-4 rounded-xl border border-[#c9dded] bg-[linear-gradient(125deg,#eaf3fb_0%,#f8fafc_100%)] px-6 py-5 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Criterion</p><h1 className="mt-1 text-2xl font-bold tracking-tight text-[#092a5a]">
                         {criterion.criterionNumber} {criterion.criterionTitle}
-                    </h1></div><button onClick={handleAddClick} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">
+                    </h1></div>{canManage && <button onClick={handleAddClick} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">
                         + Add Compliance
-                    </button>
+                    </button>}
                 </div>
 
                     {error && <p className="text-red-600 mb-4">{error}</p>}
@@ -130,7 +135,7 @@ function CriterionDetailPage() {
                                     <th className="p-2">No.</th>
                                     <th className="p-2">Compliance</th>
                                     <th className="p-2">Applicable</th>
-                                    <th className="p-2 text-right">Actions</th>
+                                    {canManage && <th className="p-2 text-right">Actions</th>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -139,23 +144,23 @@ function CriterionDetailPage() {
                                         <td className="p-2 text-left font-semibold"><Link to={`/framework/compliance/${c.complianceId}`} className="text-blue-600 hover:underline">{c.complianceNumber}</Link></td>
                                         <td className="p-2 text-justify whitespace-pre-line">{c.complianceSummary}</td>
                                         <td className="p-2">
-                                            <button onClick={() => handleToggleApplicability(c)}
+                                            {canToggleApplicability ? <button onClick={() => handleToggleApplicability(c)}
                                                 className={`px-3 py-1 rounded text-sm font-medium ${
                                                     c.isApplicable 
                                                     ? "bg-green-100 text-green-700 hover:bg-green-200"
                                                     : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                                                 }`}>
                                                 {c.isApplicable ? "Applicable" : "Not Applicable"}
-                                            </button>
+                                            </button> : <span className={`inline-block rounded px-3 py-1 text-sm font-medium ${c.isApplicable ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-600"}`}>{c.isApplicable ? "Applicable" : "Not Applicable"}</span>}
                                         </td>
-                                        <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap"><button onClick={() => handleEditClick(c)} className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]">
+                                        {canManage && <td className="p-2"><div className="flex justify-end gap-2 whitespace-nowrap"><button onClick={() => handleEditClick(c)} className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]">
                                                     Edit
                                                 </button>
                                                 <button onClick={() => handleDeleteClick(c)} className="rounded-md border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-50">
                                                     Delete
                                                 </button>
                                             </div>
-                                        </td>
+                                        </td>}
                                     </tr>
                                 ))}
                             </tbody>

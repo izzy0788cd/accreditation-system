@@ -455,6 +455,166 @@ namespace backend.Migrations
                     b.ToTable("surveyStandardAssignments");
                 });
 
+            modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyToolkitSnapshot", b =>
+                {
+                    b.Property<int>("surveyToolkitSnapshotId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("surveyToolkitSnapshotId"));
+
+                    b.Property<string>("customisationReason")
+                        .HasColumnType("text");
+
+                    b.Property<string>("scopeType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("surveyId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("templateSummary")
+                        .HasColumnType("text");
+
+                    b.HasKey("surveyToolkitSnapshotId");
+
+                    b.HasIndex("surveyId")
+                        .IsUnique();
+
+                    b.ToTable("surveyToolkitSnapshots");
+                });
+
+            modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyToolkitSnapshotCompliance", b =>
+                {
+                    b.Property<int>("surveyToolkitSnapshotComplianceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("surveyToolkitSnapshotComplianceId"));
+
+                    b.Property<int>("complianceId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("surveyToolkitSnapshotId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("surveyToolkitSnapshotComplianceId");
+
+                    b.HasIndex("complianceId");
+
+                    b.HasIndex("surveyToolkitSnapshotId", "complianceId")
+                        .IsUnique();
+
+                    b.ToTable("surveyToolkitSnapshotCompliances");
+                });
+
+            modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyToolkitSnapshotStandard", b =>
+                {
+                    b.Property<int>("surveyToolkitSnapshotStandardId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("surveyToolkitSnapshotStandardId"));
+
+                    b.Property<int>("standardId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("surveyToolkitSnapshotId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("surveyToolkitSnapshotStandardId");
+
+                    b.HasIndex("standardId");
+
+                    b.HasIndex("surveyToolkitSnapshotId", "standardId")
+                        .IsUnique();
+
+                    b.ToTable("surveyToolkitSnapshotStandards");
+                });
+
+            modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyToolkitTemplate", b =>
+                {
+                    b.Property<int>("surveyToolkitTemplateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("surveyToolkitTemplateId"));
+
+                    b.Property<string>("description")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("isServiceOverlay")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("levelId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("templateName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("templateVersion")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("surveyToolkitTemplateId");
+
+                    b.HasIndex("levelId");
+
+                    b.ToTable("surveyToolkitTemplates");
+                });
+
+            modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyToolkitTemplateCompliance", b =>
+                {
+                    b.Property<int>("surveyToolkitTemplateComplianceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("surveyToolkitTemplateComplianceId"));
+
+                    b.Property<int>("complianceId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("surveyToolkitTemplateId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("surveyToolkitTemplateComplianceId");
+
+                    b.HasIndex("complianceId");
+
+                    b.HasIndex("surveyToolkitTemplateId", "complianceId")
+                        .IsUnique();
+
+                    b.ToTable("surveyToolkitTemplateCompliances");
+                });
+
+            modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyToolkitTemplateStandard", b =>
+                {
+                    b.Property<int>("surveyToolkitTemplateStandardId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("surveyToolkitTemplateStandardId"));
+
+                    b.Property<int>("standardId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("surveyToolkitTemplateId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("surveyToolkitTemplateStandardId");
+
+                    b.HasIndex("standardId");
+
+                    b.HasIndex("surveyToolkitTemplateId", "standardId")
+                        .IsUnique();
+
+                    b.ToTable("surveyToolkitTemplateStandards");
+                });
+
             modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyType", b =>
                 {
                     b.Property<int>("surveyTypeId")
@@ -786,6 +946,55 @@ namespace backend.Migrations
                     b.ToTable("regions");
                 });
 
+            modelBuilder.Entity("backend.Models.Reports.SurveyActionItem", b =>
+                {
+                    b.Property<int>("surveyActionItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("surveyActionItemId"));
+
+                    b.Property<string>("closureNotes")
+                        .HasColumnType("text");
+
+                    b.Property<int>("complianceAssessmentId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("correctiveAction")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateOnly?>("dueDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("recommendation")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("responsibleOfficer")
+                        .HasColumnType("text");
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("surveyId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("surveyActionItemId");
+
+                    b.HasIndex("complianceAssessmentId");
+
+                    b.HasIndex("surveyId");
+
+                    b.ToTable("surveyActionItems");
+                });
+
             modelBuilder.Entity("backend.Models.Reports.SurveyReportVersion", b =>
                 {
                     b.Property<int>("reportVersionId")
@@ -817,6 +1026,86 @@ namespace backend.Migrations
                         .IsUnique();
 
                     b.ToTable("surveyReportVersions");
+                });
+
+            modelBuilder.Entity("backend.Models.Reports.SurveyorReport", b =>
+                {
+                    b.Property<int>("surveyorReportId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("surveyorReportId"));
+
+                    b.Property<string>("goodPractices")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("isSubmitted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("notApplicableNotes")
+                        .HasColumnType("text");
+
+                    b.Property<string>("priorityFindings")
+                        .HasColumnType("text");
+
+                    b.Property<string>("recommendations")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("submittedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("summary")
+                        .HasColumnType("text");
+
+                    b.Property<int>("surveyId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("surveyorId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("surveyorReportId");
+
+                    b.HasIndex("surveyorId");
+
+                    b.HasIndex("surveyId", "surveyorId")
+                        .IsUnique();
+
+                    b.ToTable("surveyorReports");
+                });
+
+            modelBuilder.Entity("backend.Models.Reports.SurveyorReportReopen", b =>
+                {
+                    b.Property<int>("surveyorReportReopenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("surveyorReportReopenId"));
+
+                    b.Property<DateTime?>("previousSubmittedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("reason")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("reopenedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("reopenedByUsername")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("surveyorReportId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("surveyorReportReopenId");
+
+                    b.HasIndex("surveyorReportId");
+
+                    b.ToTable("surveyorReportReopens");
                 });
 
             modelBuilder.Entity("backend.Models.Scoring.RiskRating", b =>
@@ -855,6 +1144,9 @@ namespace backend.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("scoreId"));
 
                     b.Property<string>("description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("guidance")
                         .HasColumnType("text");
 
                     b.Property<string>("scoreLabel")
@@ -1070,6 +1362,103 @@ namespace backend.Migrations
                     b.Navigation("surveyor");
                 });
 
+            modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyToolkitSnapshot", b =>
+                {
+                    b.HasOne("backend.Models.FaciltitySurvey.Survey", "survey")
+                        .WithOne("toolkitSnapshot")
+                        .HasForeignKey("backend.Models.FaciltitySurvey.SurveyToolkitSnapshot", "surveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("survey");
+                });
+
+            modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyToolkitSnapshotCompliance", b =>
+                {
+                    b.HasOne("backend.Models.Framework.Compliance", "compliance")
+                        .WithMany()
+                        .HasForeignKey("complianceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.FaciltitySurvey.SurveyToolkitSnapshot", "surveyToolkitSnapshot")
+                        .WithMany("compliances")
+                        .HasForeignKey("surveyToolkitSnapshotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("compliance");
+
+                    b.Navigation("surveyToolkitSnapshot");
+                });
+
+            modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyToolkitSnapshotStandard", b =>
+                {
+                    b.HasOne("backend.Models.Framework.Standard", "standard")
+                        .WithMany()
+                        .HasForeignKey("standardId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.FaciltitySurvey.SurveyToolkitSnapshot", "surveyToolkitSnapshot")
+                        .WithMany("standards")
+                        .HasForeignKey("surveyToolkitSnapshotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("standard");
+
+                    b.Navigation("surveyToolkitSnapshot");
+                });
+
+            modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyToolkitTemplate", b =>
+                {
+                    b.HasOne("backend.Models.Facilities.Level", "level")
+                        .WithMany()
+                        .HasForeignKey("levelId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("level");
+                });
+
+            modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyToolkitTemplateCompliance", b =>
+                {
+                    b.HasOne("backend.Models.Framework.Compliance", "compliance")
+                        .WithMany()
+                        .HasForeignKey("complianceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.FaciltitySurvey.SurveyToolkitTemplate", "surveyToolkitTemplate")
+                        .WithMany("compliances")
+                        .HasForeignKey("surveyToolkitTemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("compliance");
+
+                    b.Navigation("surveyToolkitTemplate");
+                });
+
+            modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyToolkitTemplateStandard", b =>
+                {
+                    b.HasOne("backend.Models.Framework.Standard", "standard")
+                        .WithMany()
+                        .HasForeignKey("standardId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.FaciltitySurvey.SurveyToolkitTemplate", "surveyToolkitTemplate")
+                        .WithMany("standards")
+                        .HasForeignKey("surveyToolkitTemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("standard");
+
+                    b.Navigation("surveyToolkitTemplate");
+                });
+
             modelBuilder.Entity("backend.Models.FaciltitySurvey.Surveyors", b =>
                 {
                     b.HasOne("backend.Models.FaciltitySurvey.Specialization", "specialization")
@@ -1171,6 +1560,25 @@ namespace backend.Migrations
                     b.Navigation("region");
                 });
 
+            modelBuilder.Entity("backend.Models.Reports.SurveyActionItem", b =>
+                {
+                    b.HasOne("backend.Models.Assessment.ComplianceAssessment", "complianceAssessment")
+                        .WithMany()
+                        .HasForeignKey("complianceAssessmentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.FaciltitySurvey.Survey", "survey")
+                        .WithMany()
+                        .HasForeignKey("surveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("complianceAssessment");
+
+                    b.Navigation("survey");
+                });
+
             modelBuilder.Entity("backend.Models.Reports.SurveyReportVersion", b =>
                 {
                     b.HasOne("backend.Models.FaciltitySurvey.Survey", "survey")
@@ -1180,6 +1588,36 @@ namespace backend.Migrations
                         .IsRequired();
 
                     b.Navigation("survey");
+                });
+
+            modelBuilder.Entity("backend.Models.Reports.SurveyorReport", b =>
+                {
+                    b.HasOne("backend.Models.FaciltitySurvey.Survey", "survey")
+                        .WithMany()
+                        .HasForeignKey("surveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.FaciltitySurvey.Surveyors", "surveyor")
+                        .WithMany()
+                        .HasForeignKey("surveyorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("survey");
+
+                    b.Navigation("surveyor");
+                });
+
+            modelBuilder.Entity("backend.Models.Reports.SurveyorReportReopen", b =>
+                {
+                    b.HasOne("backend.Models.Reports.SurveyorReport", "surveyorReport")
+                        .WithMany()
+                        .HasForeignKey("surveyorReportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("surveyorReport");
                 });
 
             modelBuilder.Entity("backend.Models.Accounts.Role", b =>
@@ -1241,6 +1679,22 @@ namespace backend.Migrations
                     b.Navigation("complianceAssessments");
 
                     b.Navigation("standardAssignments");
+
+                    b.Navigation("toolkitSnapshot");
+                });
+
+            modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyToolkitSnapshot", b =>
+                {
+                    b.Navigation("compliances");
+
+                    b.Navigation("standards");
+                });
+
+            modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyToolkitTemplate", b =>
+                {
+                    b.Navigation("compliances");
+
+                    b.Navigation("standards");
                 });
 
             modelBuilder.Entity("backend.Models.FaciltitySurvey.SurveyType", b =>

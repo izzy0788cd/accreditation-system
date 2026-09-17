@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using backend.Data;
 using backend.DTOs.Facilities;
+using backend.Infrastructure.Paging;
 using backend.Models.Facilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ namespace backend.Controllers.Facilities
 {
     [Route("api/facilities")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = "ReferenceData.Read")]
     public class FacilityController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -26,10 +27,9 @@ namespace backend.Controllers.Facilities
 
         // GET: api/Facility
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FacilityDTO>>> GetFacilities()
+        public async Task<IActionResult> GetFacilities([FromQuery] PageQuery pageQuery, CancellationToken cancellationToken)
         {
-            return await _context
-                .facilities.Select(f => new FacilityDTO
+            var facilities = _context.facilities.AsNoTracking().Select(f => new FacilityDTO
                 {
                     facilityId = f.facilityId,
                     facilityName = f.facilityName,
@@ -43,8 +43,23 @@ namespace backend.Controllers.Facilities
                     creditationStatus = f.creditationStatus!.creditationStatus,
                     headOfService = f.headOfService ?? string.Empty,
                     comments = f.comments ?? string.Empty,
-                })
-                .ToListAsync();
+                });
+            if (!string.IsNullOrWhiteSpace(pageQuery.Search))
+            {
+                var pattern = $"%{pageQuery.Search.Trim()}%";
+                facilities = facilities.Where(f => EF.Functions.ILike(f.facilityName, pattern)
+                    || EF.Functions.ILike(f.districtName, pattern)
+                    || EF.Functions.ILike(f.organizationName, pattern));
+            }
+            facilities = pageQuery.Sort?.ToLowerInvariant() switch
+            {
+                "district" => pageQuery.IsDescending ? facilities.OrderByDescending(f => f.districtName) : facilities.OrderBy(f => f.districtName),
+                "level" => pageQuery.IsDescending ? facilities.OrderByDescending(f => f.levelName) : facilities.OrderBy(f => f.levelName),
+                _ => pageQuery.IsDescending ? facilities.OrderByDescending(f => f.facilityName) : facilities.OrderBy(f => f.facilityName),
+            };
+            return pageQuery.IsPaged
+                ? Ok(await facilities.ToPagedResultAsync(pageQuery, cancellationToken))
+                : Ok(await facilities.ToListAsync(cancellationToken));
         }
 
         // GET: api/Facility/5
@@ -81,7 +96,7 @@ namespace backend.Controllers.Facilities
         // PUT: api/Facility/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutFacility(int id, FacilityUpdateDTO dto)
         {
             var facility = await _context.facilities.FindAsync(id);
@@ -121,7 +136,7 @@ namespace backend.Controllers.Facilities
         // POST: api/Facility
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<FacilityDTO>> PostFacility(FacilityCreateDTO dto)
         {
             var facilityModel = new Facility
@@ -176,7 +191,7 @@ namespace backend.Controllers.Facilities
 
         // DELETE: api/Facility/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteFacility(int id)
         {
             var facility = await _context.facilities.FindAsync(id);

@@ -1,0 +1,738 @@
+{
+  "sourceFile": "C:\\Users\\ishma\\OneDrive\\Documents\\00 SHARE\\ACCREDITATION\\Survey Tool\\06 Essential Clinical Care\\Standard No. 23K - ICU & HDU.docx",
+  "sourceSha256": "de25f7a8640fabd25a5137db6d7a51716a5872ae5a1a41824878a0c18d9cf94d",
+  "functionNumber": "4",
+  "componentNumber": "6",
+  "standardNumber": "23k",
+  "standardTitle": "Intensive care unit (ICU) / High dependency unit (HDU)",
+  "standardSummary": "Standard 23: provision of and continuity of care (mandatory standard)\nThe Healthcare Organisation ensures patients are provided with safe, high- quality inpatient and outpatient care throughout the care delivery process. They should do this from the time that the patient enters the healthcare organisation or service through to when the patient is discharged or transferred to another health facility-service; and during any ongoing care they provide after discharge.\nThe Healthcare Organisation should implement evidence-based practice and a have a process for assessing the appropriateness and effectiveness of care and services, and the settings they are delivered in.\n\nService scope\nCritical Care Services are provided in a specially staffed and equipped, separate and self-contained area of a hospital dedicated to the management of patients with life-threatening illnesses, injuries and complications, and monitoring of potentially life-threatening conditions.\nLevels of Intensive Care Units\nEach ICU should declare the level of intensive care it provides which should be consistent with the Facility’s overall mission.\nLevel 1\nThis is equivalent to the ‘High Dependency Unit (HDU)’. The unit shall be able to provide basic haemodynamic support, monitoring and oxygen therapy or non-invasive ventilation in a stable patient. The nurse-to-patient ratio shall be 1:2.\nLevel 2\nThis unit shall be able to provide mechanical ventilation and invasive hemodynamic monitoring. An anaesthetist/intensivist shall spend full time in the unit to manage all patients in the unit. The nurse-to-patient ratio shall be 1:1 for ventilated patients and 1:2 for non-ventilated patients.\nLevel 3\nThis unit shall be able to provide advanced mechanical ventilation, advanced hemodynamic monitoring and extracorporeal organ support, e.g. extracorporeal renal support, extracorporeal liver support, extracorporeal membrane oxygenation etc. Operating this unit as a \"closed\" unit is which is directed by an intensivist who shall spend full time in the unit to manage all patients in the unit. The nurse-to-patient ratio shall be 1:1 in every shift or more in highly complex cases.\n\nSource references\nStandard 17 National Health Service Standards (NHSS) Vol. 2 (2nd Edition) National Quality Standard\nMarilyn T. Haupt et al. Guidelines on critical care services and personnel: Recommendations based on a system of categorisation of three levels of care. Critical Care Medicine 2003\n\nCriterion guidance\n23k.1 Organisation and management\nThe Critical Care Services (CCS) shall be organised to provide safe, efficient, and effective critical care services in accordance with the identified level of care. The level of care identified shall be in tandem with the actual level of care provided in terms of all aspects of care, i.e. organisation, human resource, policies, facilities and performance improvement activities.\n\n23k.2 Human resources and development\nThe ICU/HDU Services shall be directed by a qualified and competent medical practitioner, and staffed by suitably qualified and competent clinical staff to achieve the goals and objectives of its Services. There are sufficient staffing levels, a staff supervision structure, performance appraisals and ongoing commitment to continuing medical education.\nFor all levels of care of the ICU/HDU services, the Head is a clinician appointed to take overall responsibility for the operation of the unit.\na. For Level 1 Care: A clinician shall be responsible for the management of the patient.\nb. For Level 2 Care: An Anaesthetist/Intensivist shall spend full time in the unit and be responsible for the management of all patients in the unit.\nc. For Level 3 Care: An Intensivist shall spend full time in the unit and be responsible for the management of all patients in the unit.\n\n23k.3 Policies and procedures\nThere are written and dated policies for all activities of the ICU/HDU Services. These policies reflect current standards of medical practice, relevant regulations and statutory requirements. These policies and procedures, terms of reference, by laws, rules and regulations state how the clinical staff regulate themselves and provide patient care.\n\n23k.4 Facilities and equipment\nThe Head of ICU/HDU Services shall ensure adequate facilities and equipment that are safe and appropriate are available for the staff to function effectively and to meet the goals and objectives of the Services.\n\n23k.5 Safety and performance improvement activities\nThe Head of ICU/HDU Services shall ensure the provision of quality performance with staff involvement in the continuous safety and performance improvement activities of the ICU/HDU Services.",
+  "sourceReferences": "Standard 17 National Health Service Standards (NHSS) Vol. 2 (2nd Edition) National Quality Standard\nMarilyn T. Haupt et al. Guidelines on critical care services and personnel: Recommendations based on a system of categorisation of three levels of care. Critical Care Medicine 2003",
+  "criteria": [
+    {
+      "criterionNumber": "23k.1",
+      "criterionTitle": "Organisation and management",
+      "guidance": "The Critical Care Services (CCS) shall be organised to provide safe, efficient, and effective critical care services in accordance with the identified level of care. The level of care identified shall be in tandem with the actual level of care provided in terms of all aspects of care, i.e. organisation, human resource, policies, facilities and performance improvement activities.",
+      "compliances": [
+        {
+          "complianceNumber": "23k.1.1",
+          "complianceSummary": "The Vision, Mission of the Facility are accessible. The Goals of the HDU/ICU Services suit its scope and are clearly documented. It should reflect the aspirations of the service and the needs of the community.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The Mission, Vision and Goals of the Organisation are visible, endorsed and dated."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is an endorsed and dated department organisational chart with lines of functions and reporting relationships."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Relevant policies and guidelines are available in the department. (National Health Plan, National Health Service Standards, etc.)."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Evidence of submission of an Annual Implementation Plan and budget."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Evidence of fee structure (if fees are collected)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.1.2",
+          "complianceSummary": "There is a mechanism to ensure effective interaction between the Head of the Services and the Organisation’s Governing Body and Senior Management.\nThe Head of Services shall also be involved for the following aspects of management of the services;\ni. Preparation of budget and ensuring that expenditure remains within the budget allocated\nii. Human Resources\niii. Facility and Equipment Management\niv. Safety and performance improvement activities and risk management",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Letter of appointment and terms of reference as the Head of Service."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Letter of appointment and terms of reference in other hospital committees."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of (a) to (d) in meeting minutes/correspondence of the Critical Care Services indicating the involvement of the Head of Service."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Request for allocation for budget and staffing."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.1.3",
+          "complianceSummary": "Regular staff meetings are held between Head of Service and staff with sufficient regularity to discuss issues pertaining to the HDU/ICU Services. These meetings are minuted and communicated to all staff.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Meeting minutes are available, disseminated and acknowledged by staff."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There is sufficient attendance for the meetings with adequate representatives of the service."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Frequency of meetings are as scheduled."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Discussions and resolutions are implemented. (problems not solved are brought forward to the next meeting till resolved)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.1.4",
+          "complianceSummary": "Appropriate statistics and records are maintained in the department in and used for managing services and patient care.\nThe following (among others) are available:\na. Workload/census for types of anaesthesia and nature of surgeries.\nb. Quarterly and annual report\nc. Incident reports and register\nd. Staffing number and staff profile\ne. Staff training records\nf. Data on performance improvement\ng. Number of referrals to the HDU/ICU\nh. Intensive Care workload such as number of admissions, bed occupancy rate, ventilator days, average length of stay",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The statistics and records from (a) to (h) are available."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The NHSS Toolkit Assessment (checklist) for the relevant level has been completed in the past 6 months."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.1.5",
+          "complianceSummary": "There is a list of services provided to other Units in the Facility.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Documented list of services provided to other Units in the Facility by the Critical Care Services."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23k.2",
+      "criterionTitle": "Human resources and development",
+      "guidance": "The ICU/HDU Services shall be directed by a qualified and competent medical practitioner, and staffed by suitably qualified and competent clinical staff to achieve the goals and objectives of its Services. There are sufficient staffing levels, a staff supervision structure, performance appraisals and ongoing commitment to continuing medical education.\nFor all levels of care of the ICU/HDU services, the Head is a clinician appointed to take overall responsibility for the operation of the unit.\na. For Level 1 Care: A clinician shall be responsible for the management of the patient.\nb. For Level 2 Care: An Anaesthetist/Intensivist shall spend full time in the unit and be responsible for the management of all patients in the unit.\nc. For Level 3 Care: An Intensivist shall spend full time in the unit and be responsible for the management of all patients in the unit.",
+      "compliances": [
+        {
+          "complianceNumber": "23k.2.1",
+          "complianceSummary": "The are written and dated job descriptions for each category of staff that include:\na. Qualification, training and experience for the position\nb. Lines of authority\nc. Accountability, functions and responsibilities\nd. Reviewed when required if there is major change in job scope\ne. Statutory regulations\nf. Administrative and clinical job scope",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There are records of credentials of Head of Services appropriate to the level of the ICU/HDU."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There are dated and specific job descriptions for each staff that include (a) to (f)."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "The job description is acknowledged by the staff and signed by the Head of Service and dated."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "The scope of work in the job description aligns with the training, skill and experience of the staff. (credentialling)"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.2.2",
+          "complianceSummary": "The staff holds current registration with the relevant professional body.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of current registration for all cadres of staff (annual practicing certificate)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.2.3",
+          "complianceSummary": "The staff works within their job description and job scope.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Observation that cadres of staff are working according to their job description and job scope."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.2.4",
+          "complianceSummary": "There are continuing education activities for staff to pursue professional interests and to prepare for current and future changes in practice.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Training calendar includes in-house/ external courses/ workshops/ conferences"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Training for each staff including training in life support is kept in the Department."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There are ongoing Continuous Professional Activities in the Department."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.2.5",
+          "complianceSummary": "The educational needs of staff are addressed following findings from incidents reports, mortality audits and performance improvement studies.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of staff training because of recommendations made from incident reports or mortality and morbidity reviews."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.2.6",
+          "complianceSummary": "In a Facility where undergraduate medical, nursing and allied health training programmes are conducted, the Facility shall ensure there are sufficient skilled trained staff to provide clinical supervision of students.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of sufficient skilled trained staff to provide clinical supervision as per terms of Memorandum of Understanding."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.2.7",
+          "complianceSummary": "Staff including medical practitioners receive evaluation of their performance at the completion of the probationary period and annually thereafter, or as defined by the Organisation.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Performance appraisal for staff including medical practitioners is completed upon probationary period and as an annual exercise."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.2.8",
+          "complianceSummary": "Where appropriate, the Facility shall endeavour to undertake clinical research using available resources.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Documented evidence of research activities in the Department."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.2.9",
+          "complianceSummary": "There should be sufficient numbers of personnel and support staff with appropriate qualifications who are employed to meet the need of the services as follows:\na. A resident medical officer trained in anaesthesia/ICU is appointed to be predominantly present in the unit after office hours for Level 2 and 3 ICUs\nb. a nursing sister in-charge of the unit is appointed and has qualification in post basic nursing appropriate for the unit\nc. a nursing staff with post basic appropriate for the unit is in-charge of the unit each shift\nd. a minimum percentage of nurses trained in intensive care nursing in the unit;\n• 30% for Level 2 Care\n• 50% for Level 3 Care\ne. nurse/patient ratio of 1:1 for ventilated patient\nf. nurse/patient ratio of 1:2 for non-ventilated patient\ng. a biomedical technician is available on 24 -hour basis\nh. cleaning personnel familiar with ICU environment and infection control/ environmental cleaning protocols are available on 24- hour basis\ni. for Level 2 and 3 Care, physiotherapist and dietitian are available during working hours",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Number of staff and qualification should match the workload according to (a) to (i)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Duty roster of medical officer trained in anaesthesia/ICU and nursing staff."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Duty roster of physiotherapist and dietician in Level 2 and 3 care"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.2.10",
+          "complianceSummary": "There is a structured orientation programme for all newly appointed staff to the HDU/ICU including medical practitioners and for those new to specific areas that include the following:\na. Explanation of the goals, objectives, policies and procedures of the Facility and those of the HDU/ICU services\nb. Lines of authority and areas of responsibility\nc. Explanation of duties and functions\nd. Explanation of the methods of assigning clinical care and the standards of clinical practice\ne. Handover communication\nf. Processes for resolving practice/ethical dilemmas in a timely manner\ng. Information about safety procedures\nh. Training in basic/advanced life support techniques\ni. Methods of obtaining appropriate resource materials\nj. Staff appraisal procedures for the HDU/ICU services.\nk. Education on Patient and Family Rights",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of policy stating that all staff have to attend a structured orientation programme."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Attendance list of those having attended the orientation programme."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23k.3",
+      "criterionTitle": "Policies and procedures",
+      "guidance": "There are written and dated policies for all activities of the ICU/HDU Services. These policies reflect current standards of medical practice, relevant regulations and statutory requirements. These policies and procedures, terms of reference, by laws, rules and regulations state how the clinical staff regulate themselves and provide patient care.",
+      "compliances": [
+        {
+          "complianceNumber": "23k.3.1",
+          "complianceSummary": "There are written policies and procedures for the ICU/HDU Services which are consistent with the overall policies of the Facility, regulatory requirements and current standard practices.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of documented policies and procedures for the service."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The policies and procedures are endorsed and dated."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There is a periodic review at least once in three years."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Copies of policies, by laws, regulations and relevant acts are accessible on site for staff reference"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.3.2",
+          "complianceSummary": "Policies and procedures are developed by a committee in collaboration with staff and with other departments if needed.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Minutes of committee meetings on development and revision on policies and procedures."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.3.3",
+          "complianceSummary": "The policies and procedures documentation shall address at least the following topics:\na. Operational policy\nb. Admission, discharge and referral\nc. Visitation policy\nd. Credentialing and privileging on special procedures, e.g. mechanical ventilation, renal replacement therapy;\ne. Clinical management protocol, e.g. weaning from mechanical ventilation, thromboprophylaxis,\nf. Drug administration\ng. Procedural policy, e.g. central line catheterisation;\nh. Antibiotic policy\ni. Infection control\nj. Needle stick injury\nk. Transport of patients\nl. Withholding and withdrawal of therapy",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Documented policies and procedures that address (a) to (l)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Staff are briefed on the policies and procedures (meeting minutes or circulation acknowledgement)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.3.4",
+          "complianceSummary": "The service shall operate on a 24- hour basis providing level of care appropriate to the facility.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Operational policy on 24-hour service."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Staffing level reflects a good mix of senior and junior staff."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "On-call roster is dated and authorised."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.3.5",
+          "complianceSummary": "The service shall ensure that provision of patient care and services achieve effective outcomes and is safe.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Relevant updated Standard Treatment Guidelines are available in the division."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Patient register is updated daily."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of appropriate admission process."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Evidence of in-patient and guardian orientation process during admission."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Evidence of initial assessment and provisional diagnosis."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Evidence and documentation of morning, afternoon and evening rounds."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "Evidence of regular vital sign documentation"
+            },
+            {
+              "evidenceNumber": "8",
+              "evidenceSummary": "Documentation of discussions with patient/family/guardian about the patient’s condition."
+            },
+            {
+              "evidenceNumber": "9",
+              "evidenceSummary": "Evidence of discussions with other disciplines and referrals if necessary."
+            },
+            {
+              "evidenceNumber": "10",
+              "evidenceSummary": "Evidence of patient handover during shift change (documentation and observed)."
+            },
+            {
+              "evidenceNumber": "11",
+              "evidenceSummary": "Evidence of documented informed consent for procedures."
+            },
+            {
+              "evidenceNumber": "12",
+              "evidenceSummary": "Evidence of flowchart on patient deterioration or “Code Blue” procedures."
+            },
+            {
+              "evidenceNumber": "13",
+              "evidenceSummary": "Discharge summaries are issued to patients on discharge with a care plan."
+            },
+            {
+              "evidenceNumber": "14",
+              "evidenceSummary": "Evidence of a patient referral register"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.3.6",
+          "complianceSummary": "There is a standarised patient medical record. This record should have the following:\na. An identification page with patient’s weight and immunisation status.\nb. ICU monitoring sheet\nc. Patient history\nd. Clinical notes\ne. Consent form\nf. Diagnostic reports\ng. Final diagnosis and code at time of discharge\nh. Drug order/medication sheet\ni. Operating theatre sheet (if appropriate)\nj. Allergy  and adverse reaction documentation\nk. Behaviour issues that may pose a risk.\nl. Discharge summary\nm. Referral form (if applicable)",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Patient’s medical record has elements (a) to (m)."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "The Patient’s medical record has a unique identifier (MRN)."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Evidence of clinical documentation which is signed, dated and with legible writing."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Evidence of use of appropriate abbreviations."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23k.4",
+      "criterionTitle": "Facilities and equipment",
+      "guidance": "The Head of ICU/HDU Services shall ensure adequate facilities and equipment that are safe and appropriate are available for the staff to function effectively and to meet the goals and objectives of the Services.",
+      "compliances": [
+        {
+          "complianceNumber": "23k.4.1",
+          "complianceSummary": "There are adequate and appropriate facilities and equipment with proper utilisation of space to enable staff to carry out their professional, teaching and administrative functions.\nThe HDU/ICU services should be in an area close to areas which have the greatest requirement for its services, such as the Operating Theatre, Emergency Department etc.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The building is sound and there is adequate space to match the services."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Appropriate type of equipment to match the complexity of services."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Adequate facilities and equipment at each patient care area for safe care. (e.g. defibrillators, emergency trolley, hand washing facilities etc.)."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Easy access and clear (unblocked) exit routes."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Absence of overcrowding."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Availability of an isolation area."
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "There are lights/lamps/solar for blackouts."
+            },
+            {
+              "evidenceNumber": "8",
+              "evidenceSummary": "There is good ventilation within the ward/s."
+            },
+            {
+              "evidenceNumber": "9",
+              "evidenceSummary": "There is running water in the facility"
+            },
+            {
+              "evidenceNumber": "10",
+              "evidenceSummary": "Waste is segregated at the facility at the point of generation."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.4.2",
+          "complianceSummary": "Existing facilities shall consider the safety and comfort of staff and patients.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Design and layout of the unit, e.g. wards, treatment rooms access, lighting, signage, etc address the safety aspects of patients and staff."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Equipment should have scheduled planned preventive maintenance (PPM)."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There is access to hand washing facilities particularly:\n• Sinks with elbow or foot operated faucets\n• Alcohol-based hand rub for each bed\n• Hand-drying facility e.g. disposable paper towels"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Mattresses are covered with waterproof coverings and there is clean linen on every bed."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Sharps are disposed properly in sharp bins."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Separate clean and dirty utility rooms"
+            },
+            {
+              "evidenceNumber": "7",
+              "evidenceSummary": "Endotracheal suctioning is done via a closed system or single used disposable catheter."
+            },
+            {
+              "evidenceNumber": "8",
+              "evidenceSummary": "There are adequate patient transfer trolleys, wheelchairs, mobility aids and a dedicated drug fridge."
+            },
+            {
+              "evidenceNumber": "9",
+              "evidenceSummary": "There is a dedicated cabinet for dangerous drugs which can be locked"
+            },
+            {
+              "evidenceNumber": "10",
+              "evidenceSummary": "There is scheduled checking of items in emergency trolley"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.4.3",
+          "complianceSummary": "There shall be provision for isolation of different categories of patients, e.g. those with airborne infectious disease:\na. Isolation room with its own wash basin, en-suite, ante room of at least 2.5m2 and control of airflow\nb. Level 2 Care: Negative pressure isolation room",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Isolation rooms are appropriate to the level of care."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.4.4",
+          "complianceSummary": "Suitable forms of communication systems and equipment are provided to enable clinical staff to communicate among themselves and with the other members of the healthcare team.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Appropriate telecommunication modalities available for daily operation and during emergencies."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.4.5",
+          "complianceSummary": "There are facilities for patients, staff and relatives.\na. Rest room for staff\nb. Counselling room for relatives\nc. Waiting area for relatives",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Presence of (a) to (c)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.4.6",
+          "complianceSummary": "The ICU/HDU shall have 24-hour access to on-site laboratory services such as:\na. Point of care testing, e.g. blood gas, glucose, etc.;\nb. Laboratory test results i.e. full blood count, urinalysis, biochemistry (electrolytes, urea, creatinine, calcium), coagulation profile and lactate\nc. Laboratory test results i.e. osmolality, serum magnesium and phosphorus and toxicology screening\nd. Culture and Gram-stain results are available 24 hours a day.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Blood gas machine is available and functional in the unit."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Records on maintenance of blood gas machine"
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Quality control of blood gas machine"
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Availability of laboratory results which are reviewed, signed with a plan of action."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Availability of culture results 24 hours a day"
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.4.7",
+          "complianceSummary": "The ICU/HDU services shall have 24- hour access to Radiology/Diagnostic Imaging services and blood bank services.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Evidence of 24- hour availability to Radiology and Blood bank services (interview and documented patient records)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.4.8",
+          "complianceSummary": "There are adequate numbers of vacuum outlets, oxygen and compressed air outlets, and suction facilities as well as properly grounded electrical outlets with duplicate or independent circuits available to every patient.\na. Minimum 12 electrical outlets per bed for Level 1 Care\nb. Minimum 16 electrical outlets per bed for Level 2 and 3 Care\nc. Minimum 2 vacuum outlets per bed for Level 2 Care\nd. Minimum 3 vacuum outlets per bed for Level 3 Care\ne. Minimum 2 oxygen outlets per bed for Level 2 Care\nf. Minimum 3 oxygen outlets per bed for Level 3 Care\ng. Minimum 2 compressed air outlets per bed for Level 2 Care\nh. Minimum 3 compressed air outlets per bed for Level 3 Care",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The number of vacuum outlets, oxygen, compressed air outlets and suction facilities are suitable for the level of service provided."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.4.9",
+          "complianceSummary": "The ICU/HDU beds are readily adjustable to various therapeutic positions, easily moved for transport and with locking mechanisms for a secure stationary position, side-rails, and removable headboard",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "All beds are functional as per standard requirement."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.4.10",
+          "complianceSummary": "The equipment for monitoring as well as intervention shall be appropriate to the Level of Care provided by the unit as follows:\na. For Level 1 Care, monitoring equipment with trending capability and visible and audible alarms with simultaneous display of electrocardiography (ECG), non-invasive pressure, temperature and pulse oximetry.\nb. For Level 2 and 3 Care, monitoring equipment with modular systems, trending capability and visible and audible alarms with simultaneous display of 4 waveforms and selectable digital values for ECG, non-invasive pressure, temperature, pulse oximetry, arterial pressure, central venous pressure, intra- cranial pressure and capnography.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "All the listed equipment is available in the appropriate level of care and are functional."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.4.11",
+          "complianceSummary": "Facilities and equipment are appropriate to the Services and shall include the following:\na. Uninterrupted power supply system\nb. Central air conditioning system which allows control of temperature, humidity and air exchange according to relevant standards. Recirculated air shall pass through appropriate filters with 99% filtration efficiency\nc. An alarm system for HDU/ICU personnel to summon additional staff in an emergency\nd. Variable lighting systems for day and night mode and high illumination and spot lighting for procedures\ne. Alternate emergency lighting, gas and power sources or other appropriate mechanisms available to operate all life support systems including suction apparatus\nf. Adequate supplies of medications and intravenous fluids available 24 hours a day in the unit\ng. Hand ventilating assemblies\nh. Suction apparatus\ni. Vascular access equipment including access to ultrasound for placement of intravascular catheters\nj. Equipment to control patient temperature\nk. Chest drainage equipment\nl. Portable transport equipment\nm. Lifting/weighing equipment including apparatus for mobilizing patients early out of bed, e.g. hoist, rehabilitation chair, walking frame\nn. Sufficient number of volumetric and syringe pumps appropriate to the Level of Care\no. For Level 2 and 3 Care, invasive and non-invasive ventilators appropriate to the Level of Care provided\np. For Level 3 Care, renal replacement therapy services are available 24 hours per day",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "The items in (a) to (p) are available."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.4.12",
+          "complianceSummary": "All other emergency and life support equipment are readily accessible and functional, including airway access equipment to assist with management of the difficult airway.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Emergency and life support equipment are available and functional as required."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Resuscitation trolley, defibrillator and equipment to manage difficult airway are available."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.4.13",
+          "complianceSummary": "There is evidence that the facility has a comprehensive maintenance programme such as predictive maintenance, planned preventive maintenance and calibration activities, to ensure the facilities and equipment are in good working order.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Planned Preventive Maintenance records such as schedule, stickers, etc."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Planned Replacement Programme where applicable."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Complaint records."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Asset inventory."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.4.14",
+          "complianceSummary": "Where specialised equipment is used, there is evidence that only staff who are trained and authorised by the Facility operate such equipment.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "User training records."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "List of staff trained and authorised to operate specialised equipment."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "criterionNumber": "23k.5",
+      "criterionTitle": "Safety and performance improvement activities",
+      "guidance": "The Head of ICU/HDU Services shall ensure the provision of quality performance with staff involvement in the continuous safety and performance improvement activities of the ICU/HDU Services.",
+      "compliances": [
+        {
+          "complianceNumber": "23k.5.1",
+          "complianceSummary": "There are planned activities for performance and quality improvement.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "There is a designated person who monitors safety and performance improvement activities within the ICU/HDU Services."
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "There are records/registers on performance improvement activities."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "There are meeting minutes for performance improvement meetings."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "There are records on innovation (if any)."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.5.2",
+          "complianceSummary": "The Head of ICU/HDU shall ensure that the staff are trained and complete incident reports which are promptly reported, investigated, discussed by the staff and forwarded to the Officer in Charge (OIC) of the Facility. Selected incidents have Root Cause Analysis (RCA) done in an agreed time frame to prevent recurrence.",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "System for incident reporting is in place with the following:\na. Training of staff in incident reporting\nb. Policy on incident reporting\nc. Method/SOP on Incident reporting\nd. Register of incidents"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Completed incident reports."
+            },
+            {
+              "evidenceNumber": "3",
+              "evidenceSummary": "Corrective and preventive action plans."
+            },
+            {
+              "evidenceNumber": "4",
+              "evidenceSummary": "Minutes of meeting."
+            },
+            {
+              "evidenceNumber": "5",
+              "evidenceSummary": "Involved staff given feedback about the incident report."
+            },
+            {
+              "evidenceNumber": "6",
+              "evidenceSummary": "Acknowledgment by Head of ICU/HDU Service and Director of Curative Services."
+            }
+          ]
+        },
+        {
+          "complianceNumber": "23k.5.3",
+          "complianceSummary": "Specific performance indicators (among others) are tracked. For example;\n• Rate of pressure ulcers\n• Rate of unplanned extubation",
+          "evidence": [
+            {
+              "evidenceNumber": "1",
+              "evidenceSummary": "Specific performance indicators are monitored"
+            },
+            {
+              "evidenceNumber": "2",
+              "evidenceSummary": "Remedial action is taken when appropriate"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Corrected source numbering 23k.3.5 to 23k.3.6 under its printed criterion heading (table row 111)."
+  ]
+}

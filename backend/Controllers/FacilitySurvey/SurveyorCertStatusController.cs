@@ -25,7 +25,7 @@ namespace backend.Controllers.FacilitySurvey
 
         // GET: api/SurveyorCertStatus
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<
             ActionResult<IEnumerable<SurveyorCertStatusDTO>>
         > GetSurveyorCertStatuses()
@@ -44,7 +44,7 @@ namespace backend.Controllers.FacilitySurvey
 
         // GET: api/SurveyorCertStatus/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<SurveyorCertStatusDTO>> GetSurveyorCertStatus(int id)
         {
             var surveyorCertStatus = await _context
@@ -68,7 +68,7 @@ namespace backend.Controllers.FacilitySurvey
         // PUT: api/SurveyorCertStatus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutSurveyorCertStatus(
             int id,
             SurveyorCertStatusUpdateDTO dto
@@ -106,7 +106,7 @@ namespace backend.Controllers.FacilitySurvey
         // POST: api/SurveyorCertStatus
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<SurveyorCertStatusDTO>> PostSurveyorCertStatus(
             SurveyorCertStatusCreateDTO dto
         )
@@ -135,7 +135,7 @@ namespace backend.Controllers.FacilitySurvey
 
         // DELETE: api/SurveyorCertStatus/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteSurveyorCertStatus(int id)
         {
             var surveyorCertStatus = await _context.surveyorCertStatuses.FindAsync(id);

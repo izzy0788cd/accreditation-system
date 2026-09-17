@@ -1,11 +1,11 @@
 import { useRef } from "react";
 import { useDialogFocus } from "./useDialogFocus";
 
-function ConfirmDialog({ open, title, message, onConfirm, onCancel, confirmLabel = "Delete", confirmDisabled = false, children }) {
+function ConfirmDialog({ open, title, message, onConfirm, onCancel, confirmLabel = "Delete", confirmDisabled = false, children, initialFocusRef }) {
   const cancelButtonRef = useRef(null);
   const dialogRef = useRef(null);
 
-  useDialogFocus(open, dialogRef, cancelButtonRef, onCancel);
+  useDialogFocus(open, dialogRef, initialFocusRef || cancelButtonRef, onCancel);
 
   if (!open) return null;
 

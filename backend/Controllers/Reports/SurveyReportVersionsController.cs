@@ -14,16 +14,20 @@ public partial class SurveyReportsController
     private static readonly string[] ReportSections = ["summary", "standards", "findings", "evidence", "actions"];
 
     [HttpGet("{id:int}/versions")]
-    public async Task<IActionResult> Versions(int id, CancellationToken cancellationToken) => Ok(
-        await context.surveyReportVersions.AsNoTracking().Where(v => v.surveyId == id)
+    public async Task<IActionResult> Versions(int id, CancellationToken cancellationToken)
+    {
+        if (!await CanAccessSurveyAsync(id, cancellationToken)) return Forbid();
+        return Ok(await context.surveyReportVersions.AsNoTracking().Where(v => v.surveyId == id)
             .OrderByDescending(v => v.versionNumber).Select(v => new ReportVersionDto {
                 reportVersionId = v.reportVersionId, surveyId = v.surveyId, versionNumber = v.versionNumber,
                 createdAt = v.createdAt, createdBy = v.createdBy,
             }).ToListAsync(cancellationToken));
+    }
 
     [HttpGet("{id:int}/versions/{versionId:int}")]
     public async Task<IActionResult> Version(int id, int versionId, CancellationToken cancellationToken)
     {
+        if (!await CanAccessSurveyAsync(id, cancellationToken)) return Forbid();
         var version = await context.surveyReportVersions.AsNoTracking()
             .SingleOrDefaultAsync(v => v.surveyId == id && v.reportVersionId == versionId, cancellationToken);
         return version == null ? NotFound() : Content(version.reportJson, "application/json");
@@ -33,6 +37,7 @@ public partial class SurveyReportsController
     [RequestSizeLimit(2_000_000)]
     public async Task<IActionResult> SaveVersion(int id, ReportVersionCreateDto dto, CancellationToken cancellationToken)
     {
+        if (!await CanAccessSurveyAsync(id, cancellationToken)) return Forbid();
         if (dto.standardIds == null || dto.standardIds.Count == 0 || dto.standardIds.Count > 1000
             || dto.standardIds.Distinct().Count() != dto.standardIds.Count
             || dto.included == null || dto.included.Count == 0 || dto.included.Any(s => !ReportSections.Contains(s))

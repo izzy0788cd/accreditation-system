@@ -8,8 +8,9 @@ namespace backend.DTOs.Scoring
     public class ScoresDTO
     {
         public int scoreId { get; set; }
-        public int? scoreValue { get; set; } //0 = not met, 1 = met with recommendation(s), 2 = met, NA = not applicable, i.e., don't calculate
+        public int? scoreValue { get; set; } //1 = poor, 2 = fair, 3 = good, 4 = full achievement; N/A is null
         public required string scoreLabel { get; set; }
-        public string? description { get; set; }
+        public string? description { get; set; } //Rating rationale
+        public string? guidance { get; set; }
     }
 }

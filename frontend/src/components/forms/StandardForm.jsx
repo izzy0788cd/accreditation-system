@@ -71,8 +71,9 @@ function StandardForm ({ initialData, onSubmit, onCancel }) {
     );
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-5"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Framework</p><h2 className="mt-1 text-xl font-bold text-[#092a5a]">{initialData ? "Edit standard" : "Add a standard"}</h2></div>
+        <form onSubmit={handleSubmit} className="space-y-6"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">Framework</p><h2 className="mt-1 text-xl font-bold text-[#092a5a]">{initialData ? "Edit standard" : "Add a standard"}</h2></div>
 
+            <div className="grid gap-5 sm:grid-cols-2">
             <div>
                 <label className="block text-sm font-medium mb-1">Function</label>
                 <select name="functionId" value={formData.functionId} onChange={handleChange} required className="w-full rounded-lg border border-[#c5d5e8] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]" >
@@ -92,7 +93,9 @@ function StandardForm ({ initialData, onSubmit, onCancel }) {
                     ))}
                 </select>
             </div>
+            </div>
 
+            <div className="grid gap-5 sm:grid-cols-[minmax(9rem,.35fr)_minmax(0,1fr)]">
             <div>
                 <label className="block text-sm font-medium mb-1">Standard No.</label>
                 <input type="text" name="standardNumber" value={formData.standardNumber} onChange={handleChange} required maxLength={10} className="w-full rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]" />
@@ -102,10 +105,11 @@ function StandardForm ({ initialData, onSubmit, onCancel }) {
                 <label className="block text-sm font-medium mb-1">Standard Title</label>
                 <input type="text" name="standardTitle" value={formData.standardTitle} onChange={handleChange} required className="w-full rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]" />
             </div>
+            </div>
 
             <div>
                 <label className="block text-sm font-medium mb-1">Standard Summary</label>
-                <textarea name="standardSummary" value={formData.standardSummary} onChange={handleChange} required rows={4} className="w-full rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]" />
+                <textarea name="standardSummary" value={formData.standardSummary} onChange={handleChange} required rows={10} className="w-full resize-y rounded-lg border border-[#c5d5e8] px-3 py-2.5 text-sm leading-6 outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]" />
             </div>
 
             <div className="flex gap-2">

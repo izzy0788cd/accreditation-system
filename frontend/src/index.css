@@ -6,14 +6,256 @@
   font-synthesis: none;
 }
 
+@media print {
+  @page { size: A4 landscape; margin: 13mm; }
+  body:has(.surveyor-handover-print) nav,
+  body:has(.surveyor-handover-print) main:has(.surveyor-handover-print) > :not(.surveyor-handover-print) { display: none !important; }
+  body:has(.surveyor-handover-print) main:has(.surveyor-handover-print) { max-width: none !important; padding: 0 !important; }
+  .surveyor-handover-print { display: block !important; width: 100%; color: #172b2f; font-family: Arial, Helvetica, sans-serif; font-size: 9.5pt; line-height: 1.45; }
+  .surveyor-handover-print header { background: #092a5a; color: #fff; margin-bottom: 18px; padding: 18px 20px; }
+  .surveyor-handover-print header p { color: #dbeafe; font-size: 8pt; font-weight: 700; letter-spacing: .12em; margin: 0; text-transform: uppercase; }
+  .surveyor-handover-print h1 { color: #fff; font-size: 24pt; line-height: 1.1; margin: 6px 0; }
+  .surveyor-handover-print .surveyor-handover-print-subtitle { font-size: 9pt; font-weight: 400; letter-spacing: normal; text-transform: none; }
+  .surveyor-handover-print section { break-inside: avoid; margin: 0 0 18px; }
+  .surveyor-handover-print h2 { border-bottom: 2px solid #16803a; color: #092a5a; font-size: 13pt; margin: 0 0 7px; padding-bottom: 5px; }
+  .surveyor-handover-print section > p { margin: 0; text-align: justify; white-space: pre-wrap; }
+  .surveyor-handover-print table { border-collapse: collapse; table-layout: fixed; width: 100%; }
+  .surveyor-handover-print thead { display: table-header-group; }
+  .surveyor-handover-print th, .surveyor-handover-print td { border: 1px solid #bfcfdd; overflow-wrap: anywhere; padding: 7px 8px; text-align: left; vertical-align: top; }
+  .surveyor-handover-print th { background: #315c88; color: #fff; font-size: 7.5pt; text-transform: uppercase; }
+  .surveyor-handover-print th:nth-child(1) { width: 10%; }
+  .surveyor-handover-print th:nth-child(2) { width: 31%; }
+  .surveyor-handover-print th:nth-child(3) { width: 13%; }
+  .surveyor-handover-print th:nth-child(4), .surveyor-handover-print th:nth-child(5) { width: 23%; }
+  .surveyor-handover-print td p { color: #4b5f7a; font-style: italic; margin: 5px 0 0; text-align: justify; }
+  .surveyor-handover-print footer { border-top: 1px solid #b7c9dc; color: #4b5f7a; font-size: 8pt; margin-top: 22px; padding-top: 8px; }
+}
+
 body {
   min-width: 320px;
   background: #f7f9fc;
 }
 
+.skip-link { left: 1rem; position: fixed; top: -5rem; z-index: 100; border-radius: .5rem; background: #092a5a; color: #fff; font-weight: 700; padding: .7rem 1rem; }
+.skip-link:focus { top: 1rem; outline: 3px solid #d6aa45; outline-offset: 2px; }
+:focus-visible { outline: 3px solid #16803a; outline-offset: 2px; }
+
+/* Keep interactive controls usable on touch screens without changing desktop
+   density. Icon-only controls retain their explicit sizing. */
+@media (max-width: 640px) {
+  button:not([class*="h-"]),
+  input:not([type="checkbox"]):not([type="radio"]),
+  select { min-height: 2.75rem; }
+  textarea { min-height: 5.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+
+/* Applied to list views that have a compact mobile alternative. It prevents a
+   hidden desktop table from ever forcing a sideways page scroll. */
+.mobile-list-only { display: block; }
+@media (max-width: 639px) { .desktop-table-only { display: none !important; } }
+@media (min-width: 640px) { .mobile-list-only { display: none !important; } }
+
+.reports-centre-secondary-grid { display: grid; gap: 1.5rem; }
+@media (min-width: 1280px) {
+  .reports-centre-secondary-grid {
+    grid-template-columns:
+      minmax(0, calc((100% - 3rem) * 2 / 3 + 1.5rem))
+      minmax(0, calc((100% - 3rem) / 3));
+  }
+}
+
+@media print {
+  body:has(.action-plan-page) nav,
+  body:has(.action-plan-page) .action-plan-page > header,
+  body:has(.action-plan-page) .action-plan-controls,
+  body:has(.action-plan-page) .action-plan-page > section[aria-label="Action plan status"],
+  body:has(.action-plan-page) .action-plan-edit { display: none !important; }
+  body:has(.action-plan-page) .action-plan-page { max-width: none !important; padding: 0 !important; }
+  body:has(.action-plan-page) .action-plan-page > section { box-shadow: none !important; }
+}
+
 ::selection {
   background: #bbf7d0;
   color: #092a5a;
+}
+
+/* Slightly stronger supporting copy improves readability while preserving the
+   established light clinical design. */
+:where([class*="text-[#68778c]"]) {
+  color: #52657c !important;
+}
+
+html.dark,
+html.dark body {
+  background: #101a2b;
+  color: #e7eef8;
+  color-scheme: dark;
+}
+
+html.dark [class*="bg-white"],
+html.dark [class*="bg-[linear-gradient"],
+html.dark [class*="bg-[#f3"],
+html.dark [class*="bg-slate-50"],
+html.dark [class*="bg-slate-100"],
+html.dark [class*="bg-[#f7"],
+html.dark [class*="bg-[#f8"],
+html.dark [class*="bg-[#f6"],
+html.dark [class*="bg-[#fb"],
+html.dark [class*="bg-[#fc"],
+html.dark [class*="bg-[#ed"],
+html.dark [class*="bg-[#ea"] {
+  background-color: #17263a !important;
+  background-image: none !important;
+}
+
+html.dark [class*="text-[#092a5a]"],
+html.dark [class*="text-[#153a70]"],
+html.dark [class*="text-[#385273]"] {
+  color: #e7eef8 !important;
+}
+
+html.dark [class*="text-[#4b5f7a]"],
+html.dark [class*="text-[#68778c]"],
+html.dark [class*="text-[#8ba3a0]"] {
+  color: #b9c8da !important;
+}
+
+html.dark [class*="text-[#16803a]"],
+html.dark [class*="text-[#0d6531]"] {
+  color: #74d9a4 !important;
+}
+
+html.dark [class*="text-[#876318]"] {
+  color: #f0ca72 !important;
+}
+
+html.dark [class*="text-[#9a5b13]"] {
+  color: #f2b34c !important;
+}
+
+html.dark [class*="border-[#c5"],
+html.dark [class*="border-[#c9"],
+html.dark [class*="border-[#d3"],
+html.dark [class*="border-[#db"],
+html.dark [class*="border-[#df"],
+html.dark [class*="border-[#e1"],
+html.dark [class*="border-[#e3"],
+html.dark [class*="border-[#e7"] {
+  border-color: #3a516a !important;
+}
+
+/* Preserve meaningful surface hierarchy in dark mode instead of flattening
+   selected navigation, information, and assessment states into one colour. */
+html.dark [class*="bg-[#edf8f0]"] {
+  background-color: #173f37 !important;
+}
+
+html.dark [class*="bg-[#edf5fc]"] {
+  background-color: #1b314b !important;
+}
+
+/* Evidence of compliance is a distinct review surface in the survey. The
+   warm charcoal/ochre treatment keeps it recognisable without glare. */
+html.dark [class*="bg-[#fffbf0]"] {
+  background-color: #302b1b !important;
+}
+
+html.dark [class*="bg-[#fffbf4]"] {
+  background-color: #352819 !important;
+}
+
+html.dark [class*="border-[#eadfbd]"] {
+  border-color: #7c6931 !important;
+}
+
+html.dark [class*="border-[#f1d7b6]"],
+html.dark [class*="border-[#f5e4cf]"] {
+  border-color: #7a5b31 !important;
+}
+
+html.dark [class*="divide-[#eadfbd]"] > * + * {
+  border-color: #65562b !important;
+}
+
+html.dark [class*="accent-[#16803a]"] {
+  accent-color: #5ed393;
+}
+
+/* Tailwind hover utilities otherwise retain their light-mode pale fills. */
+html.dark [class*="hover:bg-slate-50"]:hover,
+html.dark [class*="hover:bg-slate-100"]:hover,
+html.dark [class*="hover:bg-[#edf5fc]"]:hover {
+  background-color: #29405d !important;
+}
+
+html.dark [class*="hover:bg-[#f5f9fd]"]:hover,
+html.dark [class*="hover:bg-[#f8fafc]"]:hover,
+html.dark [class*="hover:bg-white"]:hover {
+  background-color: #263b54 !important;
+}
+
+html.dark [class*="hover:bg-[#edf8f0]"]:hover,
+html.dark [class*="hover:bg-[#ddf3e4]"]:hover {
+  background-color: #24584b !important;
+}
+
+html.dark [class*="hover:bg-[#fffbf0]"]:hover,
+html.dark [class*="hover:bg-[#fffaf2]"]:hover {
+  background-color: #453b1e !important;
+}
+
+html.dark [class*="hover:bg-red-50"]:hover {
+  background-color: #4a2028 !important;
+}
+
+html.dark [class*="hover:bg-green-200"]:hover,
+html.dark [class*="hover:bg-teal-100"]:hover {
+  background-color: #245b45 !important;
+}
+
+html.dark [class*="hover:bg-gray-300"]:hover {
+  background-color: #415268 !important;
+}
+
+html.dark [class*="hover:bg-amber-100"]:hover {
+  background-color: #4b3b1d !important;
+}
+
+html.dark [class*="hover:bg-[#0d6531]"]:hover {
+  background-color: #0d5130 !important;
+}
+
+html.dark [class*="text-green-700"] { color: #7ce3a8 !important; }
+html.dark [class*="text-gray-600"] { color: #c5d2e1 !important; }
+
+html.dark input,
+html.dark select,
+html.dark textarea {
+  background: #0f1d2e !important;
+  border-color: #46617d !important;
+  color: #e7eef8 !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #9caec3;
+}
+
+@media (min-width: 768px) {
+  .survey-summary-sheet table { table-layout: fixed; }
+  .survey-summary-sheet--internal th:nth-child(1) { width: 5%; }
+  .survey-summary-sheet--internal th:nth-child(2) { width: 27%; }
+  .survey-summary-sheet--internal th:nth-child(3) { width: 9%; }
+  .survey-summary-sheet--internal th:nth-child(4) { width: 11%; }
+  .survey-summary-sheet--internal th:nth-child(5) { width: 48%; }
+  .survey-summary-sheet--external th:nth-child(1) { width: 6%; }
+  .survey-summary-sheet--external th:nth-child(2), .survey-summary-sheet--external th:nth-child(5) { width: 8%; }
+  .survey-summary-sheet--external th:nth-child(3), .survey-summary-sheet--external th:nth-child(6) { width: 10%; }
+  .survey-summary-sheet--external th:nth-child(4), .survey-summary-sheet--external th:nth-child(7) { width: 29%; }
 }
 
 @media print {
@@ -56,10 +298,10 @@ body {
   .survey-print-standard-summary .survey-print-table td { padding: 5px 6px; text-align: justify; }
   .survey-print-standard-summary .survey-print-table th { background: #315c88; font-size: 6.8pt; }
   .survey-print-internal .survey-print-standard-summary .survey-print-table th:nth-child(1) { width: 5%; }
-  .survey-print-internal .survey-print-standard-summary .survey-print-table th:nth-child(2) { width: 35%; }
+  .survey-print-internal .survey-print-standard-summary .survey-print-table th:nth-child(2) { width: 27%; }
   .survey-print-internal .survey-print-standard-summary .survey-print-table th:nth-child(3) { width: 9%; }
   .survey-print-internal .survey-print-standard-summary .survey-print-table th:nth-child(4) { width: 11%; }
-  .survey-print-internal .survey-print-standard-summary .survey-print-table th:nth-child(5) { width: 40%; }
+  .survey-print-internal .survey-print-standard-summary .survey-print-table th:nth-child(5) { width: 48%; }
   .survey-print-external .survey-print-standard-summary .survey-print-table th:nth-child(1) { width: 6%; }
   .survey-print-external .survey-print-standard-summary .survey-print-table th:nth-child(2), .survey-print-external .survey-print-standard-summary .survey-print-table th:nth-child(5) { width: 8%; }
   .survey-print-external .survey-print-standard-summary .survey-print-table th:nth-child(3), .survey-print-external .survey-print-standard-summary .survey-print-table th:nth-child(6) { width: 10%; }

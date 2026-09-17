@@ -56,13 +56,14 @@ namespace backend.Controllers.Assessment
             complianceSummary = ca.compliance!.complianceSummary,
             scoreId = ca.scoreId,
             scoreValue = ca.score != null ? ca.score.scoreValue : null,
+            scoreLabel = ca.score != null ? ca.score.scoreLabel : null,
             riskRatingId = ca.riskRatingId,
             riskValue = ca.riskRating != null ? ca.riskRating.riskValue : null,
             complianceComments = ca.complianceComments,
         });
 
         [HttpGet("survey/{surveyId}")]
-        [Authorize]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<IEnumerable<ComplianceAssessmentDTO>>> GetForSurvey(
             int surveyId
         )
@@ -81,8 +82,26 @@ namespace backend.Controllers.Assessment
             return Ok(assessments);
         }
 
+        // Used when an Admin is intentionally working as a surveyor. This keeps
+        // the fieldwork view constrained even though the account retains Admin rights.
+        [HttpGet("survey/{surveyId}/mine")]
+        [Authorize(Policy = "Survey.Work")]
+        public async Task<ActionResult<IEnumerable<ComplianceAssessmentDTO>>> GetMyForSurvey(int surveyId)
+        {
+            var surveyorId = await GetCurrentSurveyorIdAsync();
+            if (!surveyorId.HasValue)
+                return Forbid();
+
+            var assessments = await ProjectAssessments(
+                _context.complianceAssessments.Where(assessment =>
+                    assessment.surveyId == surveyId && assessment.surveyorId == surveyorId.Value)
+            ).ToListAsync();
+
+            return Ok(assessments);
+        }
+
         [HttpGet("survey/{surveyId}/overview")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<IEnumerable<ComplianceAssessmentDTO>>> GetSurveyOverview(int surveyId)
         {
             if (!User.IsInRole("Admin"))
@@ -102,7 +121,7 @@ namespace backend.Controllers.Assessment
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<ComplianceAssessmentDTO>> GetById(int id)
         {
             var assessment = await _context
@@ -118,6 +137,7 @@ namespace backend.Controllers.Assessment
                     complianceSummary = ca.compliance!.complianceSummary,
                     scoreId = ca.scoreId,
                     scoreValue = ca.score != null ? ca.score.scoreValue : null,
+                    scoreLabel = ca.score != null ? ca.score.scoreLabel : null,
                     riskRatingId = ca.riskRatingId,
                     riskValue = ca.riskRating != null ? ca.riskRating.riskValue : null,
                     complianceComments = ca.complianceComments,
@@ -127,11 +147,20 @@ namespace backend.Controllers.Assessment
             if (assessment == null)
                 return NotFound();
 
+            if (!User.IsInRole("Admin"))
+            {
+                var surveyorId = await GetCurrentSurveyorIdAsync();
+                var isTeamLead = User.IsInRole("Team Lead") && surveyorId.HasValue && await _context.surveys.AnyAsync(survey =>
+                    survey.surveyId == assessment.surveyId && survey.surveyorId == surveyorId.Value);
+                if (!isTeamLead && (!surveyorId.HasValue || assessment.surveyorId != surveyorId.Value))
+                    return Forbid();
+            }
+
             return Ok(assessment);
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<IActionResult> Update(int id, ComplianceAssessmentUpdateDTO dto)
         {
             var assessment = await _context
@@ -147,6 +176,13 @@ namespace backend.Controllers.Assessment
 
             if (!await CanUpdateAsync(assessment))
                 return Forbid();
+
+            var reportSubmitted = await _context.surveyorReports.AnyAsync(report =>
+                report.surveyId == assessment.surveyId
+                && report.surveyorId == assessment.surveyorId
+                && report.isSubmitted);
+            if (reportSubmitted)
+                return BadRequest("Your surveyor report has been submitted. Ask the Team Lead or an Administrator to reopen it before changing this assessment.");
 
             if (dto.surveyorId.HasValue)
             {
@@ -185,7 +221,7 @@ namespace backend.Controllers.Assessment
         // in an External survey. This lets external surveyors compare the facility's
         // own score, risk rating, and comments without exposing unrelated standards.
         [HttpGet("survey/{surveyId}/internal-reference")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<IEnumerable<ComplianceAssessmentDTO>>> GetInternalReferences(
             int surveyId
         )
@@ -242,7 +278,7 @@ namespace backend.Controllers.Assessment
         }
 
         [HttpGet("{id}/self-assessment")]
-        [Authorize]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<ComplianceAssessmentDTO>> GetSelfAssessment(int id)
         {
             var externalAssessment = await _context
@@ -270,6 +306,7 @@ namespace backend.Controllers.Assessment
                     complianceSummary = ca.compliance!.complianceSummary,
                     scoreId = ca.scoreId,
                     scoreValue = ca.score != null ? ca.score.scoreValue : null,
+                    scoreLabel = ca.score != null ? ca.score.scoreLabel : null,
                     riskRatingId = ca.riskRatingId,
                     riskValue = ca.riskRating != null ? ca.riskRating.riskValue : null,
                     complianceComments = ca.complianceComments,
