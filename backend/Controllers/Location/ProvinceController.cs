@@ -25,7 +25,7 @@ namespace backend.Controllers_Location
 
         // GET: api/Province
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<ProvinceDTO>>> GetProvinces()
         {
             return await _context
@@ -41,7 +41,7 @@ namespace backend.Controllers_Location
 
         // GET: api/Province/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<ProvinceDTO>> GetProvince(int id)
         {
             var province = await _context
@@ -66,7 +66,7 @@ namespace backend.Controllers_Location
         // PUT: api/Province/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutProvince(int id, ProvinceUpdateDTO dto)
         {
             var province = await _context.provinces.FindAsync(id);
@@ -101,7 +101,7 @@ namespace backend.Controllers_Location
         // POST: api/Province
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<Province>> PostProvince(ProvinceCreateDTO dto)
         {
             var provinceModel = new Province
@@ -135,7 +135,7 @@ namespace backend.Controllers_Location
 
         // DELETE: api/Province/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteProvince(int id)
         {
             var province = await _context.provinces.FindAsync(id);

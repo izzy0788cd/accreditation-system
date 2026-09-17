@@ -1,8 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const focusableSelector = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 export function useDialogFocus(open, dialogRef, initialFocusRef, onEscape) {
+  const onEscapeRef = useRef(onEscape);
+
+  useEffect(() => {
+    onEscapeRef.current = onEscape;
+  }, [onEscape]);
+
   useEffect(() => {
     if (!open) return undefined;
 
@@ -11,7 +17,7 @@ export function useDialogFocus(open, dialogRef, initialFocusRef, onEscape) {
 
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
-        onEscape?.();
+        onEscapeRef.current?.();
         return;
       }
       if (event.key !== "Tab") return;
@@ -37,5 +43,5 @@ export function useDialogFocus(open, dialogRef, initialFocusRef, onEscape) {
       window.removeEventListener("keydown", handleKeyDown);
       previouslyFocused?.focus?.();
     };
-  }, [open, dialogRef, initialFocusRef, onEscape]);
+  }, [open, dialogRef, initialFocusRef]);
 }

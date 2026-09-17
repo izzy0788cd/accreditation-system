@@ -22,7 +22,7 @@ namespace backend.Controllers.Accounts
         public UserAccountController(AppDbContext context) => _context = context;
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Accounts.Manage")]
         public async Task<ActionResult<IEnumerable<UserAccountResponseDTO>>> GetUserAccounts()
         {
             var userAccounts = await _context
@@ -87,7 +87,7 @@ namespace backend.Controllers.Accounts
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Accounts.Manage")]
         public async Task<ActionResult<UserAccountResponseDTO>> UpdateUserAccount(
             int id,
             UserAccountAdminUpdateDTO dto

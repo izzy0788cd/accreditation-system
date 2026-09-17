@@ -27,7 +27,7 @@ namespace backend.Controllers_Framework
 
         // GET: api/Compliance
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<ComplianceDTO>>> GetCompliances()
         {
             var compliances = await _context
@@ -47,7 +47,7 @@ namespace backend.Controllers_Framework
 
         // GET: api/Compliance/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<ComplianceDTO>> GetCompliance(int id)
         {
             var compliance = await _context
@@ -74,7 +74,7 @@ namespace backend.Controllers_Framework
         // PUT: api/Compliance/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutCompliance(int id, ComplianceUpdateDTO dto)
         {
             var compliance = await _context.compliances.FindAsync(id);
@@ -110,7 +110,7 @@ namespace backend.Controllers_Framework
 
         // PATCH: api/compliance/1/applicability
         [HttpPatch("{id}/applicability")]
-        [Authorize(Roles = "Admin,Surveyor")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<IActionResult> PatchEvidenceApplicability(
             int id,
             [FromBody] bool isApplicable
@@ -150,7 +150,7 @@ namespace backend.Controllers_Framework
         // POST: api/Compliance
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<ComplianceDTO>> PostCompliance(ComplianceCreateDTO dto)
         {
             var complianceModel = new Compliance
@@ -192,7 +192,7 @@ namespace backend.Controllers_Framework
 
         // DELETE: api/Compliance/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteCompliance(int id)
         {
             var compliance = await _context.compliances.FindAsync(id);

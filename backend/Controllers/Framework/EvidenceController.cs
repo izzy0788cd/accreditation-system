@@ -25,7 +25,7 @@ namespace backend.Controllers_Framework
 
         // GET: api/Evidence
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<EvidenceDTO>>> GetEvidence()
         {
             var evidences = await _context
@@ -45,7 +45,7 @@ namespace backend.Controllers_Framework
 
         // GET: api/Evidence/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<EvidenceDTO>> GetEvidence(int id)
         {
             var evidence = await _context
@@ -72,7 +72,7 @@ namespace backend.Controllers_Framework
         // PUT: api/Evidence/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutEvidence(int id, EvidenceUpdateDTO dto)
         {
             var evidence = await _context.evidence.FindAsync(id);
@@ -108,7 +108,7 @@ namespace backend.Controllers_Framework
 
         // PATCH: api/evidence/5/applicability
         [HttpPatch("{id}/applicability")]
-        [Authorize(Roles = "Admin,Surveyor")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<IActionResult> PatchEvidenceApplicability(
             int id,
             [FromBody] bool isApplicable
@@ -138,7 +138,7 @@ namespace backend.Controllers_Framework
         // POST: api/Evidence
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<EvidenceDTO>> PostEvidence(EvidenceCreateDTO dto)
         {
             var evidenceModel = new Evidence
@@ -176,7 +176,7 @@ namespace backend.Controllers_Framework
 
         // DELETE: api/Evidence/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteEvidence(int id)
         {
             var evidence = await _context.evidence.FindAsync(id);

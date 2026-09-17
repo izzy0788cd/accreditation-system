@@ -23,5 +23,6 @@ namespace backend.DTOs.FacilitySurvey
         public string? cancelledByUsername { get; set; }
         public string scopeType { get; set; } = "Full";
         public string? toolkitSummary { get; set; }
+        public bool hasSubmittedReport { get; set; }
     }
 }

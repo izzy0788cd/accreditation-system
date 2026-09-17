@@ -81,19 +81,28 @@ namespace backend.Controllers.Assessment
         }
 
         [HttpGet("assessment/{complianceAssessmentId}")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<IEnumerable<ComplianceEvidenceCheckDTO>>> GetForAssessment(
             int complianceAssessmentId
         )
         {
-            var surveyId = await _context.complianceAssessments
+            var assessment = await _context.complianceAssessments
                 .Where(assessment => assessment.complianceAssessmentId == complianceAssessmentId)
-                .Select(assessment => (int?)assessment.surveyId)
+                .Select(assessment => new { assessment.surveyId, assessment.surveyorId })
                 .FirstOrDefaultAsync();
-            if (!surveyId.HasValue)
+            if (assessment == null)
                 return NotFound();
 
-            await EnsureCurrentEvidenceChecksAsync(surveyId.Value);
+            if (!User.IsInRole("Admin"))
+            {
+                var surveyorId = await GetCurrentSurveyorIdAsync();
+                var isTeamLead = User.IsInRole("Team Lead") && surveyorId.HasValue && await _context.surveys.AnyAsync(survey =>
+                    survey.surveyId == assessment.surveyId && survey.surveyorId == surveyorId.Value);
+                if (!isTeamLead && (!surveyorId.HasValue || assessment.surveyorId != surveyorId.Value))
+                    return Forbid();
+            }
+
+            await EnsureCurrentEvidenceChecksAsync(assessment.surveyId);
 
             var checks = await _context
                 .complianceEvidenceChecks.Where(ce =>
@@ -114,7 +123,7 @@ namespace backend.Controllers.Assessment
         }
 
         [HttpGet("survey/{surveyId}")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<IEnumerable<ComplianceEvidenceCheckDTO>>> GetForSurvey(int surveyId)
         {
             if (!await _context.surveys.AnyAsync(survey => survey.surveyId == surveyId))
@@ -122,9 +131,17 @@ namespace backend.Controllers.Assessment
 
             await EnsureCurrentEvidenceChecksAsync(surveyId);
 
+            var currentSurveyorId = await GetCurrentSurveyorIdAsync();
+            var teamLeadCanReview = !User.IsInRole("Admin") && User.IsInRole("Team Lead") && currentSurveyorId.HasValue
+                && await _context.surveys.AnyAsync(survey => survey.surveyId == surveyId && survey.surveyorId == currentSurveyorId.Value);
+            var canReviewAll = User.IsInRole("Admin") || teamLeadCanReview;
+            if (!canReviewAll && !currentSurveyorId.HasValue)
+                return Forbid();
+
             var checks = await _context
                 .complianceEvidenceChecks.Where(check =>
                     check.complianceAssessment!.surveyId == surveyId
+                    && (canReviewAll || check.complianceAssessment.surveyorId == currentSurveyorId!.Value)
                 )
                 .Select(check => new ComplianceEvidenceCheckDTO
                 {
@@ -141,7 +158,7 @@ namespace backend.Controllers.Assessment
         }
 
         [HttpGet("survey/{surveyId}/mine")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<IEnumerable<ComplianceEvidenceCheckDTO>>> GetMyForSurvey(int surveyId)
         {
             var surveyorId = await GetCurrentSurveyorIdAsync();
@@ -170,7 +187,7 @@ namespace backend.Controllers.Assessment
         }
 
         [HttpPatch("{id}/checked")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<IActionResult> PatchChecked(int id, [FromBody] bool isChecked)
         {
             var check = await _context.complianceEvidenceChecks

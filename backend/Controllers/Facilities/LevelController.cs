@@ -14,7 +14,7 @@ namespace backend.Controllers.Facilities
 {
     [Route("api/levels")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = "ReferenceData.Read")]
     public class LevelController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -66,7 +66,7 @@ namespace backend.Controllers.Facilities
         // PUT: api/Level/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutLevel(int id, LevelUpdateDTO dto)
         {
             var level = await _context.levels.FindAsync(id);
@@ -102,7 +102,7 @@ namespace backend.Controllers.Facilities
         // POST: api/Level
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<LevelDTO>> PostLevel(LevelCreateDTO dto)
         {
             var levelModel = new Level
@@ -128,7 +128,7 @@ namespace backend.Controllers.Facilities
 
         // DELETE: api/Level/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteLevel(int id)
         {
             var level = await _context.levels.FindAsync(id);

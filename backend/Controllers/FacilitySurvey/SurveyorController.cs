@@ -25,7 +25,7 @@ namespace backend.Controllers.FacilitySurvey
 
         // GET: api/Surveyor
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<SurveyorDTO>>> GetSurveyors()
         {
             var surveyors = await _context
@@ -47,7 +47,7 @@ namespace backend.Controllers.FacilitySurvey
 
         // GET: api/Surveyor/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<SurveyorDTO>> GetSurveyor(int id)
         {
             var surveyor = await _context
@@ -76,7 +76,7 @@ namespace backend.Controllers.FacilitySurvey
         // PUT: api/Surveyor/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutSurveyors(int id, SurveyorUpdateDTO dto)
         {
             var surveyor = await _context.surveyors.FindAsync(id);
@@ -111,7 +111,7 @@ namespace backend.Controllers.FacilitySurvey
         // POST: api/Surveyor
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<SurveyorDTO>> PostSurveyors(SurveyorCreateDTO dto)
         {
             if (!await _context.users.AnyAsync(user => user.userId == dto.userId))
@@ -168,7 +168,7 @@ namespace backend.Controllers.FacilitySurvey
 
         // DELETE: api/Surveyor/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteSurveyors(int id)
         {
             var surveyors = await _context.surveyors.FindAsync(id);

@@ -103,9 +103,12 @@ namespace backend.Controllers.FacilitySurvey
 
         // GET: api/Survey
         [HttpGet]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<IEnumerable<SurveyDTO>>> GetSurveys()
         {
+            if (!User.IsInRole("Admin"))
+                return await GetMySurveys();
+
             var surveys = await _context
                 .surveys.Select(s => new SurveyDTO
                 {
@@ -133,7 +136,7 @@ namespace backend.Controllers.FacilitySurvey
         // Scopes a user with a surveyor profile to their own fieldwork. An Admin
         // can still use the regular endpoint when working administratively.
         [HttpGet("mine")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<IEnumerable<SurveyDTO>>> GetMySurveys()
         {
             var surveyorId = await GetCurrentSurveyorIdAsync();
@@ -162,6 +165,7 @@ namespace backend.Controllers.FacilitySurvey
                     cancelledByUsername = s.cancelledByUsername,
                     scopeType = s.toolkitSnapshot != null ? s.toolkitSnapshot.scopeType : "Full",
                     toolkitSummary = s.toolkitSnapshot != null ? s.toolkitSnapshot.templateSummary : "Full NHSS survey",
+                    hasSubmittedReport = _context.surveyorReports.Any(report => report.surveyId == s.surveyId && report.surveyorId == surveyorId.Value && report.isSubmitted),
                 })
                 .ToListAsync();
 
@@ -170,9 +174,21 @@ namespace backend.Controllers.FacilitySurvey
 
         // GET: api/Survey/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<SurveyDTO>> GetSurvey(int id)
         {
+            var currentSurveyorId = await GetCurrentSurveyorIdAsync();
+            if (!User.IsInRole("Admin"))
+            {
+                if (!currentSurveyorId.HasValue)
+                    return Forbid();
+
+                var isAssigned = await _context.complianceAssessments.AnyAsync(assessment =>
+                    assessment.surveyId == id && assessment.surveyorId == currentSurveyorId.Value);
+                if (!isAssigned)
+                    return Forbid();
+            }
+
             var survey = await _context
                 .surveys.Where(s => s.surveyId == id)
                 .Select(s => new SurveyDTO
@@ -200,12 +216,16 @@ namespace backend.Controllers.FacilitySurvey
                 return NotFound();
             }
 
+            if (currentSurveyorId.HasValue)
+                survey.hasSubmittedReport = await _context.surveyorReports.AnyAsync(report =>
+                    report.surveyId == id && report.surveyorId == currentSurveyorId.Value && report.isSubmitted);
+
             return Ok(survey);
         }
 
         // PUT: api/Survey/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Survey.Administer")]
         public async Task<IActionResult> PutSurvey(int id, SurveyUpdateDTO dto)
         {
             if (dto.endDate < dto.startDate)
@@ -275,7 +295,7 @@ namespace backend.Controllers.FacilitySurvey
         }
 
         [HttpPatch("{id}/team-lead")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Survey.Administer")]
         public async Task<IActionResult> ReassignTeamLead(int id, SurveyReassignTeamLeadDTO dto)
         {
             var survey = await _context.surveys.FindAsync(id);
@@ -316,7 +336,7 @@ namespace backend.Controllers.FacilitySurvey
 
         // POST: api/Survey
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Survey.Administer")]
         public async Task<ActionResult<SurveyDTO>> PostSurvey(SurveyCreateDTO dto)
         {
             if (dto.endDate < dto.startDate)
@@ -448,9 +468,12 @@ namespace backend.Controllers.FacilitySurvey
         }
 
         [HttpGet("{id}/progress")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<SurveyProgressDTO>> GetSurveyProgress(int id)
         {
+            if (!User.IsInRole("Admin") && User.IsInRole("Surveyor"))
+                return await GetMySurveyProgress(id);
+
             var totalCompliances = await _context.complianceAssessments.CountAsync(ca =>
                 ca.surveyId == id
             );
@@ -482,7 +505,7 @@ namespace backend.Controllers.FacilitySurvey
         }
 
         [HttpGet("{id}/my-progress")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<SurveyProgressDTO>> GetMySurveyProgress(int id)
         {
             var surveyorId = await GetCurrentSurveyorIdAsync();
@@ -515,7 +538,7 @@ namespace backend.Controllers.FacilitySurvey
         }
 
         [HttpGet("{surveyId}/standards/{standardId}/progress")]
-        [Authorize(Roles = "Admin,Surveyor,Team Lead")]
+        [Authorize(Policy = "Survey.Work")]
         public async Task<ActionResult<StandardProgressDTO>> GetStandardProgress(
             int surveyId,
             int standardId
@@ -558,7 +581,7 @@ namespace backend.Controllers.FacilitySurvey
         // POST: api/surveys/5/reset
         // Keeps the survey checklist intact while returning every response to its initial state.
         [HttpPost("{id}/reset")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Survey.Administer")]
         public async Task<IActionResult> ResetSurvey(int id)
         {
             var survey = await _context.surveys.FindAsync(id);
@@ -599,7 +622,7 @@ namespace backend.Controllers.FacilitySurvey
         // findings are never changed, and newly added requirements follow the current
         // standard-to-surveyor assignments.
         [HttpPost("{id}/sync-framework")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Survey.Administer")]
         public async Task<IActionResult> SyncFramework(int id)
         {
             var survey = await _context.surveys.FindAsync(id);
@@ -664,7 +687,7 @@ namespace backend.Controllers.FacilitySurvey
         }
 
         [HttpPost("{id}/cancel")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Survey.Administer")]
         public async Task<IActionResult> CancelSurvey(int id, SurveyCancelDTO dto)
         {
             if (string.IsNullOrWhiteSpace(dto.cancellationReason))
@@ -685,7 +708,7 @@ namespace backend.Controllers.FacilitySurvey
         }
 
         [HttpGet("{id}/standard-assignments")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Survey.Administer")]
         public async Task<ActionResult<IEnumerable<SurveyStandardAssignmentDTO>>> GetStandardAssignments(int id)
         {
             if (!await _context.surveys.AnyAsync(survey => survey.surveyId == id))
@@ -708,7 +731,7 @@ namespace backend.Controllers.FacilitySurvey
         }
 
         [HttpPut("{id}/standard-assignments")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Survey.Administer")]
         public async Task<IActionResult> PutStandardAssignments(
             int id,
             List<SurveyStandardAssignmentUpdateDTO> dto
@@ -771,7 +794,7 @@ namespace backend.Controllers.FacilitySurvey
 
         // DELETE: api/Survey/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Survey.Administer")]
         public async Task<IActionResult> DeleteSurvey(int id)
         {
             var survey = await _context.surveys.FindAsync(id);

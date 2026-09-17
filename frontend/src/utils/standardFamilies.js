@@ -1,3 +1,5 @@
+import { compareReferenceNumber } from "./numberSort";
+
 export const STANDARD_23_FAMILY = {
   number: "23",
   title: "Provision of and Continuity of Care (Mandatory Standard)",
@@ -22,7 +24,7 @@ export function countDashboardStandards(standards) {
 // records retain their individual 23a, 23b, 23c … identities.
 export function aggregateDashboardStandards(standards, maxScore = 4) {
   const regular = standards.filter((standard) => !isStandard23Child(standard.standardNumber));
-  const specialtyStandards = standards.filter((standard) => isStandard23Child(standard.standardNumber));
+  const specialtyStandards = standards.filter((standard) => isStandard23Child(standard.standardNumber)).sort((first, second) => compareReferenceNumber(first.standardNumber, second.standardNumber));
 
   if (!specialtyStandards.length) return regular;
 

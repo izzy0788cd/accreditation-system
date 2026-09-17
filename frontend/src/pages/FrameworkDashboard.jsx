@@ -4,6 +4,7 @@ import { getAll } from "../api/api";
 import AnimatedNumber from "../components/AnimatedNumber";
 import Reveal from "../components/Reveal";
 import { STANDARD_23_FAMILY, countDashboardStandards, isStandard23Child } from "../utils/standardFamilies";
+import { compareReferenceNumber } from "../utils/numberSort";
 
 const entities = [
   { resource: "functions", label: "Functions", path: "/framework/functions", hasApplicability: false, marker: "01", description: "Highest-level responsibilities", tone: "bg-[#edf8f0] text-[#16803a]", accent: "border-t-[#16803a]" },
@@ -104,9 +105,7 @@ function FrameworkDashboard() {
           }] : []),
         ];
 
-        breakdownResult.sort((a, b) =>
-          a.standardNumber.localeCompare(b.standardNumber, undefined, { numeric: true })
-        );
+        breakdownResult.sort((a, b) => compareReferenceNumber(a.standardNumber, b.standardNumber));
 
         setBreakdown(breakdownResult);
       } catch (err) {

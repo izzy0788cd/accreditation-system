@@ -25,7 +25,7 @@ namespace backend.Controllers.Scoring
 
         // GET: api/Score
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<ScoresDTO>>> GetScores()
         {
             var scores = await _context
@@ -44,7 +44,7 @@ namespace backend.Controllers.Scoring
 
         // GET: api/Score/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<ScoresDTO>> GetScore(int id)
         {
             var score = await _context
@@ -70,7 +70,7 @@ namespace backend.Controllers.Scoring
         // PUT: api/Score/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutScore(int id, ScoreUpdateDTO dto)
         {
             if (!IsValidScoreValue(dto.scoreValue))
@@ -110,7 +110,7 @@ namespace backend.Controllers.Scoring
         // POST: api/Score
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<ScoresDTO>> PostScore(ScoreCreateDTO dto)
         {
             if (!IsValidScoreValue(dto.scoreValue))
@@ -141,7 +141,7 @@ namespace backend.Controllers.Scoring
 
         // DELETE: api/Score/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteScore(int id)
         {
             var score = await _context.scores.FindAsync(id);

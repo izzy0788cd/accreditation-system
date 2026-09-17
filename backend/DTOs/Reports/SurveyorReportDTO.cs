@@ -6,6 +6,8 @@ public class SurveyorReportDTO
     public int surveyId { get; set; }
     public int surveyorId { get; set; }
     public string surveyorName { get; set; } = "";
+    public string facilityName { get; set; } = "";
+    public string surveyType { get; set; } = "";
     public string? summary { get; set; }
     public string? priorityFindings { get; set; }
     public string? recommendations { get; set; }

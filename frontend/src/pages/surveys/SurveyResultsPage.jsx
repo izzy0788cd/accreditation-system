@@ -4,6 +4,7 @@ import { getAll, getInternalAssessmentReferences, getOne, getSurveyAssessments, 
 import { useAuth } from "../../context/AuthContext";
 import { MAX_SCORE_VALUE, isPriorityScore, scoreOutcomeLabel, scoreTone } from "../../utils/scoring";
 import { countDashboardStandards } from "../../utils/standardFamilies";
+import SurveyContextNav from "../../components/SurveyContextNav";
 
 const numberSort = (first, second) => String(first ?? "").localeCompare(String(second ?? ""), undefined, { numeric: true });
 const percent = (value, total) => total ? Math.round((value / total) * 100) : 0;
@@ -212,6 +213,7 @@ function SurveyResultsPage() {
 
   return <><main className="print:hidden mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:py-8">
     <div className="print:hidden"><Link to={`/surveys/${surveyId}`} className="text-sm font-semibold text-[#16803a] hover:underline">← Back to survey</Link></div>
+    <SurveyContextNav surveyId={surveyId} />
     <header className="mt-5 rounded-2xl border border-[#c9dded] bg-[linear-gradient(125deg,#eaf3fb_0%,#f8fafc_65%,#fdf7ea_100%)] p-6 sm:p-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"><div><p className={`text-xs font-bold uppercase tracking-[.16em] ${survey.surveyTypeName === "External" ? "text-violet-700" : "text-sky-800"}`}>{canViewFullResults ? "Survey results summary" : "My assigned standards results"}</p><h1 className="mt-2 text-3xl font-bold text-[#092a5a]">{survey.facilityName}</h1><p className="mt-2 text-sm text-[#4b5f7a]">{survey.startDate} — {survey.endDate}</p><SurveyTypeBadge surveyTypeName={survey.surveyTypeName} /></div><button onClick={() => window.print()} className="print:hidden rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">{viewMode !== "overview" || componentFilter || standardFilter || surveyorFilter || statusFilter !== "all" ? "Print / Save filtered PDF" : "Print / Save PDF"}</button></div>
     </header>

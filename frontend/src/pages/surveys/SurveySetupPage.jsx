@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { create, getAll, remove, update } from "../../api/api";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import FormModal from "../../components/FormModal";
+import { sortRiskRatings } from "../../utils/numberSort";
 
 const tabs = [
   { key: "surveyors", label: "Surveyors" }, { key: "surveyTypes", label: "Survey types" }, { key: "scores", label: "Scores" },
@@ -31,7 +32,7 @@ function SurveySetupPage() {
     finally { setLoading(false); }
   };
   useEffect(() => { load(); }, []);
-  const records = data[activeTab] || [];
+  const records = activeTab === "riskRating" ? sortRiskRatings(data[activeTab] || []) : data[activeTab] || [];
   const title = activeTab === "surveyors" ? "Surveyor registry" : labels[activeTab];
   const save = async (payload) => { try { if (form.record) await update(activeTab, form.record[identifier(activeTab)], payload); else await create(activeTab, payload); setForm(null); await load(); } catch (err) { console.error(err); } };
   const confirmDelete = async () => { try { await remove(activeTab, deleting[identifier(activeTab)]); setDeleting(null); await load(); } catch (err) { console.error(err); } };

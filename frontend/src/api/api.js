@@ -39,6 +39,9 @@ export const getOwnProfile = () => api.get("/users/me");
 export const updateOwnProfile = (data) => api.put("/users/me", data);
 
 export const getAll = (resource) => api.get(`/${resource}`);
+// Paginated endpoints preserve getAll's array response when no paging query is
+// supplied; use this helper whenever a page needs a server-side result set.
+export const getPage = (resource, params = {}) => api.get(`/${resource}`, { params: { page: 1, pageSize: 25, ...params } });
 export const getOne = (resource, id) => api.get(`/${resource}/${id}`);
 const saveRequest = (request) => {
   window.dispatchEvent(new CustomEvent("api-save-state", { detail: true }));
@@ -75,7 +78,13 @@ export const getSurveyReport = (surveyId) => api.get(`/reports/surveys/${surveyI
 export const getReportVersions = (surveyId) => api.get(`/reports/surveys/${surveyId}/versions`);
 export const getReportVersion = (surveyId, versionId) => api.get(`/reports/surveys/${surveyId}/versions/${versionId}`);
 export const saveReportVersion = (surveyId, options) => api.post(`/reports/surveys/${surveyId}/versions`, options);
+export const getSurveyActions = (params = {}) => api.get("/survey-actions", { params });
+export const getSurveyActionSummary = (params = {}) => api.get("/survey-actions/summary", { params });
+export const createSurveyAction = (data) => saveRequest(api.post("/survey-actions", data, { showErrorDialog: true }));
+export const updateSurveyAction = (id, data) => saveRequest(api.put(`/survey-actions/${id}`, data, { showErrorDialog: true }));
 export const getSurveyorReports = (surveyId) => api.get(`/surveyor-reports/survey/${surveyId}`);
+export const getSubmittedSurveyorReports = () => api.get("/surveyor-reports/submitted");
+export const getSurveyorReportReview = (surveyorReportId) => api.get(`/surveyor-reports/${surveyorReportId}/review`);
 export const saveMySurveyorReport = (surveyId, data) => saveRequest(api.put(`/surveyor-reports/survey/${surveyId}/mine`, data, { showErrorDialog: true }));
 export const reopenSurveyorReport = (surveyorReportId, reason) => saveRequest(api.post(`/surveyor-reports/${surveyorReportId}/reopen`, { reason }, { showErrorDialog: true }));
 export const getMySurveyorReportWorkspace = (surveyId) => api.get(`/surveyor-reports/survey/${surveyId}/mine/workspace`);

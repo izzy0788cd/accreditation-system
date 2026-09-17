@@ -1,4 +1,5 @@
 using System.Text;
+using backend.Authorization;
 using backend.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -79,8 +80,15 @@ builder
 
 builder.Services.AddAuthorization(options =>
 {
-    // Add "Preceptor" here when that role is introduced; do not grant it admin privileges.
-    options.AddPolicy("GenerateSurveyReports", policy => policy.RequireRole("Admin"));
+    // Keep role membership here, not spread throughout controller attributes.
+    options.AddPolicy(PolicyNames.ReferenceDataRead, policy => policy.RequireAuthenticatedUser());
+    options.AddPolicy(PolicyNames.ReferenceDataManage, policy => policy.RequireRole("Admin"));
+    options.AddPolicy(PolicyNames.SurveyWork, policy => policy.RequireRole("Admin", "Surveyor", "Team Lead"));
+    options.AddPolicy(PolicyNames.SurveyReviewTeam, policy => policy.RequireRole("Admin", "Team Lead"));
+    options.AddPolicy(PolicyNames.SurveyAdminister, policy => policy.RequireRole("Admin"));
+    options.AddPolicy(PolicyNames.ReportsGenerate, policy => policy.RequireRole("Admin", "Team Lead"));
+    options.AddPolicy(PolicyNames.ActionsManage, policy => policy.RequireRole("Admin", "Team Lead"));
+    options.AddPolicy(PolicyNames.AccountsManage, policy => policy.RequireRole("Admin"));
 });
 
 var app = builder.Build();
@@ -94,12 +102,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthentication();
-app.UseAuthorization();
-
 // app.UseHttpsRedirection();
 
+// CORS must run before auth so 401/403 responses retain the CORS headers that
+// let the frontend display a useful access message instead of a browser error.
 app.UseCors("AllowFrontendDev");
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

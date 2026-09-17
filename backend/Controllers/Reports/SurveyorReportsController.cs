@@ -11,7 +11,7 @@ namespace backend.Controllers.Reports;
 
 [ApiController]
 [Route("api/surveyor-reports")]
-[Authorize(Roles = "Admin,Surveyor,Team Lead")]
+[Authorize(Policy = "Survey.Work")]
 public class SurveyorReportsController(AppDbContext context) : ControllerBase
 {
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
@@ -27,6 +27,8 @@ public class SurveyorReportsController(AppDbContext context) : ControllerBase
     {
         surveyorReportId = report.surveyorReportId, surveyId = report.surveyId, surveyorId = report.surveyorId,
         surveyorName = report.surveyor!.user!.firstName + " " + report.surveyor.user.lastName,
+        facilityName = report.survey!.facility!.facilityName,
+        surveyType = report.survey.surveyType!.surveyTypeName,
         summary = report.summary, priorityFindings = report.priorityFindings, recommendations = report.recommendations,
         goodPractices = report.goodPractices, notApplicableNotes = report.notApplicableNotes, isSubmitted = report.isSubmitted,
         submittedAt = report.submittedAt, updatedAt = report.updatedAt,
@@ -46,6 +48,86 @@ public class SurveyorReportsController(AppDbContext context) : ControllerBase
             return Ok(await reports);
         }
         return Ok(await Project(context.surveyorReports.AsNoTracking().Where(report => report.surveyId == surveyId)).ToListAsync());
+    }
+
+    [HttpGet("submitted")]
+    public async Task<ActionResult<IEnumerable<SurveyorReportDTO>>> Submitted(CancellationToken cancellationToken)
+    {
+        var query = context.surveyorReports.AsNoTracking().Where(report => report.isSubmitted);
+        if (User.IsInRole("Admin"))
+            return Ok(await Project(query).OrderByDescending(report => report.submittedAt).ToListAsync(cancellationToken));
+
+        var currentSurveyorId = await CurrentSurveyorIdAsync();
+        if (!currentSurveyorId.HasValue) return Forbid();
+        if (User.IsInRole("Team Lead"))
+            query = query.Where(report => report.survey!.surveyorId == currentSurveyorId.Value);
+        else
+            query = query.Where(report => report.surveyorId == currentSurveyorId.Value);
+        return Ok(await Project(query).OrderByDescending(report => report.submittedAt).ToListAsync(cancellationToken));
+    }
+
+    [HttpGet("{surveyorReportId:int}/review")]
+    [Authorize(Policy = "Survey.ReviewTeam")]
+    public async Task<IActionResult> Review(int surveyorReportId)
+    {
+        var report = await context.surveyorReports.AsNoTracking()
+            .FirstOrDefaultAsync(item => item.surveyorReportId == surveyorReportId);
+        if (report == null)
+            return NotFound();
+        if (!report.isSubmitted)
+            return BadRequest("Only submitted surveyor reports can be reviewed.");
+
+        if (!User.IsInRole("Admin"))
+        {
+            var currentSurveyorId = await CurrentSurveyorIdAsync();
+            var isTeamLead = currentSurveyorId.HasValue && await context.surveys.AnyAsync(survey =>
+                survey.surveyId == report.surveyId && survey.surveyorId == currentSurveyorId.Value);
+            if (!isTeamLead)
+                return Forbid();
+        }
+
+        var actions = new Dictionary<int, JsonElement>();
+        if (!string.IsNullOrWhiteSpace(report.recommendations))
+        {
+            try
+            {
+                actions = JsonSerializer.Deserialize<List<JsonElement>>(report.recommendations, JsonOptions)?
+                    .Where(item => item.TryGetProperty("complianceAssessmentId", out _))
+                    .ToDictionary(item => item.GetProperty("complianceAssessmentId").GetInt32()) ?? [];
+            }
+            catch (JsonException) { }
+        }
+
+        var findings = await context.complianceAssessments.AsNoTracking()
+            .Where(assessment => assessment.surveyId == report.surveyId
+                && assessment.surveyorId == report.surveyorId
+                && assessment.score!.scoreValue != null
+                && assessment.score.scoreValue <= 2
+                && assessment.riskRating!.severityOrder >= 3)
+            .OrderBy(assessment => assessment.compliance!.complianceNumber)
+            .Select(assessment => new SurveyorReportFindingDTO
+            {
+                complianceAssessmentId = assessment.complianceAssessmentId,
+                complianceNumber = assessment.compliance!.complianceNumber,
+                complianceSummary = assessment.compliance.complianceSummary,
+                scoreLabel = assessment.score!.scoreLabel,
+                riskLabel = assessment.riskRating!.riskLabel,
+                comments = assessment.complianceComments,
+            })
+            .ToListAsync();
+        foreach (var finding in findings)
+        {
+            if (!actions.TryGetValue(finding.complianceAssessmentId, out var action))
+                continue;
+            if (action.TryGetProperty("recommendation", out var recommendation))
+                finding.recommendation = recommendation.GetString();
+            if (action.TryGetProperty("correctiveAction", out var correctiveAction))
+                finding.correctiveAction = correctiveAction.GetString();
+        }
+
+        var reportDto = await Project(context.surveyorReports.AsNoTracking()
+            .Where(item => item.surveyorReportId == surveyorReportId)).SingleAsync();
+        return Ok(new { report = reportDto, findings });
     }
 
     [HttpPut("survey/{surveyId:int}/mine")]
@@ -71,7 +153,7 @@ public class SurveyorReportsController(AppDbContext context) : ControllerBase
     }
 
     [HttpPost("{surveyorReportId:int}/reopen")]
-    [Authorize(Roles = "Admin,Team Lead")]
+    [Authorize(Policy = "Survey.ReviewTeam")]
     public async Task<IActionResult> Reopen(int surveyorReportId, SurveyorReportReopenDTO dto)
     {
         if (string.IsNullOrWhiteSpace(dto.reason))

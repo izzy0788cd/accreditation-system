@@ -25,7 +25,7 @@ namespace backend.Controllers_FacilitySurvey
 
         // GET: api/Specialization
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<SpecializationDTO>>> GetSpecializations()
         {
             var specializations = await _context
@@ -42,7 +42,7 @@ namespace backend.Controllers_FacilitySurvey
 
         // GET: api/Specialization/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<SpecializationDTO>> GetSpecialization(int id)
         {
             var specialization = await _context
@@ -66,7 +66,7 @@ namespace backend.Controllers_FacilitySurvey
         // PUT: api/Specialization/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutSpecialization(int id, SpecializationUpdateDTO dto)
         {
             var specialization = await _context.specializations.FindAsync(id);
@@ -101,7 +101,7 @@ namespace backend.Controllers_FacilitySurvey
         // POST: api/Specialization
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<SpecializationDTO>> PostSpecialization(
             SpecializationCreateDTO dto
         )
@@ -130,7 +130,7 @@ namespace backend.Controllers_FacilitySurvey
 
         // DELETE: api/Specialization/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteSpecialization(int id)
         {
             var specialization = await _context.specializations.FindAsync(id);

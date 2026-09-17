@@ -946,6 +946,55 @@ namespace backend.Migrations
                     b.ToTable("regions");
                 });
 
+            modelBuilder.Entity("backend.Models.Reports.SurveyActionItem", b =>
+                {
+                    b.Property<int>("surveyActionItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("surveyActionItemId"));
+
+                    b.Property<string>("closureNotes")
+                        .HasColumnType("text");
+
+                    b.Property<int>("complianceAssessmentId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("correctiveAction")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateOnly?>("dueDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("recommendation")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("responsibleOfficer")
+                        .HasColumnType("text");
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("surveyId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("surveyActionItemId");
+
+                    b.HasIndex("complianceAssessmentId");
+
+                    b.HasIndex("surveyId");
+
+                    b.ToTable("surveyActionItems");
+                });
+
             modelBuilder.Entity("backend.Models.Reports.SurveyReportVersion", b =>
                 {
                     b.Property<int>("reportVersionId")
@@ -1509,6 +1558,25 @@ namespace backend.Migrations
                         .IsRequired();
 
                     b.Navigation("region");
+                });
+
+            modelBuilder.Entity("backend.Models.Reports.SurveyActionItem", b =>
+                {
+                    b.HasOne("backend.Models.Assessment.ComplianceAssessment", "complianceAssessment")
+                        .WithMany()
+                        .HasForeignKey("complianceAssessmentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.FaciltitySurvey.Survey", "survey")
+                        .WithMany()
+                        .HasForeignKey("surveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("complianceAssessment");
+
+                    b.Navigation("survey");
                 });
 
             modelBuilder.Entity("backend.Models.Reports.SurveyReportVersion", b =>

@@ -12,15 +12,18 @@ const links = [
   { to: "/facilities", label: "Facilities" },
   { to: "/surveys", label: "Surveys" },
 ];
+const surveyorLinks = links.filter((link) => link.to === "/" || link.to === "/surveys");
 
 function Navbar() {
-  const { auth, profile, logout, isAuthenticated } = useAuth();
+  const authState = useAuth() || {};
+  const { auth, profile, logout, isAuthenticated } = authState;
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem("accreditation-colour-mode") === "dark");
   const displayName = [profile?.firstName, profile?.lastName].filter(Boolean).join(" ");
-  const navigationLinks = auth?.roleName === "Admin" ? [...links, { to: "/admin/users", label: "Admin" }] : auth?.roleName === "Viewer" ? links.filter((link) => link.to !== "/surveys") : links;
+  const profileInitial = (displayName || auth?.username || "U").trim().charAt(0).toUpperCase();
+  const navigationLinks = auth?.roleName === "Admin" ? [...links, { to: "/admin/users", label: "Admin" }] : ["Surveyor", "Team Lead"].includes(auth?.roleName) ? surveyorLinks : auth?.roleName === "Viewer" || auth?.roleName === "User" ? links.filter((link) => link.to !== "/surveys") : links;
 
   useEffect(() => { setMenuOpen(false); }, [location.pathname]);
   useEffect(() => {
@@ -34,7 +37,7 @@ function Navbar() {
   }, [darkMode]);
 
   const handleLogout = () => {
-    logout();
+    logout?.();
     navigate("/login");
   };
 
@@ -64,19 +67,14 @@ function Navbar() {
           ))}
           {isAuthenticated && <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#e3eaf2] pt-3 sm:hidden"><Link to="/profile" onClick={() => setMenuOpen(false)} className="text-sm font-semibold text-[#4b5f7a]">{displayName || auth?.username}</Link><div className="flex items-center gap-2"><button onClick={() => setDarkMode((enabled) => !enabled)} className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-sm font-semibold text-[#4b5f7a]">{darkMode ? "Light mode" : "Dark mode"}</button><button onClick={() => { setMenuOpen(false); handleLogout(); }} className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-sm font-semibold text-[#16803a]">Log out</button></div></div>}
         </div>
-        <div className="ml-auto hidden shrink-0 items-center gap-2 sm:flex sm:gap-3">
+        <div className="ml-auto hidden shrink-0 items-center gap-2 sm:flex">
         {isAuthenticated ? (
           <>
-            <button onClick={() => setDarkMode((enabled) => !enabled)} className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-sm font-semibold text-[#4b5f7a] transition hover:bg-slate-50 hover:text-[#16803a]">{darkMode ? "Light mode" : "Dark mode"}</button>
-            <Link to="/profile" className="max-w-28 truncate rounded-md px-2 py-2 text-sm font-semibold text-[#4b5f7a] transition hover:bg-slate-50 hover:text-[#16803a] sm:max-w-none">
-              {displayName || auth?.username}
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="rounded-md border border-[#c5d5e8] px-3 py-1.5 text-sm font-semibold text-[#16803a] transition hover:bg-[#edf8f0]"
-            >
-              Log out
-            </button>
+            <button onClick={() => setDarkMode((enabled) => !enabled)} className="flex h-9 items-center gap-1.5 rounded-lg border border-[#c5d5e8] bg-white px-3 text-sm font-semibold text-[#4b5f7a] transition hover:bg-slate-50 hover:text-[#16803a]" title={darkMode ? "Switch to light mode" : "Switch to dark mode"}><span aria-hidden="true">{darkMode ? "☀" : "☾"}</span><span className="hidden lg:inline">{darkMode ? "Light" : "Dark"}</span></button>
+            <div className="flex items-center overflow-hidden rounded-lg border border-[#dbe5ef] bg-[#f8fafc]">
+              <Link to="/profile" className="flex max-w-40 items-center gap-2 px-2.5 py-1.5 text-sm font-semibold text-[#385273] transition hover:bg-white hover:text-[#16803a]" title="Open my profile"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#16803a] text-xs font-bold text-white">{profileInitial}</span><span className="truncate">{displayName || auth?.username}</span></Link>
+              <button onClick={handleLogout} className="border-l border-[#dbe5ef] px-2.5 py-2 text-xs font-bold text-[#16803a] transition hover:bg-[#edf8f0]" title="Log out">Log out</button>
+            </div>
           </>
         ) : (
           <NavLink

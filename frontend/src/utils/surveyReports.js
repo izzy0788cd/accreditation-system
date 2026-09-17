@@ -1,7 +1,7 @@
 import { MAX_SCORE_VALUE, isPriorityScore, scoreOutcomeLabel } from "./scoring.js";
+import { canGenerateReports } from "./access.js";
 
-// Extend this permission alongside the API's GenerateSurveyReports policy when Preceptor is introduced.
-export const canGenerateReports = (roleName) => roleName === "Admin";
+export { canGenerateReports };
 
 export function assessmentStatus(item) {
   if (!item.isApplicable || (item.scoreId != null && item.scoreValue == null)) return "Not applicable";

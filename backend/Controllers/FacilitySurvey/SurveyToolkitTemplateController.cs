@@ -9,7 +9,7 @@ namespace backend.Controllers.FacilitySurvey
 {
     [Route("api/survey-toolkit-templates")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = "ReferenceData.Read")]
     public class SurveyToolkitTemplateController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -40,7 +40,7 @@ namespace backend.Controllers.FacilitySurvey
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<SurveyToolkitTemplateDTO>> PostTemplate(SurveyToolkitTemplateCreateDTO dto)
         {
             if (dto.levelId != null && !await _context.levels.AnyAsync(level => level.levelId == dto.levelId)) return BadRequest("levelId does not exist.");
@@ -58,7 +58,7 @@ namespace backend.Controllers.FacilitySurvey
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutTemplate(int id, SurveyToolkitTemplateUpdateDTO dto)
         {
             var template = await _context.surveyToolkitTemplates.Include(item => item.standards).Include(item => item.compliances).FirstOrDefaultAsync(item => item.surveyToolkitTemplateId == id);
@@ -77,7 +77,7 @@ namespace backend.Controllers.FacilitySurvey
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteTemplate(int id)
         {
             var template = await _context.surveyToolkitTemplates.FindAsync(id);

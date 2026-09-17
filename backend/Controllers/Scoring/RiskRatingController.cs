@@ -25,7 +25,7 @@ namespace backend.Controllers.Scoring
 
         // GET: api/RiskRating
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<RiskRatingDTO>>> GetRiskRatings()
         {
             var riskRatings = await _context
@@ -44,7 +44,7 @@ namespace backend.Controllers.Scoring
 
         // GET: api/RiskRating/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<RiskRatingDTO>> GetRiskRating(int id)
         {
             var riskRating = await _context
@@ -69,7 +69,7 @@ namespace backend.Controllers.Scoring
         // PUT: api/RiskRating/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutRiskRating(int id, RiskRatingUpdateDTO dto)
         {
             var riskRating = await _context.riskRatings.FindAsync(id);
@@ -106,7 +106,7 @@ namespace backend.Controllers.Scoring
         // POST: api/RiskRating
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<RiskRatingDTO>> PostRiskRating(RiskRatingCreateDTO dto)
         {
             var riskRatingModel = new RiskRating
@@ -137,7 +137,7 @@ namespace backend.Controllers.Scoring
 
         // DELETE: api/RiskRating/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteRiskRating(int id)
         {
             var riskRating = await _context.riskRatings.FindAsync(id);

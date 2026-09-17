@@ -26,7 +26,7 @@ namespace backend.Controllers_Framework
 
         // GET: api/Component
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<ComponentDTO>>> Getcomponents()
         {
             return await _context
@@ -42,7 +42,7 @@ namespace backend.Controllers_Framework
 
         // GET: api/Component/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<ComponentDTO>> GetComponent(int id)
         {
             var component = await _context
@@ -67,7 +67,7 @@ namespace backend.Controllers_Framework
         // PUT: api/Component/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutComponent(int id, ComponentUpdateDTO dto)
         {
             var component = await _context.components.FindAsync(id);
@@ -103,7 +103,7 @@ namespace backend.Controllers_Framework
         // POST: api/Component
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<ComponentDTO>> PostComponent(ComponentCreateDTO component)
         {
             var componentModel = new Component
@@ -133,7 +133,7 @@ namespace backend.Controllers_Framework
 
         // DELETE: api/Component/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteComponent(int id)
         {
             var component = await _context.components.FindAsync(id);

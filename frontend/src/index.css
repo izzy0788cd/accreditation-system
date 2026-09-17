@@ -6,9 +6,76 @@
   font-synthesis: none;
 }
 
+@media print {
+  @page { size: A4 landscape; margin: 13mm; }
+  body:has(.surveyor-handover-print) nav,
+  body:has(.surveyor-handover-print) main:has(.surveyor-handover-print) > :not(.surveyor-handover-print) { display: none !important; }
+  body:has(.surveyor-handover-print) main:has(.surveyor-handover-print) { max-width: none !important; padding: 0 !important; }
+  .surveyor-handover-print { display: block !important; width: 100%; color: #172b2f; font-family: Arial, Helvetica, sans-serif; font-size: 9.5pt; line-height: 1.45; }
+  .surveyor-handover-print header { background: #092a5a; color: #fff; margin-bottom: 18px; padding: 18px 20px; }
+  .surveyor-handover-print header p { color: #dbeafe; font-size: 8pt; font-weight: 700; letter-spacing: .12em; margin: 0; text-transform: uppercase; }
+  .surveyor-handover-print h1 { color: #fff; font-size: 24pt; line-height: 1.1; margin: 6px 0; }
+  .surveyor-handover-print .surveyor-handover-print-subtitle { font-size: 9pt; font-weight: 400; letter-spacing: normal; text-transform: none; }
+  .surveyor-handover-print section { break-inside: avoid; margin: 0 0 18px; }
+  .surveyor-handover-print h2 { border-bottom: 2px solid #16803a; color: #092a5a; font-size: 13pt; margin: 0 0 7px; padding-bottom: 5px; }
+  .surveyor-handover-print section > p { margin: 0; text-align: justify; white-space: pre-wrap; }
+  .surveyor-handover-print table { border-collapse: collapse; table-layout: fixed; width: 100%; }
+  .surveyor-handover-print thead { display: table-header-group; }
+  .surveyor-handover-print th, .surveyor-handover-print td { border: 1px solid #bfcfdd; overflow-wrap: anywhere; padding: 7px 8px; text-align: left; vertical-align: top; }
+  .surveyor-handover-print th { background: #315c88; color: #fff; font-size: 7.5pt; text-transform: uppercase; }
+  .surveyor-handover-print th:nth-child(1) { width: 10%; }
+  .surveyor-handover-print th:nth-child(2) { width: 31%; }
+  .surveyor-handover-print th:nth-child(3) { width: 13%; }
+  .surveyor-handover-print th:nth-child(4), .surveyor-handover-print th:nth-child(5) { width: 23%; }
+  .surveyor-handover-print td p { color: #4b5f7a; font-style: italic; margin: 5px 0 0; text-align: justify; }
+  .surveyor-handover-print footer { border-top: 1px solid #b7c9dc; color: #4b5f7a; font-size: 8pt; margin-top: 22px; padding-top: 8px; }
+}
+
 body {
   min-width: 320px;
   background: #f7f9fc;
+}
+
+.skip-link { left: 1rem; position: fixed; top: -5rem; z-index: 100; border-radius: .5rem; background: #092a5a; color: #fff; font-weight: 700; padding: .7rem 1rem; }
+.skip-link:focus { top: 1rem; outline: 3px solid #d6aa45; outline-offset: 2px; }
+:focus-visible { outline: 3px solid #16803a; outline-offset: 2px; }
+
+/* Keep interactive controls usable on touch screens without changing desktop
+   density. Icon-only controls retain their explicit sizing. */
+@media (max-width: 640px) {
+  button:not([class*="h-"]),
+  input:not([type="checkbox"]):not([type="radio"]),
+  select { min-height: 2.75rem; }
+  textarea { min-height: 5.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+
+/* Applied to list views that have a compact mobile alternative. It prevents a
+   hidden desktop table from ever forcing a sideways page scroll. */
+.mobile-list-only { display: block; }
+@media (max-width: 639px) { .desktop-table-only { display: none !important; } }
+@media (min-width: 640px) { .mobile-list-only { display: none !important; } }
+
+.reports-centre-secondary-grid { display: grid; gap: 1.5rem; }
+@media (min-width: 1280px) {
+  .reports-centre-secondary-grid {
+    grid-template-columns:
+      minmax(0, calc((100% - 3rem) * 2 / 3 + 1.5rem))
+      minmax(0, calc((100% - 3rem) / 3));
+  }
+}
+
+@media print {
+  body:has(.action-plan-page) nav,
+  body:has(.action-plan-page) .action-plan-page > header,
+  body:has(.action-plan-page) .action-plan-controls,
+  body:has(.action-plan-page) .action-plan-page > section[aria-label="Action plan status"],
+  body:has(.action-plan-page) .action-plan-edit { display: none !important; }
+  body:has(.action-plan-page) .action-plan-page { max-width: none !important; padding: 0 !important; }
+  body:has(.action-plan-page) .action-plan-page > section { box-shadow: none !important; }
 }
 
 ::selection {

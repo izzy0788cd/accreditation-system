@@ -25,7 +25,7 @@ namespace backend.Controllers_Facilities
 
         // GET: api/Organization
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<OrganizationDTO>>> GetOrganizations()
         {
             return await _context
@@ -42,7 +42,7 @@ namespace backend.Controllers_Facilities
 
         // GET: api/Organization/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<OrganizationDTO>> GetOrganization(int id)
         {
             var organization = await _context
@@ -68,7 +68,7 @@ namespace backend.Controllers_Facilities
         // PUT: api/Organization/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutOrganization(int id, OrganizationUpdateDTO dto)
         {
             var organization = await _context.organizations.FindAsync(id);
@@ -104,7 +104,7 @@ namespace backend.Controllers_Facilities
         // POST: api/Organization
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<OrganizationDTO>> PostOrganization(OrganizationCreateDTO dto)
         {
             var organizationModel = new Organization
@@ -144,7 +144,7 @@ namespace backend.Controllers_Facilities
 
         // DELETE: api/Organization/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteOrganization(int id)
         {
             var organization = await _context.organizations.FindAsync(id);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { create, getAll, getMySurveys } from "../../api/api";
+import { create, getAll, getMySurveys, getSubmittedSurveyorReports } from "../../api/api";
 import FormModal from "../../components/FormModal";
 import { useAuth } from "../../context/AuthContext";
 import { ComplianceTree } from "./ToolkitBuilderPage";
@@ -20,25 +20,29 @@ export default function SurveysPage() {
   const [criteria, setCriteria] = useState([]);
   const [compliances, setCompliances] = useState([]);
   const [templates, setTemplates] = useState([]);
+  const [submittedReports, setSubmittedReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [formOpen, setFormOpen] = useState(false);
   const [form, setForm] = useState(blankForm);
   const isAdmin = auth?.roleName === "Admin";
+  const isSurveyor = auth?.roleName === "Surveyor";
+  const isTeamLead = auth?.roleName === "Team Lead";
   const hasSurveyorProfile = surveyors.some((surveyor) => surveyor.userId === profile?.userId);
   const surveyorMode = isAdmin && hasSurveyorProfile && searchParams.get("mode") === "surveyor";
+  const fieldworkMode = surveyorMode || isSurveyor;
 
   const load = async () => {
     try {
       setLoading(true);
-      const [surveyRes, facilityRes, typeRes, surveyorRes, standardRes, templateRes, criterionRes, complianceRes] = await Promise.all([
-        surveyorMode ? getMySurveys() : getAll("surveys"), getAll("facilities"), getAll("surveyTypes"), getAll("surveyors"), getAll("standards"), getAll("survey-toolkit-templates"), getAll("criteria"), getAll("compliances"),
+      const [surveyRes, facilityRes, typeRes, surveyorRes, standardRes, templateRes, criterionRes, complianceRes, submittedReportRes] = await Promise.all([
+        fieldworkMode || isTeamLead ? getMySurveys() : getAll("surveys"), getAll("facilities"), getAll("surveyTypes"), getAll("surveyors"), getAll("standards"), getAll("survey-toolkit-templates"), getAll("criteria"), getAll("compliances"), getSubmittedSurveyorReports(),
       ]);
       setSurveys(surveyRes.data); setFacilities(facilityRes.data); setTypes(typeRes.data); setSurveyors(surveyorRes.data);
-      setStandards([...standardRes.data].sort(sortNumber)); setTemplates(templateRes.data); setCriteria(criterionRes.data); setCompliances(complianceRes.data); setError("");
+      setStandards([...standardRes.data].sort(sortNumber)); setTemplates(templateRes.data); setCriteria(criterionRes.data); setCompliances(complianceRes.data); setSubmittedReports(submittedReportRes.data); setError("");
     } catch (err) { console.error(err); setError("We couldn't load the survey workspace."); } finally { setLoading(false); }
   };
-  useEffect(() => { load(); }, [surveyorMode]);
+  useEffect(() => { load(); }, [fieldworkMode, isTeamLead]);
 
   const submit = async (event) => {
     event.preventDefault();
@@ -51,18 +55,37 @@ export default function SurveysPage() {
   const sortedSurveys = [...surveys].sort((a, b) => String(b.startDate).localeCompare(String(a.startDate)));
 
   return <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:py-8">
-    <header className="mb-6 rounded-2xl border border-[#c9dded] bg-[linear-gradient(125deg,#eaf3fb_0%,#f8fafc_60%,#fdf7ea_100%)] p-6 sm:p-8"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#16803a]">{surveyorMode ? "Surveyor work mode" : "Assessment workspace"}</p><div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><h1 className="text-3xl font-bold tracking-tight text-[#092a5a]">{surveyorMode ? "My assigned surveys" : "Surveys"}</h1><p className="mt-2 max-w-2xl text-sm leading-6 text-[#4b5f7a]">{surveyorMode ? "Only surveys and standards assigned to your surveyor profile are shown. Administration remains available when you switch modes." : "Create a full NHSS survey or a level-appropriate toolkit, then record compliance scores and evidence checks."}</p></div>{isAdmin && <div className="grid gap-2 sm:flex">{hasSurveyorProfile && (surveyorMode ? <Link to="/surveys" className="rounded-lg border border-[#c5d5e8] bg-white px-4 py-3 text-center text-sm font-semibold text-[#092a5a] hover:bg-[#edf5fc]">Switch to Administrator mode</Link> : <Link to="/surveys?mode=surveyor" className="rounded-lg border border-[#b8d9d3] bg-[#edf8f0] px-4 py-3 text-center text-sm font-semibold text-[#16803a] hover:bg-[#ddf3e4]">Work as surveyor</Link>)}{!surveyorMode && <><Link to="/surveys/setup" className="rounded-lg border border-[#c5d5e8] bg-white px-4 py-3 text-center text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]">Survey setup</Link><Link to="/surveys/toolkits" className="rounded-lg border border-[#c5d5e8] bg-white px-4 py-3 text-center text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]">Toolkit builder</Link><button onClick={() => setFormOpen(true)} className="rounded-lg bg-[#16803a] px-4 py-3 text-sm font-semibold text-white hover:bg-[#0d6531]">+ Create survey</button></>}</div>}</div></header>
-    {(!isAdmin || surveyorMode) && <p className="mb-5 rounded-lg border border-sky-100 bg-sky-50 px-4 py-3 text-sm text-sky-800">You can complete only your assigned assessments in this view. Switch to Administrator mode to create or manage surveys.</p>}
+    <header className="mb-6 rounded-2xl border border-[#c9dded] bg-[linear-gradient(125deg,#eaf3fb_0%,#f8fafc_60%,#fdf7ea_100%)] p-6 sm:p-8"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#16803a]">{fieldworkMode ? "Surveyor work mode" : isTeamLead ? "Team lead workspace" : "Assessment workspace"}</p><div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><h1 className="text-3xl font-bold tracking-tight text-[#092a5a]">{fieldworkMode ? "My survey work" : isTeamLead ? "My team surveys" : "Surveys"}</h1><p className="mt-2 max-w-2xl text-sm leading-6 text-[#4b5f7a]">{fieldworkMode ? "Your current assignments and survey participation record. Submitted handovers remain available to view and print." : isTeamLead ? "Surveys that you lead or contribute to. Open a survey to review team progress, handovers, and results." : "Create a full NHSS survey or a level-appropriate toolkit, then record compliance scores and evidence checks."}</p></div>{isAdmin && <div className="grid gap-2 sm:flex">{hasSurveyorProfile && (surveyorMode ? <Link to="/surveys" className="rounded-lg border border-[#c5d5e8] bg-white px-4 py-3 text-center text-sm font-semibold text-[#092a5a] hover:bg-[#edf5fc]">Switch to Administrator mode</Link> : <Link to="/surveys?mode=surveyor" className="rounded-lg border border-[#b8d9d3] bg-[#edf8f0] px-4 py-3 text-center text-sm font-semibold text-[#16803a] hover:bg-[#ddf3e4]">Work as surveyor</Link>)}{!surveyorMode && <><Link to="/surveys/setup" className="rounded-lg border border-[#c5d5e8] bg-white px-4 py-3 text-center text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]">Survey setup</Link><Link to="/surveys/toolkits" className="rounded-lg border border-[#c5d5e8] bg-white px-4 py-3 text-center text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]">Toolkit builder</Link><button onClick={() => setFormOpen(true)} className="rounded-lg bg-[#16803a] px-4 py-3 text-sm font-semibold text-white hover:bg-[#0d6531]">+ Create survey</button></>}</div>}</div></header>
+    {!loading && <SurveyOperationsDashboard surveys={sortedSurveys} submittedReports={submittedReports} fieldworkMode={fieldworkMode} isTeamLead={isTeamLead} isAdmin={isAdmin && !surveyorMode} resumeLink={resumeLink} />}
+    {fieldworkMode && <p className="mb-5 rounded-lg border border-sky-100 bg-sky-50 px-4 py-3 text-sm text-sky-800">You can work only on standards assigned to you. Team-wide results, other surveyors’ work, and survey administration are not available in this view.</p>}
     {error && <p role="alert" className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</p>}
-    <section className="overflow-hidden rounded-xl border border-[#dfe7f0] bg-white shadow-sm">{loading ? <div className="space-y-3 p-6">{[1, 2, 3].map((item) => <div key={item} className="h-14 animate-pulse rounded bg-slate-100" />)}</div> : sortedSurveys.length === 0 ? <div className="px-6 py-16 text-center"><h2 className="font-semibold text-[#092a5a]">{surveyorMode ? "No assigned surveys" : "No surveys yet"}</h2><p className="mt-1 text-sm text-[#68778c]">{surveyorMode ? "When an Administrator assigns you a standard, its survey will appear here." : "Create a survey to generate its assessment checklist."}</p></div> : <SurveyList surveys={sortedSurveys} isAdmin={isAdmin && !surveyorMode} resumeLink={resumeLink} surveyorMode={surveyorMode} />}</section>
+    <section className="overflow-hidden rounded-xl border border-[#dfe7f0] bg-white shadow-sm">{loading ? <div className="space-y-3 p-6">{[1, 2, 3].map((item) => <div key={item} className="h-14 animate-pulse rounded bg-slate-100" />)}</div> : sortedSurveys.length === 0 ? <div className="px-6 py-16 text-center"><h2 className="font-semibold text-[#092a5a]">{fieldworkMode ? "No assigned surveys" : "No surveys yet"}</h2><p className="mt-1 text-sm text-[#68778c]">{fieldworkMode ? "When an Administrator assigns you a standard, its survey will appear here." : "Create a survey to generate its assessment checklist."}</p></div> : <SurveyList surveys={sortedSurveys} isAdmin={isAdmin && !surveyorMode} resumeLink={resumeLink} surveyorMode={fieldworkMode} />}</section>
     <FormModal open={formOpen} onClose={() => setFormOpen(false)} wide><SurveyCreateForm form={form} setForm={setForm} facilities={facilities} types={types} surveyors={surveyors} templates={templates} standards={standards} criteria={criteria} compliances={compliances} onCancel={() => setFormOpen(false)} onSubmit={submit} /></FormModal>
   </main>;
 }
 
+function SurveyOperationsDashboard({ surveys, submittedReports, fieldworkMode, isTeamLead, isAdmin, resumeLink }) {
+  const active = surveys.filter((survey) => !survey.isCancelled);
+  const activeIds = new Set(active.map((survey) => survey.surveyId));
+  const teamSubmittedReports = submittedReports.filter((report) => activeIds.has(report.surveyId));
+  const submitted = fieldworkMode ? active.filter((survey) => survey.hasSubmittedReport) : teamSubmittedReports;
+  const surveysWithHandover = new Set(teamSubmittedReports.map((report) => report.surveyId));
+  const inProgress = fieldworkMode ? active.filter((survey) => !survey.hasSubmittedReport) : active.filter((survey) => !surveysWithHandover.has(survey.surveyId));
+  const cancelled = surveys.filter((survey) => survey.isCancelled);
+  const continueSurvey = inProgress.find((survey) => resumeLink(survey.surveyId));
+  const context = fieldworkMode ? "My survey work" : isTeamLead ? "Team survey control" : "Survey operations";
+  const summary = fieldworkMode
+    ? "Your assigned survey work and submitted handovers."
+    : isTeamLead
+      ? "Quick oversight of surveys currently assigned to your team."
+      : "A concise operational view before opening the survey register.";
+  return <section aria-label={context} className="mb-6 overflow-hidden rounded-xl border border-[#c9dded] bg-white shadow-sm"><div className="flex flex-col gap-3 border-b border-[#dbe5ef] bg-[#f6f9fc] px-5 py-4 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-[.14em] text-[#16803a]">{context}</p><p className="mt-1 text-sm text-[#4b5f7a]">{summary}</p></div>{continueSurvey && <Link to={`${resumeLink(continueSurvey.surveyId)}${fieldworkMode ? "&mode=surveyor" : ""}`} className="shrink-0 rounded-lg bg-[#d6aa45] px-3.5 py-2 text-center text-sm font-semibold text-[#092a5a] hover:bg-[#c99d38]">Continue where I left off →</Link>}</div><div className="grid divide-y divide-[#e7edf4] sm:grid-cols-2 sm:divide-x sm:divide-y-0 xl:grid-cols-4">{[["Active surveys", active.length, "text-[#092a5a]"], [fieldworkMode ? "Still in progress" : "Awaiting handover", inProgress.length, "text-amber-700"], [fieldworkMode ? "My reports submitted" : "Reports submitted", submitted.length, "text-[#16803a]"], ["Cancelled", cancelled.length, "text-red-700"]].map(([label, value, tone]) => <div key={label} className="px-5 py-4"><p className="text-xs font-bold uppercase tracking-[.12em] text-[#68778c]">{label}</p><p className={`mt-1 text-3xl font-bold ${tone}`}>{value}</p></div>)}</div>{isAdmin && <div className="border-t border-[#dbe5ef] px-5 py-3 text-sm text-[#4b5f7a]">Administrators can create surveys, assign teams, and open the survey administration workspace from the register below.</div>}</section>;
+}
+
 function SurveyList({ surveys, isAdmin, resumeLink, surveyorMode }) {
   const surveyPath = (surveyId) => `/surveys/${surveyId}${surveyorMode ? "?mode=surveyor" : ""}`;
-  const actions = (survey) => <div className="flex flex-wrap gap-2 sm:justify-end">{!survey.isCancelled && resumeLink(survey.surveyId) && <Link to={`${resumeLink(survey.surveyId)}${surveyorMode ? "&mode=surveyor" : ""}`} className="rounded-lg bg-[#d6aa45] px-3 py-2 text-xs font-semibold text-[#092a5a] hover:bg-[#c99d38]">Continue</Link>}<Link to={surveyPath(survey.surveyId)} className="rounded-lg border border-[#c5d5e8] px-3 py-2 text-xs font-semibold text-[#16803a] hover:bg-[#edf8f0]">{survey.isCancelled ? "History" : "Open assessment"}</Link>{isAdmin && <Link to={`/surveys/${survey.surveyId}/admin`} className="rounded-lg bg-[#092a5a] px-3 py-2 text-xs font-semibold text-white hover:bg-[#071f45]">Administer</Link>}</div>;
-  return <div className="divide-y divide-[#e7edf4]">{surveys.map((survey) => <article key={survey.surveyId} className="p-5 sm:px-6"><div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><div><div className="flex flex-wrap items-center gap-2"><h2 className="font-bold text-[#092a5a]">{survey.facilityName}</h2><span className="rounded-full bg-[#edf8f0] px-2.5 py-1 text-xs font-semibold text-[#16803a]">{survey.surveyTypeName}</span>{survey.isCancelled && <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-700">Cancelled</span>}</div><p className="mt-1 text-sm text-[#68778c]">Team lead: {survey.surveyorName} · {dateValue(survey.startDate)} — {dateValue(survey.endDate)}</p></div>{actions(survey)}</div></article>)}</div>;
+  const actions = (survey) => <div className="flex flex-wrap gap-2 sm:justify-end">{!survey.isCancelled && !survey.hasSubmittedReport && resumeLink(survey.surveyId) && <Link to={`${resumeLink(survey.surveyId)}${surveyorMode ? "&mode=surveyor" : ""}`} className="rounded-lg bg-[#d6aa45] px-3 py-2 text-xs font-semibold text-[#092a5a] hover:bg-[#c99d38]">Continue</Link>}<Link to={surveyPath(survey.surveyId)} className={`rounded-lg px-3 py-2 text-xs font-semibold ${survey.hasSubmittedReport ? "bg-[#16803a] text-white hover:bg-[#0d6531]" : "border border-[#c5d5e8] text-[#16803a] hover:bg-[#edf8f0]"}`}>{survey.hasSubmittedReport ? "Open survey workspace" : survey.isCancelled ? "History" : "Open assessment"}</Link>{isAdmin && <><Link to={`/surveys/${survey.surveyId}/team-dashboard`} className="rounded-lg border border-[#b8d9d3] bg-[#edf8f0] px-3 py-2 text-xs font-semibold text-[#16803a] hover:bg-[#ddf3e4]">Survey team</Link><Link to={`/surveys/${survey.surveyId}/admin`} className="rounded-lg bg-[#092a5a] px-3 py-2 text-xs font-semibold text-white hover:bg-[#071f45]">Administer</Link></>}</div>;
+  return <div className="divide-y divide-[#e7edf4]">{surveys.map((survey) => <article key={survey.surveyId} className="p-5 sm:px-6"><div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><div><div className="flex flex-wrap items-center gap-2"><h2 className="font-bold text-[#092a5a]">{survey.facilityName}</h2><span className="rounded-full bg-[#edf8f0] px-2.5 py-1 text-xs font-semibold text-[#16803a]">{survey.surveyTypeName}</span>{survey.hasSubmittedReport && <span className="rounded-full bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-800">Report submitted</span>}{survey.isCancelled && <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-700">Cancelled</span>}</div><p className="mt-1 text-sm text-[#68778c]">Team lead: {survey.surveyorName} · {dateValue(survey.startDate)} — {dateValue(survey.endDate)}</p></div>{actions(survey)}</div></article>)}</div>;
 }
 
 function SurveyCreateForm({ form, setForm, facilities, types, surveyors, templates, standards, criteria, compliances, onCancel, onSubmit }) {

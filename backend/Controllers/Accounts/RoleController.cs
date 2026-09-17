@@ -25,7 +25,7 @@ namespace backend.Controllers.Accounts
 
         // GET: api/Role
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<IEnumerable<RoleDTO>>> GetRoles()
         {
             var roles = await _context
@@ -42,7 +42,7 @@ namespace backend.Controllers.Accounts
 
         // GET: api/Role/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<RoleDTO>> GetRole(int id)
         {
             var role = await _context
@@ -66,7 +66,7 @@ namespace backend.Controllers.Accounts
         // PUT: api/Role/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutRole(int id, RoleUpdateDTO dto)
         {
             var role = await _context.roles.FindAsync(id);
@@ -101,7 +101,7 @@ namespace backend.Controllers.Accounts
         // POST: api/Role
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<RoleDTO>> PostRole(RoleCreateDTO dto)
         {
             var roleModel = new Role { roleName = dto.roleName, description = dto.description };
@@ -121,7 +121,7 @@ namespace backend.Controllers.Accounts
 
         // DELETE: api/Role/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteRole(int id)
         {
             var role = await _context.roles.FindAsync(id);

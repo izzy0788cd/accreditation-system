@@ -16,14 +16,12 @@ import {
   updateAssessment,
 } from "../../api/api";
 import ConfirmDialog from "../../components/ConfirmDialog";
+import SurveyContextNav from "../../components/SurveyContextNav";
 import { useAuth } from "../../context/AuthContext";
+import { compareReferenceNumber, sortRiskRatings, sortScores } from "../../utils/numberSort";
 
 const percentage = (complete, total) => (total ? Math.round((complete / total) * 100) : 0);
-const compareNumber = (first, second) => String(first ?? "").localeCompare(
-  String(second ?? ""),
-  undefined,
-  { numeric: true, sensitivity: "base" },
-);
+const compareNumber = compareReferenceNumber;
 
 function ProgressBar({ label, value }) {
   return (
@@ -75,9 +73,10 @@ function SurveyAssessmentPage() {
   const [resumeAssessmentId, setResumeAssessmentId] = useState(null);
   const isAdmin = auth?.roleName === "Admin";
   const surveyorMode = isAdmin && searchParams.get("mode") === "surveyor";
+  const fieldworkMode = surveyorMode || auth?.roleName === "Surveyor";
   const isSurveyor = ["Surveyor", "Team Lead"].includes(auth?.roleName) || surveyorMode;
   const isExternal = survey?.surveyTypeName === "External";
-  const isOverview = searchParams.get("view") === "overview";
+  const isOverview = !fieldworkMode && searchParams.get("view") === "overview";
   const resumeFromQuery = Number(searchParams.get("resume")) || null;
   const resumeStorageKey = `survey-resume-${profile?.userId || "anonymous"}-${surveyId}`;
 
@@ -91,9 +90,9 @@ function SurveyAssessmentPage() {
     try {
       if (showLoading) setLoading(true);
       const [surveyRes, assessmentRes, progressRes, scoreRes, riskRes, criterionRes, complianceRes, surveyorRes, evidenceRes, internalReferenceRes] = await Promise.all([
-        getOne("surveys", surveyId), isOverview ? getSurveyAssessmentOverview(surveyId) : surveyorMode ? getMySurveyAssessments(surveyId) : getSurveyAssessments(surveyId), surveyorMode ? getMySurveyProgress(surveyId) : getSurveyProgress(surveyId),
+        getOne("surveys", surveyId), isOverview ? getSurveyAssessmentOverview(surveyId) : fieldworkMode ? getMySurveyAssessments(surveyId) : getSurveyAssessments(surveyId), fieldworkMode ? getMySurveyProgress(surveyId) : getSurveyProgress(surveyId),
         getAll("scores"), getAll("riskRating"), getAll("criteria"), getAll("compliances"), getAll("surveyors"),
-        (surveyorMode ? getMySurveyEvidenceChecks(surveyId) : getSurveyEvidenceChecks(surveyId)).catch((checkError) => { console.error("Could not load evidence checks", checkError); return { data: [], unavailable: true }; }),
+        (fieldworkMode ? getMySurveyEvidenceChecks(surveyId) : getSurveyEvidenceChecks(surveyId)).catch((checkError) => { console.error("Could not load evidence checks", checkError); return { data: [], unavailable: true }; }),
         getInternalAssessmentReferences(surveyId).catch((referenceError) => { console.error("Could not load internal assessment references", referenceError); return { data: [], unavailable: true }; }),
       ]);
       setSurvey(surveyRes.data);
@@ -117,7 +116,7 @@ function SurveyAssessmentPage() {
     } finally { if (showLoading) setLoading(false); }
   };
 
-  useEffect(() => { load(); }, [surveyId, isOverview, surveyorMode]);
+  useEffect(() => { load(); }, [surveyId, isOverview, fieldworkMode]);
 
   useEffect(() => {
     try {
@@ -139,7 +138,7 @@ function SurveyAssessmentPage() {
   }, [assessments, compliances, criteria]);
 
   const currentSurveyorId = useMemo(() => surveyors.find((surveyor) => surveyor.userId === profile?.userId)?.surveyorId, [profile?.userId, surveyors]);
-  const canAssess = (assessment) => !survey?.isCancelled && !isOverview && (isAdmin || (isSurveyor && assessment.surveyorId === currentSurveyorId));
+  const canAssess = (assessment) => !survey?.isCancelled && !survey?.hasSubmittedReport && !isOverview && (isAdmin || (isSurveyor && assessment.surveyorId === currentSurveyorId));
   const showAssessment = (assessmentId) => {
     const assessment = enriched.find((item) => item.complianceAssessmentId === assessmentId);
     if (assessment?.standardId) setSelectedStandard(String(assessment.standardId));
@@ -230,7 +229,7 @@ function SurveyAssessmentPage() {
     try {
       await patchEvidenceCheck(check.complianceEvidenceCheckId, !check.isChecked);
       setChecks((current) => ({ ...current, [check.complianceAssessmentId]: current[check.complianceAssessmentId].map((item) => item.complianceEvidenceCheckId === check.complianceEvidenceCheckId ? { ...item, isChecked: !item.isChecked } : item) }));
-      const progressRes = await (surveyorMode ? getMySurveyProgress(surveyId) : getSurveyProgress(surveyId));
+      const progressRes = await (fieldworkMode ? getMySurveyProgress(surveyId) : getSurveyProgress(surveyId));
       setProgress(progressRes.data);
     } catch (saveError) { console.error(saveError); }
   };
@@ -250,22 +249,24 @@ function SurveyAssessmentPage() {
   const responseLabel = isExternal ? "Surveyor finding" : "Self-rating";
   const commentsLabel = isExternal ? "Surveyor comments" : "Comments";
   const isTeamLead = auth?.roleName === "Team Lead" && survey?.surveyorId === currentSurveyorId;
+  const ownReportSubmitted = Boolean(survey?.hasSubmittedReport);
 
   return (
     <main className="mx-auto max-w-7xl overflow-x-hidden px-4 py-6 sm:px-6 lg:py-8">
       <Link to="/surveys" className="text-sm font-semibold text-[#16803a] hover:underline">← Back to surveys</Link>
+      <SurveyContextNav surveyId={surveyId} />
       <header className="mt-5 overflow-hidden rounded-2xl border border-[#bfded8] bg-white shadow-[0_12px_30px_rgba(20,60,66,0.08)]">
         <div className="border-b border-[#b8d9d3] bg-[#0f6b3c] px-5 py-3 text-[11px] font-bold uppercase tracking-[0.14em] text-white sm:px-7 sm:text-xs sm:tracking-[0.17em]">National Health Service Standards assessment toolkit</div>
         <div className="grid min-w-0 gap-6 bg-[linear-gradient(120deg,#f3faf8_0%,#ffffff_68%,#fcf7ed_100%)] p-5 sm:p-7 lg:grid-cols-[1fr_auto] lg:items-start">
           <div className="min-w-0">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">{surveyorMode ? "Surveyor mode · " : ""}{survey.surveyTypeName} survey</p>
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#16803a]">{fieldworkMode ? "Surveyor mode · " : ""}{survey.surveyTypeName} survey</p>
             <h1 className="mt-2 text-2xl font-bold tracking-tight text-[#092a5a] sm:text-3xl">{survey.facilityName}</h1>
             <dl className="mt-4 grid gap-x-8 gap-y-2 text-sm text-[#4b5f7a] sm:grid-cols-2">
               <div><dt className="inline font-semibold text-[#092a5a]">Team lead:</dt> <dd className="inline">{survey.surveyorName}</dd></div>
               <div><dt className="inline font-semibold text-[#092a5a]">Assessment period:</dt> <dd className="inline">{survey.startDate} — {survey.endDate}</dd></div>
             </dl>
           </div>
-          <div className="grid gap-2 sm:flex sm:flex-row">{resumeAssessmentId && <Link onClick={() => showAssessment(resumeAssessmentId)} to={`/surveys/${surveyId}?resume=${resumeAssessmentId}${surveyorMode ? "&mode=surveyor" : ""}`} className="rounded-lg bg-[#d6aa45] px-4 py-3 text-center text-sm font-semibold text-[#092a5a] shadow-sm hover:bg-[#c99d38]">Continue where I left off</Link>}{isTeamLead && <Link to={`/surveys/${surveyId}/team-dashboard`} className="rounded-lg bg-[#092a5a] px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-[#071f45]">Team dashboard</Link>}{!surveyorMode && (isTeamLead || isAdmin || isSurveyor) && <Link to={`/surveys/${surveyId}/results`} className="rounded-lg border border-[#c5d5e8] bg-white px-4 py-3 text-center text-sm font-semibold text-[#16803a] shadow-sm hover:bg-[#edf8f0]">Results summary</Link>}{isTeamLead && <Link to={isOverview ? `/surveys/${surveyId}` : `/surveys/${surveyId}?view=overview`} className="rounded-lg border border-[#c5d5e8] bg-white px-4 py-3 text-center text-sm font-semibold text-[#16803a] shadow-sm hover:bg-[#edf8f0]">{isOverview ? "My assigned standards" : "View all scores"}</Link>}{isAdmin && !surveyorMode && !survey.isCancelled && <button onClick={() => setResetOpen(true)} className="rounded-lg border border-red-200 bg-white px-4 py-3 text-sm font-semibold text-red-700 shadow-sm transition hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">Reset survey</button>}</div>
+          <div className="grid gap-2 sm:flex sm:flex-row">{!ownReportSubmitted && resumeAssessmentId && <Link onClick={() => showAssessment(resumeAssessmentId)} to={`/surveys/${surveyId}?resume=${resumeAssessmentId}${surveyorMode ? "&mode=surveyor" : ""}`} className="rounded-lg bg-[#d6aa45] px-4 py-3 text-center text-sm font-semibold text-[#092a5a] shadow-sm hover:bg-[#c99d38]">Continue where I left off</Link>}{fieldworkMode && <Link to={`/surveys/${surveyId}/results`} className="rounded-lg border border-[#c5d5e8] bg-white px-4 py-3 text-center text-sm font-semibold text-[#16803a] shadow-sm hover:bg-[#edf8f0]">View score results</Link>}{ownReportSubmitted && <Link to={`/surveys/${surveyId}/report${surveyorMode ? "?mode=surveyor" : ""}`} className="rounded-lg bg-[#16803a] px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0d6531]">View submitted report</Link>}{isTeamLead && <Link to={`/surveys/${surveyId}/team-dashboard`} className="rounded-lg bg-[#092a5a] px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-[#071f45]">Team dashboard</Link>}{!fieldworkMode && (isTeamLead || isAdmin) && <Link to={`/surveys/${surveyId}/results`} className="rounded-lg border border-[#c5d5e8] bg-white px-4 py-3 text-center text-sm font-semibold text-[#16803a] shadow-sm hover:bg-[#edf8f0]">Results summary</Link>}{isTeamLead && <Link to={isOverview ? `/surveys/${surveyId}` : `/surveys/${surveyId}?view=overview`} className="rounded-lg border border-[#c5d5e8] bg-white px-4 py-3 text-center text-sm font-semibold text-[#16803a] shadow-sm hover:bg-[#edf8f0]">{isOverview ? "My assigned standards" : "View all scores"}</Link>}{isAdmin && !surveyorMode && !survey.isCancelled && <button onClick={() => setResetOpen(true)} className="rounded-lg border border-red-200 bg-white px-4 py-3 text-sm font-semibold text-red-700 shadow-sm transition hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">Reset survey</button>}</div>
         </div>
         <div className="grid gap-5 border-t border-[#dbe5ef] px-5 py-5 sm:grid-cols-2 sm:px-7">
           <ProgressBar label={`${progress.scoredCount} of ${progress.totalCompliances} requirements scored`} value={completion} />
@@ -306,8 +307,8 @@ function SurveyAssessmentPage() {
                 <div className="mt-5 min-w-0 rounded-lg border border-[#eadfbd] bg-[#fffbf0] px-4 py-3"><p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#876318]">Evidence of compliance</p><div className="divide-y divide-[#eadfbd]">{checks[assessment.complianceAssessmentId]?.length ? checks[assessment.complianceAssessmentId].slice().sort((first, second) => String(first.evidenceNumber).localeCompare(String(second.evidenceNumber), undefined, { numeric: true })).map((check) => <label key={check.complianceEvidenceCheckId} className="flex min-w-0 cursor-pointer items-start gap-3 py-3 text-sm leading-6 text-[#4b5f7a]"><input type="checkbox" disabled={!canAssess(assessment)} checked={check.isChecked} onChange={() => toggleEvidence(check)} className="mt-0.5 h-5 w-5 shrink-0 accent-[#16803a]" /><span className="min-w-0 break-words text-left sm:text-justify"><strong className="text-[#092a5a]">{check.evidenceNumber}.</strong> {check.evidenceSummary}</span></label>) : <p className="py-2 text-sm text-[#4b5f7a]">No evidence items are linked to this requirement.</p>}</div></div>
                 {isExternal && <InternalReference reference={internalReferences[assessment.complianceId]} />}
                 <div className="mt-4 grid min-w-0 gap-4 rounded-lg border border-[#dbe5ef] bg-[#f8fafc] p-4 md:grid-cols-[minmax(10rem,.7fr)_minmax(10rem,.7fr)_minmax(0,1.6fr)]">
-                  <label className="min-w-0 text-sm font-semibold text-[#092a5a]"><span>{responseLabel} score</span><select disabled={!canAssess(assessment)} value={assessment.scoreId || ""} onChange={(event) => saveAssessment(assessment.complianceAssessmentId, { scoreId: Number(event.target.value) })} className="mt-1.5 w-full rounded-lg border border-[#c5d4e6] bg-white px-3 py-2.5 text-sm font-medium text-[#092a5a] disabled:bg-slate-50"><option value="">Select score</option>{scores.map((score) => <option key={score.scoreId} value={score.scoreId}>{score.scoreValue == null ? "N/A" : `${score.scoreValue} · ${score.scoreLabel}`}</option>)}</select></label>
-                  <label className="min-w-0 text-sm font-semibold text-[#092a5a]"><span>Risk rating</span><select disabled={!canAssess(assessment)} value={assessment.riskRatingId || ""} onChange={(event) => saveAssessment(assessment.complianceAssessmentId, { riskId: Number(event.target.value) })} className="mt-1.5 w-full rounded-lg border border-[#c5d4e6] bg-white px-3 py-2.5 text-sm font-medium text-[#092a5a] disabled:bg-slate-50"><option value="">Select risk</option>{risks.map((risk) => <option key={risk.riskId} value={risk.riskId}>{risk.riskLabel}</option>)}</select></label>
+                  <label className="min-w-0 text-sm font-semibold text-[#092a5a]"><span>{responseLabel} score</span><select disabled={!canAssess(assessment)} value={assessment.scoreId || ""} onChange={(event) => saveAssessment(assessment.complianceAssessmentId, { scoreId: Number(event.target.value) })} className="mt-1.5 w-full rounded-lg border border-[#c5d4e6] bg-white px-3 py-2.5 text-sm font-medium text-[#092a5a] disabled:bg-slate-50"><option value="">Select score</option>{sortScores(scores).map((score) => <option key={score.scoreId} value={score.scoreId}>{score.scoreValue == null ? "N/A" : `${score.scoreValue} · ${score.scoreLabel}`}</option>)}</select></label>
+                  <label className="min-w-0 text-sm font-semibold text-[#092a5a]"><span>Risk rating</span><select disabled={!canAssess(assessment)} value={assessment.riskRatingId || ""} onChange={(event) => saveAssessment(assessment.complianceAssessmentId, { riskId: Number(event.target.value) })} className="mt-1.5 w-full rounded-lg border border-[#c5d4e6] bg-white px-3 py-2.5 text-sm font-medium text-[#092a5a] disabled:bg-slate-50"><option value="">Select risk</option>{sortRiskRatings(risks).map((risk) => <option key={risk.riskId} value={risk.riskId}>{risk.riskLabel}</option>)}</select></label>
                   <label className="order-4 md:order-3 md:row-span-2 text-sm font-semibold text-[#092a5a]"><span>{commentsLabel}</span><textarea key={`${assessment.complianceAssessmentId}-${assessment.complianceComments || ""}`} disabled={!canAssess(assessment)} defaultValue={assessment.complianceComments || ""} onBlur={(event) => { if (event.target.value !== (assessment.complianceComments || "")) saveAssessment(assessment.complianceAssessmentId, { complianceComments: event.target.value }); }} rows="6" className="mt-1.5 h-[11.25rem] w-full resize-none rounded-lg border border-[#c5d4e6] bg-white px-3 py-2.5 text-sm font-normal text-[#092a5a] disabled:bg-slate-50" placeholder="Record findings or follow-up actions." /></label>
                   <div className="order-3 md:order-4 md:col-span-2"><ScoreGuidance score={scores.find((score) => score.scoreId === assessment.scoreId)} /></div>
                 </div>
@@ -316,18 +317,18 @@ function SurveyAssessmentPage() {
           </div>)}
         </section>
       </div>
-      {isSurveyor && !isOverview && !survey.isCancelled && <StandardStepNavigation standards={standards} selectedStandard={selectedStandard} incompleteCount={outstanding.incompleteAssessmentIds.size} surveyId={surveyId} surveyorMode={surveyorMode} onSelect={setSelectedStandard} />}
+      {isSurveyor && !isOverview && !survey.isCancelled && <StandardStepNavigation standards={standards} selectedStandard={selectedStandard} incompleteCount={outstanding.incompleteAssessmentIds.size} surveyId={surveyId} surveyorMode={surveyorMode} reportSubmitted={ownReportSubmitted} onSelect={setSelectedStandard} />}
       <ConfirmDialog open={resetOpen} title="Reset this survey?" message="This clears every recorded score, risk rating, comment, and evidence check for this survey. The survey and its checklist will remain in place." confirmLabel={resetting ? "Resetting…" : "Reset survey"} confirmDisabled={resetting} onCancel={() => !resetting && setResetOpen(false)} onConfirm={handleReset} />
     </main>
   );
 }
 
-function StandardStepNavigation({ standards, selectedStandard, incompleteCount, surveyId, surveyorMode, onSelect }) {
+function StandardStepNavigation({ standards, selectedStandard, incompleteCount, surveyId, surveyorMode, reportSubmitted, onSelect }) {
   const index = standards.findIndex((standard) => standard.id === selectedStandard);
   if (index < 0) return null;
   const next = standards[index + 1];
   const previous = standards[index - 1];
-  return <section className="mt-6 flex flex-col gap-3 rounded-xl border border-[#dbe5ef] bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between"><p className="text-sm text-[#4b5f7a]">Standard {index + 1} of {standards.length}</p><div className="flex flex-wrap gap-2">{previous && <button onClick={() => onSelect(previous.id)} className="rounded-lg border border-[#c5d5e8] px-4 py-2.5 text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]">Previous standard</button>}{next ? <button onClick={() => onSelect(next.id)} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">Next standard</button> : incompleteCount ? <span className="rounded-lg bg-amber-50 px-4 py-2.5 text-sm font-semibold text-amber-800">Score remaining requirements to finish</span> : <Link to={`/surveys/${surveyId}/report${surveyorMode ? "?mode=surveyor" : ""}`} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">Finish and prepare report</Link>}</div></section>;
+  return <section className="mt-6 flex flex-col gap-3 rounded-xl border border-[#dbe5ef] bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between"><p className="text-sm text-[#4b5f7a]">Standard {index + 1} of {standards.length}</p><div className="flex flex-wrap gap-2">{previous && <button onClick={() => onSelect(previous.id)} className="rounded-lg border border-[#c5d5e8] px-4 py-2.5 text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]">Previous standard</button>}{next ? <button onClick={() => onSelect(next.id)} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">Next standard</button> : reportSubmitted ? <Link to={`/surveys/${surveyId}/report${surveyorMode ? "?mode=surveyor" : ""}`} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">View submitted report</Link> : incompleteCount ? <span className="rounded-lg bg-amber-50 px-4 py-2.5 text-sm font-semibold text-amber-800">Score remaining requirements to finish</span> : <Link to={`/surveys/${surveyId}/report${surveyorMode ? "?mode=surveyor" : ""}`} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">Finish and prepare report</Link>}</div></section>;
 }
 
 export default SurveyAssessmentPage;

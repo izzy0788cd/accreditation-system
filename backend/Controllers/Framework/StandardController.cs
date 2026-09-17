@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using backend.Data;
 using backend.DTOs.Framework;
+using backend.Infrastructure.Paging;
 using backend.Models.Framework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,11 +27,10 @@ namespace backend.Controllers.Framework
 
         // GET: api/Standard
         [HttpGet]
-        [Authorize]
-        public async Task<ActionResult<IEnumerable<StandardDTO>>> GetStandards()
+        [Authorize(Policy = "ReferenceData.Read")]
+        public async Task<IActionResult> GetStandards([FromQuery] PageQuery pageQuery, CancellationToken cancellationToken)
         {
-            var standards = await _context
-                .standards.Select(s => new StandardDTO
+            var standards = _context.standards.AsNoTracking().Select(s => new StandardDTO
                 {
                     standardId = s.standardId,
                     functionId = s.functionId,
@@ -42,15 +42,30 @@ namespace backend.Controllers.Framework
                     functionNumber = s.function!.functionNumber,
                     functionTitle = s.function!.functionTitle,
                     standardSummary = s.standardSummary,
-                })
-                .ToListAsync();
+                });
 
-            return Ok(standards);
+            if (!string.IsNullOrWhiteSpace(pageQuery.Search))
+            {
+                var pattern = $"%{pageQuery.Search.Trim()}%";
+                standards = standards.Where(s => EF.Functions.ILike(s.standardNumber, pattern)
+                    || EF.Functions.ILike(s.standardTitle, pattern)
+                    || EF.Functions.ILike(s.standardSummary, pattern));
+            }
+            standards = pageQuery.Sort?.ToLowerInvariant() switch
+            {
+                "title" => pageQuery.IsDescending ? standards.OrderByDescending(s => s.standardTitle) : standards.OrderBy(s => s.standardTitle),
+                "component" => pageQuery.IsDescending ? standards.OrderByDescending(s => s.componentNumber) : standards.OrderBy(s => s.componentNumber),
+                _ => pageQuery.IsDescending ? standards.OrderByDescending(s => s.standardNumber) : standards.OrderBy(s => s.standardNumber),
+            };
+
+            return pageQuery.IsPaged
+                ? Ok(await standards.ToPagedResultAsync(pageQuery, cancellationToken))
+                : Ok(await standards.ToListAsync(cancellationToken));
         }
 
         // GET: api/Standard/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "ReferenceData.Read")]
         public async Task<ActionResult<StandardDTO>> GetStandard(int id)
         {
             var standard = await _context
@@ -81,7 +96,7 @@ namespace backend.Controllers.Framework
         // PUT: api/Standard/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> PutStandard(int id, StandardUpdateDTO dto)
         {
             var standard = await _context.standards.FindAsync(id);
@@ -119,7 +134,7 @@ namespace backend.Controllers.Framework
         // POST: api/Standard
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<StandardDTO>> PostStandard(StandardCreateDTO dto)
         {
             var standardModel = new Standard
@@ -167,7 +182,7 @@ namespace backend.Controllers.Framework
 
         // DELETE: api/Standard/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<IActionResult> DeleteStandard(int id)
         {
             var standard = await _context.standards.FindAsync(id);
