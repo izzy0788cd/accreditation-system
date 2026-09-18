@@ -38,10 +38,10 @@ import { roleGroups } from "./utils/access";
 
 const SurveyReportsPage = lazy(() => import("./pages/reports/SurveyReportsPage"));
 const ReportsCentrePage = lazy(() => import("./pages/reports/ReportsCentrePage"));
-const SurveyActionPlanPage = lazy(() => import("./pages/reports/SurveyActionPlanPage"));
 const AdminUsersPage = lazy(() => import("./pages/admin/AdminUsersPage"));
 const SurveysPage = lazy(() => import("./pages/surveys/SurveysPage"));
 const SurveyAssessmentPage = lazy(() => import("./pages/surveys/SurveyAssessmentPage"));
+const SurveyToolkitPrintPage = lazy(() => import("./pages/surveys/SurveyToolkitPrintPage"));
 const SurveySetupPage = lazy(() => import("./pages/surveys/SurveySetupPage"));
 const ToolkitBuilderPage = lazy(() => import("./pages/surveys/ToolkitBuilderPage"));
 const SurveyAdminPage = lazy(() => import("./pages/surveys/SurveyAdminPage"));
@@ -80,7 +80,6 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <PageTitle />
-        <a href="#main-content" className="skip-link">Skip to main content</a>
         <Navbar />
         <ErrorDialog message={saveError} onClose={() => setSaveError("")} />
         <Suspense fallback={<RouteLoading />}>
@@ -88,7 +87,6 @@ function App() {
         <Routes>
           <Route path="/reports" element={<ProtectedRoute><ReportsRoute><ReportsCentrePage /></ReportsRoute></ProtectedRoute>} />
           <Route path="/reports/survey" element={<ProtectedRoute><ReportsRoute><SurveyReportsPage /></ReportsRoute></ProtectedRoute>} />
-          <Route path="/reports/actions" element={<ProtectedRoute><ReportsRoute><SurveyActionPlanPage /></ReportsRoute></ProtectedRoute>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
           <Route path="/complete-profile" element={<ProtectedRoute><CompleteProfilePage /></ProtectedRoute>} />
@@ -101,6 +99,7 @@ function App() {
           <Route path="/surveys/:surveyId/team-dashboard" element={<ProtectedRoute><RoleRoute allowedRoles={roleGroups.surveyReview}><SurveyTeamLeadDashboardPage /></RoleRoute></ProtectedRoute>} />
           <Route path="/surveys/:surveyId/results" element={<ProtectedRoute><RoleRoute allowedRoles={roleGroups.surveyWorkspace}><SurveyResultsPage /></RoleRoute></ProtectedRoute>} />
           <Route path="/surveys/:surveyId/report" element={<ProtectedRoute><RoleRoute allowedRoles={roleGroups.surveyWorkspace}><SurveyorReportPage /></RoleRoute></ProtectedRoute>} />
+          <Route path="/surveys/:surveyId/toolkit" element={<ProtectedRoute><RoleRoute allowedRoles={roleGroups.surveyWorkspace}><SurveyToolkitPrintPage /></RoleRoute></ProtectedRoute>} />
           <Route path="/surveys/:surveyId" element={<ProtectedRoute><RoleRoute allowedRoles={roleGroups.surveyWorkspace}><SurveyAssessmentPage /></RoleRoute></ProtectedRoute>} />
 
           <Route path="/framework" element={<ProtectedRoute><RoleRoute allowedRoles={roleGroups.reference}><FrameworkPage /></RoleRoute></ProtectedRoute>}>

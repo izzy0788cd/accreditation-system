@@ -20,9 +20,12 @@ function StandardsPage() {
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
 
-  const loadStandards = async () => {
+  const loadStandards = async (initialLoad = false) => {
     try {
-      setLoading(true);
+      // Keep the current list mounted during a refresh. Replacing it with a
+      // short Loading state collapses the page and causes the browser to
+      // clamp the viewport back to the top after an edit.
+      if (initialLoad) setLoading(true);
       const res = await getAll("standards");
       setStandards(res.data);
       setError(null);
@@ -30,12 +33,12 @@ function StandardsPage() {
       setError("Failed to load standards.");
       console.error(err);
     } finally {
-      setLoading(false);
+      if (initialLoad) setLoading(false);
     }
   };
 
   useEffect(() => {
-    loadStandards();
+    loadStandards(true);
   }, []);
 
   const handleAddClick = () => {
@@ -54,6 +57,7 @@ function StandardsPage() {
   };
 
   const handleSubmit = async (formData) => {
+    const previousScrollTop = window.scrollY;
     try {
       if (editingStandard) {
         await update("standards", editingStandard.standardId, formData);
@@ -62,7 +66,10 @@ function StandardsPage() {
       }
       setShowForm(false);
       setEditingStandard(null);
-      loadStandards();
+      await loadStandards();
+      // Closing the modal and refreshing its row must leave the editor at
+      // the item they were working on, rather than at the top of the list.
+      window.requestAnimationFrame(() => window.scrollTo({ top: previousScrollTop, behavior: "auto" }));
     } catch (err) {
       setError("Failed to save standard.");
       console.error(err);

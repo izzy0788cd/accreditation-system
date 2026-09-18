@@ -12,6 +12,5 @@ public static class PolicyNames
     public const string SurveyReviewTeam = "Survey.ReviewTeam";
     public const string SurveyAdminister = "Survey.Administer";
     public const string ReportsGenerate = "Reports.Generate";
-    public const string ActionsManage = "Actions.Manage";
     public const string AccountsManage = "Accounts.Manage";
 }

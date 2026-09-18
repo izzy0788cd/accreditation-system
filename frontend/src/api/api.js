@@ -78,10 +78,6 @@ export const getSurveyReport = (surveyId) => api.get(`/reports/surveys/${surveyI
 export const getReportVersions = (surveyId) => api.get(`/reports/surveys/${surveyId}/versions`);
 export const getReportVersion = (surveyId, versionId) => api.get(`/reports/surveys/${surveyId}/versions/${versionId}`);
 export const saveReportVersion = (surveyId, options) => api.post(`/reports/surveys/${surveyId}/versions`, options);
-export const getSurveyActions = (params = {}) => api.get("/survey-actions", { params });
-export const getSurveyActionSummary = (params = {}) => api.get("/survey-actions/summary", { params });
-export const createSurveyAction = (data) => saveRequest(api.post("/survey-actions", data, { showErrorDialog: true }));
-export const updateSurveyAction = (id, data) => saveRequest(api.put(`/survey-actions/${id}`, data, { showErrorDialog: true }));
 export const getSurveyorReports = (surveyId) => api.get(`/surveyor-reports/survey/${surveyId}`);
 export const getSubmittedSurveyorReports = () => api.get("/surveyor-reports/submitted");
 export const getSurveyorReportReview = (surveyorReportId) => api.get(`/surveyor-reports/${surveyorReportId}/review`);
