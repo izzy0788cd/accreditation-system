@@ -87,7 +87,6 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy(PolicyNames.SurveyReviewTeam, policy => policy.RequireRole("Admin", "Team Lead"));
     options.AddPolicy(PolicyNames.SurveyAdminister, policy => policy.RequireRole("Admin"));
     options.AddPolicy(PolicyNames.ReportsGenerate, policy => policy.RequireRole("Admin", "Team Lead"));
-    options.AddPolicy(PolicyNames.ActionsManage, policy => policy.RequireRole("Admin", "Team Lead"));
     options.AddPolicy(PolicyNames.AccountsManage, policy => policy.RequireRole("Admin"));
 });
 

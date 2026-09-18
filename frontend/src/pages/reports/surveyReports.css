@@ -30,19 +30,29 @@
 /* The reporting workspace deliberately keeps its selection controls light in
    dark mode: the dense checklist is easier to scan on a familiar white sheet,
    while the surrounding workspace remains dark. */
-html.dark .reports-page > .report-controls > header { color: #c5d4e6; }
-html.dark .reports-page > .report-controls > header h1 { color: #f2f7ff; }
-html.dark .reports-page > .report-controls > header > p:last-child { color: #c5d4e6; }
-html.dark .reports-page > .report-controls .report-card { background: #fff !important; border-color: #dbe5ef !important; color: #102e5a !important; }
+html.dark .reports-page > .report-controls > header { color: #c7bcae; }
+html.dark .reports-page > .report-controls > header h1 { color: #f5eadb; }
+html.dark .reports-page > .report-controls > header > p:last-child { color: #c7bcae; }
+html.dark .reports-page { color: #f5eadb; }
+html.dark .reports-page > .report-controls .report-card { background: #1d2722 !important; border-color: #405148 !important; color: #f5eadb !important; }
 html.dark .reports-page > .report-controls .report-card h2,
 html.dark .reports-page > .report-controls .report-card h3,
 html.dark .reports-page > .report-controls .report-card label,
-html.dark .reports-page > .report-controls .report-card p { color: #102e5a !important; }
+html.dark .reports-page > .report-controls .report-card p { color: #f5eadb !important; }
 html.dark .reports-page > .report-controls .report-card select,
 html.dark .reports-page > .report-controls .report-card input,
-html.dark .reports-page > .report-controls .report-card textarea { background: #fff !important; border-color: #c5d5e8 !important; color: #102e5a !important; }
-html.dark .reports-page > .report-controls .report-card .report-option input { accent-color: #16803a; }
+html.dark .reports-page > .report-controls .report-card textarea { background: #17201c !important; border-color: #52645a !important; color: #f5eadb !important; }
+html.dark .reports-page > .report-controls .report-card .report-option input { accent-color: #68d8b5; }
+html.dark .reports-page .report-actions button,
+html.dark .reports-page .report-action-editor button,
+html.dark .reports-page .report-version-list button { background: #26342e !important; border-color: #527064 !important; color: #f5eadb !important; }
+html.dark .reports-page .report-actions button:hover,
+html.dark .reports-page .report-action-editor button:hover,
+html.dark .reports-page .report-version-list button:hover { background: #33443c !important; border-color: #70a28f !important; color: #fff7e9 !important; }
+html.dark .reports-page .report-actions .report-primary { background: #146b55 !important; border-color: #2f9b7b !important; color: #fff7e9 !important; }
+html.dark .reports-page .report-actions .report-primary:hover { background: #0f5a47 !important; }
 
 /* Survey type remains visible after selection, rather than being buried in a dropdown. */
 .report-survey-type{display:inline-flex;align-items:center;width:max-content;border:1px solid;border-radius:999px;padding:3px 8px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;line-height:1.2}.report-survey-type-internal{border-color:#a7d9c7;background:#edf8f0;color:#0c6b39}.report-survey-type-external{border-color:#e6cd95;background:#fff6df;color:#87570e}.report-scope-summary{display:flex;align-items:flex-start;gap:10px;margin-top:16px;border:1px solid #cce0d9;border-left:4px solid #16803a;border-radius:8px;background:#f4faf8;padding:12px}.report-scope-summary>div{display:grid;gap:2px;font-size:13px;color:#425f72}.report-scope-summary strong{color:#092a5a}.report-scope-summary span:last-child{font-size:12px}.report-available-surveys{margin-top:16px;padding-top:14px;border-top:1px solid #dbe5ef}.report-available-surveys>p{margin:0 0 8px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#567086}.report-available-surveys>div{display:grid;gap:7px;max-height:150px;overflow:auto}.report-available-surveys button{display:flex;align-items:center;gap:8px;width:100%;border:1px solid #d8e4ed;border-radius:7px;background:#fff;padding:8px 9px;text-align:left;font-size:12px;color:#163b68}.report-available-surveys button:hover{border-color:#16803a;background:#edf8f0}.report-available-surveys .report-survey-type{flex:none;font-size:9px;padding:3px 6px}
-html.dark .reports-page > .report-controls .report-scope-summary{background:#f4faf8!important;color:#102e5a!important}html.dark .reports-page > .report-controls .report-scope-summary strong,html.dark .reports-page > .report-controls .report-scope-summary span{color:#102e5a!important}html.dark .reports-page > .report-controls .report-available-surveys button{background:#fff!important;color:#102e5a!important}
+html.dark .reports-page > .report-controls .report-scope-summary{background:#1b342d!important;border-color:#477c69!important;color:#f5eadb!important}html.dark .reports-page > .report-controls .report-scope-summary strong,html.dark .reports-page > .report-controls .report-scope-summary span{color:#f5eadb!important}html.dark .reports-page > .report-controls .report-available-surveys button{background:#1d2722!important;border-color:#405148!important;color:#f5eadb!important}
+html.dark .reports-page .report-survey-type-internal{background:#1b493d!important;border-color:#579b83!important;color:#9ce6c7!important}html.dark .reports-page .report-survey-type-external{background:#44371f!important;border-color:#b99a55!important;color:#f0cd7b!important}

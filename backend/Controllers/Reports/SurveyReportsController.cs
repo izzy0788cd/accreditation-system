@@ -90,7 +90,7 @@ public partial class SurveyReportsController(AppDbContext context) : ControllerB
                 a.riskRatingId,
                 riskLabel = a.riskRating == null ? null : a.riskRating.riskLabel,
                 riskSeverity = a.riskRating == null ? null : a.riskRating.severityOrder,
-                a.complianceComments,
+                a.complianceComments, a.surveyorId,
                 surveyorName = a.surveyor!.user!.firstName + " " + a.surveyor.user.lastName,
                 evidence = a.complianceEvidenceChecks!.Select(e => new {
                     e.evidenceId, e.complianceEvidenceCheckId, e.isChecked,

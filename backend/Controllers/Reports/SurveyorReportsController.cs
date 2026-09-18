@@ -121,8 +121,6 @@ public class SurveyorReportsController(AppDbContext context) : ControllerBase
                 continue;
             if (action.TryGetProperty("recommendation", out var recommendation))
                 finding.recommendation = recommendation.GetString();
-            if (action.TryGetProperty("correctiveAction", out var correctiveAction))
-                finding.correctiveAction = correctiveAction.GetString();
         }
 
         var reportDto = await Project(context.surveyorReports.AsNoTracking()
@@ -142,10 +140,10 @@ public class SurveyorReportsController(AppDbContext context) : ControllerBase
         if (dto.submit && string.IsNullOrWhiteSpace(dto.summary)) return BadRequest("Provide an overall summary before submitting your report.");
         if (new[] { dto.summary, dto.priorityFindings, dto.recommendations, dto.goodPractices, dto.notApplicableNotes }.Any(value => value?.Length > 10000)) return BadRequest("Each report section must be 10,000 characters or fewer.");
         var priorityIds = await context.complianceAssessments.Where(assessment => assessment.surveyId == surveyId && assessment.surveyorId == surveyorId.Value && assessment.score!.scoreValue != null && assessment.score.scoreValue <= 2 && assessment.riskRating!.severityOrder >= 3).Select(assessment => assessment.complianceAssessmentId).ToListAsync();
-        var actions = dto.findingActions ?? [];
-        if (actions.Any(action => !priorityIds.Contains(action.complianceAssessmentId) || action.recommendation?.Length > 10000 || action.correctiveAction?.Length > 10000)) return BadRequest("Recommendations and corrective actions must belong to a current priority finding.");
+        var recommendations = dto.findingActions ?? [];
+        if (recommendations.Any(item => !priorityIds.Contains(item.complianceAssessmentId) || item.recommendation?.Length > 10000)) return BadRequest("Recommendations must belong to a current priority finding.");
         report ??= new SurveyorReport { surveyId = surveyId, surveyorId = surveyorId.Value };
-        report.summary = dto.summary?.Trim(); report.priorityFindings = null; report.recommendations = JsonSerializer.Serialize(actions.Select(action => new { action.complianceAssessmentId, recommendation = action.recommendation?.Trim(), correctiveAction = action.correctiveAction?.Trim() }), JsonOptions); report.goodPractices = dto.goodPractices?.Trim(); report.notApplicableNotes = dto.notApplicableNotes?.Trim(); report.updatedAt = DateTime.UtcNow;
+        report.summary = dto.summary?.Trim(); report.priorityFindings = null; report.recommendations = JsonSerializer.Serialize(recommendations.Select(item => new { item.complianceAssessmentId, recommendation = item.recommendation?.Trim() }), JsonOptions); report.goodPractices = dto.goodPractices?.Trim(); report.notApplicableNotes = dto.notApplicableNotes?.Trim(); report.updatedAt = DateTime.UtcNow;
         if (dto.submit) { report.isSubmitted = true; report.submittedAt = DateTime.UtcNow; }
         if (report.surveyorReportId == 0) context.surveyorReports.Add(report);
         await context.SaveChangesAsync();
@@ -202,7 +200,7 @@ public class SurveyorReportsController(AppDbContext context) : ControllerBase
             try { actions = JsonSerializer.Deserialize<List<JsonElement>>(report.recommendations, JsonOptions)?.Where(item => item.TryGetProperty("complianceAssessmentId", out _)).ToDictionary(item => item.GetProperty("complianceAssessmentId").GetInt32()) ?? []; } catch (JsonException) { }
         }
         var findings = await context.complianceAssessments.AsNoTracking().Where(assessment => assessment.surveyId == surveyId && assessment.surveyorId == surveyorId.Value && assessment.score!.scoreValue != null && assessment.score.scoreValue <= 2 && assessment.riskRating!.severityOrder >= 3).OrderBy(assessment => assessment.compliance!.complianceNumber).Select(assessment => new SurveyorReportFindingDTO { complianceAssessmentId = assessment.complianceAssessmentId, complianceNumber = assessment.compliance!.complianceNumber, complianceSummary = assessment.compliance.complianceSummary, scoreLabel = assessment.score!.scoreLabel, riskLabel = assessment.riskRating!.riskLabel, comments = assessment.complianceComments }).ToListAsync();
-        foreach (var finding in findings) if (actions.TryGetValue(finding.complianceAssessmentId, out var action)) { if (action.TryGetProperty("recommendation", out var recommendation)) finding.recommendation = recommendation.GetString(); if (action.TryGetProperty("correctiveAction", out var correctiveAction)) finding.correctiveAction = correctiveAction.GetString(); }
+        foreach (var finding in findings) if (actions.TryGetValue(finding.complianceAssessmentId, out var action) && action.TryGetProperty("recommendation", out var recommendation)) finding.recommendation = recommendation.GetString();
         var counts = await context.complianceAssessments.Where(assessment => assessment.surveyId == surveyId && assessment.surveyorId == surveyorId.Value).GroupBy(_ => 1).Select(group => new { assigned = group.Count(), scored = group.Count(item => item.scoreId != null) }).FirstOrDefaultAsync();
         return Ok(new { report = report == null ? null : new { report.summary, report.goodPractices, report.notApplicableNotes, report.isSubmitted, report.submittedAt }, findings, assignedRequirements = counts?.assigned ?? 0, scoredRequirements = counts?.scored ?? 0 });
     }

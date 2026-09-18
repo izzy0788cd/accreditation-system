@@ -23,7 +23,6 @@ namespace backend.Data
         public DbSet<backend.Models.Reports.SurveyReportVersion> surveyReportVersions { get; set; }
         public DbSet<backend.Models.Reports.SurveyorReport> surveyorReports { get; set; }
         public DbSet<backend.Models.Reports.SurveyorReportReopen> surveyorReportReopens { get; set; }
-        public DbSet<backend.Models.Reports.SurveyActionItem> surveyActionItems { get; set; }
 
         //db sets for framework
         public DbSet<Function> functions { get; set; }
@@ -285,11 +284,6 @@ namespace backend.Data
             modelBuilder.Entity<backend.Models.Reports.SurveyorReport>().HasOne(report => report.surveyor).WithMany().HasForeignKey(report => report.surveyorId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<backend.Models.Reports.SurveyorReportReopen>().HasKey(reopen => reopen.surveyorReportReopenId);
             modelBuilder.Entity<backend.Models.Reports.SurveyorReportReopen>().HasOne(reopen => reopen.surveyorReport).WithMany().HasForeignKey(reopen => reopen.surveyorReportId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<backend.Models.Reports.SurveyActionItem>().HasKey(item => item.surveyActionItemId);
-            modelBuilder.Entity<backend.Models.Reports.SurveyActionItem>().HasOne(item => item.survey).WithMany()
-                .HasForeignKey(item => item.surveyId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<backend.Models.Reports.SurveyActionItem>().HasOne(item => item.complianceAssessment).WithMany()
-                .HasForeignKey(item => item.complianceAssessmentId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<SurveyToolkitTemplate>().HasKey(template => template.surveyToolkitTemplateId);
             modelBuilder.Entity<SurveyToolkitTemplate>()
                 .HasOne(template => template.level)

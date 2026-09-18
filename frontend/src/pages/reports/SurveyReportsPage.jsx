@@ -90,7 +90,7 @@ export default function SurveyReportsPage() {
   };
   return <main className="reports-page">
     <fieldset className="report-controls report-control-fieldset" disabled={busy}>
-      <header><p className="report-eyebrow">Reports centre</p><div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"><div><h1>Build a survey report</h1><p>Choose a survey, select standards and decide what to include.</p></div><div className="print:hidden flex flex-wrap gap-2"><Link to="/reports" className="shrink-0 rounded-lg border border-[#c5d5e8] bg-white px-4 py-2.5 text-center text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]">Reports Centre</Link><Link to="/reports/actions" className="shrink-0 rounded-lg border border-[#c5d5e8] bg-white px-4 py-2.5 text-center text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]">Corrective action register</Link></div></div></header>
+      <header><p className="report-eyebrow">Reports centre</p><div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"><div><h1>Build a survey report</h1><p>Choose a survey, select standards and decide what to include.</p></div><Link to="/reports" className="print:hidden shrink-0 rounded-lg border border-[#c5d5e8] bg-white px-4 py-2.5 text-center text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0]">Reports Centre</Link></div></header>
       {error && <p role="alert" className="report-warning">{error}</p>}{notice && <p role="status" className="report-notice">{notice}</p>}
       <div className="report-settings">
         <section className="report-card"><h2>1. Choose a survey</h2>

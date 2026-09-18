@@ -12,7 +12,6 @@ security boundary.
 | `Survey.ReviewTeam` | Yes | Yes | No | No | No |
 | `Survey.Administer` | Yes | No | No | No | No |
 | `Reports.Generate` | Yes | Yes | No** | No | No |
-| `Actions.Manage` | Yes | Yes | No | No | No |
 | `Accounts.Manage` | Yes | No | No | No | No |
 
 \* Surveyors and Team Leads may read supporting reference records through the
