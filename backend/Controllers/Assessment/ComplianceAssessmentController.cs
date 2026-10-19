@@ -177,13 +177,9 @@ namespace backend.Controllers.Assessment
             if (!await CanUpdateAsync(assessment))
                 return Forbid();
 
-            var reportSubmitted = await _context.surveyorReports.AnyAsync(report =>
-                report.surveyId == assessment.surveyId
-                && report.surveyorId == assessment.surveyorId
-                && report.isSubmitted);
-            if (reportSubmitted)
-                return BadRequest("Your surveyor report has been submitted. Ask the Team Lead or an Administrator to reopen it before changing this assessment.");
 
+            if (await _context.surveyorReports.AnyAsync(r => r.surveyId == assessment.surveyId && r.surveyorId == assessment.surveyorId && r.isSubmitted))
+                return BadRequest("Ask the Team Lead or Administrator to reopen your submitted summations before editing.");
             if (dto.surveyorId.HasValue)
             {
                 var surveyorExists = await _context.surveyors.AnyAsync(s =>

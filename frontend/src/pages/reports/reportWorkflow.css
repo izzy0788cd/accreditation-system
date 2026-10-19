@@ -1,0 +1,6 @@
+.report-conclusion-editor textarea{display:block;width:100%;box-sizing:border-box;min-height:110px;padding:12px;border:1px solid #a8bcb7;border-radius:6px;background:#fff;color:#243b40;margin-top:8px;font-weight:400;resize:vertical}
+.report-conclusion-editor textarea:focus-visible{outline:3px solid #bd861e;outline-offset:3px}
+.report-readiness ul,.report-readiness-issues{list-style:disc;padding-left:22px;margin:12px 0}
+.report-readiness li{margin-bottom:6px;overflow-wrap:anywhere}
+.report-actions{flex-wrap:wrap}
+.dark .report-conclusion-editor textarea{background:#16201c;color:#f2eadc;border-color:#64786c}

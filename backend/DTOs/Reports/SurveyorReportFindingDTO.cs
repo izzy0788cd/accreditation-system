@@ -8,5 +8,4 @@ public class SurveyorReportFindingDTO
     public string? scoreLabel { get; set; }
     public string? riskLabel { get; set; }
     public string? comments { get; set; }
-    public string? recommendation { get; set; }
 }

@@ -1,6 +1,10 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// Follow the host used to open the app, including localhost or its current LAN IP.
+const defaultApiUrl = new URL(window.location.origin);
+defaultApiUrl.port = import.meta.env.VITE_API_PORT || "5157";
+defaultApiUrl.pathname = "/api";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || defaultApiUrl.toString();
 
 const api = axios.create({ baseURL: BASE_URL, withCredentials: true });
 
@@ -84,3 +88,5 @@ export const getSurveyorReportReview = (surveyorReportId) => api.get(`/surveyor-
 export const saveMySurveyorReport = (surveyId, data) => saveRequest(api.put(`/surveyor-reports/survey/${surveyId}/mine`, data, { showErrorDialog: true }));
 export const reopenSurveyorReport = (surveyorReportId, reason) => saveRequest(api.post(`/surveyor-reports/${surveyorReportId}/reopen`, { reason }, { showErrorDialog: true }));
 export const getMySurveyorReportWorkspace = (surveyId) => api.get(`/surveyor-reports/survey/${surveyId}/mine/workspace`);
+export const getMySurveyorStandardSummaries = (surveyId) => api.get(`/surveyor-reports/survey/${surveyId}/mine/standard-summaries`);
+export const saveMySurveyorStandardSummary = (surveyId, standardId, data) => saveRequest(api.put(`/surveyor-reports/survey/${surveyId}/mine/standards/${standardId}/summary`, data, { showErrorDialog: true }));

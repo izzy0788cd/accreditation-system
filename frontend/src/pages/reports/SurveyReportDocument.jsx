@@ -1,5 +1,6 @@
-import { ExecutiveSummary, Recommendations, ReportContents } from "./ReportSections";
+import { ExecutiveSummary, SignOff, ReportContents } from "./ReportSections";
 import ReportDetails from "./ReportDetails";
+import { ReportConclusion, SummationReadiness } from "./ReportWorkflowSections";
 import { assessmentStatus, summariseReport, compareScope, detailItems } from "../../utils/surveyReports";
 const percentage = (value) => value == null ? "Not scored" : `${value}%`;
 function Summary({ items }) {
@@ -38,11 +39,14 @@ export default function SurveyReportDocument({ report: source }) {
       <p className="report-method">Scores use assessed, applicable requirements only (maximum 4 points each). Unassessed and not-applicable items are excluded from the score; incomplete results are provisional. This report is not an accreditation decision. Evidence checks represent recorded selections, not independent verification. Framework wording and applicability reflect records at generation time; saved versions preserve that content.</p>
       {report.included.includes("summary") && <><ExecutiveSummary report={report} /><section><h2>Assessment distribution</h2><Summary items={report.items} /></section></>}
       <ReportContents report={report} standards={detailStandards} />
+      {report.approval ? <p className="report-notice">Approved for issue by {report.approval.approvedBy} · {new Date(report.approval.approvedAt).toLocaleString()}. This is not an accreditation decision.</p> : <p className="report-warning">Draft / not approved for issue. Saving or printing does not record approval.</p>}
+      <ReportConclusion conclusion={report.conclusion} />
+      {report.included.includes("summary") && <SummationReadiness statuses={report.summationStatus} />}
       {report.mode === "findings" && <p className="report-notice">Findings-only detail: {shownItems.length} of {report.items.length} requirements. Summaries and scores cover the full selected scope. Only poor-achievement, fair-achievement, and high/extreme-risk requirements appear below.</p>}
       {report.included.includes("standards") && <section id="report-standard-scores"><h2>Scores by standard</h2><table><thead><tr><th>Standard</th><th>Scored</th><th>Unassessed</th><th>N/A</th><th>Score</th>{report.survey.surveyType === "External" && <th>External − internal</th>}</tr></thead><tbody>{report.standards.map((s) => { const stats = summariseReport(report.items.filter((item) => item.standardId === s.id)); const comparison = compareScope(report.items.filter((item) => item.standardId === s.id), report.internalItems || []); return <tr key={s.id}><td>{s.number} · {s.title}</td><td>{stats.scored}</td><td>{stats.unassessed}</td><td>{stats.notApplicable}</td><td>{percentage(stats.score)}</td>{report.survey.surveyType === "External" && <td>{comparison.delta == null ? "Not comparable" : `${comparison.delta > 0 ? "+" : ""}${comparison.delta} pp (${comparison.compared} matched)`}</td>}</tr>; })}</tbody></table></section>}
       {(report.included.includes("findings") || report.included.includes("evidence")) && <ReportDetails report={{ ...report, items: shownItems, standards: detailStandards }} />}
       {report.mode === "findings" && !shownItems.length && <p>No findings match this report filter.</p>}
-      {report.included.includes("actions") && <Recommendations report={report} />}
+      {report.included.includes("signoff") && <SignOff report={report} />}
       <footer className="report-footer"><span>{report.survey.facilityName} · {report.survey.surveyType} survey</span><span>End of selected report · #{report.survey.surveyId}</span></footer>
     </article>;
 }

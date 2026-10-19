@@ -6,6 +6,7 @@ using backend.Data;
 using backend.DTOs.FacilitySurvey;
 using backend.Models.Assessment;
 using backend.Models.FaciltitySurvey;
+using backend.Models.Reports;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -684,6 +685,99 @@ namespace backend.Controllers.FacilitySurvey
                     ? "This survey already contains every applicable framework requirement."
                     : $"Added {additions.Count} newly applicable requirement(s) and {checks.Count} evidence check(s).",
             });
+        }
+
+        [HttpPut("{id}/standards/{standardId}")]
+        [Authorize(Policy = "Survey.Administer")]
+        public Task<IActionResult> AddStandard(int id, int standardId) => ChangeStandard(id, standardId, true);
+
+        [HttpDelete("{id}/standards/{standardId}")]
+        [Authorize(Policy = "Survey.Administer")]
+        public Task<IActionResult> RemoveStandard(int id, int standardId) => ChangeStandard(id, standardId, false);
+
+        [HttpPost("{id}/standards/{standardId}/reset-and-remove")]
+        [Authorize(Policy = "Survey.Administer")]
+        public async Task<IActionResult> ResetAndRemoveStandard(int id, int standardId, SurveyStandardResetRemoveDto dto)
+        {
+            if (!StandardRemovalWorkflow.IsConfirmed(dto))
+                return BadRequest("Confirm the permanent removal and provide a reason of 1–2,000 characters.");
+            try { return await ChangeStandard(id, standardId, false, dto.reason.Trim()); }
+            catch (Exception exception) when (exception is Npgsql.PostgresException { SqlState: "40001" or "40P01" }
+                || exception.InnerException is Npgsql.PostgresException { SqlState: "40001" or "40P01" })
+            { return Conflict("Survey work changed while removing this standard. Nothing was removed. Refresh and review before retrying."); }
+        }
+
+        private async Task<IActionResult> ChangeStandard(int id, int standardId, bool adding, string? resetReason = null)
+        {
+            await using var transaction = await _context.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable);
+            var survey = await _context.surveys.FindAsync(id);
+            if (survey == null) return NotFound();
+            if (survey.isCancelled) return BadRequest("A cancelled survey cannot be edited.");
+            if (!await _context.standards.AnyAsync(s => s.standardId == standardId)) return NotFound();
+            var existing = await _context.complianceAssessments.Include(a => a.compliance).ThenInclude(c => c!.criterion)
+                .Include(a => a.complianceEvidenceChecks).Where(a => a.surveyId == id).ToListAsync();
+            var target = existing.Where(a => a.compliance!.criterion!.standardId == standardId).ToList();
+            if (adding && target.Count > 0) return BadRequest("This standard is already included. Use Sync latest framework to update its checklist.");
+            if (!adding && target.Count == 0) return BadRequest("This standard is not included in the survey.");
+            if (!adding && resetReason == null && (target.Any(a => a.scoreId != null || a.riskRatingId != null || !string.IsNullOrWhiteSpace(a.complianceComments)
+                || a.complianceEvidenceChecks!.Any(c => c.isChecked))
+                || await _context.surveyorStandardSummaries.AnyAsync(s => s.surveyId == id && s.standardId == standardId)))
+                return BadRequest("This standard has recorded work or a saved summation and cannot be removed. Existing survey work is protected.");
+            var compliances = adding ? await _context.compliances.Include(c => c.criterion).Include(c => c.evidence)
+                .Where(c => c.criterion!.standardId == standardId && c.criterion.isApplicable && c.isApplicable).ToListAsync() : [];
+            if (adding && compliances.Count == 0) return BadRequest("This standard has no applicable compliance requirements to add.");
+
+            var snapshot = await _context.surveyToolkitSnapshots.Include(s => s.compliances).Include(s => s.standards).SingleOrDefaultAsync(s => s.surveyId == id);
+            if (snapshot == null) {
+                snapshot = new SurveyToolkitSnapshot { surveyId = id, scopeType = "Custom", compliances = [], standards = [] };
+                _context.surveyToolkitSnapshots.Add(snapshot);
+            }
+            // Materialise a full survey's scope so future syncs cannot re-add removed standards.
+            var retainedIds = (snapshot.scopeType == "Full" ? existing.Select(a => a.complianceId) : (snapshot.compliances ?? []).Select(c => c.complianceId).Concat(existing.Select(a => a.complianceId))).ToHashSet();
+            if (adding) retainedIds.UnionWith(compliances.Select(c => c.complianceId));
+            else {
+                var removedIds = await _context.compliances.Where(c => c.criterion!.standardId == standardId).Select(c => c.complianceId).ToListAsync();
+                retainedIds.ExceptWith(removedIds);
+            }
+            snapshot.scopeType = "Custom";
+            var scopeNote = resetReason == null ? "Standards updated through survey administration."
+                : $"Standard ID {standardId} reset and removed by {User.Identity?.Name ?? "Unknown"} at {DateTime.UtcNow:O}. Reason: {resetReason}";
+            snapshot.customisationReason = string.IsNullOrWhiteSpace(snapshot.customisationReason)
+                ? scopeNote : snapshot.customisationReason + "\n" + scopeNote;
+            snapshot.compliances ??= [];
+            snapshot.standards ??= [];
+            _context.surveyToolkitSnapshotCompliances.RemoveRange(snapshot.compliances.Where(c => !retainedIds.Contains(c.complianceId)));
+            var storedIds = snapshot.compliances.Select(c => c.complianceId).ToHashSet();
+            foreach (var cid in retainedIds.Except(storedIds)) snapshot.compliances.Add(new SurveyToolkitSnapshotCompliance { complianceId = cid });
+            var retainedStandards = await _context.compliances.Where(c => retainedIds.Contains(c.complianceId)).Select(c => c.criterion!.standardId).Distinct().ToListAsync();
+            _context.surveyToolkitSnapshotStandards.RemoveRange(snapshot.standards.Where(s => !retainedStandards.Contains(s.standardId)));
+            foreach (var sid in retainedStandards.Except(snapshot.standards.Select(s => s.standardId))) snapshot.standards.Add(new SurveyToolkitSnapshotStandard { standardId = sid });
+            if (resetReason != null)
+            {
+                var summaries = await _context.surveyorStandardSummaries.Where(s => s.surveyId == id && s.standardId == standardId).ToListAsync();
+                var assignedSurveyors = await _context.surveyStandardAssignments.Where(a => a.surveyId == id && a.standardId == standardId).Select(a => a.surveyorId).ToListAsync();
+                var owners = target.Select(a => a.surveyorId).Concat(summaries.Select(s => s.surveyorId)).Concat(assignedSurveyors).Distinct().ToList();
+                var handovers = await _context.surveyorReports.Where(r => r.surveyId == id && r.isSubmitted && owners.Contains(r.surveyorId)).ToListAsync();
+                var number = await _context.standards.Where(s => s.standardId == standardId).Select(s => s.standardNumber).SingleAsync();
+                _context.surveyorReportReopens.AddRange(StandardRemovalWorkflow.ReopenAffected(handovers, id, owners, number, resetReason, User.Identity?.Name ?? "Unknown", DateTime.UtcNow));
+                _context.surveyorStandardSummaries.RemoveRange(summaries);
+            }
+            if (adding) {
+                var assigned = await _context.surveyStandardAssignments.Where(a => a.surveyId == id && a.standardId == standardId).Select(a => (int?)a.surveyorId).SingleOrDefaultAsync() ?? survey.surveyorId;
+                _context.complianceAssessments.AddRange(compliances.Select(c => new ComplianceAssessment {
+                    surveyId = id, complianceId = c.complianceId, surveyorId = assigned,
+                    complianceEvidenceChecks = c.evidence!.Where(e => e.isApplicable).Select(e => new ComplianceEvidenceCheck { evidenceId = e.evidenceId, isChecked = false }).ToList()
+                }));
+            } else {
+                _context.complianceEvidenceChecks.RemoveRange(target.SelectMany(a => a.complianceEvidenceChecks!));
+                _context.complianceAssessments.RemoveRange(target);
+                _context.surveyStandardAssignments.RemoveRange(await _context.surveyStandardAssignments.Where(a => a.surveyId == id && a.standardId == standardId).ToListAsync());
+            }
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
+            return Ok(new { message = resetReason != null
+                ? $"Standard reset and removed from this survey. Affected handovers were reopened. Other standards and saved report versions were preserved."
+                : adding ? "Standard added. Its checklist is assigned to the team lead unless a dedicated assignment exists." : "Standard removed. No recorded survey work was deleted." });
         }
 
         [HttpPost("{id}/cancel")]

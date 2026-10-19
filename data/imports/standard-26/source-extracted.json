@@ -1,0 +1,182 @@
+{
+  "source": "STANDARD 26 Blood product PB.docx",
+  "sha256": "128d38d69504e4bb9a6d2bfb71ade9908c53960cb2240fabe4a8da22f0395d06",
+  "standardNumber": "26",
+  "standardTitle": "Blood products",
+  "standardSummary": "The Standard is that the Facility manages sample collection, blood, blood components / blood products and patient blood management to ensure safe and appropriate practice.\n\nSource references\nStandard 26, National Health Service Standards (NHSS) Vol. 2 (2nd Edition) 2021-2030\nNHSS Toolkit Assessment for Level 5 and 6 Facilities in Papua New Guinea 2021-2030",
+  "criteria": [
+    [
+      "26.1",
+      "Administration of blood and blood components / products and associated risks"
+    ],
+    [
+      "26.2",
+      "Storage conditions and transportation of samples and blood and blood products"
+    ],
+    [
+      "26.3",
+      "Ongoing education"
+    ],
+    [
+      "26.4",
+      "Patient education"
+    ],
+    [
+      "26.5",
+      "Risk management"
+    ]
+  ],
+  "compliances": [
+    [
+      "26.1",
+      "26.1.1",
+      "The Facility assures an effective blood, blood component, blood product and transfusion management system. Approved procedures should include:\nPatient identification\nPrescription and documentation of blood products\nAdverse event management\nBlood product storage\nMinimum information for samples, request forms, sampling and labelling\nTimeliness of urgent requests\nConsent for transfusion/Pathway if consent not given\nAppropriateness of blood component therapy\nBlood conservation therapy and alternatives to transfusion\nHigh-risk situations such as massive transfusion"
+    ],
+    [
+      "26.1",
+      "26.1.2",
+      "The Facility ensures the safe management of blood and blood component / product administration requires the organisation to provide patients and guardians with all relevant information, and to obtain informed consent from the patient."
+    ],
+    [
+      "26.2",
+      "26.2.1",
+      "The Facility ensures it has guidelines addressing storage conditions and transportation of samples and blood and blood products. \nThese guidelines should include conditions and transportation of samples and blood and blood products, and include: \n(i) validating, monitoring and recording of temperature for all blood fridges \n(ii) maintenance standards for all blood fridges\n(iii) the response to blood fridge alarms \n(iv) delivery, placement and removal of blood and blood products from any blood fridge / controlled storage / pneumatic tubes / other transportation systems \n(v) monitoring of blood and blood product usage and wastage \n(vi) documented audit trails"
+    ],
+    [
+      "26.3",
+      "26.3.1",
+      "The Facility ensures that all relevant health professionals are provided with orientation and ongoing education on blood products. This should include:\nPatient identification and sample collection\nStorage and transportation of samples and blood products\nBlood product therapy prescription and safe administration"
+    ],
+    [
+      "26.4",
+      "26.4.1",
+      "The Facility ensures that patients and guardians are fully informed.\n\nPatients are given information in verbal and/or printed form, with the use of appropriate languages / formats and the assistance of an interpreter when required, to ensure that the patient can give informed consent or refuse consent"
+    ],
+    [
+      "26.5",
+      "26.5.1",
+      "The Facility ensures that transfusing blood, blood components or blood products, regardless of how infrequently it occurs, have effective systems that promote safe and appropriate blood management."
+    ]
+  ],
+  "evidence": [
+    [
+      "26.1.1",
+      "1",
+      "The Facility has guidelines addressing blood management which are consistent with relevant legislation, standards, guidelines and/or codes of practice."
+    ],
+    [
+      "26.1.1",
+      "2",
+      "Evidence of documentation of indication and prescription of blood products"
+    ],
+    [
+      "26.1.1",
+      "3",
+      "Evidence of  management of adverse reaction to blood product."
+    ],
+    [
+      "26.1.1",
+      "4",
+      "Evidence of timeliness of urgent blood product administration."
+    ],
+    [
+      "26.1.1",
+      "5",
+      "Evidence of proper labelling of blood samples."
+    ],
+    [
+      "26.1.1",
+      "6",
+      "Evidence of verification of correct patient and blood product"
+    ],
+    [
+      "26.1.2",
+      "1",
+      "Informed consent is taken for administration of a blood product"
+    ],
+    [
+      "26.1.2",
+      "2",
+      "There is documentation in patient’s notes on the discussion with the patient for the need of blood products including risks  and benefits."
+    ],
+    [
+      "26.1.2",
+      "3",
+      "There are relevant brochures etc.that can be handed to patients in addition to verbal explanations."
+    ],
+    [
+      "26.1.2",
+      "4",
+      "There is a standard blood donor questionnaire (sight)."
+    ],
+    [
+      "26.2.1",
+      "1",
+      "Evidence that blood fridge temperatues are monitored."
+    ],
+    [
+      "26.2.1",
+      "2",
+      "Evidence that fridge maintenance standards are adhered to."
+    ],
+    [
+      "26.2.1",
+      "3",
+      "Evidence of response to blood fridge alarms."
+    ],
+    [
+      "26.2.1",
+      "4",
+      "Monitoring of blood product usage and wastage."
+    ],
+    [
+      "26.2.1",
+      "5",
+      "Inventory register of blood products."
+    ],
+    [
+      "26.2.1",
+      "6",
+      "Evidence that labels are checked every time a blood product is handled."
+    ],
+    [
+      "26.3.1",
+      "1",
+      "Evidence that all relevant staff have been trained in the correct techniques and for sample collection and the administration of blood and blood components / products."
+    ],
+    [
+      "26.3.1",
+      "2",
+      "Evidence of competency assessment of patient identification, consent process, sample collection correct blood product presciption and collection and management of adverse events for health staff."
+    ],
+    [
+      "26.4.1",
+      "1",
+      "Evidence that."
+    ],
+    [
+      "26.4.1",
+      "2",
+      "Evidence that patients and guardians are being kept informed of the risks and benefits of, and alternatives to, transfusion, and the risks from non-administration."
+    ],
+    [
+      "26.5.1",
+      "1",
+      "Evidence that health professionals report blood transfusion related incidents."
+    ],
+    [
+      "26.5.1",
+      "2",
+      "Evidence that sampling and blood product errors, near misses and adverse events are regularly analysed and strategies are taken to mitigate the risk."
+    ],
+    [
+      "26.5.1",
+      "3",
+      "Reports of the evaluation of the blood management system is reported to the CEO, management team  and the clinial governance committee"
+    ]
+  ],
+  "decisions": {
+    "unfinishedEvidence": "keep",
+    "criterion26_4": "Patient education (main questionnaire heading)"
+  }
+}

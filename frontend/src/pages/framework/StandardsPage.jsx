@@ -19,6 +19,8 @@ function StandardsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
+  const [functionFilter, setFunctionFilter] = useState("");
+  const [componentFilter, setComponentFilter] = useState("");
 
   const loadStandards = async (initialLoad = false) => {
     try {
@@ -95,8 +97,20 @@ function StandardsPage() {
     a.standardNumber.localeCompare(b.standardNumber, undefined, { numeric: true })
   );
   const normalizedSearch = search.trim().toLowerCase();
+  const parentOptions = (items, idKey, numberKey, nameKey) =>
+    [...new Map(items.map((item) => [String(item[idKey]), {
+      value: String(item[idKey]),
+      label: `${item[numberKey] || ""} — ${item[nameKey] || "Not specified"}`,
+    }])).values()].sort((a, b) => a.label.localeCompare(b.label, undefined, { numeric: true }));
+  const functionOptions = parentOptions(standards, "functionId", "functionNumber", "functionTitle");
+  const componentOptions = parentOptions(
+    standards.filter((standard) => !functionFilter || String(standard.functionId) === functionFilter),
+    "componentId", "componentNumber", "componentName"
+  );
   const filteredStandards = sortedStandards.filter((standard) =>
-    [standard.standardNumber, standard.standardTitle, standard.standardSummary]
+    (!functionFilter || String(standard.functionId) === functionFilter)
+    && (!componentFilter || String(standard.componentId) === componentFilter)
+    && [standard.standardNumber, standard.standardTitle, standard.standardSummary]
       .some((value) => value?.toLowerCase().includes(normalizedSearch))
   );
 
@@ -118,7 +132,12 @@ function StandardsPage() {
         <p>Loading...</p>
       ) : (
         <>
-        <FrameworkFilters search={search} onSearchChange={setSearch} searchPlaceholder="Search number, title, or summary" resultCount={filteredStandards.length} totalCount={standards.length} />
+        <FrameworkFilters search={search} onSearchChange={setSearch} searchPlaceholder="Search number, title, or summary" resultCount={filteredStandards.length} totalCount={standards.length}
+          filters={[
+            { label: "Function", value: functionFilter, options: functionOptions, onChange: (value) => { setFunctionFilter(value); setComponentFilter(""); } },
+            { label: "Component", value: componentFilter, options: componentOptions, onChange: setComponentFilter },
+          ]}
+        />
         <div className="overflow-x-auto rounded-xl border border-[#dfe7f0] bg-white shadow-[0_8px_24px_rgba(20,60,66,0.06)]"><table className="w-full min-w-[800px] text-sm"><thead className="border-b border-[#dbe5ef] bg-[#f6f9fc] text-xs uppercase tracking-wider text-[#4b5f7a]"><tr className="text-left">
               {/* <th className="p-2">Function</th> */}
               {/* <th className="p-2">Component</th> */}

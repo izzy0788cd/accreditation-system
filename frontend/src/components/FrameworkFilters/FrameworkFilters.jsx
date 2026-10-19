@@ -14,6 +14,8 @@ function FrameworkFilters({
 }) {
   const hasFilters = search || parentValue || applicability || filters.some((filter) => filter.value);
   const allLabel = (label) => ({
+    Function: "All functions",
+    Component: "All components",
     Standard: "All standards",
     Criterion: "All criteria",
     Compliance: "All compliance requirements",

@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { cancelSurvey, getAll, getOne, getSurveyAssessments, getSurveyStandardAssignments, syncSurveyFramework, update, updateSurveyStandardAssignments } from "../../api/api";
+import { create, remove, cancelSurvey, getAll, getOne, getSurveyAssessments, getSurveyStandardAssignments, syncSurveyFramework, update, updateSurveyStandardAssignments } from "../../api/api";
+import StandardResetRemoveConfirm from "../../components/StandardResetRemoveConfirm";
+import { canResetAndRemoveStandard } from "../../utils/standardRemoval";
+import FormModal from "../../components/FormModal";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import SurveyContextNav from "../../components/SurveyContextNav";
 import useUnsavedChanges from "../../hooks/useUnsavedChanges";
@@ -13,6 +16,14 @@ function SurveyAdminPage() {
   const [survey, setSurvey] = useState(null);
   const [types, setTypes] = useState([]);
   const [surveyors, setSurveyors] = useState([]);
+  const [allStandards, setAllStandards] = useState([]);
+  const [standardsOpen, setStandardsOpen] = useState(false);
+  const [addStandardId, setAddStandardId] = useState("");
+  const [removeTarget, setRemoveTarget] = useState(null);
+  const [resetTarget, setResetTarget] = useState(null);
+  const [resetReason, setResetReason] = useState("");
+  const [resetConfirmed, setResetConfirmed] = useState(false);
+  const [changingScope, setChangingScope] = useState(false);
   const [standards, setStandards] = useState([]);
   const [assignments, setAssignments] = useState({});
   const [baseline, setBaseline] = useState(null);
@@ -26,9 +37,9 @@ function SurveyAdminPage() {
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
 
-  const load = async () => {
+  const load = async (showLoading = true) => {
     try {
-      setLoading(true);
+      if (showLoading) setLoading(true);
       const [surveyRes, typeRes, surveyorRes, standardRes, assignmentRes, assessmentRes, complianceRes, criterionRes] = await Promise.all([
         getOne("surveys", surveyId), getAll("surveyTypes"), getAll("surveyors"), getAll("standards"),
         getSurveyStandardAssignments(surveyId), getSurveyAssessments(surveyId), getAll("compliances"), getAll("criteria"),
@@ -41,6 +52,7 @@ function SurveyAdminPage() {
         return criteriaById.get(compliance?.criterionId)?.standardId;
       }).filter(Boolean));
       const assignmentMap = Object.fromEntries(assignmentRes.data.map((assignment) => [assignment.standardId, String(assignment.surveyorId)]));
+      setAllStandards([...standardRes.data].sort((a, b) => String(a.standardNumber).localeCompare(String(b.standardNumber), undefined, { numeric: true })));
       setSurvey(currentSurvey);
       setTypes(typeRes.data);
       setSurveyors(surveyorRes.data);
@@ -59,7 +71,7 @@ function SurveyAdminPage() {
     } catch (loadError) {
       console.error(loadError);
       setError("We couldn't load this survey administration page.");
-    } finally { setLoading(false); }
+    } finally { if (showLoading) setLoading(false); }
   };
 
   useEffect(() => { load(); }, [surveyId]);
@@ -78,6 +90,33 @@ function SurveyAdminPage() {
       await updateSurveyStandardAssignments(surveyId, dedicatedAssignments);
       navigate(`/surveys/${surveyId}`);
     } catch (saveError) { console.error(saveError); } finally { setSaving(false); }
+  };
+
+  const dirty = Boolean(baseline) && JSON.stringify({ form, assignments }) !== JSON.stringify(baseline);
+  const changeScope = async (standardId, adding) => {
+    try {
+      setChangingScope(true); setError("");
+      const response = adding ? await update(`surveys/${surveyId}/standards`, standardId, {}) : await remove(`surveys/${surveyId}/standards`, standardId);
+      setNotice(response.data.message);
+      setRemoveTarget(null); setAddStandardId("");
+      await load(false);
+    } catch (err) {
+      setError(typeof err.response?.data === "string" ? err.response.data : "Could not update survey standards.");
+      setRemoveTarget(null);
+    } finally { setChangingScope(false); }
+  };
+
+  const resetAndRemove = async () => {
+    if (!resetTarget || !canResetAndRemoveStandard(resetReason, resetConfirmed, changingScope) || dirty || survey.isCancelled) return;
+    try {
+      setChangingScope(true); setError(""); setNotice("");
+      const response = await create(`surveys/${surveyId}/standards/${resetTarget.standardId}/reset-and-remove`, { reason: resetReason.trim(), confirmed: true });
+      setNotice(response.data.message);
+      setResetTarget(null); setResetReason(""); setResetConfirmed(false);
+      await load(false);
+    } catch (err) {
+      setError(typeof err.response?.data === "string" ? err.response.data : "Could not reset and remove the standard. Refresh the survey before retrying if the connection was interrupted.");
+    } finally { setChangingScope(false); }
   };
 
   const syncFramework = async () => {
@@ -114,6 +153,27 @@ function SurveyAdminPage() {
     {survey.isCancelled && <section className="mt-5 rounded-xl border border-red-200 bg-red-50 p-5 text-sm text-red-900"><p className="font-bold">Cancelled survey</p><p className="mt-1 leading-6">{survey.cancellationReason}</p><p className="mt-2 text-xs text-red-700">Cancelled {survey.cancelledAt ? new Date(survey.cancelledAt).toLocaleString() : ""}{survey.cancelledByUsername ? ` by ${survey.cancelledByUsername}` : ""}. Existing findings remain available, but cannot be changed.</p></section>}
     {error && <p className="mt-5 rounded-lg border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</p>}
     {notice && <p className="mt-5 rounded-lg border border-teal-100 bg-[#edf8f0] px-4 py-3 text-sm text-teal-800">{notice}</p>}
+    <section className="mt-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#dbe5ef] bg-white p-5 shadow-sm">
+      <div><h2 className="text-lg font-bold text-[#092a5a]">Survey standards</h2><p className="mt-1 text-sm text-[#4b5f7a]">{standards.length} standards included. Manage the scope separately from surveyor assignments.</p>{dirty && <p className="mt-2 text-sm text-amber-800">Save your details and assignments before managing standards.</p>}</div>
+      <button type="button" disabled={survey.isCancelled || dirty || saving || syncing} onClick={() => { setNotice(""); setError(""); setStandardsOpen(true); }} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50">Manage standards</button>
+    </section>
+    <FormModal open={standardsOpen} onClose={() => { if (!changingScope) { setStandardsOpen(false); setRemoveTarget(null); setResetTarget(null); setResetReason(""); setResetConfirmed(false); setAddStandardId(""); } }} wide>
+    <form onSubmit={(event) => { event.preventDefault(); if (addStandardId && !resetTarget && !removeTarget && !changingScope && !dirty && !survey.isCancelled) changeScope(addStandardId, true); }}>
+      <h2 className="text-lg font-bold text-[#092a5a]">Survey standards</h2>
+      <p className="mt-2 text-sm text-[#4b5f7a]">Use Remove for an unstarted standard. To discard one standard’s recorded work and summation, use Reset and remove. Affected handovers are reopened; saved report versions are preserved.</p>
+      {error && <p role="alert" className="mt-3 text-sm text-red-700">{error}</p>}
+      {notice && <p role="status" className="mt-3 text-sm text-[#16803a]">{notice}</p>}
+      {dirty && <p className="mt-2 text-sm text-amber-800">Save your survey details and assignments before changing standards.</p>}
+      <div className="mt-4 flex flex-wrap gap-3">
+        <label className="min-w-0 flex-1 text-sm font-semibold">Standard to add<select value={addStandardId} onChange={e => setAddStandardId(e.target.value)} disabled={survey.isCancelled || changingScope || dirty} className="mt-1 block w-full rounded-lg border border-[#c5d4e6] px-3 py-2.5"><option value="">Choose a standard</option>{allStandards.filter(s => !standards.some(current => current.standardId === s.standardId)).map(s => <option key={s.standardId} value={s.standardId}>{s.standardNumber} · {s.standardTitle}</option>)}</select></label>
+        <button type="submit" disabled={!addStandardId || survey.isCancelled || changingScope || dirty} className="self-end rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50">Add standard</button>
+      </div>
+      <div className="mt-4 divide-y divide-[#dbe5ef]">{standards.map(s => <div key={s.standardId} className="flex flex-wrap items-center justify-between gap-4 py-3"><span className="min-w-0 flex-1 text-sm">{s.standardNumber} · {s.standardTitle}</span><div className="flex flex-wrap gap-2"><button type="button" disabled={survey.isCancelled || changingScope || dirty} onClick={() => { setRemoveTarget(s); setResetTarget(null); }} className="rounded-lg border border-red-200 px-3 py-2 text-sm font-semibold text-red-700 disabled:opacity-50" aria-label={`Remove standard ${s.standardNumber}`}>Remove</button><button type="button" disabled={survey.isCancelled || changingScope || dirty} onClick={() => { setResetTarget(s); setRemoveTarget(null); setResetReason(""); setResetConfirmed(false); setError(""); setNotice(""); }} className="rounded-lg border border-red-300 px-3 py-2 text-sm font-semibold text-red-700 disabled:opacity-50" aria-label={`Reset and remove standard ${s.standardNumber}`}>Reset and remove</button></div></div>)}</div>
+      {removeTarget && <div className="mt-4 rounded-lg border border-red-200 p-4" role="group" aria-label="Confirm standard removal"><p className="text-sm">Remove Standard {removeTarget.standardNumber} from this survey? Its unstarted checklist and assignment will be removed. The framework standard and any recorded work are protected.</p><div className="mt-3 flex gap-3"><button type="button" disabled={changingScope} onClick={() => changeScope(removeTarget.standardId, false)} className="rounded-lg bg-red-700 px-3 py-2 text-sm font-semibold text-white">Confirm removal</button><button type="button" disabled={changingScope} onClick={() => setRemoveTarget(null)} className="rounded-lg border px-3 py-2 text-sm">Keep standard</button></div></div>}
+      {resetTarget && <StandardResetRemoveConfirm standard={resetTarget} reason={resetReason} confirmed={resetConfirmed} busy={changingScope} onReason={setResetReason} onConfirmed={setResetConfirmed} onCancel={() => setResetTarget(null)} onConfirm={resetAndRemove} />}
+      <p className="mt-4 text-xs text-[#4b5f7a]">Each addition or confirmed removal is saved immediately.</p>
+    </form>
+    </FormModal>
     <form onSubmit={save} className="mt-6 space-y-6">
       <section className="rounded-xl border border-[#dbe5ef] bg-white p-5 shadow-sm sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"><div><h2 className="text-lg font-bold text-[#092a5a]">Edit survey details</h2><p className="mt-1 text-sm text-[#4b5f7a]">The facility is fixed once the checklist has been generated.</p></div>{!survey.isCancelled && <button type="button" disabled={syncing} onClick={syncFramework} className="rounded-lg border border-[#c5d5e8] bg-white px-4 py-2.5 text-sm font-semibold text-[#16803a] hover:bg-[#edf8f0] disabled:opacity-60">{syncing ? "Synchronising…" : "Sync latest framework"}</button>}</div>
