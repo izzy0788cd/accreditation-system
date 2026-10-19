@@ -12,7 +12,7 @@ export default function SurveyContextNav({ surveyId, className = "" }) {
     { to: `/surveys/${surveyId}${modeQuery}`, label: "Assessment" },
     { to: `/surveys/${surveyId}/toolkit${modeQuery}`, label: "Print toolkit" },
     { to: `/surveys/${surveyId}/results${modeQuery}`, label: role === "Surveyor" ? "My results" : "Results" },
-    { to: `/surveys/${surveyId}/report${modeQuery}`, label: "Surveyor report" },
+    { to: `/surveys/${surveyId}/report${modeQuery}`, label: "Standard summations" },
     ...(isTeamLead(role) || isAdmin(role) ? [{ to: `/surveys/${surveyId}/team-dashboard${modeQuery}`, label: "Team dashboard" }] : []),
     ...(isAdmin(role) ? [{ to: `/surveys/${surveyId}/admin${modeQuery}`, label: "Survey administration" }] : []),
   ];

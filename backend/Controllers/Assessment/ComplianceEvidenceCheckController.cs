@@ -199,12 +199,10 @@ namespace backend.Controllers.Assessment
             if (check.complianceAssessment!.survey!.isCancelled)
                 return BadRequest("This survey has been cancelled and evidence checks can no longer be changed.");
 
-            var reportSubmitted = await _context.surveyorReports.AnyAsync(report =>
-                report.surveyId == check.complianceAssessment.surveyId
-                && report.surveyorId == check.complianceAssessment.surveyorId
-                && report.isSubmitted);
-            if (reportSubmitted)
-                return BadRequest("Your surveyor report has been submitted. Ask the Team Lead or an Administrator to reopen it before changing evidence checks.");
+            if (await _context.surveyorReports.AnyAsync(r => r.surveyId == check.complianceAssessment.surveyId && r.surveyorId == check.complianceAssessment.surveyorId && r.isSubmitted))
+                return BadRequest("Ask the Team Lead or Administrator to reopen your submitted summations before editing.");
+
+
 
             if (!User.IsInRole("Admin"))
             {

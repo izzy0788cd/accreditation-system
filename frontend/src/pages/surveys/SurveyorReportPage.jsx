@@ -1,59 +1,57 @@
 import { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { getMySurveyorReportWorkspace, getOne, saveMySurveyorReport } from "../../api/api";
-import ConfirmDialog from "../../components/ConfirmDialog";
+import StandardSummationReports from "../../components/StandardSummationReports";
 import SurveyContextNav from "../../components/SurveyContextNav";
-import useUnsavedChanges from "../../hooks/useUnsavedChanges";
-
-const empty = { summary: "", goodPractices: "", notApplicableNotes: "", findingActions: [] };
 
 export default function SurveyorReportPage() {
   const { surveyId } = useParams();
-  const [searchParams] = useSearchParams();
-  const surveyorMode = searchParams.get("mode") === "surveyor";
-  const assessmentPath = `/surveys/${surveyId}${surveyorMode ? "?mode=surveyor" : ""}`;
-  const [survey, setSurvey] = useState(null);
-  const [workspace, setWorkspace] = useState(null);
-  const [form, setForm] = useState(empty);
-  const [saving, setSaving] = useState(false);
-  const [submitOpen, setSubmitOpen] = useState(false);
+  const [params] = useSearchParams();
+  const mode = params.get("mode") === "surveyor" ? "?mode=surveyor" : "";
+  const [data, setData] = useState(null);
   const [error, setError] = useState("");
-  const [savedForm, setSavedForm] = useState(empty);
-  const load = async () => {
+  const [saving, setSaving] = useState(false);
+  useEffect(() => {
+    let active = true;
+    setData(null); setError("");
+    Promise.all([getOne("surveys", surveyId), getMySurveyorReportWorkspace(surveyId)])
+      .then(([survey, workspace]) => { if (active) setData({ survey: survey.data, ...workspace.data }); })
+      .catch(() => { if (active) setError("We couldn't load your standard summations. Please reload to retry."); });
+    return () => { active = false; };
+  }, [surveyId]);
+  if (error && !data) return <main className="p-6"><p role="alert">{error}</p></main>;
+  if (!data) return <main className="p-6">Loading standard summations…</main>;
+  const ready = data.assignedRequirements > 0 && data.scoredRequirements === data.assignedRequirements && data.completedStandardSummaryCount === data.assignedStandardCount && !data.survey.isCancelled;
+  const submit = async () => {
+    if (saving || !ready || data.report?.isSubmitted || !window.confirm("Submit all your standard summations to the Team Lead? Your scores and summations will be locked until reopened.")) return;
+    setSaving(true); setError("");
     try {
-      const [surveyRes, workspaceRes] = await Promise.all([getOne("surveys", surveyId), getMySurveyorReportWorkspace(surveyId)]);
-      const data = workspaceRes.data;
-      setSurvey(surveyRes.data); setWorkspace(data);
-      const nextForm = { summary: data.report?.summary || "", goodPractices: data.report?.goodPractices || "", notApplicableNotes: data.report?.notApplicableNotes || "", findingActions: data.findings.map((finding) => ({ complianceAssessmentId: finding.complianceAssessmentId, recommendation: finding.recommendation || "" })) };
-      setForm(nextForm); setSavedForm(nextForm);
-      setError("");
-    } catch (loadError) { console.error(loadError); setError("We couldn't load your surveyor report. Confirm that you are assigned to this survey."); }
+      await saveMySurveyorReport(surveyId, { submit: true });
+      const response = await getMySurveyorReportWorkspace(surveyId);
+      setData(current => ({ ...current, ...response.data }));
+    } catch (err) { setError(typeof err.response?.data === "string" ? err.response.data : "Submission could not be confirmed. Reload to check its status before retrying."); }
+    finally { setSaving(false); }
   };
-  useEffect(() => { load(); }, [surveyId]);
-  const complete = workspace && workspace.assignedRequirements === workspace.scoredRequirements;
-  const setAction = (assessmentId, key, value) => setForm((current) => ({ ...current, findingActions: current.findingActions.map((action) => action.complianceAssessmentId === assessmentId ? { ...action, [key]: value } : action) }));
-  const save = async (submit) => { try { setSaving(true); await saveMySurveyorReport(surveyId, { ...form, submit }); setSavedForm(form); await load(); } catch (saveError) { console.error(saveError); setError(saveError.response?.data || "We couldn't save your report."); } finally { setSaving(false); } };
-  useUnsavedChanges(!workspace?.report?.isSubmitted && JSON.stringify(form) !== JSON.stringify(savedForm));
-  if (error && !workspace) return <main className="mx-auto max-w-5xl px-4 py-8"><Link to={assessmentPath} className="text-sm font-semibold text-[#16803a]">← Back to survey</Link><p className="mt-5 rounded-xl border border-red-200 bg-red-50 p-5 text-sm text-red-800">{error}</p></main>;
-  if (!survey || !workspace) return <main className="mx-auto max-w-5xl px-4 py-8"><div className="h-64 animate-pulse rounded-2xl bg-slate-100" /></main>;
-  const submitted = workspace.report?.isSubmitted;
-  return <main className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:py-8">
-    <Link to={assessmentPath} className="text-sm font-semibold text-[#16803a] hover:underline">← Back to survey</Link>
-    <SurveyContextNav surveyId={surveyId} />
-    <header className="mt-5 rounded-2xl border border-[#bfded8] bg-[linear-gradient(120deg,#f3faf8_0%,#fff_70%,#fcf7ed_100%)] p-6 sm:p-8"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#16803a]">Surveyor handover</p><h1 className="mt-2 text-3xl font-bold text-[#092a5a]">Surveyor report</h1><p className="mt-2 text-sm text-[#4b5f7a]">{survey.facilityName} · {workspace.scoredRequirements} of {workspace.assignedRequirements} assigned requirements scored</p></header>
-    {error && <p className="mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</p>}
-    {submitted ? <><section className="mt-6 rounded-xl border border-[#b8d9d3] bg-[#edf8f0] p-5"><div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div><p className="font-bold text-[#16803a]">Your report has been submitted.</p><p className="mt-1 text-sm text-[#4b5f7a]">It is available to the Team Lead for the consolidated report and remains part of your survey record.</p></div><button type="button" onClick={() => window.print()} className="print:hidden rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0d6531]">Print / Save PDF</button></div></section><section className="mt-6 space-y-4"><ReadOnlySection title="Overall summary" value={workspace.report?.summary} /><ReadOnlySection title="Good practices observed" value={workspace.report?.goodPractices} empty="No good practices were recorded." /><ReadOnlySection title="Not applicable notes" value={workspace.report?.notApplicableNotes} empty="No not-applicable notes were recorded." /><section className="rounded-xl border border-[#ead7a3] bg-[#fffbf0] p-5 shadow-sm"><p className="text-xs font-bold uppercase tracking-[.14em] text-[#9a5b13]">Priority findings</p><h2 className="mt-1 text-xl font-bold text-[#092a5a]">Recommendations and corrective actions</h2><div className="mt-5 space-y-4">{workspace.findings.length ? workspace.findings.map((finding) => <article key={finding.complianceAssessmentId} className="rounded-lg border border-[#ead7a3] bg-white p-4"><div className="flex flex-wrap gap-2"><strong className="text-[#092a5a]">{finding.complianceNumber}</strong><span className="rounded-full bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-700">{finding.scoreLabel}</span><span className="rounded-full bg-orange-50 px-2 py-0.5 text-xs font-semibold text-orange-800">{finding.riskLabel} risk</span></div><p className="mt-2 text-justify text-sm leading-6 text-[#385273]">{finding.complianceSummary}</p>{finding.comments && <p className="mt-2 border-l-2 border-[#d6aa45] pl-3 text-sm italic leading-6 text-[#4b5f7a]">{finding.comments}</p>}<div className="mt-4 grid gap-3 sm:grid-cols-2"><ReadOnlySection title="Recommendation" value={finding.recommendation} empty="No recommendation recorded." compact /><ReadOnlySection title="Corrective action" value={finding.correctiveAction} empty="No corrective action recorded." compact /></div></article>) : <p className="rounded-lg bg-[#edf8f0] px-4 py-3 text-sm text-[#16803a]">No High- or Extreme-risk priority findings were recorded.</p>}</div></section></section><SubmittedReportPrint survey={survey} report={workspace.report} findings={workspace.findings} /></> : <>
-      <section className="mt-6 rounded-xl border border-[#dbe5ef] bg-white p-5 shadow-sm"><p className="text-xs font-bold uppercase tracking-[.14em] text-[#16803a]">Priority findings</p><h2 className="mt-1 text-xl font-bold text-[#092a5a]">Recommendations</h2><p className="mt-2 text-sm leading-6 text-[#4b5f7a]">These findings are generated from your non-compliant or partially compliant requirements with High or Extreme risk. Add a recommendation for each finding.</p><div className="mt-5 space-y-4">{workspace.findings.length ? workspace.findings.map((finding) => <article key={finding.complianceAssessmentId} className="rounded-lg border border-[#ead7a3] bg-[#fffbf0] p-4"><div className="flex flex-wrap gap-2"><span className="font-bold text-[#092a5a]">{finding.complianceNumber}</span><span className="rounded-full bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-700">{finding.scoreLabel}</span><span className="rounded-full bg-orange-50 px-2 py-0.5 text-xs font-semibold text-orange-800">{finding.riskLabel} risk</span></div><p className="mt-2 text-sm leading-6 text-[#385273]">{finding.complianceSummary}</p>{finding.comments && <p className="mt-2 border-l-2 border-[#d6aa45] pl-3 text-sm italic leading-6 text-[#4b5f7a]">{finding.comments}</p>}<div className="mt-4"><TextArea label="Recommendation" value={form.findingActions.find((action) => action.complianceAssessmentId === finding.complianceAssessmentId)?.recommendation} onChange={(value) => setAction(finding.complianceAssessmentId, "recommendation", value)} /></div></article>) : <p className="rounded-lg bg-[#edf8f0] px-4 py-3 text-sm text-[#16803a]">No non-compliant or partially compliant High/Extreme-risk findings are assigned to you.</p>}</div></section>
-      <section className="mt-6 rounded-xl border border-[#dbe5ef] bg-white p-5 shadow-sm"><p className="text-xs font-bold uppercase tracking-[.14em] text-[#16803a]">Narrative report</p><div className="mt-4 grid gap-5"><TextArea label="Overall summary" required value={form.summary} onChange={(value) => setForm((current) => ({ ...current, summary: value }))} /><TextArea label="Good practices observed" value={form.goodPractices} onChange={(value) => setForm((current) => ({ ...current, goodPractices: value }))} /><TextArea label="Not applicable notes" hint="Explain requirements that were not applicable to this facility or service." value={form.notApplicableNotes} onChange={(value) => setForm((current) => ({ ...current, notApplicableNotes: value }))} /></div><div className="mt-6 flex flex-wrap justify-end gap-3"><button disabled={saving} onClick={() => save(false)} className="rounded-lg border border-[#c5d5e8] px-4 py-2.5 text-sm font-semibold text-[#16803a] disabled:opacity-60">Save draft</button><button disabled={saving || !complete} onClick={() => setSubmitOpen(true)} className="rounded-lg bg-[#16803a] px-4 py-2.5 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">Submit report</button></div>{!complete && <p className="mt-3 text-right text-xs text-amber-800">Return to the survey and score every assigned requirement before submitting.</p>}</section>
-    </>}
-    <ConfirmDialog open={submitOpen} title="Submit your surveyor report?" message="Submitting hands your findings to the Team Lead and locks your assigned scores, risk ratings, comments, and evidence checks. Changes can only be made after a Team Lead or Administrator reopens the report with a recorded reason." confirmLabel={saving ? "Submitting…" : "Submit and lock"} confirmDisabled={saving} onCancel={() => !saving && setSubmitOpen(false)} onConfirm={async () => { await save(true); setSubmitOpen(false); }} />
+  return <main className="mx-auto max-w-5xl px-4 py-6">
+    <div className="print:hidden">
+      <Link to={`/surveys/${surveyId}${mode}`} className="font-semibold underline">← Back to assessment</Link>
+      <SurveyContextNav surveyId={surveyId} />
+      <h1 className="mt-6 text-2xl font-bold">My standard summations</h1>
+      <p className="mt-2">{data.survey.facilityName} · {data.completedStandardSummaryCount} of {data.assignedStandardCount} assigned standard summations saved.</p>
+      <p className="mt-2">Complete the scores and save a summation for each assigned standard, then submit them together. No extra overall summary is required.</p>
+      {error && <p role="alert" className="mt-3 text-red-700">{error}</p>}
+      <ul className="mt-4 space-y-2">{(data.assignedStandards || []).map(item => {
+        const saved = data.standardSummaries.some(s => s.standardId === item.standardId);
+        return <li key={item.standardId}>Standard {item.standardNumber}: {item.unscored ? <Link className="underline" to={`/surveys/${surveyId}?standard=${item.standardId}${mode ? "&mode=surveyor" : ""}`}>{item.unscored} unscored — go to standard</Link> : "Scores complete"} · {saved ? "Summation saved" : <Link className="underline" to={`/surveys/${surveyId}/standards/${item.standardId}/summary${mode}`}>Summation missing — complete it</Link>}</li>;
+      })}</ul>
+      {data.report?.isSubmitted ? <p className="mt-4 font-semibold">Submitted to Team Lead. Your assessments and summations are locked until reopened.</p> : <button type="button" disabled={!ready || saving} onClick={submit} className="mt-4 rounded-lg bg-[#16803a] px-4 py-2 font-semibold text-white disabled:opacity-50">{saving ? "Submitting…" : "Submit all standard summations to Team Lead"}</button>}
+      <StandardSummationReports summaries={data.standardSummaries} summaryPath={id => `/surveys/${surveyId}/standards/${id}/summary${mode}`} />
+      <button type="button" onClick={() => window.print()} className="mt-5 rounded-lg bg-[#16803a] px-4 py-2 font-semibold text-white">Print summations / Save PDF</button>
+      {(data.report?.summary || data.report?.goodPractices || data.report?.notApplicableNotes) && <details className="mt-6 rounded-lg border p-4"><summary>Historical handover (read-only)</summary><p>This legacy report is retained for reference and is not a completion requirement.</p>{[["summary","Overall summary"],["goodPractices","Commendations"],["notApplicableNotes","Scope notes"]].map(([key,label]) => <section key={key} className="mt-3"><h2 className="font-semibold">{label}</h2><p className="whitespace-pre-wrap">{data.report[key] || "Not recorded."}</p></section>)}</details>}
+    </div>
+    <article className="surveyor-handover-print hidden print:block">
+      <header><h1>Standard summation reports</h1><p>{data.survey.facilityName} · {data.survey.surveyTypeName} · Survey #{surveyId}</p></header>
+      <StandardSummationReports summaries={data.standardSummaries} print />
+    </article>
   </main>;
 }
-
-function TextArea({ label, hint, required, value, onChange }) { if (label === "Corrective action") return null; return <label className="block text-sm font-semibold text-[#092a5a]">{label}{required && <span className="ml-1 text-red-700">*</span>}{hint && <span className="mt-1 block text-xs font-normal leading-5 text-[#68778c]">{hint}</span>}<textarea value={value || ""} onChange={(event) => onChange(event.target.value)} rows="4" className="mt-1.5 h-28 w-full resize-none rounded-lg border border-[#c5d4e6] px-3 py-2.5 text-sm font-normal leading-6 text-[#092a5a] outline-none focus:border-[#16803a] focus:ring-2 focus:ring-[#bbf7d0]" /></label>; }
-
-function ReadOnlySection({ title, value, empty = "Not recorded.", compact = false }) { if (title === "Corrective action") return null; return <section className={compact ? "rounded-lg border border-[#dbe5ef] bg-[#f8fafc] p-3" : "rounded-xl border border-[#dbe5ef] bg-white p-5 shadow-sm"}><h2 className={compact ? "text-sm font-bold text-[#092a5a]" : "text-lg font-bold text-[#092a5a]"}>{title}</h2><p className="mt-2 whitespace-pre-wrap text-justify text-sm leading-6 text-[#4b5f7a]">{value || empty}</p></section>; }
-
-function SubmittedReportPrint({ survey, report, findings }) { return <article className="surveyor-handover-print hidden print:block"><header><p>PNG National Health Service Standards</p><h1>Surveyor Handover Report</h1><p className="surveyor-handover-print-subtitle">{survey.facilityName} · Submitted {report.submittedAt ? new Date(report.submittedAt).toLocaleString() : ""}</p></header><PrintSection title="Overall summary" value={report.summary} /><PrintSection title="Good practices observed" value={report.goodPractices} empty="No good practices were recorded." /><PrintSection title="Not applicable notes" value={report.notApplicableNotes} empty="No not-applicable notes were recorded." /><section><h2>Priority findings, recommendations and corrective actions</h2>{findings.length ? <table><thead><tr><th>Requirement</th><th>Finding</th><th>Outcome / risk</th><th>Recommendation</th><th>Corrective action</th></tr></thead><tbody>{findings.map((finding) => <tr key={finding.complianceAssessmentId}><td>{finding.complianceNumber}</td><td><strong>{finding.complianceSummary}</strong>{finding.comments && <p>{finding.comments}</p>}</td><td>{finding.scoreLabel}<br />{finding.riskLabel} risk</td><td>{finding.recommendation || "Not recorded."}</td><td>{finding.correctiveAction || "Not recorded."}</td></tr>)}</tbody></table> : <p>No High- or Extreme-risk priority findings were recorded.</p>}</section><footer>Generated from the accreditation survey toolkit on {new Date().toLocaleDateString()}.</footer></article>; }
-
-function PrintSection({ title, value, empty = "Not recorded." }) { return <section><h2>{title}</h2><p>{value || empty}</p></section>; }

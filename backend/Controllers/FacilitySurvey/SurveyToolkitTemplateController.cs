@@ -39,6 +39,15 @@ namespace backend.Controllers.FacilitySurvey
             return Ok(templates.Select(ToDto));
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<SurveyToolkitTemplateDTO>> GetTemplate(int id)
+        {
+            var template = await _context.surveyToolkitTemplates
+                .Include(item => item.level).Include(item => item.standards).Include(item => item.compliances)
+                .AsNoTracking().FirstOrDefaultAsync(item => item.surveyToolkitTemplateId == id);
+            return template == null ? NotFound() : Ok(ToDto(template));
+        }
+
         [HttpPost]
         [Authorize(Policy = "ReferenceData.Manage")]
         public async Task<ActionResult<SurveyToolkitTemplateDTO>> PostTemplate(SurveyToolkitTemplateCreateDTO dto)

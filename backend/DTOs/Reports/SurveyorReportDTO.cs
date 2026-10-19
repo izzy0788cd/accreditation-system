@@ -10,7 +10,6 @@ public class SurveyorReportDTO
     public string surveyType { get; set; } = "";
     public string? summary { get; set; }
     public string? priorityFindings { get; set; }
-    public string? recommendations { get; set; }
     public string? goodPractices { get; set; }
     public string? notApplicableNotes { get; set; }
     public bool isSubmitted { get; set; }

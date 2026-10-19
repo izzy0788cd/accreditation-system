@@ -1059,6 +1059,57 @@ namespace backend.Migrations
                     b.ToTable("surveyorReportReopens");
                 });
 
+            modelBuilder.Entity("backend.Models.Reports.SurveyorStandardSummary", b =>
+                {
+                    b.Property<int>("surveyorStandardSummaryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("surveyorStandardSummaryId"));
+
+                    b.Property<string>("areasOfConcern")
+                        .HasColumnType("text");
+
+                    b.Property<string>("goodPractices")
+                        .HasColumnType("text");
+
+                    b.Property<string>("notApplicableNotes")
+                        .HasColumnType("text");
+
+                    b.Property<string>("recommendations")
+                        .HasColumnType("text");
+
+                    b.Property<string>("serviceAreasJson")
+                        .HasColumnType("text");
+
+                    b.Property<int>("standardId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("summary")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("surveyId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("surveyorId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("surveyorStandardSummaryId");
+
+                    b.HasIndex("standardId");
+
+                    b.HasIndex("surveyorId");
+
+                    b.HasIndex("surveyId", "surveyorId", "standardId")
+                        .IsUnique();
+
+                    b.ToTable("surveyorStandardSummaries");
+                });
+
             modelBuilder.Entity("backend.Models.Scoring.RiskRating", b =>
                 {
                     b.Property<int>("riskId")
@@ -1550,6 +1601,33 @@ namespace backend.Migrations
                         .IsRequired();
 
                     b.Navigation("surveyorReport");
+                });
+
+            modelBuilder.Entity("backend.Models.Reports.SurveyorStandardSummary", b =>
+                {
+                    b.HasOne("backend.Models.Framework.Standard", "standard")
+                        .WithMany()
+                        .HasForeignKey("standardId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.FaciltitySurvey.Survey", "survey")
+                        .WithMany()
+                        .HasForeignKey("surveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.FaciltitySurvey.Surveyors", "surveyor")
+                        .WithMany()
+                        .HasForeignKey("surveyorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("standard");
+
+                    b.Navigation("survey");
+
+                    b.Navigation("surveyor");
                 });
 
             modelBuilder.Entity("backend.Models.Accounts.Role", b =>

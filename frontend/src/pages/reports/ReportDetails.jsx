@@ -1,4 +1,4 @@
-import { assessmentStatus, compareAssessment } from "../../utils/surveyReports";
+import { assessmentStatus, compareAssessment, reportCommentLabel } from "../../utils/surveyReports";
 
 const numericSort = (a, b) => String(a).localeCompare(String(b), undefined, { numeric: true });
 
@@ -8,7 +8,7 @@ function Result({ item, title }) {
 
   const status = assessmentStatus(item);
 
-  return <div className="report-result"><h4>{title}</h4><div className="report-result-scores"><span><b>Score</b> {status === "Not applicable" ? "N/A" : item.scoreId == null ? "—" : item.scoreValue}</span><span className="report-status" data-status={status}>{status}</span><span><b>Risk</b> {item.riskLabel || "Not rated"}</span></div><div className="report-observation"><h4>Comments</h4><p className="report-text">{item.complianceComments || "No comments recorded."}</p></div></div>;
+  return <div className="report-result"><h4>{title}</h4><div className="report-result-scores"><span><b>Score</b> {status === "Not applicable" ? "N/A" : item.scoreId == null ? "—" : item.scoreValue}</span><span className="report-status" data-status={status}>{status}</span><span><b>Risk</b> {item.riskLabel || "Not rated"}</span></div><div className="report-observation"><h4>{reportCommentLabel(item)}</h4><p className="report-text">{item.complianceComments || "No narrative recorded."}</p></div></div>;
 
 }
 

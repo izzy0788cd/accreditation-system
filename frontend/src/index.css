@@ -29,6 +29,10 @@
   .surveyor-handover-print th:nth-child(4), .surveyor-handover-print th:nth-child(5) { width: 23%; }
   .surveyor-handover-print td p { color: #4b5f7a; font-style: italic; margin: 5px 0 0; text-align: justify; }
   .surveyor-handover-print footer { border-top: 1px solid #b7c9dc; color: #4b5f7a; font-size: 8pt; margin-top: 22px; padding-top: 8px; }
+  .surveyor-handover-print section:has(.standard-summation-content),
+  .standard-summation-content section { break-inside: auto; }
+  .standard-summation-content h3, .standard-summation-content h4 { break-after: avoid; color: #172b2f !important; }
+  .standard-summation-content p { color: #172b2f !important; white-space: pre-wrap; overflow-wrap: anywhere; orphans: 3; widows: 3; }
 }
 
 body {

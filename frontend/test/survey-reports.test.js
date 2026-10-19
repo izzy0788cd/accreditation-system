@@ -1,9 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { assessmentStatus, summariseReport, canGenerateReports } from '../src/utils/surveyReports.js';
-test('report access remains Admin-only until Preceptor is enabled', () => {
+test('report access allows Admin and Team Lead', () => {
   assert.equal(canGenerateReports('Admin'), true);
-  for (const role of ['Preceptor','Surveyor','Team Lead','Viewer',null]) assert.equal(canGenerateReports(role), false);
+  assert.equal(canGenerateReports('Team Lead'), true);
+  for (const role of ['Preceptor','Surveyor','Viewer',null]) assert.equal(canGenerateReports(role), false);
 });
 test('unassessed, N/A and four-point ratings stay distinct', () => {
   const rows = [{isApplicable:true,scoreId:null,scoreValue:null},{isApplicable:true,scoreId:7,scoreValue:null},{isApplicable:true,scoreId:1,scoreValue:1},{isApplicable:true,scoreId:3,scoreValue:4},{isApplicable:false,scoreId:3,scoreValue:4}];
