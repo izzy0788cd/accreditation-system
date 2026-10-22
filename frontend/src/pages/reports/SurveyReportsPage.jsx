@@ -3,7 +3,7 @@ import { componentStandardIds } from "../../utils/reportScope.js";
 import SurveyReportDocument from "./SurveyReportDocument";
 import ReportSignOffEditor from "./ReportSignOffEditor";
 import { Link, useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getReportSurveys, getSurveyReport, getReportVersions, getReportVersion, saveReportVersion } from "../../api/api";
 import "./surveyReports.css";
 import "./reportWorkflow.css";
@@ -19,6 +19,15 @@ const surveyTypeClass = (type) => String(type).toLowerCase() === "external"
   : "report-survey-type report-survey-type-internal";
 
 export default function SurveyReportsPage() {
+  const reportElement = useRef(null);
+  const exportWord = async () => {
+    setBusy(true); setError("");
+    try {
+      const { downloadReportWord } = await import("../../utils/reportWord.js");
+      await downloadReportWord(reportElement.current, preview);
+    } catch { setError("Could not generate the Word document. Your report is unchanged. Please retry."); }
+    finally { setBusy(false); }
+  };
   const [searchParams, setSearchParams] = useSearchParams();
   const [surveys, setSurveys] = useState([]);
   const [type, setType] = useState(() => searchParams.get("type") || localStorage.getItem("report-survey-type") || "");
@@ -28,6 +37,7 @@ export default function SurveyReportsPage() {
   const [component, setComponent] = useState(() => searchParams.get("component") || "");
   const [included, setIncluded] = useState(["summary", "standards", "findings", "signoff"]);
   const [preview, setPreview] = useState(null);
+  const [includePersonnelNames, setIncludePersonnelNames] = useState(true);
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState("full");
   const [reviewerName, setReviewerName] = useState("");
@@ -86,7 +96,7 @@ export default function SurveyReportsPage() {
   const toggle = (set, current, value) => { set(current.includes(value) ? current.filter((item) => item !== value) : [...current, value]); setPreview(null); };
   const generate = () => {
     const items = data.items.filter((item) => selected.includes(item.standardId)).sort((a, b) => sortNumber(a.complianceNumber, b.complianceNumber));
-    setPreview({ ...data, items, included: [...included], mode, reviewerName, reviewNotes, summationStatus: data.summationStatus?.filter(s => selected.includes(s.standardId)), standards: standards.filter((s) => selected.includes(s.id)) });
+    setPreview({ ...data, items, included: [...included], includePersonnelNames, mode, reviewerName, reviewNotes, summationStatus: data.summationStatus?.filter(s => selected.includes(s.standardId)), standards: standards.filter((s) => selected.includes(s.id)) });
   };
   const save = async (approve = false) => {
     if (data?.workflowVersion !== 2) { setError("Reload after the updated reporting backend has restarted. Your notes have not been sent."); return; }
@@ -95,6 +105,7 @@ export default function SurveyReportsPage() {
     try {
       const { data: saved } = await saveReportVersion(surveyId, {
         standardIds: preview.standards.map((s) => s.id), included: preview.included,
+        includePersonnelNames: preview.includePersonnelNames,
         mode: preview.mode, reviewerName: preview.reviewerName, reviewNotes: preview.reviewNotes,
         approve, sourceRevision: preview.sourceRevision,
       });
@@ -116,6 +127,7 @@ export default function SurveyReportsPage() {
       setReviewerName(saved.reviewerName || ""); setReviewNotes(saved.reviewNotes || ""); setDirty(false);
       setComponent("");
       setSelected(saved.standards.map(s => s.id)); setIncluded(saved.included); setMode(saved.mode);
+      setIncludePersonnelNames(saved.includePersonnelNames !== false);
       setPreview(saved);
     } catch { setError("Saved report could not be loaded. Please retry."); }
     finally { setBusy(false); }
@@ -134,15 +146,15 @@ export default function SurveyReportsPage() {
           {!loading && !surveys.length && !error && <p>No surveys are available yet.</p>}
           {data && !data.items.length && <p>This survey has no assessment items.</p>}
         </section>
-        <section className="report-card"><label>Report detail<select value={mode} onChange={(e) => { setMode(e.target.value); setPreview(null); }}><option value="full">Full report</option><option value="findings">Findings only — gaps and high/extreme risks</option></select></label><h2>2. Select report sections</h2>{Object.entries(sections).map(([key, label]) => <label className="report-option" key={key}><input type="checkbox" checked={included.includes(key)} onChange={() => toggle(setIncluded, included, key)} />{label}</label>)}</section>
+        <section className="report-card"><label>Report detail<select value={mode} onChange={(e) => { setMode(e.target.value); setPreview(null); }}><option value="full">Full report</option><option value="findings">Findings only — gaps and high/extreme risks</option></select></label><h2>2. Select report sections</h2>{Object.entries(sections).map(([key, label]) => <label className="report-option" key={key}><input type="checkbox" checked={included.includes(key)} onChange={() => toggle(setIncluded, included, key)} />{label}</label>)}<label className="report-option"><input type="checkbox" checked={includePersonnelNames} onChange={(event) => { setIncludePersonnelNames(event.target.checked); setPreview(null); }} />Include personnel names (surveyors, team lead, reviewer and approver)</label><p>Applies to the report preview, saved version and print / PDF. Names entered in narrative text are not removed.</p></section>
       </div>
       {data && standards.length > 0 && <section className="report-card"><h2>3. Select standards <small>({selected.length} of {standards.length})</small></h2><label>Component<select value={component} onChange={e => chooseComponent(e.target.value)}><option value="">All components</option>{[[1, "Leadership and Governance"], [2, "Human Resource"], [3, "Information Technology (IT)"], [4, "Environment"], [5, "Public Health"], [6, "Essential Clinical Care"]].map(([number, name]) => <option key={number} value={String(number)}>{number} — {name}</option>)}</select></label><p>Changing component selects only its standards for this report. Component extracts can be saved as drafts; approval still requires the full survey.</p><div className="report-actions"><button onClick={() => { setSelected(visibleStandards.map((s) => s.id)); setPreview(null); }}>Select all</button><button onClick={() => { setSelected([]); setPreview(null); }}>Clear selection</button></div><div className="report-standard-picker">{visibleStandards.map((s) => <label className="report-option" key={s.id}><input type="checkbox" checked={selected.includes(s.id)} onChange={() => toggle(setSelected, selected, s.id)} /><span><b>{s.number}</b> · {s.title}</span></label>)}</div></section>}
       {data && <><section className="report-card"><h2>Report readiness</h2><p>Drafts can be previewed and saved while work is incomplete. Approval requires complete assessment scores and saved summations for every assigned standard.</p><button type="button" onClick={refresh}>Refresh survey data</button>{readiness.length ? <ul className="report-readiness-issues">{readiness.map(issue => <li key={issue}>{issue}</li>)}</ul> : <p>Ready for review and explicit approval.</p>}<SummationReadiness statuses={data.summationStatus} /></section></>}
       {data && <details className="report-card print:hidden"><summary>View standard summation reports separately</summary><p>Summations for the selected standards. These are not included in the main report printout.</p><StandardSummationReports summaries={(preview || data).standardSummaries?.filter(s => (preview ? preview.standards.map(x => x.id) : selected).includes(s.standardId)) || []} /></details>}
       {data && included.includes("signoff") && <ReportSignOffEditor reviewerName={reviewerName} onReviewer={(value) => { setReviewerName(value); setDirty(true); setPreview(null); }} reviewNotes={reviewNotes} onNotes={(value) => { setReviewNotes(value); setDirty(true); setPreview(null); }} />}
       {versions.length > 0 && <section className="report-card"><h2>Saved versions</h2><p>Saved content is read-only. Generate a new preview to prepare another version.</p><div className="report-version-list">{versions.map((version) => <button key={version.reportVersionId} onClick={() => openVersion(version.reportVersionId)}>Version {version.versionNumber} · {new Date(version.createdAt).toLocaleString()} · {version.createdBy}</button>)}</div></section>}
-      <div className="report-actions"><button className="report-primary" disabled={loading || !data || !selected.length || !included.length} onClick={generate}>Generate preview</button>{preview && <><button onClick={() => window.print()}>Print / Save as PDF</button><button disabled={Boolean(preview.savedVersion) || data?.workflowVersion !== 2} onClick={() => save(false)}>{preview.savedVersion ? `Saved version ${preview.savedVersion.versionNumber}` : "Save draft version"}</button>{!preview.savedVersion && <button disabled={readiness.length > 0} onClick={() => save(true)}>Approve and save version</button>}</>}</div>
+      <div className="report-actions"><button className="report-primary" disabled={loading || !data || !selected.length || !included.length} onClick={generate}>Generate preview</button>{preview && <><button onClick={() => window.print()}>Print / Save as PDF</button><button onClick={exportWord}>Download Word (.docx)</button><button disabled={Boolean(preview.savedVersion) || data?.workflowVersion !== 2} onClick={() => save(false)}>{preview.savedVersion ? `Saved version ${preview.savedVersion.versionNumber}` : "Save draft version"}</button>{!preview.savedVersion && <button disabled={readiness.length > 0} onClick={() => save(true)}>Approve and save version</button>}</>}</div>
     </fieldset>
-    {preview && <SurveyReportDocument report={preview} />}
+    {preview && <div ref={reportElement}><SurveyReportDocument report={preview} /></div>}
   </main>;
 }

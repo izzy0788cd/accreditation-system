@@ -80,6 +80,7 @@ public partial class SurveyReportsController
             }).ToArray());
         report["included"] = JsonSerializer.SerializeToNode(dto.included.Distinct(), ReportJsonOptions);
         report["mode"] = dto.mode;
+        report["includePersonnelNames"] = dto.includePersonnelNames;
         report["reviewerName"] = dto.reviewerName.Trim();
         report["reviewNotes"] = dto.reviewNotes.Trim();
         report["conclusion"] = JsonSerializer.SerializeToNode(dto.conclusion ?? new ReportConclusionDto(), ReportJsonOptions);
